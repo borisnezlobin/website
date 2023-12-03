@@ -25,3 +25,17 @@ body {
     )
     rgb(var(--background-start-rgb));
 }
+
+* {
+  outline: none;
+}
+
+p {
+  max-width: 48rem;
+}
+
+.link {
+  @apply text-primary;
+  @apply dark:text-primary-dark;
+  text-decoration: underline;
+}
