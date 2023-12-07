@@ -2,18 +2,20 @@ import db from "../lib/db";
 import { faker } from "@faker-js/faker";
 import { revalidatePath } from "next/cache";
 import { Metadata } from "next";
-import BlogListItem from "./blog-list-items";
+import BlogListItem from "./components/blog-list-items";
 import { SearchBar } from "./[slug]/components";
 import { Article } from "@prisma/client";
 import Link from "next/link";
+import BlogList from "./components/blog-list";
 
 export const metadata: Metadata = {
     title: "Blog / Boris Nezlobin",
     description: "Read my blog posts about software engineering, web development, and more!",
 };
 
-const BlogPage = async ({ articles, title, query }: { articles?: Article[], title?: string, query?: string }) => {
-    const posts = articles || await db.article.findMany({
+
+const BlogPage = async () => {
+    const posts = await db.article.findMany({
         orderBy: { createdAt: "desc" },
         include: {
             tags: true,
@@ -34,25 +36,7 @@ const BlogPage = async ({ articles, title, query }: { articles?: Article[], titl
 
 
     return (
-        <div className="min-h-screen w-screen p-8 text-light-foreground dark:text-dark-foreground" suppressHydrationWarning>
-            <h1 className="text-3xl">{title ? title : "Blog"}</h1>
-            <p className="mt-1">Read my blog posts about software engineering, web development, and more!</p>
-            <SearchBar query={query}/>
-            <p className="mt-1 text-muted dark:text-muted-dark">
-                Showing {posts.length} post{posts.length == 1 ? " " : "s "}
-                <span className="text-muted dark:text-muted-dark">
-                    {" • "}
-                </span>
-                <Link href="/blog/tags" className="link">
-                    Explore all
-                </Link>
-            </p>
-            {posts.map((post) => (
-                // all my homies love
-                // @ts-ignore
-                <BlogListItem post={post} tags={post.tags ? post.tags : []} key={post.id} />
-            ))}
-        </div>
+        <BlogList articles={posts} title="Blog" />
     );
 };
 

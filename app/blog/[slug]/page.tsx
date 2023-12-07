@@ -1,11 +1,11 @@
 import NotFoundPage from "@/app/components/not-found-page";
 import db from "@/app/lib/db";
 import { IconButton, LinkButton } from "@/components/buttons";
-import BlogListItem from "../blog-list-items";
+import BlogListItem from "../components/blog-list-items";
 import { HeartStraight, Share, TwitterLogo } from "@phosphor-icons/react/dist/ssr";
 import { likePost } from "./actions";
 import { LikeButton, ShareButton, TweetArticleButton } from "./components";
-import { DateAndLikes } from "../date-and-likes";
+import { DateAndLikes } from "../components/date-and-likes";
 
 export async function generateMetadata({ params }: { params: { slug: string }}) {
     const post = await db.article.findUnique({
