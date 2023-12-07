@@ -7,6 +7,9 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   darkMode: 'class',
+  future: {
+    hoverOnlyWhenSupported: true,
+  },
   theme: {
     extend: {
       backgroundImage: {
@@ -16,12 +19,12 @@ const config: Config = {
       },
       colors: {
         "primary": {
-          DEFAULT: "#ff9d00",
-          "dark": "#bf7500",
+          DEFAULT: "#eaa520",
+          "dark": "#a16207",
         },
         "muted": {
-          DEFAULT: "#aaa",
-          "dark": "#666",
+          DEFAULT: "#707070",
+          "dark": "#949494",
         },
         dark: {
           DEFAULT: "#f5f5f5",

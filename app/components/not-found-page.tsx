@@ -6,13 +6,13 @@ import SocialLinksBubble from "@/components/social-links";
 import { Separator } from "@/components/separator";
 import { useRouter } from "next/navigation";
 
-const NotFoundPage = () => {
+const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
     const router = useRouter();
 
     return (
         <div className="h-screen w-screen flex flex-col justify-center items-center text-light-foreground dark:text-dark-foreground">
             <h1 className="text-8xl">404</h1>
-            <p>Page not found</p>
+            <p>{title}</p>
 
             <div className="w-1/2 h-px bg-gray-500 my-4" />
             {/* <SocialLinksBubble /> */}

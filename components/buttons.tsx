@@ -12,21 +12,11 @@ const baseClass = "rounded-lg font-semibold px-8 py-2 transition-all duration-30
 
 const PrimaryButton: React.FC<ButtonProps> = ({ children, ...props }) => {
     return (
-        <button {...props} className={`${props.className} ${baseClass} bg-primary dark:bg-primary-dark text-white`}>
+        <button {...props} className={`${props.className} ${baseClass} bg-primary dark:bg-primary-dark text-light-foreground dark:text-dark-background`}>
             {children}
         </button>
     );
 };
-
-const LinkButton: React.FC<LinkProps> = ({ children, direction = "right", ...props }) => {
-    return (
-        <Link href="/" {...props} className={`${props.className} ${baseClass} bg-transparent text-primary dark:text-primary-dark border border-primary dark:border-primary-dark`}>
-            {direction == "left" && <ArrowLeft className="inline-block mr-2" />}
-            {children}
-            {direction == "right" && <ArrowRight className="inline-block ml-2" />}
-        </Link>
-    );
-}
 
 
 const SecondaryButton: React.FC<ButtonProps> = ({ children, ...props }) => {
@@ -37,4 +27,28 @@ const SecondaryButton: React.FC<ButtonProps> = ({ children, ...props }) => {
     );
 }
 
-export { PrimaryButton, SecondaryButton, LinkButton };
+const LinkButton: React.FC<LinkProps> = ({ children, direction = "right", className, ...props }) => {
+    return (
+        <Link href="/" {...props}>
+            <SecondaryButton className={className}>
+                {direction == "left" && <ArrowLeft className="inline-block mr-2" />}
+                {children}
+                {direction == "right" && <ArrowRight className="inline-block ml-2" />}
+            </SecondaryButton>
+        </Link>
+    );
+}
+
+interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
+    icon: React.ReactNode;
+}
+
+const IconButton: React.FC<IconButtonProps> = ({ icon, className, ...props }) => {
+    return (
+        <button {...props} className={`p-2  hover:bg-light-foreground/20 dark:hover:bg-dark-foreground/20 rounded-lg bg-transparent text-light dark:text-dark ${className}`}>
+            {icon}
+        </button>
+    );
+}
+
+export { PrimaryButton, SecondaryButton, LinkButton, IconButton };

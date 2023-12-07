@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="w-full min-h-screen p-8">
+    <main className="w-full min-h-screen p-8 bg-light-background dark:bg-dark-background">
       {/* <PrimaryButton>Click me</PrimaryButton> */}
       <h1 className="text-4xl font-bold text-left dark:text-dark">
         Hello, world!
@@ -16,12 +16,12 @@ export default function Home() {
         <Link href="/blog/learning-nextjs" className="link">blog post</Link>
         {" "}on this!
       </p>
+      <LinkButton href="/blog" className="mt-4">Check out my blog</LinkButton>
       {/* <div className="flex flex-row gap-4 mt-8">
         <LinkButton direction="left">Back</LinkButton>
         <PrimaryButton>Submit</PrimaryButton>
         <SecondaryButton>Cancel</SecondaryButton>
       </div> */}
-      <SocialLinksBubble />
     </main>
   )
 }
