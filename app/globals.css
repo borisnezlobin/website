@@ -17,25 +17,31 @@
 }
 
 body {
+
   color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+  overflow-x: hidden;
+  @apply bg-dark dark:bg-light;
 }
 
-* {
+p, div, input, h1, h2, h3, h4, h5, h6, a {
   outline: none;
+  @apply bg-light-background dark:bg-dark-background text-light dark:text-dark transition-all duration-300
 }
 
 p {
   max-width: 48rem;
 }
 
+.header-link {
+  @apply hover:underline transition-all duration-300 font-bold;
+  @apply text-muted dark:text-muted-dark;
+  @apply group-hover:text-light dark:group-hover:text-dark;
+  @apply hover:text-light dark:hover:text-dark;
+}
+
 .link {
-  @apply text-primary;
-  @apply dark:text-primary-dark;
-  text-decoration: underline;
+  @apply hover:underline transition-all duration-300;
+  @apply text-light dark:text-dark;
+  @apply group-hover:text-primary dark:group-hover:text-primary-dark;
+  @apply hover:text-primary dark:hover:text-primary-dark;
 }

@@ -1,6 +1,7 @@
 "use client"
 import { createContext, useEffect, useState } from "react";
-import useLocalStorage from "../utils/use-local-storage";
+import SocialLinksBubble from "@/components/social-links";
+import { Inter } from "next/font/google";
 
 type Theme = "light" | "dark";
 
@@ -8,6 +9,9 @@ interface ThemeContextType {
     theme: Theme;
     setTheme: (theme: Theme) => void;
 }
+
+
+const inter = Inter({ subsets: ['latin'] })
 
 const ThemeContext = createContext<ThemeContextType>({} as ThemeContextType);
 
@@ -27,11 +31,10 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
     return (
         <ThemeContext.Provider value={{ theme, setTheme }}>
-            <div className={theme === "dark" ? "dark" : ""}>
-                <div className={`bg-light-background dark:bg-dark-background text-light-foreground dark:text-dark-background`}>
-                    {children}
-                </div>
-            </div>
+            <body className={`${inter.className} ${theme === "dark" ? "dark" : ""} w-full min-h-screen flex flex-col bg-light-background dark:bg-dark-background`}>
+                {children}
+                <SocialLinksBubble />
+            </body>
         </ThemeContext.Provider>
     );
 }
