@@ -2,7 +2,7 @@
 
 import { Article, Tag } from "@prisma/client";
 import Link from "next/link";
-import Badge from "../components/badge";
+import Badge from "../../components/badge";
 import { DateAndLikes } from "./date-and-likes";
 
 const BlogListItem = ({ post, tags = [] } : { post: Article, tags?: Tag[] }) => (
