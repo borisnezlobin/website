@@ -1,6 +1,6 @@
 import db from "@/app/lib/db";
 import { Metadata } from "next";
-import BlogListItem from "../blog-list-items";
+import BlogListItem from "../components/blog-list-items";
 import ArticleSquareCard from "./article-square-card";
 import Link from "next/link";
 import { IconButton, LinkButton } from "@/components/buttons";

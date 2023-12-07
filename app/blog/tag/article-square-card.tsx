@@ -2,7 +2,7 @@
 
 import { Article, Tag } from "@prisma/client";
 import Link from "next/link";
-import { DateAndLikes } from "../date-and-likes";
+import { DateAndLikes } from "../components/date-and-likes";
 import Badge from "@/app/components/badge";
 
 const ArticleSquareCard = ({ article }: { article: Article }) => {
