@@ -31,9 +31,11 @@ const ThemeProvider: React.FC<ThemeProviderProps> = ({ children }) => {
 
     return (
         <ThemeContext.Provider value={{ theme, setTheme }}>
-            <body className={`${inter.className} ${theme === "dark" ? "dark" : ""} w-full min-h-screen flex flex-col bg-light-background dark:bg-dark-background`}>
-                {children}
-                <SocialLinksBubble />
+            <body className={`${inter.className} ${theme === "dark" ? "dark" : ""} `}>
+                <div className="w-full min-h-screen flex flex-col bg-light-background dark:bg-dark-background transition-all duration-300">
+                    {children}
+                    <SocialLinksBubble />
+                </div>
             </body>
         </ThemeContext.Provider>
     );

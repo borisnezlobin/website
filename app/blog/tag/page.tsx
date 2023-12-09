@@ -1,15 +1,16 @@
 import db from "@/app/lib/db";
 import { Metadata } from "next";
-import BlogListItem from "../components/blog-list-items";
-import ArticleSquareCard from "./article-square-card";
+import ArticleSquareCard from "../components/article-square-card";
 import Link from "next/link";
 import { IconButton, LinkButton } from "@/components/buttons";
 import { Separator } from "@/components/separator";
+import getMetadata from "@/app/lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = getMetadata({
     title: "Explore / Boris Nezlobin",
+    info: "@Rand0mLetterz on Twitter",
     description: "Explore all tags and articles on my blog",
-}
+});
 
 const ExploreTagsPage = async () => {
     const tags = await db.tag.findMany({
@@ -25,11 +26,11 @@ const ExploreTagsPage = async () => {
     
     return (
         <div className="min-h-screen w-screen p-8 text-light-foreground dark:text-dark-foreground">
-            <h1 className="text-5xl">Blog / Tags</h1>
+            <h1 className="text-3xl">Blog / Tags</h1>
             
             {tags.map((tag) => (
                 <div key={tag.id} className="mt-8">
-                    <h2 className="text-3xl">
+                    <h2 className="text-xl">
                         {tag.name}
                     </h2>
                     <p className="text-muted dark:text-muted-dark">
@@ -42,7 +43,7 @@ const ExploreTagsPage = async () => {
                         {tag.articles.map((article) => (
                             <>
                                 <ArticleSquareCard article={article} key={article.id} />
-                                <Separator size="xlarge" />
+                                <Separator size="xlarge" key={"sep" + article.id} />
                             </>
                         ))}
                         <IconButton

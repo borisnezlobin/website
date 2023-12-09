@@ -1,7 +1,8 @@
 import db from "@/app/lib/db";
 import NotFoundPage from "@/app/components/not-found-page";
-import ArticleSquareCard from "../article-square-card";
+import ArticleSquareCard from "../../components/article-square-card";
 import { LinkButton } from "@/components/buttons";
+import getMetadata from "@/app/lib/metadata";
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
     const tag = await db.tag.findUnique({
@@ -9,16 +10,16 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     });
 
     if(tag == null){
-        return {
+        return getMetadata({
             title: "Unkown tag / Boris Nezlobin",
             description: "This tag could not be found.\nVisit my website to contact me, see what I'm up to, and learn more about me!",
-        }
+        });
     }
 
-    return {
+    return getMetadata({
         title: `${tag.name} Articles / Boris Nezlobin`,
         description: `Explore all articles tagged with ${tag.name}`,
-    }
+    });
 }
 
 const TagPage = async ({ params }: { params: { slug: string } }) => {
@@ -34,7 +35,7 @@ const TagPage = async ({ params }: { params: { slug: string } }) => {
 
     return <div className="min-h-screen w-screen p-8 text-light-foreground dark:text-dark-foreground">
         <div className="flex flex-col md:flex-row justify-between items-center mx-auto max-w-7xl gap-3 md:gap-0">
-            <h1 className="text-5xl">Blog / {tag.name}</h1>
+            <h1 className="text-3xl">Blog / {tag.name}</h1>
             <p className="text-muted dark:text-muted-dark text-lg">
                 {tag.articles.length} article{tag.articles.length == 1 ? "" : "s"}
             </p>
