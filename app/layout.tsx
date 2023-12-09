@@ -1,6 +1,7 @@
 import './globals.css'
 import Providers from './_contexts/providers'
-import getMetadata, { BASE_METADATA } from './lib/metadata'
+import { BASE_METADATA } from './lib/metadata'
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 
 export const metadata = BASE_METADATA;
