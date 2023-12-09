@@ -7,7 +7,7 @@ import { Separator } from "@/components/separator";
 import getMetadata from "@/app/lib/metadata";
 
 export const metadata: Metadata = getMetadata({
-    title: "Explore / Boris Nezlobin",
+    title: "Explore All Articles",
     info: "@Rand0mLetterz on Twitter",
     description: "Explore all tags and articles on my blog",
 });
