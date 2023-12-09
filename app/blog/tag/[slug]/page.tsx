@@ -7,6 +7,7 @@ import getMetadata from "@/app/lib/metadata";
 export async function generateMetadata({ params }: { params: { slug: string } }) {
     const tag = await db.tag.findUnique({
         where: { slug: params.slug },
+        include: { articles: true },
     });
 
     if(tag == null){
@@ -16,8 +17,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         });
     }
 
+    const plural = tag.articles.length == 1 ? "" : "s";
+
     return getMetadata({
-        title: `${tag.name} Articles / Boris Nezlobin`,
+        title: `${tag.articles.length} ${tag.name} Article${plural}`,
+        info: "Blog",
         description: `Explore all articles tagged with ${tag.name}`,
     });
 }
