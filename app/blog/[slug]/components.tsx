@@ -75,7 +75,7 @@ const SearchBar = ({ query }: { query?: string }) => {
                 className="p-2 w-full bg-light-background dark:bg-dark-background text-light-foreground dark:text-dark-foreground border border-light-foreground dark:border-dark-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-light-foreground dark:focus:ring-dark-foreground" 
             />
             <IconButton
-                className="flex flex-row justify-center items-center gap-2"
+                className="flex flex-row justify-center items-center gap-2 transition-all duration-300"
                 icon={
                     <>
                         <MagnifyingGlass className="h-6 w-6" />

@@ -6,6 +6,7 @@ import { HeartStraight, Share, TwitterLogo } from "@phosphor-icons/react/dist/ss
 import { likePost } from "./actions";
 import { LikeButton, ShareButton, TweetArticleButton } from "./components";
 import { DateAndLikes } from "../components/date-and-likes";
+import getMetadata from "@/app/lib/metadata";
 
 export async function generateMetadata({ params }: { params: { slug: string }}) {
     const post = await db.article.findUnique({
@@ -13,16 +14,19 @@ export async function generateMetadata({ params }: { params: { slug: string }}) 
     });
     
     if(!post){
-        return {
+        return getMetadata({
             title: "Blog post not found",
+            info: "404",
             description: "This blog post could not be found.\nVisit my website to contact me, see what I'm up to, and learn more about me!",
-        }
+        });
     }
 
-    return {
-        title: `${post.title} / Boris Nezlobin`,
+    return getMetadata({
+        title: `${post.title}`,
+        info: (new Date()).toLocaleDateString(),
+        subtitle: "Boris Nezlobin",
         description: `${post.createdAt.toLocaleDateString} - ${post.description}`,
-    }
+    });
 }
 
 export default async function SingleBlogPage({ params }: { params: { slug: string } }){

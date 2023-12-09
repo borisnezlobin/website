@@ -2,16 +2,13 @@ import db from "../lib/db";
 import { faker } from "@faker-js/faker";
 import { revalidatePath } from "next/cache";
 import { Metadata } from "next";
-import BlogListItem from "./components/blog-list-items";
-import { SearchBar } from "./[slug]/components";
-import { Article } from "@prisma/client";
-import Link from "next/link";
 import BlogList from "./components/blog-list";
+import getMetadata from "../lib/metadata";
 
-export const metadata: Metadata = {
+export const metadata: Metadata = getMetadata({
     title: "Blog / Boris Nezlobin",
     description: "Read my blog posts about software engineering, web development, and more!",
-};
+});
 
 
 const BlogPage = async () => {

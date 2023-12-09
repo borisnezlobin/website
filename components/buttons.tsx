@@ -45,7 +45,7 @@ interface IconButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> 
 
 const IconButton: React.FC<IconButtonProps> = ({ icon, className, ...props }) => {
     return (
-        <button {...props} className={`p-2  hover:bg-light-foreground/20 dark:hover:bg-dark-foreground/20 rounded-lg bg-transparent text-light dark:text-dark ${className}`}>
+        <button {...props} className={`p-2 hover:bg-light-foreground/20 dark:hover:bg-dark-foreground/20 rounded-lg bg-transparent text-light dark:text-dark ${className}`}>
             {icon}
         </button>
     );
