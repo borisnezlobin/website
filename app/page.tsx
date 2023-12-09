@@ -1,6 +1,6 @@
 import { LinkButton } from "components/buttons";
 import Link from "next/link";
-import DynamicBackground from "./components/background";
+// import DynamicBackground from "./components/background";
 
 export default function Home() {
   return (
@@ -20,7 +20,7 @@ export default function Home() {
       </p>
       <LinkButton href="/blog" className="mt-4">Check out my blog</LinkButton>
 
-      <DynamicBackground width={1000} height={1000} boxSize={50} />
+      {/* <DynamicBackground width={1000} height={1000} boxSize={50} /> */}
     </main>
   )
 }
