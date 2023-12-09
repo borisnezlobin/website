@@ -2,6 +2,13 @@ import { PrimaryButton } from "@/components/buttons";
 import { SearchBar } from "../[slug]/components"
 import Link from "next/link";
 import db from "@/app/lib/db";
+import { Metadata } from "next";
+import getMetadata from "@/app/lib/metadata";
+
+export const metadata: Metadata = getMetadata({
+    title: "Search Blog / Boris Nezlobin",
+    description: "Search for articles on my blog",
+});
 
 const SearchPage = () => {
     const getRandomArticle = async () => {

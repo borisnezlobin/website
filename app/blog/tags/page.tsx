@@ -1,3 +1,5 @@
-import ExploreTagsPage from "../tag/page";
+import TagPage from "../tag/page";
+import { metadata } from "../tag/page";
 
-export default ExploreTagsPage;
+export default TagPage;
+export { metadata };

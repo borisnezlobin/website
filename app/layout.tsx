@@ -1,14 +1,14 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
 import './globals.css'
 import Providers from './_contexts/providers'
+import getMetadata, { BASE_METADATA } from './lib/metadata'
 
 
-export const metadata = {
-  title: 'Boris Nezlobin',
-  description:
-    "I'm a software engineer, full-stack developer, and computer science student. I'm passionate about building things that make people's lives easier.",
-}
+export const metadata = BASE_METADATA;
+// {
+//   title: 'Boris Nezlobin',
+//   description:
+//     "I'm a software engineer, full-stack developer, and computer science student. I'm passionate about building things that make people's lives easier.",
+// }
 
 export default function RootLayout({
   children,
