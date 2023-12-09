@@ -17,6 +17,7 @@ const BASE_METADATA: Metadata = {
 }
 
 const getMetadata = ({ title = "", description, info, subtitle }: {title?: string, description?: string, info?: string, subtitle?: string}) => {
+    const ogUrl = `${CONFIG.API_URL}/og?title=${title || ""}&info=${info || ""}&subtitle=${subtitle || ""}`;
     return {
         title: title,
         description: description,
@@ -26,7 +27,7 @@ const getMetadata = ({ title = "", description, info, subtitle }: {title?: strin
             siteName: 'Boris Nezlobin',
             images: [
                 {
-                url: `${CONFIG.API_URL}/og?title=${title}&info=${info}&subtitle=${subtitle}`,
+                url: ogUrl,
                 width: 1920,
                 height: 1080,
                 },
@@ -40,7 +41,7 @@ const getMetadata = ({ title = "", description, info, subtitle }: {title?: strin
             author: "@boris_nezlobin",
             images: [
                 {
-                    url: `${CONFIG.API_URL}/og?title=${title}&info=${info}&subtitle=${subtitle}`,
+                    url: ogUrl,
                     width: 1920,
                     height: 1080,
                 },
