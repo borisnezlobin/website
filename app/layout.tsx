@@ -2,6 +2,7 @@ import './globals.css'
 import Providers from './_contexts/providers'
 import { BASE_METADATA } from './lib/metadata'
 import { SpeedInsights } from "@vercel/speed-insights/next"
+import { Analytics } from "@vercel/analytics/react"
 
 
 export const metadata = BASE_METADATA;
@@ -25,6 +26,7 @@ export default function RootLayout({
         {children}
       </Providers>
       <SpeedInsights />
+      <Analytics />
     </html>
   )
 }
