@@ -6,7 +6,8 @@ import { Metadata } from "next";
 import getMetadata from "@/app/lib/metadata";
 
 export const metadata: Metadata = getMetadata({
-    title: "Search Blog / Boris Nezlobin",
+    title: "Search Blog",
+    info: "@Rand0mLetterz on Twitter",
     description: "Search for articles on my blog",
 });
 

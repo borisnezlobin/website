@@ -9,7 +9,7 @@ export async function GET(request: NextRequest) {
     const subtitle = params.get("subtitle");
 
     return new ImageResponse((
-        <div tw="w-full flex h-full bg-[#f5f5f5]">
+        <div tw="w-full flex h-full bg-[#f5f5f5] p-8">
             <div tw="mx-auto flex flex-col justify-center items-start">
                 <p tw='text-lg text-[#707070]'>
                     {params.get("info")}
