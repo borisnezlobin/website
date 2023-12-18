@@ -60,7 +60,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
     });
 
     return (
-        <div className="min-h-screen dark:bg-dark-background w-screen p-8 text-light-foreground dark:text-dark-foreground">
+        <div className="min-h-screen dark:bg-dark-background w-full p-8 text-light-foreground dark:text-dark-foreground">
             <h1 className="text-5xl">{post.title}</h1>
             <DateAndLikes article={post} className="mt-2" />
             <p className="mt-2 mb-1 font-semibold">{post.description}</p>

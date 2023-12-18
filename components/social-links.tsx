@@ -1,8 +1,7 @@
 "use client";
-import { GithubLogo, LinkedinLogo, Moon, Sun, TwitterLogo, X } from "@phosphor-icons/react/dist/ssr";
-import { useContext } from "react";
-import { ThemeContext } from "app/_contexts/theme-provider";
+import { GithubLogo, LinkedinLogo, Moon, Sun, TwitterLogo } from "@phosphor-icons/react/dist/ssr";
 import { Separator } from "./separator";
+import { useTheme } from "next-themes";
 
 const defaultIconClass = "w-6 h-6 text-muted dark:text-muted-dark transition duration-100";
 
@@ -30,9 +29,10 @@ const links = [
 const defaultColor = " hover:text-primary dark:hover:text-primary";
 
 const SocialLinksBubble = () => {
-    const { theme, setTheme } = useContext(ThemeContext);
+    const { theme, setTheme } = useTheme();
 
     const toggleTheme = () => {
+        console.log("theme", theme);
         setTheme(theme === "light" ? "dark" : "light");
     }
 
