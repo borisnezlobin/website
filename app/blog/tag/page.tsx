@@ -25,7 +25,7 @@ const ExploreTagsPage = async () => {
     });
     
     return (
-        <div className="min-h-screen w-screen p-8 text-light-foreground dark:text-dark-foreground">
+        <div className="min-h-screen w-full p-8 text-light-foreground dark:text-dark-foreground">
             <h1 className="text-3xl">Blog / Tags</h1>
             
             {tags.map((tag) => (
@@ -40,7 +40,7 @@ const ExploreTagsPage = async () => {
                         </Link>
                     </p>
                     <div className="flex items-center overflow-x-auto gap-2">
-                        {tag.articles.map((article) => (
+                        {tag.articles.slice(0, 3).map((article) => (
                             <>
                                 <ArticleSquareCard article={article} key={article.id} />
                                 <Separator size="xlarge" key={"sep" + article.id} />

@@ -50,6 +50,7 @@ async function seedArticles() {
             slug: "learning-nextjs",
             createdAt: new Date(),
             updatedAt: new Date(),
+            image: "https://tech.sparkfabrik.com/images/content/nextjs/nextjs-logo.jpg",
             tags: {
                 connect: [
                     { slug: "nextjs" },
@@ -65,6 +66,7 @@ async function seedArticles() {
             description: faker.lorem.sentence(),
             body: faker.lorem.paragraphs(5),
             slug: "my-first-article",
+            
             createdAt: new Date(),
             updatedAt: new Date(),
             tags: {
@@ -150,24 +152,28 @@ const seedTags = async () => {
         data: {
             name: "NextJS",
             slug: "nextjs",
+            image: "https://tech.sparkfabrik.com/images/content/nextjs/nextjs-logo.jpg"
         }
     });
     await db.tag.create({
         data: {
             name: "JavaScript",
             slug: "js",
+            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/6/6a/JavaScript-logo.png/640px-JavaScript-logo.png"
         }
     });
     await db.tag.create({
         data: {
             name: "SQL",
             slug: "sql",
+            image: "https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png"
         }
     });
     await db.tag.create({
         data: {
             name: "TypeScript",
             slug: "ts",
+            image: "https://cdn-images-1.medium.com/max/2000/1*mn6bOs7s6Qbao15PMNRyOA.png"
         }
     });
     console.log("Done seeding tags.");
