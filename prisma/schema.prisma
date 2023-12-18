@@ -18,6 +18,7 @@ model Article {
   title       String
   description String
   body        String
+  image       String?
   likes       Int       @default(0)
   slug        String    @unique
   createdAt   DateTime  @default(now())
@@ -35,5 +36,8 @@ model Tag {
   id        String    @default(cuid()) @id
   name      String    @unique
   slug      String    @unique
-  articles  Article[] 
+  image     String
+  articles  Article[]
+
+  @@map(name: "tags")
 }

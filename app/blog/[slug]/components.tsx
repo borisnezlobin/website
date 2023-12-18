@@ -29,7 +29,7 @@ const LikeButton = ({ slug }: { slug: string }) => {
 }
 
 const ShareButton = () => {
-    if(!navigator.share){
+    if(!navigator || !navigator.share){
         return null;
     }
 
