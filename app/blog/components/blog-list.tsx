@@ -6,7 +6,7 @@ import BlogListItem from "./blog-list-items";
 const BlogList = ({ articles, title, query = "" }: { articles: Article[], title: string, query?: string }) => {
     return (
         <div className="min-h-screen w-full p-8 text-light-foreground dark:text-dark-foreground" suppressHydrationWarning>
-            <h1 className="text-3xl">{title ? title : "Blog"}</h1>
+            <h1 className="text-5xl edo">{title ? title : "Blog"}</h1>
             <p className="mt-1">Read my blog posts about software engineering, web development, and more!</p>
             <SearchBar query={query}/>
             <p className="mt-1 text-muted dark:text-muted-dark">

@@ -87,7 +87,23 @@ const SearchBar = ({ query }: { query?: string }) => {
             />
         </form>
     );
-
 }
 
-export { LikeButton, ShareButton, TweetArticleButton, SearchBar }
+const ArticleImageBg = ({ imageUrl }: { imageUrl: string }) => {
+    // return <></>
+    return (
+        // a parallax image effect at the top of the page
+        <div className="absolute top-0 left-0 h-96 bg-transparent w-screen -z-10">
+            <div className="absolute inset-0 bg-transparent">
+                <img
+                    src={imageUrl}
+                    alt="Article header"
+                    className="w-full h-full object-cover"
+                />
+            </div>
+            <div className="absolute bg-transparent dark:bg-transparent inset-0 bg-gradient-to-t from-light-background dark:from-dark-background to-transparent" />
+        </div>
+    )
+}
+
+export { LikeButton, ShareButton, TweetArticleButton, SearchBar, ArticleImageBg };

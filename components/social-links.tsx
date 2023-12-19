@@ -37,7 +37,7 @@ const SocialLinksBubble = () => {
     }
 
     return (
-        <div className="fixed bottom-4 right-4 flex flex-row items-center justify-center gap-4 border border-muted dark:border-muted-dark p-2 px-6 rounded-full shadow-lg bg-light-background dark:bg-dark-background">
+        <div className="fixed bottom-4 z-10 right-4 flex flex-row items-center justify-center gap-4 border border-muted dark:border-muted-dark p-2 px-6 rounded-full shadow-lg bg-light-background dark:bg-dark-background">
             {links.map(({ icon: Icon, href, color, title }) => (
                 <a href={href} target="_blank" rel="noopener noreferrer" key={href} title={title}>
                     <Icon className={`${defaultIconClass} ${color}`} weight="fill"/>

@@ -16,8 +16,12 @@
   }
 }
 
-body {
+@font-face {
+  font-family: 'edo';
+  src: url('/edo.ttf');
+ }
 
+body {
   color: rgb(var(--foreground-rgb));
   overflow-x: hidden;
   @apply bg-dark dark:bg-light;
@@ -26,10 +30,6 @@ body {
 p, div, input, h1, h2, h3, h4, h5, h6, a {
   outline: none;
   @apply bg-light-background dark:bg-dark-background text-light dark:text-dark transition-all duration-300
-}
-
-p {
-  max-width: 48rem;
 }
 
 .header-link {
@@ -44,4 +44,8 @@ p {
   @apply text-light dark:text-dark;
   @apply group-hover:text-primary dark:group-hover:text-primary-dark;
   @apply hover:text-primary dark:hover:text-primary-dark;
+}
+
+.edo{
+  font-family: 'edo';
 }
