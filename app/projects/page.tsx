@@ -5,8 +5,8 @@ export default function ProjectsPage() {
         Projects
       </h1>
       <p className="dark:text-dark text-left mt-2">
-        Check out all of the things I've worked on!<br />
-        I've made a lot of cool stuff, and helped out with some open-source projects that I'm interested in. For every project, I tend to do a writeup on it, so you can learn more about it and how it works. They also serve as a way for me to document what I've learned and practice my writing skills.
+        Check out all of the things I&apos;ve worked on!<br />
+        I&apos;ve made a lot of cool stuff, and helped out with some open-source projects that I&apos;m interested in. For every project, I tend to do a writeup on it, so you can learn more about it and how it works. They also serve as a way for me to document what I&apos;ve learned and practice my writing skills.
       </p>
     </main>
   )
