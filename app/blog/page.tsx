@@ -6,7 +6,7 @@ import BlogList from "./components/blog-list";
 import getMetadata from "../lib/metadata";
 
 export const metadata: Metadata = getMetadata({
-    title: "Boris Nezlobin's Blog",
+    title: "Blog",
     info: "@Rand0mLetterz on Twitter",
     description: "Read my blog posts about software engineering, web development, and more!",
 });

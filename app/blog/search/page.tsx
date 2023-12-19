@@ -28,7 +28,7 @@ const SearchPage = () => {
 
     return (
         <div className="min-h-screen dark:bg-dark-background w-screen p-8 text-light-foreground dark:text-dark-foreground flex flex-col justify-center items-center">
-            <h1 className="text-5xl">Blog / Search</h1>
+            <h1 className="text-5xl edo">Search Blog</h1>
             <SearchBar />
             <div className="mt-4 flex flex-row justify-center items-center gap-2">
                 <Link href="/blog" className="link">

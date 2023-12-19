@@ -21,7 +21,7 @@ const SearchResultsPage = async ({ params }: { params: { query: string } }) => {
     return (
         <BlogList
             articles={posts}
-            title={`Blog / Search "${params.query}"`}
+            title={`Search "${params.query}"`}
             query={params.query}
         />
     );

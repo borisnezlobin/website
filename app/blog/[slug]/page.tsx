@@ -4,7 +4,7 @@ import { IconButton, LinkButton } from "@/components/buttons";
 import BlogListItem from "../components/blog-list-items";
 import { HeartStraight, Share, TwitterLogo } from "@phosphor-icons/react/dist/ssr";
 import { likePost } from "./actions";
-import { LikeButton, ShareButton, TweetArticleButton } from "./components";
+import { ArticleImageBg, LikeButton, ShareButton, TweetArticleButton } from "./components";
 import { DateAndLikes } from "../components/date-and-likes";
 import getMetadata from "@/app/lib/metadata";
 
@@ -59,13 +59,26 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
         take: 3,
     });
 
+    const containerClass = "flex flex-col justify-start bg-light-background/30 dark:bg-dark-background/30 items-center gap-3 rounded-lg p-4 backdrop-blur-3xl";
+
     return (
-        <div className="min-h-screen dark:bg-dark-background w-full p-8 text-light-foreground dark:text-dark-foreground">
-            <h1 className="text-5xl">{post.title}</h1>
-            <DateAndLikes article={post} className="mt-2" />
-            <p className="mt-2 mb-1 font-semibold">{post.description}</p>
-            <hr />
-            <p className="mt-4 mb-8">{post.body}{post.body}</p>
+        <div className="min-h-screen dark:bg-dark-background z-[1] w-full p-8 text-light-foreground dark:text-dark-foreground">
+            <div className={containerClass}>
+                <h1 className="text-5xl bg-transparent dark:bg-transparent edo">{post.title}</h1>
+                <DateAndLikes
+                    article={post}
+                    className={`mt-2 bg-transparent dark:bg-transparent ${post.image ? "text-light dark:text-dark" : "text-muted dark:text-muted-dark"}`}
+                    containerClass="bg-transparent dark:bg-transparent"
+                />
+                <p className="bg-transparent dark:bg-transparent mt-2 mb-1 font-semibold p-4">{post.description}</p>
+                <p className="bg-transparent dark:bg-transparent w-full text-right">
+                    Boris Nezlobin
+                </p>
+            </div>
+            <p className="mt-2 w-full mb-8 p-8 rounded-lg">
+                {/* TODO: markdown :sparkles: */}
+                {post.body + "\n\n"}{post.body + "\n\n"}{post.body}
+            </p>
             <div className="flex flex-row justify-start items-center gap-2">
                 <p className="text-muted dark:text-muted-dark">
                     Liked this article?
@@ -89,6 +102,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                     ))}
                 </ul>
             </div>
+            {post.image && <ArticleImageBg imageUrl={post.image} />}
         </div>
     );
 }
