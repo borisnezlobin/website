@@ -5,6 +5,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
 import "./light.css"
 import "./dark.css"
+import Script from 'next/script'
 
 export const metadata = BASE_METADATA;
 // {
@@ -26,8 +27,9 @@ export default function RootLayout({
       </head>
       <body suppressHydrationWarning>
         {/* <script src="/prism.js"></script> */}
-        <script src="https://unpkg.com/prismjs@v1.x/components/prism-core.min.js"></script>
-        <script src="https://unpkg.com/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>        <Providers>
+        <Script src="https://unpkg.com/prismjs@v1.x/components/prism-core.min.js"></Script>
+        <Script src="https://unpkg.com/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></Script>
+        <Providers>
           {children}
         </Providers>
       </body>
