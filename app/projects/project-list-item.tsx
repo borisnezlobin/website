@@ -14,6 +14,7 @@ const ProjectListItem = ({ project }: { project: Project }) => {
             </h2>
             <p>{project.description}</p>
             <TagList
+                // @ts-ignore
                 tags={project.tags || []}
                 maxLength={3}
                 redirectUrl={`/projects/${project.slug}`}
