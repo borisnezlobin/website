@@ -3,7 +3,8 @@ import Providers from './_contexts/providers'
 import { BASE_METADATA } from './lib/metadata'
 import { SpeedInsights } from "@vercel/speed-insights/next"
 import { Analytics } from "@vercel/analytics/react"
-
+import "./light.css"
+import "./dark.css"
 
 export const metadata = BASE_METADATA;
 // {
@@ -20,10 +21,13 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* open graph stuff here */}
+        {/* <link href="prism.css" rel="stylesheet" /> */}
+        {/* <link href="prism/dark.css" rel="stylesheet" /> */}
       </head>
       <body suppressHydrationWarning>
-        <Providers>
+        {/* <script src="/prism.js"></script> */}
+        <script src="https://unpkg.com/prismjs@v1.x/components/prism-core.min.js"></script>
+        <script src="https://unpkg.com/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></script>        <Providers>
           {children}
         </Providers>
       </body>

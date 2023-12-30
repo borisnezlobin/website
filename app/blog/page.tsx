@@ -99,6 +99,7 @@ async function seedArticles() {
             description: faker.lorem.sentence(),
             body: faker.lorem.paragraphs(5),
             slug: "sql-in-ts",
+            image: "https://images.unsplash.com/photo-1703027350678-becbec820b2a?q=80&w=2574&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
             createdAt: new Date(),
             updatedAt: new Date(),
             tags: {
@@ -144,7 +145,7 @@ async function seedArticles() {
     console.log("Done seeding database.");
 }
 
-const seedTags = async () => {
+export const seedTags = async () => {
     console.log("Deleting all tags...");
     await db.tag.deleteMany();
     console.log("Seeding tags...");
@@ -169,6 +170,27 @@ const seedTags = async () => {
             image: "https://upload.wikimedia.org/wikipedia/commons/8/87/Sql_data_base_with_logo.png"
         }
     });
+    await db.tag.create({
+        data: {
+            name: "React",
+            slug: "react",
+            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/React-icon.svg/640px-React-icon.svg.png"
+        }
+    });
+    await db.tag.create({
+        data: {
+            name: "Electron",
+            slug: "electron",
+            image: "https://upload.wikimedia.org/wikipedia/commons/thumb/9/91/Electron_Software_Framework_Logo.svg/640px-Electron_Software_Framework_Logo.svg.png"
+        }
+    });
+    await db.tag.create({
+        data: {
+            name: "In Progress",
+            slug: "in-progress",
+            image: "https://media.istockphoto.com/id/508408464/vector/work-in-progress-loading-bar.jpg?s=612x612&w=0&k=20&c=NyDSPinMdT1wuEODQQPk2YS2Tt-qf3K-w620zK3F9ls="
+        }
+    })
     await db.tag.create({
         data: {
             name: "TypeScript",

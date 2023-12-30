@@ -4,6 +4,7 @@ import { Article, Tag } from "@prisma/client";
 import Link from "next/link";
 import { DateAndLikes } from "./date-and-likes";
 import Badge from "@/app/components/badge";
+import TagBadge from "../tag/tag-badge";
 
 const ArticleSquareCard = ({ article }: { article: Article }) => {
     return (
@@ -17,13 +18,7 @@ const ArticleSquareCard = ({ article }: { article: Article }) => {
             </Link>
             <div className="flex flex-row justify-start items-center absolute bottom-2">
                 {/* @ts-ignore */}
-                {article.tags && article.tags.map((tag: Tag) => (
-                    <Link href={"/blog/tag/" + tag.slug} onClick={(e) => e.stopPropagation()} key={tag.id} title={"Find more " + tag.name + " articles"}>
-                        <Badge className="badge ml-2 hover:-translate-y-px transition duration-300 active:translate-y-px">
-                            {tag.name}
-                        </Badge>
-                    </Link>
-                ))}
+                {article.tags && article.tags.map((tag: Tag) => <TagBadge tag={tag} key={tag.id} />)}
             </div>
         </div>
     );

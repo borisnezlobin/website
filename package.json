@@ -19,11 +19,15 @@
     "@vercel/speed-insights": "^1.0.1",
     "next": "14.0.4",
     "next-themes": "^0.2.1",
+    "prismjs": "^1.29.0",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "remark": "^15.0.1",
+    "remark-html": "^16.0.1"
   },
   "devDependencies": {
     "@types/node": "^20",
+    "@types/prismjs": "^1.26.3",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",

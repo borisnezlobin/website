@@ -49,3 +49,106 @@ p, div, input, h1, h2, h3, h4, h5, h6, a {
 .edo{
   font-family: 'edo';
 }
+
+article {
+  h1 {
+    @apply text-4xl font-bold border-b pb-2 mb-4;
+  }
+
+  h2 {
+    @apply text-3xl font-bold mb-4;
+  }
+
+  h3 {
+    @apply text-2xl font-bold mb-4;
+  }
+
+  h4 {
+    @apply text-xl font-bold mb-4;
+  }
+
+  h5 {
+    @apply text-lg font-bold mb-4;
+  }
+
+  h6 {
+    @apply text-base font-bold mb-4;
+  }
+
+  h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover{
+    @apply border-b pb-2 cursor-pointer;
+  }
+
+  p {
+    @apply text-base mb-4;
+  }
+
+  ul {
+    @apply list-disc list-inside mb-4;
+  }
+
+  ol {
+    @apply list-decimal list-inside mb-4;
+  }
+
+  li {
+    @apply text-base mb-2;
+  }
+
+  a {
+    @apply hover:underline transition-all duration-300;
+    @apply text-primary dark:text-primary-dark;
+    @apply group-hover:text-light dark:group-hover:text-dark;
+    @apply hover:text-light dark:hover:text-dark;
+  }
+
+  blockquote {
+    @apply border-l-4 border-primary dark:border-primary-dark pl-4 mb-4;
+  }
+
+  code {
+    /* @apply bg-light-background dark:bg-dark-background text-light dark:text-dark; */
+    @apply px-2 py-1 rounded-lg;
+    @apply bg-[#e7e7e7] dark:bg-[#303030] border border-neutral-300 dark:border-neutral-600;
+    @apply duration-300 transition-all;
+  }
+
+  pre {
+    @apply border border-neutral-300 dark:border-neutral-600 dark:bg-[#303030];
+    @apply p-4 rounded-lg text-base;
+    background-color: #e7e7e7;
+    overflow-x: auto;
+    transition: all 0.3s ease;
+
+    code {
+      @apply bg-transparent dark:bg-transparent;
+      @apply px-0 py-0 border-none dark:border-none;
+
+      /* idk why this is necessary, but it works so w/e */
+      transition: all 0.3s ease;
+    }
+  }
+
+  img {
+    @apply rounded-sm;
+  }
+
+  hr {
+    @apply border-0 border-t-2 border-primary dark:border-primary-dark my-4;
+  }
+
+  table {
+    @apply border-collapse border-2 border-primary dark:border-primary-dark;
+    @apply w-full;
+  }
+
+  th {
+    @apply border-2 border-primary dark:border-primary-dark;
+    @apply px-2 py-1;
+  }
+
+  td {
+    @apply border-2 border-primary dark:border-primary-dark;
+    @apply px-2 py-1;
+  }
+}
