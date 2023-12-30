@@ -4,7 +4,7 @@ const DateAndLikes = ({ article, className, containerClass }: { article: Article
     return (
         <div className={"flex justify-between " + containerClass}>
             <p className={`${!className || !className.includes("text") ? "text-muted dark:text-muted-dark" : ""} ${className}`}>
-                {article.createdAt.toLocaleDateString()}
+                <time>{article.createdAt.toLocaleDateString()}</time>
                 {article.likes > 0 ?
                 " • " + article.likes + " like" + (article.likes === 1 ? "" : "s")
                 : ""

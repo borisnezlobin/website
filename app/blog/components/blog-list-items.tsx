@@ -4,6 +4,7 @@ import { Article, Tag } from "@prisma/client";
 import Link from "next/link";
 import Badge from "../../components/badge";
 import { DateAndLikes } from "./date-and-likes";
+import TagBadge from "../tag/tag-badge";
 
 const BlogListItem = ({ post, tags = [] } : { post: Article, tags?: Tag[] }) => (
     <div key={post.id} className="mt-8 cursor-pointer group">
@@ -18,13 +19,7 @@ const BlogListItem = ({ post, tags = [] } : { post: Article, tags?: Tag[] }) => 
             <p>{post.description}</p>
                 <DateAndLikes article={post} className="sm:opacity-0 group-hover:opacity-100" />
         </Link>
-        {tags && tags.map((tag) => (
-            <Link href={"/blog/tag/" + tag.slug} onClick={(e) => e.stopPropagation()} key={tag.id} title={"Find more " + tag.name + " articles"}>
-                <Badge className="ml-2 hover:-translate-y-px transition duration-300 active:translate-y-px">
-                    {tag.name}
-                </Badge>
-            </Link>
-        ))}
+        {tags && tags.map((tag) => <TagBadge tag={tag} key={tag.id} />)}
     </div>
 );
 

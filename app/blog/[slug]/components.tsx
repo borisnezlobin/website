@@ -3,7 +3,10 @@
 import { IconButton } from "@/components/buttons";
 import { HeartStraight, MagnifyingGlass, Share, TwitterLogo } from "@phosphor-icons/react";
 import { likePost, searchPosts } from "./actions";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { remark } from "remark";
+import remarkHtml from "remark-html";
+import { highlightAll, highlightAllUnder } from "prismjs";
 
 const LikeButton = ({ slug }: { slug: string }) => {
     const [liked, setLiked] = useState(false);
@@ -90,20 +93,51 @@ const SearchBar = ({ query }: { query?: string }) => {
 }
 
 const ArticleImageBg = ({ imageUrl }: { imageUrl: string }) => {
-    // return <></>
     return (
-        // a parallax image effect at the top of the page
         <div className="absolute top-0 left-0 h-96 bg-transparent w-screen -z-10">
-            <div className="absolute inset-0 bg-transparent">
+            <div className="md:absolute h-full inset-0 bg-transparent">
                 <img
                     src={imageUrl}
                     alt="Article header"
                     className="w-full h-full object-cover"
                 />
             </div>
-            <div className="absolute bg-transparent dark:bg-transparent inset-0 bg-gradient-to-t from-light-background dark:from-dark-background to-transparent" />
+            <div className="hidden transition-all duration-300 md:block md:absolute bg-transparent dark:bg-transparent inset-0 bg-gradient-to-t from-light-background dark:from-dark-background to-transparent" />
         </div>
     )
 }
 
-export { LikeButton, ShareButton, TweetArticleButton, SearchBar, ArticleImageBg };
+const ArticleBody = ({ text }: { text: string }) => {
+    const [rendered, setRendered] = useState(false);
+    const [textToRender, setTextToRender] = useState(text);
+    const ref = useRef<HTMLElement | undefined>();
+
+    useEffect(() => {
+        if(rendered){
+            highlightAll();
+        }
+        
+        const renderText = async () => {
+            setTextToRender(await remark()
+                .use(remarkHtml)
+                .process(
+                    text
+                    .replaceAll(/\\n/g, "\n")
+                    .replaceAll(/\\t/g, "\t")
+                )
+                .then((content) => content.toString())
+            );
+            setRendered(true);
+        }
+
+        renderText();
+    }, [rendered, text]);
+
+    // yeah
+    return (
+        // @ts-ignore
+        <article ref={ref} dangerouslySetInnerHTML={{ __html: textToRender }} />
+    );
+}
+
+export { LikeButton, ShareButton, TweetArticleButton, SearchBar, ArticleImageBg, ArticleBody };
