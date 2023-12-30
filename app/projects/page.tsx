@@ -1,10 +1,10 @@
 import { faker } from "@faker-js/faker";
 import db from "../lib/db"
-import { seedTags } from "../blog/page";
 import { revalidatePath } from "next/cache";
 import { Project } from "@prisma/client";
 import ProjectListItem from "./project-list-item";
 import Link from "next/link";
+import { seedTags } from "../blog/components/idontlikevercelbuilds";
 
 export default async function ProjectsPage() {
   const projects = await db.project.findMany({
@@ -105,8 +105,8 @@ export default async function ProjectsPage() {
 
       <div className="flex flex-wrap gap-4 mt-4">
         {projects.map((project: Project) => (
-        <Link href={"/projects/" + project.slug}>
-          <ProjectListItem key={project.slug} project={project} />
+        <Link key={project.slug} href={"/projects/" + project.slug}>
+          <ProjectListItem project={project} />
         </Link>
         ))}
       </div>
