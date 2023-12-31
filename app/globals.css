@@ -80,7 +80,7 @@ article {
   }
 
   p {
-    @apply text-base mb-4;
+    @apply text-lg mb-4;
   }
 
   ul {
@@ -97,16 +97,19 @@ article {
 
   a {
     @apply hover:underline transition-all duration-300;
-    @apply text-primary dark:text-primary-dark;
-    @apply group-hover:text-light dark:group-hover:text-dark;
-    @apply hover:text-light dark:hover:text-dark;
+    @apply text-teal-600 dark:text-teal-500;
+    @apply group-hover:text-teal-900 dark:group-hover:text-teal-300;
   }
 
   blockquote {
-    @apply border-l-4 border-primary dark:border-primary-dark pl-4 mb-4;
+    @apply border-l-4 border-neutral-400 dark:border-neutral-400 pl-4 mb-4;
+
+    p {
+      @apply text-neutral-500 dark:text-neutral-400 italic text-lg;
+    }
   }
 
-  code {
+  *:not(pre) > code {
     /* @apply bg-light-background dark:bg-dark-background text-light dark:text-dark; */
     @apply px-2 py-1 rounded-lg;
     @apply bg-[#e7e7e7] dark:bg-[#303030] border border-neutral-300 dark:border-neutral-600;
@@ -119,14 +122,6 @@ article {
     background-color: #e7e7e7;
     overflow-x: auto;
     transition: all 0.3s ease;
-
-    code {
-      @apply bg-transparent dark:bg-transparent;
-      @apply px-0 py-0 border-none dark:border-none;
-
-      /* idk why this is necessary, but it works so w/e */
-      transition: all 0.3s ease;
-    }
   }
 
   img {
