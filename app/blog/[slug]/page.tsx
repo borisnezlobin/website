@@ -2,11 +2,10 @@ import NotFoundPage from "@/app/components/not-found-page";
 import db from "@/app/lib/db";
 import { LinkButton } from "@/components/buttons";
 import BlogListItem from "../components/blog-list-items";
-import { ArticleBody, ArticleImageBg, LikeButton, ShareButton, TweetArticleButton } from "./components";
+import { ArticleImageBg, LikeButton, ShareButton, TweetArticleButton } from "./components";
 import { DateAndLikes } from "../components/date-and-likes";
 import getMetadata from "@/app/lib/metadata";
-import { remark } from 'remark';
-import html from 'remark-html';
+import ArticleBody from "@/app/components/article-body";
 
 
 export async function generateMetadata({ params }: { params: { slug: string }}) {

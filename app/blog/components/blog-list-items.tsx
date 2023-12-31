@@ -5,6 +5,7 @@ import Link from "next/link";
 import Badge from "../../components/badge";
 import { DateAndLikes } from "./date-and-likes";
 import TagBadge from "../tag/tag-badge";
+import TagList from "../tag/tag-list";
 
 const BlogListItem = ({ post, tags = [] } : { post: Article, tags?: Tag[] }) => (
     <div key={post.id} className="mt-8 cursor-pointer group">
@@ -19,7 +20,7 @@ const BlogListItem = ({ post, tags = [] } : { post: Article, tags?: Tag[] }) => 
             <p>{post.description}</p>
                 <DateAndLikes article={post} className="sm:opacity-0 group-hover:opacity-100" />
         </Link>
-        {tags && tags.map((tag) => <TagBadge tag={tag} key={tag.id} />)}
+        <TagList tags={tags} />
     </div>
 );
 

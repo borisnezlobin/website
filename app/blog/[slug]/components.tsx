@@ -98,7 +98,6 @@ const ArticleImageBg = ({ imageUrl }: { imageUrl: string }) => {
             <div className="md:absolute h-full inset-0 bg-transparent">
                 <img
                     src={imageUrl}
-                    alt="Article header"
                     className="w-full h-full object-cover"
                 />
             </div>
@@ -107,37 +106,4 @@ const ArticleImageBg = ({ imageUrl }: { imageUrl: string }) => {
     )
 }
 
-const ArticleBody = ({ text }: { text: string }) => {
-    const [rendered, setRendered] = useState(false);
-    const [textToRender, setTextToRender] = useState(text);
-    const ref = useRef<HTMLElement | undefined>();
-
-    useEffect(() => {
-        if(rendered){
-            highlightAll();
-        }
-        
-        const renderText = async () => {
-            setTextToRender(await remark()
-                .use(remarkHtml)
-                .process(
-                    text
-                    .replaceAll(/\\n/g, "\n")
-                    .replaceAll(/\\t/g, "\t")
-                )
-                .then((content) => content.toString())
-            );
-            setRendered(true);
-        }
-
-        renderText();
-    }, [rendered, text]);
-
-    // yeah
-    return (
-        // @ts-ignore
-        <article ref={ref} dangerouslySetInnerHTML={{ __html: textToRender }} />
-    );
-}
-
-export { LikeButton, ShareButton, TweetArticleButton, SearchBar, ArticleImageBg, ArticleBody };
+export { LikeButton, ShareButton, TweetArticleButton, SearchBar, ArticleImageBg };
