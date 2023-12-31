@@ -4,7 +4,7 @@ import TagBadge from "./tag-badge";
 interface TagListProps {
     tags: Tag[],
     maxLength?: number,
-    redirectUrl: string
+    redirectUrl?: string
     className?: string
 }
 

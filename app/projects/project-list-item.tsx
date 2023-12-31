@@ -8,11 +8,18 @@ import { GithubLogo } from "@phosphor-icons/react/dist/ssr";
 const ProjectListItem = ({ project }: { project: Project }) => {
     return (
         // a square card
-        <div className="flex flex-shrink-0 relative group cursor-pointer flex-col gap-2 h-48 min-2-96 w-96 p-4 rounded-lg tranition-all hover:shadow-lg hover:-translate-y-px border-muted dark:border-muted-dark">
+        <div className="flex border border-neutral-300 dark:border-neutral-600 relative group cursor-pointer flex-col h-48 w-full p-4 rounded-lg tranition-all hover:shadow-lg hover:-translate-y-px">
             <h2 className="text-xl flex flex-row header-link justify-start items-center">
                 {project.title}
             </h2>
-            <p>{project.description}</p>
+            <p className="text-muted dark:text-muted-dark mb-2">
+                {project.createdAt.toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                })}
+            </p>
+            <p className="text-ellipsis h-full w-full">{project.description}</p>
             <TagList
                 // @ts-ignore
                 tags={project.tags || []}
