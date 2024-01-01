@@ -3,7 +3,8 @@ import React from "react";
 interface SeparatorProps {
     vertical?: boolean;
     children?: React.ReactNode,
-    size?: "small" | "medium" | "large" | "xlarge"
+    size?: "small" | "medium" | "large" | "xlarge",
+    className?: string
 }
 
 const sizes = {
@@ -25,9 +26,9 @@ const sizes = {
     }
 }
 
-export const Separator: React.FC<SeparatorProps> = ({ vertical = false, children, size = "medium" }) => {
+export const Separator: React.FC<SeparatorProps> = ({ vertical = false, children, size = "medium", className = "" }) => {
     return (
-        <div className={`flex ${vertical ? "flex-row" : "flex-col"} justify-start gap-2 items-center`}>
+        <div className={`flex ${vertical ? "flex-row" : "flex-col"} justify-start gap-2 items-center ${className}`}>
             <div className={`bg-muted dark:bg-muted-dark ${sizes[size][!vertical ? "vertical" : "horizontal"]} ${!vertical ? " mx-2" : "my-2"}`} />
             {children ?
             <>

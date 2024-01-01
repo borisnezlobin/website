@@ -3,8 +3,8 @@
 import { Article, Tag } from "@prisma/client";
 import Link from "next/link";
 import { DateAndLikes } from "./date-and-likes";
-import Badge from "@/app/components/badge";
 import TagBadge from "../tag/tag-badge";
+import TagList from "../tag/tag-list";
 
 const ArticleSquareCard = ({ article }: { article: Article }) => {
     return (
@@ -18,7 +18,7 @@ const ArticleSquareCard = ({ article }: { article: Article }) => {
             </Link>
             <div className="flex flex-row justify-start items-center absolute bottom-2">
                 {/* @ts-ignore */}
-                {article.tags && article.tags.map((tag: Tag) => <TagBadge tag={tag} key={tag.id} />)}
+                <TagList tags={article.tags} />
             </div>
         </div>
     );
