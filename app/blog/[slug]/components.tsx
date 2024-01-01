@@ -1,17 +1,20 @@
 "use client"
 
-import { IconButton } from "@/components/buttons";
+import { IconButton, LinkButton } from "@/components/buttons";
 import { HeartStraight, MagnifyingGlass, Share, TwitterLogo } from "@phosphor-icons/react";
-import { likePost, searchPosts } from "./actions";
-import { useEffect, useRef, useState } from "react";
-import { remark } from "remark";
-import remarkHtml from "remark-html";
-import { highlightAll, highlightAllUnder } from "prismjs";
+import { likePost } from "./actions";
+import { useEffect, useState } from "react";
+import { Article } from "@prisma/client";
+import ArticleBody from "@/app/components/article-body";
+import { DateAndLikes } from "../components/date-and-likes";
+import BlogListItem from "../components/blog-list-items";
+import LoadingEffect from "@/app/components/loading-or-content";
+import EmptyPost from "@/app/utils/empty-post";
 
 const LikeButton = ({ slug }: { slug: string }) => {
     const [liked, setLiked] = useState(false);
 
-    if(liked){
+    if (liked) {
         return (
             <div className="flex flex-row items-center p-2">
                 <HeartStraight className="h-6 w-6 text-red-700" weight="fill" />
@@ -22,7 +25,7 @@ const LikeButton = ({ slug }: { slug: string }) => {
     return (
         <IconButton
             onClick={() => {
-                if(liked) return;
+                if (liked) return;
                 likePost(slug);
                 setLiked(true);
             }}
@@ -32,7 +35,7 @@ const LikeButton = ({ slug }: { slug: string }) => {
 }
 
 const ShareButton = () => {
-    if(!navigator || !navigator.share){
+    if (!navigator || !navigator.share) {
         return null;
     }
 
@@ -70,12 +73,12 @@ const SearchBar = ({ query }: { query?: string }) => {
             }}
             className="mt-4 flex w-full max-w-3xl flex-col items-start justify-center gap-2"
         >
-            <input 
-                type="text" 
+            <input
+                type="text"
                 placeholder="Search"
                 defaultValue={query}
                 onChange={(e) => setSearch(e.target.value)}
-                className="p-2 w-full bg-light-background dark:bg-dark-background text-light-foreground dark:text-dark-foreground border border-light-foreground dark:border-dark-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-light-foreground dark:focus:ring-dark-foreground" 
+                className="p-2 w-full bg-light-background dark:bg-dark-background text-light-foreground dark:text-dark-foreground border border-light-foreground dark:border-dark-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-light-foreground dark:focus:ring-dark-foreground"
             />
             <IconButton
                 className="flex flex-row justify-center items-center gap-2 transition-all duration-300"
@@ -104,6 +107,105 @@ const ArticleImageBg = ({ imageUrl }: { imageUrl: string }) => {
             <div className="hidden transition-all duration-300 md:block md:absolute bg-transparent dark:bg-transparent inset-0 bg-gradient-to-t from-light-background dark:from-dark-background to-transparent" />
         </div>
     )
+}
+
+export const ArticleWithAsync = ({ postPromise, similarPostsPromise }: { postPromise: any, similarPostsPromise: any }) => {
+    console.log(postPromise);
+    const [post, setPost] = useState<Article | null>(null);
+    const [similarPosts, setSimilarPosts] = useState<Article[]>([]);
+
+    useEffect(() => {
+        if (!post) {
+            postPromise.then((p: Article) => {
+                console.log(p);
+                setPost(p);
+                // searchPosts(post.tags[0].name).then((posts) => {
+                //     setSimilarPosts(posts);
+                // });
+            });
+        }
+        if (!similarPosts.length) {
+            similarPostsPromise.then((posts: Article[]) => {
+                setSimilarPosts(posts);
+            });
+        }
+    }, []);
+
+    const loading = !post;
+
+    const containerClass = "bg-light-background/30 dark:bg-dark-background/30 gap-3 rounded-lg backdrop-blur-lg ";
+
+    return (
+        <div className="min-h-screen dark:bg-dark-background z-[1] w-full pt-[26rem] p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
+            <header className={containerClass + "flex flex-col justify-start items-start md:items-center p-0 md:p-4"}>
+                <h1 className="text-5xl bg-transparent dark:bg-transparent edo">
+                    <LoadingEffect
+                        text={post ? post.title : "loading..."}
+                        expectedLength="medium"
+                        loading={loading}
+                    />
+                </h1>
+                <DateAndLikes
+                    article={post || EmptyPost}
+                    className={`mt-2 bg-transparent dark:bg-transparent ${(post && post.image) ? "text-light dark:text-dark" : "text-muted dark:text-muted-dark"}`}
+                    containerClass="bg-transparent dark:bg-transparent"
+                />
+                <p className="bg-transparent dark:bg-transparent mt-2 mb-1 font-semibold">
+                    <LoadingEffect
+                        text={post ? post.description : "Lorem ipsum dolor sit amet, consectetur adipiscing elit."}
+                        expectedLength="short"
+                        loading={loading}
+                    />
+                </p>
+            </header>
+            <div className={`mt-2 w-full mb-8 ${true ? "p-0 md:p-8" : ""} rounded-lg`}>
+                <LoadingEffect
+                    className="text-muted dark:text-muted-dark"
+                    // @ts-ignore
+                    text={post ? post.tags.map((tag) => tag.name).join(", ") : ""}
+                    loading={loading}
+                    expectedLength="short"
+                />
+                <br />
+                <ArticleBody text={post ? post.body : undefined} />
+            </div>
+            {post &&
+                <div className="flex flex-row justify-start items-center gap-2">
+                    <p className="text-muted dark:text-muted-dark">
+                        Liked this article?
+                    </p>
+                    <LikeButton slug={post.slug} />
+                    <ShareButton />
+                    <TweetArticleButton />
+                </div>
+            }
+
+            <LinkButton direction="left" className="mt-8" href="/blog">
+                Back to blog
+            </LinkButton>
+
+            <h2 className="text-3xl mt-12">More articles</h2>
+
+            <div className="md:pl-8">
+                <ul>
+                    {similarPosts.map((post) => (
+                        <li key={post.id}>
+                            {/* @ts-ignore */}
+                            <BlogListItem post={post} tags={post.tags} />
+                        </li>
+                    ))}
+                </ul>
+            </div>
+            {/* @ts-ignore */}
+            {(post && post.tags.length > 0) &&
+                // @ts-ignore
+                < LinkButton className="mt-6 mb-16" href={`/blog/tag/${post.tags[0].slug}`}>
+                    View all
+                </LinkButton>
+            }
+            {(post && post.image) && <ArticleImageBg imageUrl={post.image} />}
+        </div >
+    );
 }
 
 export { LikeButton, ShareButton, TweetArticleButton, SearchBar, ArticleImageBg };
