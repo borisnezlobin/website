@@ -6,6 +6,7 @@ import { Analytics } from "@vercel/analytics/react"
 import "./light.css"
 import "./dark.css"
 import Script from 'next/script'
+import Footer from './components/footer'
 
 export const metadata = BASE_METADATA;
 // {
@@ -31,6 +32,7 @@ export default function RootLayout({
         <Script src="https://unpkg.com/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></Script>
         <Providers>
           {children}
+          <Footer />
         </Providers>
       </body>
       <SpeedInsights />
