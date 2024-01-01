@@ -180,7 +180,7 @@ export const ArticleWithAsync = ({ postPromise, similarPostsPromise }: { postPro
                 </div>
             }
 
-            <LinkButton direction="left" className="mt-8" href="/blog">
+            <LinkButton direction="left"  aria-label="Back to Blog" className="mt-8" href="/blog">
                 Back to blog
             </LinkButton>
 

@@ -2,9 +2,9 @@ import { Separator } from "@/components/separator";
 import { TextAlignCenter, Atom, House, GithubLogo, LinkedinLogo, TwitterLogo } from "@phosphor-icons/react/dist/ssr"
 import Link from "next/link"
 
-const LinkWithIcon = ({ href, children, Icon }: { href: string, children?: React.ReactNode, Icon: any }) => {
+const LinkWithIcon = ({ href, title, children, Icon }: { href: string, title: string, children?: React.ReactNode, Icon: any }) => {
     return (
-        <Link href={href} target={href.startsWith("/") ? "_self" : "_blank"} className="flex flex-row justify-start items-center gap-2 group cursor-pointer">
+        <Link href={href} aria-label={title} target={href.startsWith("/") ? "_self" : "_blank"} className="flex flex-row justify-start items-center gap-2 group cursor-pointer">
             <Icon className="w-6 h-6 transition-all duration-300 group-hover:text-primary dark:group-hover:text-primary-dark" />
             <p className="group-hover:text-primary dark:group-hover:text-primary-dark">
                 {children}
@@ -19,17 +19,27 @@ const Footer = () => {
             <section>
                 <p className="text-muted dark:text-muted-dark mb-2">Quick links</p>
                 <ul className="flex flex-row gap-2 justify-start items-start">
-                    <LinkWithIcon href="/" Icon={House}>
-                        Home
-                    </LinkWithIcon>
-                    <Separator />
-                    <LinkWithIcon href="/projects" Icon={Atom}>
-                        Projects
-                    </LinkWithIcon>
-                    <Separator />
-                    <LinkWithIcon href="/blog" Icon={TextAlignCenter}>
-                        Blog
-                    </LinkWithIcon>
+                    <li>
+                        <LinkWithIcon title="Home" href="/" Icon={House}>
+                            Home
+                        </LinkWithIcon>
+                    </li>
+                    <li>
+                        <Separator />
+                    </li>
+                    <li>
+                        <LinkWithIcon title="Projects" href="/projects" Icon={Atom}>
+                            Projects
+                        </LinkWithIcon>
+                    </li>
+                    <li>
+                        <Separator />
+                    </li>
+                    <li>
+                        <LinkWithIcon title="Blog" href="/blog" Icon={TextAlignCenter}>
+                            Blog
+                        </LinkWithIcon>
+                    </li>
                 </ul>
             </section>
 
@@ -38,11 +48,16 @@ const Footer = () => {
             <section>
                 <p className="text-muted dark:text-muted-dark mb-2">Contact Me</p>
                 <ul className="flex flex-row gap-2 justify-start items-start">
-                    <LinkWithIcon href="https://github.com/borisnezlobin" Icon={GithubLogo} />
-                    {/* <Separator /> */}
-                    <LinkWithIcon href="https://www.linkedin.com/in/boris-nezlobin-3987a8242/" Icon={LinkedinLogo} />
-                    {/* <Separator /> */}
-                    <LinkWithIcon href="https://x.com/Rand0mLetterz" Icon={TwitterLogo} />
+
+                    <li>
+                        <LinkWithIcon href="https://github.com/borisnezlobin" Icon={GithubLogo} title="GitHub" />
+                    </li>
+                    <li>
+                        <LinkWithIcon href="https://www.linkedin.com/in/boris-nezlobin-3987a8242/" Icon={LinkedinLogo} title="LinkedIn" />
+                    </li>
+                    <li>
+                        <LinkWithIcon href="https://x.com/Rand0mLetterz" Icon={TwitterLogo} title="X (formerly Twitter)" />
+                    </li>
                 </ul>
             </section>
 

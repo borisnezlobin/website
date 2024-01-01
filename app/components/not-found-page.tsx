@@ -20,22 +20,22 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
             {/* <SocialLinksBubble /> */}
             <p className="text-light dark:text-dark">Do you want to go to a page that exists?</p>
             <div className="flex flex-row justify-between items-center gap-4 mt-4">
-                <Link href="/" className="flex flex-row group text-gray-500 justify-center items-center">
+                <Link href="/" aria-label="Home" className="flex flex-row group text-gray-500 justify-center items-center">
                     <HouseSimple className={"w-6 h-6 " + linkClass} />
                     <p className={"ml-2 " + linkClass}>Home</p>
                 </Link>
                 <Separator />
-                <Link href="/blog" className="flex flex-row group text-gray-500 justify-center items-center">
+                <Link href="/blog" aria-label="Blog" className="flex flex-row group text-gray-500 justify-center items-center">
                     <TextAlignCenter className={"w-6 h-6 " + linkClass} />
                     <p className={"ml-2 " + linkClass}>Blog</p>
                 </Link>
                 <Separator />
-                <Link href="/projects" className="flex flex-row group text-gray-500 justify-center items-center">
+                <Link href="/projects" aria-label="Projects" className="flex flex-row group text-gray-500 justify-center items-center">
                     <Atom className={"w-6 h-6 " + linkClass} />
                     <p className={"ml-2 " + linkClass}>Projects</p>
                 </Link>
             </div>
-            <SecondaryButton onClick={router.back} className="mt-4">Go back</SecondaryButton>
+            <SecondaryButton aria-label="Back" onClick={router.back} className="mt-4">Go back</SecondaryButton>
             <SocialLinksBubble />
         </div>
     );
