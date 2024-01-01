@@ -31,13 +31,13 @@ const SearchPage = () => {
             <h1 className="text-5xl edo">Search Blog</h1>
             <SearchBar />
             <div className="mt-4 flex flex-row justify-center items-center gap-2">
-                <Link href="/blog" className="link">
+                <Link href="/blog" className="link" aria-label="Go to blog">
                     Go to blog
                 </Link>
                 <p className="text-muted dark:text-muted-dark">
                     or
                 </p>
-                <Link href="/blog/tags" className="link">
+                <Link href="/blog/tags" className="link" aria-label="Explore tags">
                     Explore articles
                 </Link>
             </div>

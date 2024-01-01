@@ -56,7 +56,7 @@ const TagPage = async ({ params }: { params: { slug: string } }) => {
                 ))}
             </div>
         </div>
-        <LinkButton href="/blog/" className="mt-8" direction="left">
+        <LinkButton href="/blog/" className="mt-8" direction="left" aria-label="Back to Blog">
             Back to blog
         </LinkButton>
     </div>

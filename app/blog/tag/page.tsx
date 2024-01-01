@@ -35,7 +35,7 @@ const ExploreTagsPage = async () => {
                     </h2>
                     <p className="text-muted dark:text-muted-dark">
                         {tag.articles.length} articles •{" "}
-                        <Link href={"/blog/tag/" + tag.slug} className="link">
+                        <Link href={"/blog/tag/" + tag.slug} className="link" aria-label={"View all " + tag.name + " articles"}>
                             View all
                         </Link>
                     </p>
@@ -56,7 +56,7 @@ const ExploreTagsPage = async () => {
                 </div>
             ))}
 
-            <LinkButton href="/blog" direction="left" className="mt-8">
+            <LinkButton href="/blog" direction="left" className="mt-8" title="Back to Blog">
                 Back to blog
             </LinkButton>
         </div>

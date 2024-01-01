@@ -105,7 +105,7 @@ export default async function ProjectsPage() {
 
       <div className="grid grid-cols-2 gap-4 mt-4">
         {projects.map((project: Project) => (
-        <Link key={project.slug} href={"/projects/" + project.slug}>
+        <Link key={project.slug} href={"/projects/" + project.slug} aria-label={project.title}>
           <ProjectListItem project={project} />
         </Link>
         ))}
