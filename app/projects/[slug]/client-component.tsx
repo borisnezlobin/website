@@ -8,8 +8,7 @@ import { useEffect, useState } from "react";
 import GithubStars from "./github-stars";
 import TagList from "@/app/blog/tag/tag-list";
 import { ProjectLink } from "../components";
-import ArticleBody from "@/app/components/article-body";
-import ImageList from "./image-list";
+import ArticleBody from "@/app/components/article-body"
 
 const ProjectClientComponent = ({ projectPromise }: { projectPromise: any }) => {
     const [project, setProject] = useState<Project | null>(null);
@@ -24,7 +23,7 @@ const ProjectClientComponent = ({ projectPromise }: { projectPromise: any }) => 
 
     return (
         <div className="flex flex-col gap-4 p-8">
-            <div className="w-full flex flex-col md:flex-row justify-between">
+            <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between">
                 <h1 className="text-3xl font-bold">
                     <LoadingEffect
                         text={project ? project.title : ""}
@@ -33,7 +32,7 @@ const ProjectClientComponent = ({ projectPromise }: { projectPromise: any }) => 
                     />
                 </h1>
                 {(project && project.github) && (
-                    <div className="flex flex-col justify-center items-end">
+                    <div className="flex flex-col justify-center items-start md:items-end">
                         <Link href={project.github} aria-label="View code on Github" target="_blank" className="link flex flex-row items-center justify-center">
                             Source code on GitHub
                             <ArrowSquareOut className="ml-2" weight="bold" />
@@ -65,13 +64,14 @@ const ProjectClientComponent = ({ projectPromise }: { projectPromise: any }) => 
             <div className="flex flex-col gap-2">
                 <ArticleBody text={project ? project.body : undefined} />
             </div>
-            {(project && project.images.length > 0) && (
+            {/* this part is so bad, and I really can't be bothered to figure out how to fix it atm... I swear I will make it look good someday */}
+            {/* {(project && project.images.length > 0) && (
                 <>
                     <div className="flex flex-col gap-2">
                         <ImageList images={project.images} />
                     </div>
                 </>
-            )}
+            )} */}
         </div>
     );
 };
