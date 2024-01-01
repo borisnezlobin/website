@@ -8,7 +8,7 @@ const ProjectLink = ({ link }: { link: string }) => {
     if(link.includes(window.location.hostname)){
 
         return (
-            <Link href={link} className="group">
+            <Link href={link} className="group" aria-label="Related Article">
                 <p className="text-base font-bold cursor-pointer">
                     Related Article
                 </p>
@@ -21,7 +21,7 @@ const ProjectLink = ({ link }: { link: string }) => {
     }
 
     return (
-        <Link className="group" href={link} target="_blank">
+        <Link className="group" href={link} aria-label={host} target="_blank">
             <p className="text-base font-bold cursor-pointer">
                 {host.slice(0, 1).toUpperCase() + host.slice(1)}
             </p>

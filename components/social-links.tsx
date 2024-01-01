@@ -39,12 +39,12 @@ const SocialLinksBubble = () => {
     return (
         <div className="fixed bottom-4 z-10 right-4 flex flex-row items-center justify-center gap-4 border border-muted dark:border-muted-dark p-2 px-6 rounded-full shadow-lg bg-light-background dark:bg-dark-background">
             {links.map(({ icon: Icon, href, color, title }) => (
-                <a href={href} target="_blank" rel="noopener noreferrer" key={href} title={title}>
+                <a href={href} target="_blank" rel="noopener noreferrer" key={href} title={title} aria-label={title}>
                     <Icon className={`${defaultIconClass} ${color}`} weight="fill"/>
                 </a>
             ))}
             <Separator vertical={false} />
-            <button className="w-6 h-6 text-gray-500 transition duration-100 hover:text-primary dark:hover:text-primary" onClick={toggleTheme}>
+            <button className="w-6 h-6 text-gray-500 transition duration-100 hover:text-primary dark:hover:text-primary" onClick={toggleTheme} aria-label="Change theme">
                 {theme === "light" ? <Moon className={defaultIconClass + defaultColor} /> : <Sun className={defaultIconClass + defaultColor} />}
             </button>
         </div>

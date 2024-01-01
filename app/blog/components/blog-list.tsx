@@ -13,7 +13,7 @@ const BlogList = ({ articles, title, query = "" }: { articles: Article[], title:
                 {query && (
                     <>
                         
-                        <Link href="/blog" className="link font-semibold">
+                        <Link href="/blog" className="link font-semibold" title="Clear search">
                             Clear search
                         </Link>
                         <span className="text-muted dark:text-muted-dark">
@@ -25,7 +25,7 @@ const BlogList = ({ articles, title, query = "" }: { articles: Article[], title:
                 <span className="text-muted dark:text-muted-dark">
                     {" • "}
                 </span>
-                <Link href="/blog/tags" className="link">
+                <Link href="/blog/tags" className="link" aria-label="Explore tags">
                     Explore all
                 </Link>
             </p>

@@ -34,7 +34,7 @@ const ProjectClientComponent = ({ projectPromise }: { projectPromise: any }) => 
                 </h1>
                 {(project && project.github) && (
                     <div className="flex flex-col justify-center items-end">
-                        <Link href={project.github} target="_blank" className="link flex flex-row items-center justify-center">
+                        <Link href={project.github} aria-label="View code on Github" target="_blank" className="link flex flex-row items-center justify-center">
                             Source code on GitHub
                             <ArrowSquareOut className="ml-2" weight="bold" />
                         </Link>
