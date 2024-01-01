@@ -103,7 +103,7 @@ export default async function ProjectsPage() {
         I&apos;ve made a lot of cool stuff, and helped out with some open-source projects that I&apos;m interested in. For every project, I tend to do a writeup on it, so you can learn more about it and how it works. They also serve as a way for me to document what I&apos;ve learned and practice my writing skills.
       </p>
 
-      <div className="grid grid-cols-2 gap-4 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
         {projects.map((project: Project) => (
         <Link key={project.slug} href={"/projects/" + project.slug} aria-label={project.title}>
           <ProjectListItem project={project} />

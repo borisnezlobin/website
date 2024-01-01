@@ -28,7 +28,7 @@ const SecondaryButton: React.FC<ButtonProps> = ({ children, ...props }) => {
 }
 
 const LinkButton: React.FC<LinkProps> = ({ children, direction = "right", className, ...props }) => {
-    if(!props["aria-label"]) props["aria-label"] = "Link to " + props.href;
+    if(!props["aria-label"]) props["aria-label"] = "Link to " + (props.title ? props.title : props.href);
     return (
         <Link href="/" {...props}>
             <SecondaryButton className={className}>
