@@ -97,7 +97,7 @@ const SearchBar = ({ query }: { query?: string }) => {
 
 const ArticleImageBg = ({ imageUrl }: { imageUrl: string }) => {
     return (
-        <div className="absolute top-0 left-0 h-96 bg-transparent w-screen -z-10">
+        <div className="absolute top-0 left-0 h-96 bg-transparent w-screen z-0">
             <div className="md:absolute h-full inset-0 bg-transparent">
                 <img
                     src={imageUrl}
@@ -137,7 +137,8 @@ export const ArticleWithAsync = ({ postPromise, similarPostsPromise }: { postPro
 
     return (
         <div className="min-h-screen dark:bg-dark-background z-[1] w-full pt-[26rem] p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
-            <header className={containerClass + "flex flex-col justify-start items-start md:items-center p-0 md:p-4"}>
+            {(post && post.image) && <ArticleImageBg imageUrl={post.image} />}
+            <header className={containerClass + " z-[1] flex flex-col justify-start items-start md:items-center p-0 md:p-4"}>
                 <h1 className="text-5xl bg-transparent dark:bg-transparent edo">
                     <LoadingEffect
                         text={post ? post.title : "loading..."}
@@ -158,9 +159,9 @@ export const ArticleWithAsync = ({ postPromise, similarPostsPromise }: { postPro
                     />
                 </p>
             </header>
-            <div className={`mt-2 w-full mb-8 ${true ? "p-0 md:p-8" : ""} rounded-lg`}>
+            <div className={`z-[1] relative mt-2 w-full mb-8 ${true ? "p-0 md:p-8" : ""} rounded-lg`}>
                 <LoadingEffect
-                    className="text-muted dark:text-muted-dark"
+                    className="z-[1] text-muted dark:text-muted-dark"
                     // @ts-ignore
                     text={post ? post.tags.map((tag) => tag.name).join(", ") : ""}
                     loading={loading}
@@ -170,7 +171,7 @@ export const ArticleWithAsync = ({ postPromise, similarPostsPromise }: { postPro
                 <ArticleBody text={post ? post.body : undefined} />
             </div>
             {post &&
-                <div className="flex flex-row justify-start items-center gap-2">
+                <div className="z-[1] flex flex-row justify-start items-center gap-2">
                     <p className="text-muted dark:text-muted-dark">
                         Liked this article?
                     </p>
@@ -180,7 +181,7 @@ export const ArticleWithAsync = ({ postPromise, similarPostsPromise }: { postPro
                 </div>
             }
 
-            <LinkButton direction="left"  aria-label="Back to Blog" className="mt-8" href="/blog">
+            <LinkButton direction="left" aria-label="Back to Blog" className="mt-8" href="/blog">
                 Back to blog
             </LinkButton>
 
@@ -203,7 +204,6 @@ export const ArticleWithAsync = ({ postPromise, similarPostsPromise }: { postPro
                     View all
                 </LinkButton>
             }
-            {(post && post.image) && <ArticleImageBg imageUrl={post.image} />}
         </div >
     );
 }
