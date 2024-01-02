@@ -55,13 +55,13 @@ const ProjectClientComponent = ({ projectPromise }: { projectPromise: any }) => 
             {project &&
                 <ul className="flex flex-col gap-2 justify-start items-start">
                     {project.links.map(link => (
-                        <li key={"li" + link}>
+                        <li key={"li" + link} className="md:ml-4">
                             <ProjectLink link={link} key={link} />
                         </li>
                     ))}
                 </ul>
             }
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 mt-4">
                 <ArticleBody text={project ? project.body : undefined} />
             </div>
             {/* this part is so bad, and I really can't be bothered to figure out how to fix it atm... I swear I will make it look good someday */}
