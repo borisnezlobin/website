@@ -12,7 +12,7 @@ const ProjectLink = ({ link }: { link: string }) => {
                 <p className="text-base font-bold cursor-pointer">
                     Related Article
                 </p>
-                <p className="link flex flex-row gap-2 justify-center items-center">
+                <p className="link md:ml-4 flex flex-row gap-2 justify-center items-center">
                     {link}
                     <ArrowRight className="" weight="bold" />
                 </p>
@@ -25,7 +25,7 @@ const ProjectLink = ({ link }: { link: string }) => {
             <p className="text-base font-bold cursor-pointer">
                 {host.slice(0, 1).toUpperCase() + host.slice(1)}
             </p>
-            <p className="link flex flex-row gap-2 justify-center items-center">
+            <p className="link md:ml-4 flex flex-row gap-2 justify-center items-center">
                 {link}
                 <ArrowSquareOut className="" weight="bold" />
             </p>
