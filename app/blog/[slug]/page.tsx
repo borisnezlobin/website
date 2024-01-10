@@ -25,7 +25,7 @@ export async function generateMetadata({ params }: { params: { slug: string }}) 
         title: `${post.title}`,
         info: (new Date()).toLocaleDateString(),
         subtitle: "Boris Nezlobin",
-        description: `${post.createdAt.toLocaleDateString} - ${post.description}`,
+        description: `${post.createdAt.toLocaleDateString()} - ${post.description}`,
     });
 }
 
