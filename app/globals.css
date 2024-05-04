@@ -3,147 +3,170 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+    --foreground-rgb: 0, 0, 0;
+    --background-start-rgb: 214, 219, 220;
+    --background-end-rgb: 255, 255, 255;
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+    :root {
+        --foreground-rgb: 255, 255, 255;
+        --background-start-rgb: 0, 0, 0;
+        --background-end-rgb: 0, 0, 0;
+    }
 }
 
 @font-face {
-  font-family: 'edo';
-  src: url('/edo.ttf');
- }
-
-body {
-  color: rgb(var(--foreground-rgb));
-  overflow-x: hidden;
-  @apply bg-dark dark:bg-light;
+    font-family: "charter";
+    src:
+        url("/charter_regular.woff2") format("woff2"),
+        url("/charter_bold.woff2") format("woff2"),
+        url("/chart_bold_italic.woff2") format("woff2"),
+        url("/charter_italic.woff2") format("woff2");
 }
 
-p, div, input, h1, h2, h3, h4, h5, h6, a {
-  outline: none;
-  @apply bg-light-background dark:bg-dark-background text-light dark:text-dark transition-all duration-300
+body {
+    color: rgb(var(--foreground-rgb));
+    overflow-x: hidden;
+    @apply bg-dark dark:bg-light;
+}
+
+p,
+div,
+input,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+a {
+    outline: none;
+    font-family: "charter";
+    @apply bg-light-background dark:bg-dark-background text-light dark:text-dark transition-all duration-300;
 }
 
 .header-link {
-  @apply hover:underline transition-all duration-300 font-bold;
-  @apply text-muted dark:text-muted-dark;
-  @apply group-hover:text-light dark:group-hover:text-dark;
-  @apply hover:text-light dark:hover:text-dark;
+    @apply hover:underline transition-all duration-300 font-bold;
+    @apply text-muted dark:text-muted-dark;
+    @apply group-hover:text-light dark:group-hover:text-dark;
+    @apply hover:text-light dark:hover:text-dark;
 }
 
 .link {
-  @apply hover:underline transition-all duration-300;
-  @apply text-light dark:text-dark;
-  @apply group-hover:text-primary dark:group-hover:text-primary-dark;
-  @apply hover:text-primary dark:hover:text-primary-dark;
+    @apply hover:underline transition-all duration-300;
+    @apply text-light dark:text-dark;
+    @apply group-hover:text-primary dark:group-hover:text-primary-dark;
+    @apply hover:text-primary dark:hover:text-primary-dark;
 }
 
-.edo{
-  font-family: 'edo';
+.edo {
+    font-family: "charter";
+    font-weight: bold;
 }
 
 article {
-  h1 {
-    @apply text-4xl font-bold border-b pb-2 mb-4;
-  }
+    line-height: 1.2rem;
 
-  h2 {
-    @apply text-3xl font-bold mb-4;
-  }
+    h1 {
+        @apply text-4xl font-bold border-b pb-2 mb-4;
+    }
 
-  h3 {
-    @apply text-2xl font-bold mb-4;
-  }
+    h2 {
+        @apply text-3xl font-bold mb-4;
+    }
 
-  h4 {
-    @apply text-xl font-bold mb-4;
-  }
+    h3 {
+        @apply text-2xl font-bold mb-4;
+    }
 
-  h5 {
-    @apply text-lg font-bold mb-4;
-  }
+    h4 {
+        @apply text-xl font-bold mb-4;
+    }
 
-  h6 {
-    @apply text-base font-bold mb-4;
-  }
+    h5 {
+        @apply text-lg font-bold mb-4;
+    }
 
-  h1:hover, h2:hover, h3:hover, h4:hover, h5:hover, h6:hover{
-    @apply border-b pb-2 cursor-pointer;
-  }
+    h6 {
+        @apply text-base font-bold mb-4;
+    }
 
-  p {
-    @apply text-lg mb-4;
-  }
-
-  ul {
-    @apply list-disc list-inside mb-4;
-  }
-
-  ol {
-    @apply list-decimal list-inside mb-4;
-  }
-
-  li {
-    @apply text-base mb-2;
-  }
-
-  a {
-    @apply hover:underline transition-all duration-300;
-    @apply text-teal-600 dark:text-teal-500;
-    @apply group-hover:text-teal-900 dark:group-hover:text-teal-300;
-  }
-
-  blockquote {
-    @apply border-l-4 border-neutral-400 dark:border-neutral-400 pl-4 mb-4;
+    /* h1:hover,
+    h2:hover,
+    h3:hover,
+    h4:hover,
+    h5:hover,
+    h6:hover {
+        @apply border-b pb-2 cursor-pointer;
+    } */
 
     p {
-      @apply text-neutral-500 dark:text-neutral-400 italic text-lg;
+        @apply text-lg mb-4;
     }
-  }
 
-  *:not(pre) > code {
-    /* @apply bg-light-background dark:bg-dark-background text-light dark:text-dark; */
-    @apply px-2 py-1 rounded-lg;
-    @apply bg-[#e7e7e7] dark:bg-[#303030] border border-neutral-300 dark:border-neutral-600;
-    @apply duration-300 transition-all;
-  }
+    ul {
+        @apply list-disc list-inside mb-4;
+    }
 
-  pre {
-    @apply border border-neutral-300 dark:border-neutral-600 dark:bg-[#303030];
-    @apply p-4 rounded-lg text-base;
-    background-color: #e7e7e7;
-    overflow-x: auto;
-    transition: all 0.3s ease;
-  }
+    ol {
+        @apply list-decimal list-inside mb-4;
+    }
 
-  img {
-    @apply rounded-sm;
-  }
+    li {
+        @apply text-base mb-2;
+    }
 
-  hr {
-    @apply border-0 border-t-2 border-primary dark:border-primary-dark my-4;
-  }
+    a {
+        @apply hover:underline transition-all duration-300;
+        @apply text-teal-600 dark:text-teal-500;
+        @apply group-hover:text-teal-900 dark:group-hover:text-teal-300;
+    }
 
-  table {
-    @apply border-collapse border-2 border-primary dark:border-primary-dark;
-    @apply w-full;
-  }
+    blockquote {
+        @apply border-l-4 border-neutral-400 dark:border-neutral-400 pl-4 mb-4;
 
-  th {
-    @apply border-2 border-primary dark:border-primary-dark;
-    @apply px-2 py-1;
-  }
+        p {
+            @apply text-neutral-500 dark:text-neutral-400 italic text-lg;
+        }
+    }
 
-  td {
-    @apply border-2 border-primary dark:border-primary-dark;
-    @apply px-2 py-1;
-  }
+    *:not(pre) > code {
+        /* @apply bg-light-background dark:bg-dark-background text-light dark:text-dark; */
+        @apply px-2 py-1 rounded-lg;
+        @apply text-sm;
+        @apply bg-[#e7e7e7] dark:bg-[#303030] border border-neutral-300 dark:border-neutral-600;
+        @apply duration-300 transition-all;
+    }
+
+    pre {
+        @apply border border-neutral-300 dark:border-neutral-600 dark:bg-[#303030];
+        @apply p-4 rounded-lg text-sm;
+        background-color: #e7e7e7;
+        overflow-x: auto;
+        transition: all 0.3s ease;
+    }
+
+    img {
+        @apply rounded-sm;
+    }
+
+    hr {
+        @apply border-0 border-t-2 border-primary dark:border-primary-dark my-4;
+    }
+
+    table {
+        @apply border-collapse border-2 border-primary dark:border-primary-dark;
+        @apply w-full;
+    }
+
+    th {
+        @apply border-2 border-primary dark:border-primary-dark;
+        @apply px-2 py-1;
+    }
+
+    td {
+        @apply border-2 border-primary dark:border-primary-dark;
+        @apply px-2 py-1;
+    }
 }
