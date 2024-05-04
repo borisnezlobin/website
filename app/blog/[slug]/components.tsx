@@ -231,6 +231,7 @@ export const ArticleWithAsync = ({
         // @ts-ignore
         <LinkButton
           className="mt-6 mb-16"
+          // @ts-ignore
           href={`/blog/tag/${post.tags[0].slug}`}
         >
           View all

@@ -1,6 +1,6 @@
 import "./globals.css";
 import Providers from "./_contexts/providers";
-import { BASE_METADATA } from "./lib/metadata";
+import getMetadata from "./lib/metadata";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
 import "./light.css";
@@ -8,7 +8,7 @@ import "./dark.css";
 import Script from "next/script";
 import Footer from "./components/footer";
 
-export const metadata = BASE_METADATA;
+export const metadata = getMetadata({});
 // {
 //   title: 'Boris Nezlobin',
 //   description:
