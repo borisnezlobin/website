@@ -1,0 +1,19 @@
+MB Type: Quick Start Instructions
+
+The process of getting WOFF2 fonts onto your website varies depending on how you're publishing your site.
+
+Roughly, however:
+
+1) Each HTML page needs to load a CSS file that contains `@font-face` declarations for each style of the font that you want to use. The text of the HTML page needs to be annotated with formatting tags that invoke the font.
+
+2) Each `@font-face` declaration needs to map a distinct combination of attributes — `font-family` (= the name of the family), `font-weight` (= regular or bold weight) and `font-style` (= roman or italic) — to a specific WOFF2 file on disk.
+
+THE GOLDEN RULE: The regular, italic, bold, and bold italic styles of a family should all be declared with the same `font-family` name in the respective `@font-face` declarations, so that the web browser understands them as related styles of a single family.
+
+3) The WOFF2 files need to be at the locations specified by the `@font-face` declarations.
+
+There's more than one way to do this. But each subdirectory here contains a "sample.css" and "sample.html" file that shows a simple working example.
+
+For more details on how to use the fonts, see the FAQ at https://mbtype.com/faq
+
+This font was not designed by me. The license is in the top level of this zip archive. I can't offer technical support for this font.

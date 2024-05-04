@@ -1,0 +1,11 @@
+MB Type: Quick Start Instructions
+
+Open one of the adjacent subdirectories to reveal the font files, which all have the .ttf file extension.
+
+Option 1: Select the fonts you want to install. Right-click the fonts and select `Install` from the popup menu.
+
+Option 2: Go to the `Start` menu and open `Control Panel > Appearance and Personalization > Fonts`. Drag the fonts into this folder.
+
+For more details on how to use the fonts, see the FAQ at https://mbtype.com/faq
+
+This font was not designed by me. The license is in the top level of this zip archive. I can't offer technical support for this font.
