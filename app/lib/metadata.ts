@@ -19,7 +19,7 @@ const getMetadata = ({
     `${CONFIG.API_URL}/og?title=${title || ""}&info=${info || ""}&subtitle=${subtitle || ""}`;
 
   return {
-    title: title + " / Boris Nezlobin",
+    title: title ? title + " / Boris Nezlobin" : "Boris Nezlobin",
     description: description,
     metadataBase: new URL(CONFIG.API_URL),
     robots: {
