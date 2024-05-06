@@ -1,4 +1,5 @@
 import { Separator } from "@/components/separator";
+import { SocialLinks } from "@/components/social-links";
 import {
   TextAlignCenter,
   Atom,
@@ -38,10 +39,12 @@ const LinkWithIcon = ({
 
 const Footer = () => {
   return (
-    <footer className="w-full mt-4 flex flex-wrap pl-8 justify-start items-center py-12 border-t gap-8 border-muted dark:border-muted-dark">
+    <footer className="w-full mt-4 flex flex-wrap md:pl-8 mb-12 md:mb-0 justify-start items-center py-12 border-t gap-8 border-muted dark:border-muted-dark">
       <section>
-        <p className="text-muted dark:text-muted-dark mb-2">Quick links</p>
-        <ul className="flex flex-row gap-2 justify-start items-start">
+        <p className="pl-8 md:pl-0 text-muted dark:text-muted-dark mb-2">
+          Quick links
+        </p>
+        <ul className="pl-8 md:pl-0 flex flex-row gap-2 justify-start items-start">
           <li>
             <LinkWithIcon title="Home" href="/" Icon={House}>
               Home
@@ -68,9 +71,9 @@ const Footer = () => {
 
       <Separator size="xlarge" className="hidden md:flex" />
 
-      <section>
+      <section className="pl-8 md:pl-0 ">
         <p className="text-muted dark:text-muted-dark mb-2">Contact Me</p>
-        <ul className="flex flex-row gap-2 justify-start items-start">
+        {/* <ul className="flex flex-row gap-2 justify-start items-start">
           <li>
             <LinkWithIcon
               href="https://github.com/borisnezlobin"
@@ -92,7 +95,10 @@ const Footer = () => {
               title="X (formerly Twitter)"
             />
           </li>
-        </ul>
+        </ul> */}
+        <div className="flex flex-row gap-2 justify-start items-start">
+          <SocialLinks />
+        </div>
       </section>
 
       <p className="w-full text-muted dark:text-muted-dark text-center mt-8">

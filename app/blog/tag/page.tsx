@@ -5,7 +5,7 @@ import Link from "next/link";
 import { IconButton, LinkButton } from "@/components/buttons";
 import { Separator } from "@/components/separator";
 import getMetadata from "@/app/lib/metadata";
-import BlogListItem from "../components/blog-list-items";
+import BlogListItem from "../components/blog-list-item";
 
 export const metadata: Metadata = getMetadata({
   title: "Explore All Articles",

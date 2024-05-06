@@ -12,7 +12,7 @@ import { useEffect, useState } from "react";
 import { Article } from "@prisma/client";
 import ArticleBody from "@/app/components/article-body";
 import { DateAndLikes } from "../components/date-and-likes";
-import BlogListItem from "../components/blog-list-items";
+import BlogListItem from "../components/blog-list-item";
 import LoadingEffect from "@/app/components/loading-or-content";
 import EmptyPost from "@/app/utils/empty-post";
 
