@@ -4,7 +4,7 @@ import Link from "next/link";
 
 export default function Home() {
   return (
-    <main className="p-4">
+    <main className="p-4 pt-8">
       <h1 className="text-6xl font-bold text-left dark:text-dark edo">
         Boris Nezlobin
       </h1>
@@ -16,9 +16,11 @@ export default function Home() {
         I work on and show who I am to people who are interested. I also use it
         as a playground and a way to learn NextJS!
       </p>
-      <LinkButton href="/blog" className="mt-4">Check out my blog</LinkButton>
+      <LinkButton href="/blog" className="mt-4">
+        Check out my blog
+      </LinkButton>
 
       {/* <DynamicBackground width={1000} height={1000} boxSize={50} /> */}
     </main>
-  )
+  );
 }
