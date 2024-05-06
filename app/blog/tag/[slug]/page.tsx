@@ -4,7 +4,7 @@ import ArticleSquareCard from "../../components/article-square-card";
 import { LinkButton } from "@/components/buttons";
 import getMetadata from "@/app/lib/metadata";
 import CONFIG from "@/app/lib/config";
-import BlogListItem from "../../components/blog-list-items";
+import BlogListItem from "../../components/blog-list-item";
 
 export async function generateMetadata({
   params,
@@ -51,7 +51,7 @@ const TagPage = async ({ params }: { params: { slug: string } }) => {
     <div className="min-h-screen w-full p-8 text-light-foreground dark:text-dark-foreground">
       <div className="flex flex-col md:flex-row justify-between items-center mx-auto max-w-7xl gap-3 md:gap-0">
         <h1 className="text-5xl edo">{tag.name}</h1>
-        <p className="text-muted dark:text-muted-dark text-lg">
+        <p className="text-muted dark:text-muted-dark text-lg mb-4 md:m-0">
           {tag.articles.length} article{tag.articles.length == 1 ? "" : "s"}
         </p>
       </div>
