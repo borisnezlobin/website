@@ -47,6 +47,7 @@ const BlogList = ({
         // @ts-ignore
         <BlogListItem
           post={post}
+          // @ts-ignore
           tags={post.tags ? post.tags : []}
           key={post.id}
         />
