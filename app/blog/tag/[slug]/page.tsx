@@ -18,7 +18,7 @@ export async function generateMetadata({
 
   if (tag == null) {
     return getMetadata({
-      title: "Unkown tag / Boris Nezlobin",
+      title: "Unkown tag / Blog",
       description:
         "This tag could not be found.\nVisit my website to contact me, see what I'm up to, and learn more about me!",
     });
