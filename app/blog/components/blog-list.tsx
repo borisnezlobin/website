@@ -92,7 +92,7 @@ const BlogList = ({
         </Link>
       </p>
       <center className="w-full my-8 mb-12">
-        <p>"{quotes[index].text}"</p>
+        <p>&quot;{quotes[index].text}&quot;</p>
         <p className="text-muted dark:text-muted-dark">— {quotes[index].source}</p>
       </center>
       {articles.map((post) => (
