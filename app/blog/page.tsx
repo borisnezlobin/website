@@ -7,9 +7,8 @@ import getMetadata from "../lib/metadata";
 import { seedTags } from "./components/idontlikevercelbuilds";
 
 export const metadata: Metadata = getMetadata({
-    title: "Blog",
-    info: "@Rand0mLetterz on Twitter",
-    description: "Read my blog posts about software engineering, web development, and more!",
+    title: "My Blog",
+    description: "Read my blog posts about software engineering, everyday life, and more!",
 });
 
 

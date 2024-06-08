@@ -9,17 +9,24 @@ import GithubStars from "./github-stars";
 import TagList from "@/app/blog/tag/tag-list";
 import { ProjectLink } from "../components";
 import ArticleBody from "@/app/components/article-body"
+import NotFoundPage from "@/app/components/not-found-page";
 
-const ProjectClientComponent = ({ projectPromise }: { projectPromise: any }) => {
+const ProjectClientComponent = ({ projectPromise }: { projectPromise: Promise<any> }) => {
     const [project, setProject] = useState<Project | null>(null);
+    const [loading, setLoading] = useState<boolean>(true);
 
     useEffect(() => {
-        projectPromise.then(setProject);
+        projectPromise.then((e) => {
+            setProject(e);
+            setLoading(false);
+        });
     }, []);
 
-    const loading = !project;
-    const githubRepo = project ? (project.github ? project.github.split("/") : []) : [];
+    if (!project && !loading) {
+        return <NotFoundPage title="Project not found" />;
+    }
 
+    const githubRepo = project ? (project.github ? project.github.split("/") : []) : [];
 
     return (
         <div className="flex flex-col gap-4 p-8">

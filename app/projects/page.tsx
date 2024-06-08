@@ -5,6 +5,12 @@ import { Project } from "@prisma/client";
 import ProjectListItem from "./project-list-item";
 import Link from "next/link";
 import { seedTags } from "../blog/components/idontlikevercelbuilds";
+import getMetadata from "../lib/metadata";
+
+export const metadata = getMetadata({
+  title: "My Projects",
+  description: "Check out the projects I've worked on and read my writeups about each.",
+})
 
 export default async function ProjectsPage() {
   const projects = await db.project.findMany({
