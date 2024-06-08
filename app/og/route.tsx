@@ -19,7 +19,7 @@ export async function GET(request: NextRequest) {
                         {params.get("title") || "Boris Nezlobin"}
                     </p>
                     <p tw='text-3xl text-[#707070]'>
-                        {subtitle}{subtitle ? " / " : ""}Boris Nezlobin
+                        {subtitle}{subtitle ? " / " : ""}{params.get("title") ? "Boris Nezlobin" : ""}
                     </p>
                 </div>
             </div>

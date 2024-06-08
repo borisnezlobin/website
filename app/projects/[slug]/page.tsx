@@ -1,6 +1,33 @@
 import NotFoundPage from "@/app/components/not-found-page";
 import db from "@/app/lib/db";
 import ProjectClientComponent from "./client-component";
+import getMetadata from "@/app/lib/metadata";
+
+export async function generateMetadata({
+    params,
+  }: {
+    params: { slug: string };
+  }) {
+    const proj = await db.project.findUnique({
+      where: { slug: params.slug },
+    });
+  
+    if (!proj) {
+      return getMetadata({
+        title: "Project not found",
+        info: "404",
+        description:
+          "This project couldn't be found.\nVisit my website to contact me, see what I'm up to, and learn more about me!",
+      });
+    }
+  
+    return getMetadata({
+      title: `${proj.title}`,
+      info: `${proj.likes} Like${proj.likes == 1 ? "" : "s"}`,
+      subtitle: "Boris Nezlobin",
+      description: `${proj.description}`,
+    });
+  }
 
 async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
     console.log("Rendering project page for slug: " + slug);
@@ -12,11 +39,6 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
             tags: true
         }
     });
-
-    if (!project) {
-        return <NotFoundPage title="Project not found" />;
-    }
-
 
     return (
         <ProjectClientComponent projectPromise={project} />
