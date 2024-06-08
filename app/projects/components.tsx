@@ -8,28 +8,28 @@ const ProjectLink = ({ link }: { link: string }) => {
     if(link.includes(window.location.hostname)){
 
         return (
-            <Link href={link} className="group" aria-label="Related Article">
-                <p className="text-base font-bold cursor-pointer">
+            <div>
+                <p className="text-base font-bold">
                     Related Article
                 </p>
-                <p className="link md:ml-4 flex flex-row gap-2 justify-center items-center">
+                <Link aria-label="Related Article" href={link} className="link md:ml-4 flex flex-row gap-2 justify-center items-center">
                     {link}
                     <ArrowRight className="" weight="bold" />
-                </p>
-            </Link>
+                </Link>
+            </div>
         );
     }
 
     return (
-        <Link className="group" href={link} aria-label={host} target="_blank">
-            <p className="text-base font-bold cursor-pointer">
+        <div >
+            <p className="text-base font-bold">
                 {host.slice(0, 1).toUpperCase() + host.slice(1)}
             </p>
-            <p className="link md:ml-4 flex flex-row gap-2 justify-center items-center">
+            <Link aria-label={host} href={link} target="_blank" className="link md:ml-4 flex flex-row gap-2 justify-center items-center">
                 {link}
                 <ArrowSquareOut className="" weight="bold" />
-            </p>
-        </Link>
+            </Link>
+        </div>
     );
 }
 

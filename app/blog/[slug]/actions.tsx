@@ -27,7 +27,6 @@ async function searchPosts(query: string){
     });
 
     console.log("Found", posts.length, "posts");
-    console.log(posts);
     return posts;
 }
 

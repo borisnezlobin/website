@@ -15,6 +15,7 @@ import { DateAndLikes } from "../components/date-and-likes";
 import BlogListItem from "../components/blog-list-item";
 import LoadingEffect from "@/app/components/loading-or-content";
 import EmptyPost from "@/app/utils/empty-post";
+import NotFoundPage from "@/app/components/not-found-page";
 
 const LikeButton = ({ slug }: { slug: string }) => {
   const [liked, setLiked] = useState(false);
@@ -120,15 +121,15 @@ export const ArticleWithAsync = ({
   postPromise: any;
   similarPostsPromise: any;
 }) => {
-  console.log(postPromise);
   const [post, setPost] = useState<Article | null>(null);
+  const [loading, setLoading] = useState<boolean>(true);
   const [similarPosts, setSimilarPosts] = useState<Article[]>([]);
 
   useEffect(() => {
     if (!post) {
       postPromise.then((p: Article) => {
-        console.log(p);
         setPost(p);
+        setLoading(false);
         // searchPosts(post.tags[0].name).then((posts) => {
         //     setSimilarPosts(posts);
         // });
@@ -141,7 +142,9 @@ export const ArticleWithAsync = ({
     }
   }, []);
 
-  const loading = !post;
+  if(!post && !loading){
+    return <NotFoundPage title="Blog post not found" />
+  }
 
   const containerClass =
     "bg-light-background/30 dark:bg-dark-background/30 gap-3 rounded-lg backdrop-blur-lg ";
