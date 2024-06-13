@@ -23,8 +23,7 @@ export async function generateMetadata({
   
     return getMetadata({
       title: `${proj.title}`,
-      info: `${proj.likes} Like${proj.likes == 1 ? "" : "s"}`,
-      subtitle: "Boris Nezlobin",
+      info: proj.likes > 0 ? `${proj.likes} Like${proj.likes == 1 ? "" : "s"}` : "",
       description: `${proj.description}`,
     });
   }
