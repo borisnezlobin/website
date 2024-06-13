@@ -33,8 +33,7 @@ export async function generateMetadata({
 
   return getMetadata({
     title: `${post.title}`,
-    info: new Date().toLocaleDateString(),
-    subtitle: "Boris Nezlobin",
+    info: post.likes > 0 ? `${post.likes} Like${post.likes == 1 ? "" : "s"}` : "",
     description: `${post.createdAt.toLocaleDateString()} - ${post.description}`,
   });
 }
