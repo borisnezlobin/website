@@ -16,7 +16,7 @@ export default function Home() {
           <Link href={"/contact"} className="link">Contact.</Link>
         </div>
       </div>
-      <div className="h-screen w-full flex flex-col justify-center items-start p-4">
+      <div className="h-screen items-center w-full flex flex-col justify-center p-4">
         <p className="text-2xl">Hi, I&apos;m</p>
         <h1 className="text-7xl font-bold text-left dark:text-dark edo">
           Boris Nezlobin.
