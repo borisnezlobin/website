@@ -71,9 +71,11 @@ const SocialLinksBubble = () => {
   };
 
   return (
-    <div className="fixed bottom-4 z-10 right-4 flex flex-row items-center justify-center gap-4 border border-muted dark:border-muted-dark p-2 px-6 rounded-full shadow-lg bg-light-background dark:bg-dark-background">
-      <SocialLinks />
-      <Separator vertical={false} />
+    <div className="fixed flex bottom-4 z-10 right-4 flex-row items-center justify-center gap-4 border border-muted dark:border-muted-dark p-4 md:p-2 md:px-6 rounded-full shadow-lg bg-light-background dark:bg-dark-background">
+      <span className="hidden md:flex flex-row justify-center items-center gap-4">
+        <SocialLinks />
+      </span>
+      <Separator vertical={false} className="hidden md:block" />
       <button
         className="w-6 h-6 text-gray-500 transition duration-100 hover:text-primary dark:hover:text-primary"
         onClick={toggleTheme}
