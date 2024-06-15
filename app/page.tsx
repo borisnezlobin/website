@@ -2,8 +2,10 @@
 import { ArrowFatLineDown } from "@phosphor-icons/react/dist/ssr";
 import { LinkButton } from "components/buttons";
 import Link from "next/link";
-import { ScrollForMore } from "./components/scroll-for-more";
+import { ScrollForMore } from "./components/landing/scroll-for-more";
 import Image from "next/image";
+import { Age } from "./components/landing/age";
+import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 // import DynamicBackground from "./components/background";
 
 export default function Home() {
@@ -17,28 +19,32 @@ export default function Home() {
         </div>
       </div>
       <div className="h-screen items-center w-full flex flex-col justify-center p-4">
-        <p className="text-2xl">Hi, I&apos;m</p>
-        <h1 className="text-7xl font-bold text-left dark:text-dark edo">
+        <p className="text-base md:text-2xl">Hi, I&apos;m</p>
+        <h1 className="text-3xl font-bold dark:text-dark edo text-center md:text-7xl">
           Boris Nezlobin.
         </h1>
       </div>
       <ScrollForMore />
       <div className="p-4">
-        <h2 className="text-4xl mt-12 font-bold text-left dark:text-dark">
-          Welcome!
+        <h2 className="text-xl sm:text-4xl mt-12 font-bold text-left dark:text-dark">
+          <Age />
         </h2>
-        <div className="w-full flex flex-col md:flex-row justify-center items-center">
+        <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4">
           <p className="dark:text-dark text-left w-full">
-            This is a little website I made for myself, where I can post cool stuff
-            I work on and show who I am to people who are interested. I also use it
-            as a playground and a way to learn NextJS! I don&apos;t write too often, but from time to time I love using it to procrastinate. Most articles on this website are either placeholders or written while under high stress from other work.<br />
-            <LinkButton href="/blog" className="mt-4">
-              Check out my blog
-            </LinkButton>
+            I&apos;m an 11th grader at Palo Alto High School writing code for fun.
+            My favorite technologies to work with are T3, Electron, React Native, and Unity.
+            Read on to see my skills, or check out <Link className="link underline" href="/blog">my blog</Link>,{" "}
+            <Link className="link underline" href="/resume">resume</Link>, or <Link className="link underline" href="/projects">projects I've worked on</Link>.<br />
+            <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4">
+              <LinkButton href="/blog" className="">
+                Check out my blog
+              </LinkButton>
+              <Link className="hidden md:flex link underline flex-row justify-center items-center gap-1" href="/resume">
+                Resume
+                <ArrowRight />
+              </Link>
+            </span>
           </p>
-          <div className="relative w-full h-64">
-            <Image src={"/website.svg"} alt="Welcome to my website" fill />
-          </div>
         </div>
       </div>
     </main>
