@@ -34,7 +34,7 @@ export default function Home() {
             I&apos;m an 11th grader at Palo Alto High School writing code for fun.
             My favorite technologies to work with are T3, Electron, React Native, and Unity.
             Read on to see my skills, or check out <Link className="link underline" href="/blog">my blog</Link>,{" "}
-            <Link className="link underline" href="/resume">resume</Link>, or <Link className="link underline" href="/projects">projects I've worked on</Link>.<br />
+            <Link className="link underline" href="/resume">resume</Link>, or <Link className="link underline" href="/projects">projects I&apos;ve worked on</Link>.<br />
             <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4">
               <LinkButton href="/blog" className="">
                 Check out my blog
