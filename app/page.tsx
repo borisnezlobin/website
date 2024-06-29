@@ -10,7 +10,7 @@ import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 export default function Home() {
   return (
-    <main className="flex flex-col justify-center items-start mb-[30dvh] p-4 md:p-0">
+    <main className="flex flex-col justify-center items-start mb-[30dvh] p-4 lg:p-0">
       <div className="w-full fixed z-10 top-0 left-0 p-4">
         <div className="flex flex-row justify-around w-full sm:w-1/2 items-center">
           <Link href={"/blog"} className="link">Blog.</Link>
