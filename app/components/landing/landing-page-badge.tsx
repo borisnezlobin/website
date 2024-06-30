@@ -16,8 +16,8 @@ const LandingPageBadge = ({
         <div ref={ref} className={`
             p-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-2 rounded-lg border dark:border-neutral-800
             ${url ? "cursor-pointer hover:scale-105" : ""}
-            ${isVisible ? "animate-[animate-in_300ms_ease-in-out]" : "translate-y-5 opacity-0"}
-            ${className}
+            ${isVisible ? "translate-y-0" : "translate-y-10"}
+            ${className ? className : ""}
         `}>
             <b className="text-xl">
                 {title}

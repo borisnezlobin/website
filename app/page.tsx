@@ -52,7 +52,7 @@ export default function Home() {
           <Link href={"/contact"} className="link">Contact.</Link>
         </div>
       </div>
-      <div className="h-screen items-center w-full flex flex-col justify-center p-4">
+      <div className="h-[100vh] items-center w-full flex flex-col justify-center p-4">
         <p className="text-base md:text-2xl">Hi, I&apos;m</p>
         <h1 className="text-3xl font-bold dark:text-dark edo text-center md:text-7xl">
           Boris Nezlobin.

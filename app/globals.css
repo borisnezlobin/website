@@ -174,14 +174,7 @@ article {
 }
 
 
-@keyframes animate-in {
-    from {
-        transform: translateY(1.25rem) scale(1.05);
-        opacity: 0;
-    }
-
-    to {
-        transform: translateY(0) scale(1);
-        opacity: 1;
-    }
+.pill {
+    transition-property: all, opacity, transform;
+    transition-duration: 300ms, 700ms, 700ms;
 }
