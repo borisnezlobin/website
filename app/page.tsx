@@ -8,21 +8,23 @@ import { LandingPageBadge } from "./components/landing/landing-page-badge";
 
 const skills = [
   { title: "TypeScript", description: "My go-to language for web projects" },
-  { title: "JavaScript", description: "Everyone knows JavaScript" },
   { title: "Java", description: "Used for robotics and AP CSA" },
-  { title: "Git", description: "Learned by contributing to open source" },
+  { title: "Team Management", description: "Software Lead for Kuriosity Robotics, '24-25" },
   { title: "C++", description: "Used for competitive programming (USACO)" },
   { title: "Python", description: "First language I learned" },
   { title: "C#", description: "Game dev in Unity" },
+  { title: "Rust", description: "Oh crab..." },
+  { title: "JavaScript", description: "Everyone knows JavaScript" },
+  { title: "Git", description: "Learned by contributing to open source" },
+  { title: "Docker", description: "I like whales" },
   { title: "React", description: "Used for OneShip's frontend" },
   { title: "React Native", description: "The only way I know how to make mobile apps" },
   { title: "NextJS", description: "Powering this website" },
-  { title: "Docker", description: "I like whales" },
-  { title: "Rust", description: "Oh crab..." },
   { title: "TailwindCSS", description: "text-center p-4 font-bold" },
   { title: "ElectronJS", description: "Used in Chemistry class (instead of paying attention)" },
+  { title: "Prisma + Postgres", description: "How else would I store my blogs?" },
   { title: "ExpressJS", description: "Always fun" },
-  { title: "IDEs", description: "VSCode, VS, CLion, IntelliJ, AS, and Zed are my favorites"}
+  { title: "IDEs", description: "VSCode, VS, CLion, IntelliJ, AS, and Zed are my favorites"},
 ];
 
 const projects = [
