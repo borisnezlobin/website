@@ -69,7 +69,7 @@ const BlogList = ({
       <h1 className="text-5xl edo">{title ? title : "Blog"}</h1>
       <p className="mt-1 text-muted dark:text-muted-dark">
         Read my blog posts about software engineering, web development, and
-        various thoughts that I put into article form! This is where I share much of what I do — projects, obsesrvations about modern society, and miscellaneous writings.
+        various thoughts that I put into article form! This is where I share much of what I do — projects, observations about modern society, and miscellaneous writings.
       </p>
       <SearchBar query={query} />
       <p className="mt-1 text-muted dark:text-muted-dark">
