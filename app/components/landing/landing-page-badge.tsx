@@ -1,17 +1,29 @@
+"use client";
+
+import { useIsVisible } from "@/app/utils/use-is-visible";
 import { Separator } from "@/components/separator";
 import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { useRef } from "react";
 
 const LandingPageBadge = ({
     title, description, url, className
 }: { title: string, description: string, url?: string, className?: string }) => {
+    const ref = useRef<HTMLDivElement>(null);
+    const isVisible = useIsVisible(ref);
+
     const component = (
-        <div className={`p-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-2 rounded-lg border dark:border-neutral-800 ${url ? "cursor-pointer hover:scale-105" : ""}`}>
+        <div ref={ref} className={`
+            p-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-2 rounded-lg border dark:border-neutral-800
+            ${url ? "cursor-pointer hover:scale-105" : ""}
+            ${isVisible ? "animate-[animate-in_300ms_ease-in-out]" : "translate-y-5 opacity-0"}
+            ${className}
+        `}>
             <b className="text-xl">
                 {title}
             </b>
-            <Separator size="medium" className="hidden md:block" />
-            <p className="">
+            <Separator size="medium" className="hidden md:block transition-colors duration-300" />
+            <p className="transition-colors duration-300">
                 {description}
             </p>
             {url && <ArrowSquareOut />}
