@@ -40,6 +40,8 @@ h3,
 h4,
 h5,
 h6,
+b,
+i,
 a {
     outline: none;
     font-family: "charter";
@@ -168,5 +170,18 @@ article {
     td {
         @apply border-2 border-primary dark:border-primary-dark;
         @apply px-2 py-1;
+    }
+}
+
+
+@keyframes animate-in {
+    from {
+        transform: translateY(1.25rem) scale(1.05);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0) scale(1);
+        opacity: 1;
     }
 }
