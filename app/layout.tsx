@@ -7,6 +7,7 @@ import "./light.css";
 import "./dark.css";
 import Script from "next/script";
 import Footer from "./components/footer";
+import Link from "next/link";
 
 export const metadata = getMetadata({});
 // {
@@ -31,7 +32,17 @@ export default function RootLayout({
         <Script src="https://unpkg.com/prismjs@v1.x/components/prism-core.min.js"></Script>
         <Script src="https://unpkg.com/prismjs@v1.x/plugins/autoloader/prism-autoloader.min.js"></Script>
         <Providers>
-          {children}
+          <div className="w-full fixed z-10 top-0 left-0 p-4">
+            <div className="flex flex-row justify-around w-full sm:w-1/2 items-center">
+              <Link href={"/"} className="link">Home.</Link>
+              <Link href={"/blog"} className="link">Blog.</Link>
+              <Link href={"/projects"} className="link">Projects.</Link>
+              <Link href={"/contact"} className="link hidden md:block">Contact.</Link>
+            </div>
+          </div>
+          <div className="w-full h-full pt-[3rem]">
+            {children}
+          </div>
           <Footer />
         </Providers>
       </body>

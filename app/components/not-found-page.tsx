@@ -17,15 +17,11 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
     "group-hover:text-primary transition duration-300 dark:group-hover:text-primary";
 
   return (
-    <div className="h-screen flex flex-col justify-center items-center text-light-foreground dark:text-dark-foreground">
+    <div className="h-screen relative top-[-3rem] flex flex-col justify-center items-center text-light-foreground dark:text-dark-foreground">
       <h1 className="text-8xl">404</h1>
       <p>{title}</p>
 
-      <div className="w-1/2 h-px bg-muted dark:bg-muted-dark my-4" />
-      {/* <SocialLinksBubble /> */}
-      <p className="text-light dark:text-dark">
-        Do you want to go to a page that exists?
-      </p>
+      <div className="w-full md:w-1/2 h-px bg-muted dark:bg-muted-dark my-4" />
       <div className="flex flex-row justify-between items-center gap-4 mt-4">
         <Link
           href="/"
@@ -54,7 +50,7 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
           <p className={"ml-2 " + linkClass}>Projects</p>
         </Link>
       </div>
-      <SecondaryButton aria-label="Back" onClick={router.back} className="mt-4">
+      <SecondaryButton aria-label="Back" onClick={router.back} className="mt-8">
         Go back
       </SecondaryButton>
       <SocialLinksBubble />

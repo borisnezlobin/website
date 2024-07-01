@@ -44,15 +44,8 @@ const contributions = [
 
 export default function Home() {
   return (
-    <main className="flex flex-col justify-center items-start mb-[30dvh] p-4 lg:p-0">
-      <div className="w-full fixed z-10 top-0 left-0 p-4">
-        <div className="flex flex-row justify-around w-full sm:w-1/2 items-center">
-          <Link href={"/blog"} className="link">Blog.</Link>
-          <Link href={"/projects"} className="link">Projects.</Link>
-          <Link href={"/contact"} className="link">Contact.</Link>
-        </div>
-      </div>
-      <div className="h-[100vh] items-center w-full flex flex-col justify-center p-4">
+    <main className="flex flex-col justify-center items-start mb-[30vh] p-4 lg:p-0">
+      <div className="h-[100vh] relative top-[-3rem] items-center w-full flex flex-col justify-center p-4">
         <p className="text-base md:text-2xl">Hi, I&apos;m</p>
         <h1 className="text-3xl font-bold dark:text-dark edo text-center md:text-7xl">
           Boris Nezlobin.
