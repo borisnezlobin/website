@@ -9,7 +9,7 @@ export const metadata = getMetadata({
 
 export default function Home() {
     return (
-        <main className="flex flex-col justify-center items-start mt-[3rem] gap-4 mb-[30dvh] p-4 lg:p-0">
+        <main className="flex flex-col justify-center items-start gap-4 mb-[30dvh] p-4 lg:p-0">
             <div className="w-full fixed z-10 top-0 left-0 p-4">
                 <div className="flex flex-row justify-around w-full sm:w-1/2 items-center">
                     <Link href={"/blog"} className="link">Blog.</Link>
