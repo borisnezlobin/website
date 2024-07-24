@@ -9,37 +9,41 @@ import { LandingPageBadge } from "./components/landing/landing-page-badge";
 const skills = [
   { title: "TypeScript", description: "My go-to language for web projects" },
   { title: "Java", description: "Used for robotics and AP CSA" },
-  { title: "Team Management", description: "Software Lead for Kuriosity Robotics, '24-25" },
   { title: "C++", description: "Used for competitive programming (USACO)" },
   { title: "Python", description: "First language I learned" },
   { title: "C#", description: "Game dev in Unity" },
   { title: "Rust", description: "Oh crab..." },
-  { title: "JavaScript", description: "Everyone knows JavaScript" },
+  { title: "JavaScript", description: "" },
+  { title: "HTML/CSS", description: "" },
   { title: "Git", description: "Learned by contributing to open source" },
-  { title: "Docker", description: "I like whales" },
+  { title: "Docker", description: "" },
+  { title: "Postman", description: "APIs never work on the first try" },
   { title: "React", description: "Used for OneShip's frontend" },
   { title: "React Native", description: "The only way I know how to make mobile apps" },
   { title: "NextJS", description: "Powering this website" },
   { title: "TailwindCSS", description: "text-center p-4 font-bold" },
-  { title: "ElectronJS", description: "Used in Chemistry class (instead of paying attention)" },
   { title: "Prisma + Postgres", description: "How else would I store my blogs?" },
-  { title: "ExpressJS", description: "Always fun" },
-  { title: "IDEs", description: "VSCode, VS, CLion, IntelliJ, AS, and Zed are my favorites"},
+  { title: "ElectronJS", description: "Easy desktop apps" },
+  { title: "ExpressJS", description: "" },
+  { title: "IDEs", description: "VSCode, CLion, IntelliJ, AS, and Zed are my favorites"},
+  { title: "Team Management", description: "Software Lead for Kuriosity Robotics, '24-25" },
 ];
 
 const projects = [
   { title: "OneShip", description: "A full-stack web and mobile application built for my school.", url: "https://paly.app" },
   { title: "Portfolio", description: "My very own website :) Designed and built from the ground up by me.", url: "https://bnezlobin.vercel.app" },
-  { title: "Run4U", description: "A work-in-progress, full stack, run generating application for the 2024 Congressional App Challenge" },
+  // { title: "Run4U", description: "A work-in-progress, full stack, run generating application for the 2024 Congressional App Challenge" },
   { title: "YAPA", description: "Yet Another (Electron) Pomodoro App (with nice UI). It has Discord RPC!", url: "https://github.com/borisnezlobin/pomodoro" },
   { title: "SpatOS", description: "WIP - Yikes! High schoolers trying to make spatial operating systems doesn't turn out well." },
-  { title: "UndoDB", description: "A small, no-SQL, in-memory, transaction-based database written in Java.", url: "https://github.com/borisnezlobin/undodb" }
+  { title: "UndoDB", description: "A small, no-SQL, in-memory, transaction-based database written in Java.", url: "https://github.com/borisnezlobin/undodb" },
+  { title: "L!m", description: "A Mozilla and Chrome RegEx-based time limit extension.", url: "https://github.com/borisnezlobin/lim" }
 ]
 
 const contributions = [
   { title: "TypeHero", description: "Profanity filter, DevEx, and UI", url: "https://typehero.dev" },
   { title: "Overlayed", description: "", url: "https://overlayed.dev" },
   { title: "helloSystem OS", description: "System apps", url: "https://hellosystem.github.io/docs/" },
+  { title: "ShadowFinder", description: "CLI Caching", url: "https://github.com/bellingcat/ShadowFinder" }
 ]
 
 export default function Home() {
@@ -86,7 +90,7 @@ export default function Home() {
       >
         <div className="w-full flex flex-wrap flex-row gap-4 mt-4">
           {projects.map((e, i) => 
-            <LandingPageBadge title={e.title} description={e.description} key={`project ${i}`} url={e.url} />
+            <LandingPageBadge titleClassName={"w-24"} title={e.title} description={e.description} key={`project ${i}`} url={e.url} />
           )}
         </div>
       </Section>
