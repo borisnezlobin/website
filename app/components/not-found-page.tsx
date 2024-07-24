@@ -9,6 +9,7 @@ import { SecondaryButton } from "@/components/buttons";
 import SocialLinksBubble from "@/components/social-links";
 import { Separator } from "@/components/separator";
 import { useRouter } from "next/navigation";
+import { Newspaper } from "@phosphor-icons/react";
 
 const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
   const router = useRouter();
@@ -37,7 +38,7 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
           aria-label="Blog"
           className="flex flex-row group text-gray-500 justify-center items-center"
         >
-          <TextAlignCenter className={"w-6 h-6 " + linkClass} />
+          <Newspaper className={"w-6 h-6 " + linkClass} />
           <p className={"ml-2 " + linkClass}>Blog</p>
         </Link>
         <Separator />
