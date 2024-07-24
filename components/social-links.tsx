@@ -32,7 +32,7 @@ const links = [
   {
     icon: LinkedinLogo,
     weight: "regular",
-    href: "https://www.linkedin.com/in/boris-nezlobin-3987a8242/",
+    href: "https://www.linkedin.com/in/boris-nezlobin",
     title: "If for some reason you want to hire me (I wouldn't be against it)",
     color: "hover:text-[#0077b5] dark:hover:text-[#0077b5]",
   },
