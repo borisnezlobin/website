@@ -20,13 +20,6 @@ const BlogPage = async () => {
         }
     });
 
-    const tags = await db.tag.findMany();
-
-    if(tags.length == 0){
-        await seedTags();
-        revalidatePath("/blog");
-    }
-
     if(posts.length == 0){
         await seedArticles();
         revalidatePath("/blog");
