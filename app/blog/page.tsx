@@ -41,6 +41,7 @@ const BlogPage = async () => {
 async function seedArticles() {
     console.log("Deleting all articles...");
     await db.article.deleteMany();
+    await seedTags();
     console.log("Seeding database...");
     await db.article.create({
         data: {
