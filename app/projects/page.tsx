@@ -6,7 +6,19 @@ import ProjectListItem from "./project-list-item";
 import Link from "next/link";
 import { seedTags } from "../blog/components/idontlikevercelbuilds";
 import getMetadata from "../lib/metadata";
-
+/*
+ReferenceError: window is not defined
+    at O (/var/task/.next/server/app/projects/[slug]/page.js:1:11042)
+    at nP (/var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:45321)
+    at nP (/var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:59120)
+    at n$ (/var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61978)
+    at nj (/var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64628)
+    at nP (/var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:56390)
+    at n$ (/var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:61978)
+    at nj (/var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64628)
+    at nO (/var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:64035)
+    at n$ (/var/task/node_modules/next/dist/compiled/next-server/app-page.runtime.prod.js:12:62224)
+*/
 export const metadata = getMetadata({
   title: "My Projects",
   description: "Check out the projects I've worked on and read my writeups about each.",

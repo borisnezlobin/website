@@ -5,8 +5,7 @@ import Link from "next/link";
 
 const ProjectLink = ({ link }: { link: string }) => {
     const host = link.split("/")[2].split(".")[0];
-    if(link.includes(window.location.hostname)){
-
+    if(typeof window !== "undefined" && link.includes(window.location.hostname)){
         return (
             <div>
                 <p className="text-base font-bold">
