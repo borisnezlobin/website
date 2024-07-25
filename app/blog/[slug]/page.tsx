@@ -14,7 +14,7 @@ import { LinkButton } from "@/components/buttons";
 import BlogListItem from "../components/blog-list-item";
 import { Article } from "@prisma/client";
 
-export async function getStaticParams() {
+export async function generateStaticParams() {
     const posts = await db.article.findMany({
         select: { slug: true },
     });
