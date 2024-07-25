@@ -24,7 +24,7 @@ export async function generateStaticParams() {
     return posts.map((post) => ({ params: { slug: post.slug } }));
 }
 
-export async function getDataForSlug(slug: string) {
+async function getDataForSlug(slug: string) {
     console.log("Getting blog post", slug);
     const blogPost = await db.article.findUnique({
         where: { slug },
