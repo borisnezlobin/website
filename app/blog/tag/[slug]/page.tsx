@@ -1,6 +1,5 @@
 import db from "@/app/lib/db";
 import NotFoundPage from "@/app/components/not-found-page";
-import ArticleSquareCard from "../../components/article-square-card";
 import { LinkButton } from "@/components/buttons";
 import getMetadata from "@/app/lib/metadata";
 import CONFIG from "@/app/lib/config";
@@ -32,6 +31,14 @@ export async function generateMetadata({
     info: "Blog",
     description: `Explore all articles tagged with ${tag.name}`,
   });
+}
+
+export async function generateStaticParams() {
+  const tags = await db.tag.findMany({
+    select: { slug: true },
+  });
+
+  return tags.map((tag) => ({ params: { slug: tag.slug } }));
 }
 
 const TagPage = async ({ params }: { params: { slug: string } }) => {
