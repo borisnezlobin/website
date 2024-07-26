@@ -11,7 +11,7 @@ def main():
     file_path = sys.argv[1]
     with open(file_path, 'r') as file:
         file_contents = file.read()
-    file_contents = file_contents.replace('\n', '\\n')
+    file_contents = file_contents.replace('\n', 'NEWLINE')
     pyperclip.copy(file_contents)
     print("File contents copied to clipboard")
 
