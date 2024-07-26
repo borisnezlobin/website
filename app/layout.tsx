@@ -1,10 +1,11 @@
-import "./globals.css";
+import "./styles/globals.css";
 import Providers from "./_contexts/providers";
 import getMetadata from "./lib/metadata";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";
-import "./light.css";
-import "./dark.css";
+import "./styles/light.css";
+import "./styles/dark.css";
+import "./styles/gist.css";
 import Script from "next/script";
 import Footer from "./components/footer";
 import Link from "next/link";
@@ -26,7 +27,7 @@ export default function RootLayout({
       <head>
         {/* <link href="prism.css" rel="stylesheet" /> */}
         {/* <link href="prism/dark.css" rel="stylesheet" /> */}
-        <link rel="stylesheet" href="https://github.githubassets.com/assets/gist-embed-16b9b5e1f8b5.css"></link>
+        {/* <link rel="stylesheet" href="https://github.githubassets.com/assets/gist-embed-16b9b5e1f8b5.css"></link> */}
       </head>
       <body suppressHydrationWarning>
         {/* <script src="/prism.js"></script> */}
