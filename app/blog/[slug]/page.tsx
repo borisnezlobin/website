@@ -117,6 +117,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                     <p className="text-muted dark:text-muted-dark">
                         {post.tags.map((tag) => tag.name).join(", ")}
                     </p>
+                    <ArticleBody body={post.body} />
                 </div>
             </div>
             {post && (
@@ -127,7 +128,6 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                     <TweetArticleButton />
                 </div>
             )}
-            <ArticleBody body={post.body} />
             <LinkButton
                 direction="left"
                 aria-label="Back to Blog"
