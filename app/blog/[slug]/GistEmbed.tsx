@@ -1,7 +1,8 @@
 "use server";
 
-export const GistEmbed = async ({ gistId, file }: { gistId: string, file?: string }) => {
+export const GistEmbed = async ({ gistId }: { gistId: string }) => {
     const url = `https://gist.github.com/${gistId}.js`;
+    console.log("Fetching gist", url);
 
     const js = await fetch(url).then((res) => res.text());
     // format is `document.write('{css}');\ndocument.write('{gist_html}');`
