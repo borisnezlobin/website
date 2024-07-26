@@ -94,14 +94,9 @@ article {
         @apply text-base font-bold mb-4;
     }
 
-    /* h1:hover,
-    h2:hover,
-    h3:hover,
-    h4:hover,
-    h5:hover,
-    h6:hover {
-        @apply border-b pb-2 cursor-pointer;
-    } */
+    h1, h2, h3, h4, h5, h6 {
+        @apply mt-8;
+    }
 
     p {
         @apply text-lg mb-4 leading-8;
@@ -129,7 +124,8 @@ article {
         @apply border-l-4 border-neutral-400 dark:border-neutral-400 pl-4 mb-4;
 
         p {
-            @apply text-neutral-500 dark:text-neutral-400 italic text-lg;
+            @apply text-neutral-500 dark:text-neutral-400 text-lg;
+            line-height: 2.3rem;
         }
     }
 
