@@ -120,7 +120,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                     </p>
                     <article>
                         <MDXRemote source={`
-                            ${post.body.replaceAll("\\n", "\n")}
+                            ${post.body.replaceAll("NEWLINE", "\n")}
                         `} components={{ GistEmbed }} />
                     </article>
                 </div>
