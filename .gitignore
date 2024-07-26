@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /.pnp
+/python/.venv
 .pnp.js
 .yarn/install-state.gz
 package-lock.json
