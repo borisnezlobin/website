@@ -90,7 +90,7 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
                 </ul>
             }
             <div className="flex flex-col gap-2 mt-4 self-center relative w-full">
-                <ArticleBody text={project ? project.body : undefined} />
+                <ArticleBody body={project.body} />
             </div>
             {/* this part is so bad, and I really can't be bothered to figure out how to fix it atm... I swear I will make it look good someday */}
             {/* {(project && project.images.length > 0) && (
