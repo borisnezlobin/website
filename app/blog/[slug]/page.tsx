@@ -8,9 +8,11 @@ import {
 } from "./components";
 import getMetadata from "@/app/lib/metadata";
 import { DateAndLikes } from "../components/date-and-likes";
-import ArticleBody from "@/app/components/article-body";
+// import ArticleBody from "@/app/components/article-body";
 import { LinkButton } from "@/components/buttons";
 import BlogListItem from "../components/blog-list-item";
+import { MDXRemote } from 'next-mdx-remote/rsc';
+import { GistEmbed } from "./GistEmbed";
 
 export async function generateStaticParams() {
     const posts = await db.article.findMany({
@@ -82,10 +84,11 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 export default async function SingleBlogPage({ params }: { params: { slug: string } }) {
     console.log("Rendering blog post", params.slug);
     const { post, similarPosts } = await getDataForSlug(params.slug);
+
     if (!post) {
         return <NotFoundPage title="Blog post not found" />;
     }
-
+    
     return (
         <div className="min-h-screen dark:bg-dark-background z-[1] w-full pt-[26rem] p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
             {post.image && <ArticleImageBg imageUrl={post.image} />}
@@ -115,7 +118,11 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                     <p className="text-muted dark:text-muted-dark">
                         {post.tags.map((tag) => tag.name).join(", ")}
                     </p>
-                    <ArticleBody text={post ? post.body : undefined} />
+                    <article>
+                        <MDXRemote source={`
+                            ${post.body.replaceAll("\\n", "\n")}
+                        `} components={{ GistEmbed }} />
+                    </article>
                 </div>
             </div>
             {post && (

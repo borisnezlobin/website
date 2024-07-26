@@ -26,6 +26,7 @@ export default function RootLayout({
       <head>
         {/* <link href="prism.css" rel="stylesheet" /> */}
         {/* <link href="prism/dark.css" rel="stylesheet" /> */}
+        <link rel="stylesheet" href="https://github.githubassets.com/assets/gist-embed-16b9b5e1f8b5.css"></link>
       </head>
       <body suppressHydrationWarning>
         {/* <script src="/prism.js"></script> */}

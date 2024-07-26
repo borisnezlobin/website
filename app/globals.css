@@ -157,16 +157,6 @@ article {
         @apply border-collapse border-2 border-primary dark:border-primary-dark;
         @apply w-full;
     }
-
-    th {
-        @apply border-2 border-primary dark:border-primary-dark;
-        @apply px-2 py-1;
-    }
-
-    td {
-        @apply border-2 border-primary dark:border-primary-dark;
-        @apply px-2 py-1;
-    }
 }
 
 
