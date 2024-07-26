@@ -8,6 +8,12 @@
     --background-end-rgb: 255, 255, 255;
 }
 
+body {
+    color: rgb(var(--foreground-rgb));
+    overflow-x: hidden;
+    @apply bg-light-background dark:bg-dark-background;
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         --foreground-rgb: 255, 255, 255;
@@ -23,12 +29,6 @@
         url("/charter_bold.woff2") format("woff2"),
         url("/chart_bold_italic.woff2") format("woff2"),
         url("/charter_italic.woff2") format("woff2");
-}
-
-body {
-    color: rgb(var(--foreground-rgb));
-    overflow-x: hidden;
-    @apply bg-dark dark:bg-light;
 }
 
 p,
