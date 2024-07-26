@@ -11,8 +11,7 @@ import { DateAndLikes } from "../components/date-and-likes";
 // import ArticleBody from "@/app/components/article-body";
 import { LinkButton } from "@/components/buttons";
 import BlogListItem from "../components/blog-list-item";
-import { MDXRemote } from 'next-mdx-remote/rsc';
-import { GistEmbed } from "./GistEmbed";
+import ArticleBody from "@/app/components/article-body";
 
 export async function generateStaticParams() {
     const posts = await db.article.findMany({
@@ -118,11 +117,6 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                     <p className="text-muted dark:text-muted-dark">
                         {post.tags.map((tag) => tag.name).join(", ")}
                     </p>
-                    <article>
-                        <MDXRemote source={`
-                            ${post.body.replaceAll("NEWLINE", "\n")}
-                        `} components={{ GistEmbed }} />
-                    </article>
                 </div>
             </div>
             {post && (
@@ -133,7 +127,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                     <TweetArticleButton />
                 </div>
             )}
-
+            <ArticleBody body={post.body} />
             <LinkButton
                 direction="left"
                 aria-label="Back to Blog"
