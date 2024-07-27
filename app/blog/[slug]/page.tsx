@@ -8,7 +8,6 @@ import {
 } from "./components";
 import getMetadata from "@/app/lib/metadata";
 import { DateAndLikes } from "../components/date-and-likes";
-// import ArticleBody from "@/app/components/article-body";
 import { LinkButton } from "@/components/buttons";
 import BlogListItem from "../components/blog-list-item";
 import ArticleBody from "@/app/components/article-body";
