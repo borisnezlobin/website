@@ -25,9 +25,12 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        {/* <link href="prism.css" rel="stylesheet" /> */}
-        {/* <link href="prism/dark.css" rel="stylesheet" /> */}
-        {/* <link rel="stylesheet" href="https://github.githubassets.com/assets/gist-embed-16b9b5e1f8b5.css"></link> */}
+      <link
+          rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"
+          integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc"
+          crossOrigin="anonymous"
+        />
       </head>
       <body suppressHydrationWarning>
         {/* <script src="/prism.js"></script> */}
