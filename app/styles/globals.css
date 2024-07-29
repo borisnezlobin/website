@@ -55,7 +55,7 @@ a {
     @apply hover:text-light dark:hover:text-dark;
 }
 
-.link {
+.link:not(:is(article .link)) {
     @apply hover:underline transition-all duration-300;
     @apply text-light dark:text-dark;
     @apply group-hover:text-primary dark:group-hover:text-primary-dark;
@@ -114,10 +114,11 @@ article {
         @apply text-base mb-2;
     }
 
-    a {
-        @apply hover:underline transition-all duration-300;
-        @apply text-teal-600 dark:text-teal-500;
-        @apply group-hover:text-teal-900 dark:group-hover:text-teal-300;
+    a, .link {
+        @apply underline transition-all duration-300;
+        @apply text-[#1d76ba] dark:text-[#4c9bf6];
+        @apply hover:text-[#142a3b] dark:hover:text-sky-600;
+        @apply font-semibold;
     }
 
     blockquote {
@@ -130,11 +131,11 @@ article {
     }
 
     *:not(pre) > code {
-        /* @apply bg-light-background dark:bg-dark-background text-light dark:text-dark; */
-        @apply px-2 py-1 rounded-lg;
-        @apply text-sm;
+        @apply px-2 py-1 rounded-lg mr-[0.1rem];
+        font-size: 0.875em;
         @apply bg-[#e7e7e7] dark:bg-[#303030] border border-neutral-300 dark:border-neutral-600;
         @apply duration-300 transition-all;
+        text-wrap: nowrap;
     }
 
     pre {

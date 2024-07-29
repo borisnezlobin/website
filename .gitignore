@@ -16,7 +16,7 @@ pnpm-lock.yaml
 /.next/
 /out/
 
-/app/blog/[slug]/a.mdx
+/app/blog/*/a.mdx
 
 # production
 /build
