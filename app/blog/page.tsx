@@ -27,7 +27,7 @@ const BlogPage = async () => {
 
 
     return (
-        <BlogList articles={posts} title="Blog" />
+        <BlogList articles={posts} title="My Blog" />
     );
 };
 

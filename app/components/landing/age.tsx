@@ -13,8 +13,9 @@ const Age = () => {
         }, 10)
     }, []);
 
+    const age = timeSince + (0.000000000031689 * msSince);
     return <>
-        {timeSince + (0.000000000031689 * msSince)}
+        <span className="text-primary dark:text-primary-dark">{Math.floor(age)}</span>.{(age % 1).toString().split(".")[1]}
     </>
 }
 

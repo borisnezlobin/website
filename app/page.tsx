@@ -63,8 +63,8 @@ export default function Home() {
         <p className="dark:text-dark text-left w-full">
           I&apos;m an 11th grader at Palo Alto High School writing code for fun.
           My favorite technologies to work with are T3, Electron, React Native, and Unity.
-          Read on to see my skills, or check out <Link className="link underline" href="/blog">my blog</Link>,{" "}
-          <Link className="link underline" href="/projects">projects I&apos;ve worked on</Link>.<br />
+          Read on to see my skills, or check out <Link className="link underline font-semibold" href="/blog">my blog</Link>,{" "}
+          <Link className="link underline font-semibold" href="/projects">projects I&apos;ve worked on</Link>.<br />
           <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4">
             <LinkButton href="/blog" className="">
               Check out my blog
@@ -73,7 +73,8 @@ export default function Home() {
         </p>
       </div>
       <Section
-        title="1.0 Skills"
+        id="1.0"
+        title="Skills"
         description=""
       >
         <div className="w-full flex flex-wrap flex-row gap-4">
@@ -81,7 +82,8 @@ export default function Home() {
         </div>
       </Section>
       <Section
-        title="2.0 Projects"
+        id="2.0"
+        title="Projects"
         description="My favorite projects. Check out /projects for writeups on each!"
       >
         <div className="w-full flex flex-wrap flex-row gap-4 mt-4">
