@@ -159,6 +159,28 @@ article {
         @apply border-collapse border-2 border-primary dark:border-primary-dark;
         @apply w-full;
     }
+
+    .footnote {
+        input:checked ~ span,
+        label:focus ~ span {
+            display: block;
+            pointer-events: auto;
+        }
+
+        input:not(:checked) ~ span,
+        label:focus ~ span {
+            display: none;
+        }
+        
+        /* This will ensure it is hidden if clicked outside */
+        body {
+            cursor: default;
+        }
+
+        label:focus {
+            outline: none;
+        }
+    }
 }
 
 .twitter-embed {
