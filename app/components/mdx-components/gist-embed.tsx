@@ -12,7 +12,8 @@ export const GistEmbed = async ({ gistId }: { gistId: string }) => {
         .replace(/\\\\/g, "\\")
         .replace(/\\'/g, "'")
         .replace(/\\"/g, '"')
-        .replace(/\\\//g, "/")
+        .replace(/\\`/g, "`")
+        .replace(/\\\//g, "/");
 
     return (
         <div className="gist-embed">
