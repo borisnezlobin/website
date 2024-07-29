@@ -157,6 +157,24 @@ article {
         @apply border-collapse border-2 border-primary dark:border-primary-dark;
         @apply w-full;
     }
+
+    .twitter-embed {
+        @apply w-full flex flex-row justify-center;
+
+        *:not(svg, g, path, span) {
+            @apply text-light dark:text-dark bg-light-background dark:bg-dark-background;
+            @apply transition-all duration-300;
+        }
+
+        span:hover {
+            @apply bg-transparent;
+        }
+
+        a {
+            color: #1d9bf0;
+            text-decoration: none;
+        }
+    }
 }
 
 
