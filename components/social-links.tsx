@@ -77,7 +77,7 @@ const SocialLinksBubble = () => {
       </span>
       <Separator vertical={false} className="hidden md:block" />
       <button
-        className="w-6 h-6 text-gray-500 transition duration-100 hover:text-primary dark:hover:text-primary"
+        className="w-6 h-6 text-gray-500 transition duration-100 hover:text-primary-dark dark:hover:text-primary-dark"
         onClick={toggleTheme}
         aria-label="Change theme"
       >
