@@ -3,6 +3,8 @@ import { GistEmbed } from "./mdx-components/gist-embed";
 import MathEmbed from "./mdx-components/math-embed";
 import Tweet from "./mdx-components/twitter-embed";
 import Footnote from "./mdx-components/footnote";
+import { AnchorHTMLAttributes } from "react";
+import Script from "next/script";
 import "../styles/light.css";
 import "../styles/dark.css";
 import "../styles/gist.css";
@@ -46,9 +48,6 @@ const ArticleBody = ({ body }: { body: string }) => {
         `} components={{ GistEmbed, MathEmbed, Tweet, Footnote, a: NewTabLink }} />
     </article>
 };
-
-import { AnchorHTMLAttributes } from "react";
-import Script from "next/script";
 
 const NewTabLink: React.FC<AnchorHTMLAttributes<HTMLAnchorElement>> = ({ href, children }) => {
     return <a href={href} target="_blank" rel="noopener noreferrer">{children}</a>;
