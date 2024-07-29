@@ -63,14 +63,22 @@ const BlogList = ({
 
   return (
     <div
-      className="min-h-screen w-full p-8 text-light-foreground dark:text-dark-foreground"
+      className="min-h-screen w-full p-8 pt-0 text-light-foreground dark:text-dark-foreground"
       suppressHydrationWarning
     >
-      <h1 className="text-5xl edo">{title ? title : "Blog"}</h1>
-      <p className="mt-1 text-muted dark:text-muted-dark">
+      <h1 className="text-5xl edo mt-8 mb-4">{title ? title : "My Blog"}</h1>
+      <center className="w-full my-8 mb-12">
+        <p>
+          <span className="text-xl font-bold mr-1 text-primary dark:text-primary-dark">&ldquo;</span>
+          {quotes[index].text}
+          <span className="text-xl font-bold text-primary dark:text-primary-dark">&rdquo;</span>
+        </p>
+        <p className="text-muted dark:text-muted-dark">— {quotes[index].source}</p>
+      </center>
+      {/* <p className="mt-1 text-muted dark:text-muted-dark">
         Read my blog posts about software engineering, web development, and
         various thoughts that I put into article form! This is where I share much of what I do — projects, observations about modern society, and miscellaneous writings.
-      </p>
+      </p> */}
       <SearchBar query={query} />
       <p className="mt-1 text-muted dark:text-muted-dark">
         {query && (
@@ -91,10 +99,6 @@ const BlogList = ({
           Explore all
         </Link>
       </p>
-      <center className="w-full my-8 mb-12">
-        <p>&quot;{quotes[index].text}&quot;</p>
-        <p className="text-muted dark:text-muted-dark">— {quotes[index].source}</p>
-      </center>
       {articles.map((post) => (
         // all my homies love
         // @ts-ignore

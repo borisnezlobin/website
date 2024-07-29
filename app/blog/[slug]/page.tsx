@@ -88,7 +88,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
     }
     
     return (
-        <div className="min-h-screen dark:bg-dark-background z-[1] w-full pt-[26rem] p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
+        <div className="min-h-screen dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
             {post.image && <ArticleImageBg imageUrl={post.image} />}
             <header
                 className={
