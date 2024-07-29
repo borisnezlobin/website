@@ -19,8 +19,9 @@ const config: Config = {
       },
       colors: {
         primary: {
-          DEFAULT: "#eaa520",
-          dark: "#a16207",
+          DEFAULT: "#cc2a26",
+          dark: "#e96457",
+          "light-bg": "#f99d8c",
         },
         muted: {
           DEFAULT: "#707070",
