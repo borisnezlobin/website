@@ -2929,4 +2929,11 @@ body .gist .gist-meta {
     .gist .pl-sr .pl-sra {
         color: #874f39;
     }
+
+    .gist .pl-smi,
+    .gist .pl-s .pl-s1,
+    .gist .pl-mb,
+    .gist .pl-mi {
+        color: #d55;
+    }
 }
