@@ -91,11 +91,12 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
         <div className="min-h-screen dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
             {post.image && <ArticleImageBg imageUrl={post.image} />}
             <header
-                className={
-                    "bg-light-background/30 dark:bg-dark-background/30 gap-3 rounded-lg backdrop-blur-lg z-[1] flex flex-col justify-start items-start md:items-center p-0 md:p-4"
-                }
+                className={`
+                    ${post.image ? "mt-[24rem] md:mt-0" : ""}
+                    bg-light-background/30 dark:bg-dark-background/30 gap-3 rounded-lg backdrop-blur-lg z-[1] flex flex-col justify-start items-start md:items-center p-0 md:p-4
+                `}
             >
-                <h1 className="text-5xl bg-transparent dark:bg-transparent edo">
+                <h1 className="text-3xl md:text-5xl bg-transparent dark:bg-transparent edo">
                     {post.title}
                 </h1>
                 <DateAndLikes
