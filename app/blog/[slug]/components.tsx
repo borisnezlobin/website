@@ -104,7 +104,7 @@ const SearchBar = ({ query }: { query?: string }) => {
 
 const ArticleImageBg = ({ imageUrl }: { imageUrl: string }) => {
   return (
-    <div className="absolute top-0 left-0 h-96 bg-transparent w-screen z-0">
+    <div className="absolute top-[3rem] left-0 h-96 bg-transparent w-screen z-0">
       <div className="md:absolute h-full inset-0 bg-transparent">
         <img src={imageUrl} className="w-full h-full object-cover" />
       </div>
