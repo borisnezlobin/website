@@ -78,6 +78,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         description: `${post.createdAt.toLocaleDateString()} - ${post.description}`,
     });
 }
+
 //  { post, similarPosts }: InferGetStaticPropsType<typeof getStaticProps>
 export default async function SingleBlogPage({ params }: { params: { slug: string } }) {
     console.log("Rendering blog post", params.slug);

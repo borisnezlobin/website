@@ -29,7 +29,7 @@ export default async function NotesPage() {
         <div className="min-h-screen dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
             <h1 className="text-4xl font-bold">Lecture Notes</h1>
             <p className="mt-4">
-                A collection of notes I've taken for various courses. Linear Algebra, AP Physics, and more.
+                A collection of notes I&apos;ve taken for various courses. Linear Algebra, AP Physics, and more.
             </p>
 
             <div className="mt-8">
