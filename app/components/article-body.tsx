@@ -21,15 +21,17 @@ const ArticleBody = ({ body }: { body: string }) => {
         formattedBody = formattedBody.replace(/\$\$([^$]+)\$\$/g, (_, match) => {
             let replaced = match.replaceAll("\n", ""); // THIS IS IMPORTANT (and silly) to stop the newlines from creating `p` tags
             replaced = replaced.replaceAll("\\", "\\\\");
-            replaced = replaced.replaceAll("{", "\\{");
+            replaced = replaced.replaceAll("{", "\\{").replaceAll("_", "\\_");
             return `<MathEmbed display={true}>${replaced}</MathEmbed>`;
         });
 
         formattedBody = formattedBody.replace(/\$([^$]+)\$/g, (_, match) => {
             let replaced = match.replaceAll("\\", "\\\\");
-            replaced = replaced.replaceAll("{", "\\{");
+            replaced = replaced.replaceAll("{", "\\{").replaceAll("_", "\\_");
             return `<MathEmbed>${replaced}</MathEmbed>`;
         });
+
+        console.log(formattedBody.split("\n")[17]);
 
         return formattedBody;
     }

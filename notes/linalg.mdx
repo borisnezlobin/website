@@ -2,18 +2,18 @@
 
 Linear algebra is the study of vectors and linear transformations. It is a fundamental part of mathematics and is used in many fields, including physics, computer science, and engineering. Linear algebra is used to solve systems of linear equations, analyze data, and study geometric objects such as lines, planes, and higher-dimensional spaces.
 
-Here are some resources that I found useful:
-[Practice problems](https://web.pdx.edu/~erdman/LINALG/Linalg_pdf.pdf)
+Here are some resources that I found useful (list in progress):
+1. [Practice problems](https://web.pdx.edu/~erdman/LINALG/Linalg_pdf.pdf)
 
 References:
-[Linear Algebra, An Introduction (2nd Edition)](https://mathematicalolympiads.wordpress.com/wp-content/uploads/2012/08/lineer-algebra2.pdf)
-[Essence of Linear Algebra, 3Blue1Brown](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
+1. [Linear Algebra, An Introduction (2nd Edition)](https://mathematicalolympiads.wordpress.com/wp-content/uploads/2012/08/lineer-algebra2.pdf)
+2. [Essence of Linear Algebra, 3Blue1Brown](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
 
 <hr />
 
 ## Vectors and Coordinate Spaces
 
-**Vector**
+**Vector**<br />
 Has a magnitude *and* direction. Something is moving at $5$mph is a magnitude (speed). Something moving East is a direction. $5$mph due East is a direction (velocity).
 
 $$
@@ -24,7 +24,7 @@ $$
   \end{array} } \right]
 $$
 
-**Real Coordinate Spaces**
+**Real Coordinate Spaces**<br />
 
 $\mathbb{R}^2$ is the 2d real coordinate space. Basically Cartesian coordinates, but not "visualized" like on a graph. Graph is just the way of visualizing the 2d real coordinate space. The 2d real coordinate space is the set of all real-valued **2-tuples** (like in Python!). More generally, $\mathbb{R}^n$ is the set of all real-valued $n$-tuples:
 
@@ -37,7 +37,7 @@ a_n
 \end{array}}\right]\in\mathbb{R}^n
 $$
 
-**Adding Vectors**
+**Adding Vectors**<br />
 
 For vectors with identical dimensions, just add the corresponding components:
 
@@ -47,7 +47,7 @@ $$
 
 If the dimensions are different, you can (if needed) extend the vector in the lower space by adding zeroes to its higher dimensions (like with polynomials — a quadratic will have a coefficient of $0$ on the $x^5$ term).
 
-**Multiplying by a Scalar**
+**Multiplying by a Scalar**<br />
 Multiplying vectors by a scalar is easy! Just multiply each component by the scalar.
 $$
 2\cdot \left[ \begin{array}{c}
@@ -61,10 +61,10 @@ $$
 6
 \end{array}\right]
 $$
-**Unit Vector**
+**Unit Vector**<br />
 A vector with a magnitude of $1$. To normalize vectors, divide each component by the magnitude ($\times \frac{1}{||\vec{v}||}$).
 
-**Basis Vectors**
+**Basis Vectors**<br />
 If you think of every components of a vector as scaling a unit vector, you could do something like (for example):
 $$
 \begin{align*}
@@ -82,7 +82,7 @@ $$
 \begin{bmatrix}a \\ b \\ c\end{bmatrix}\cdot \begin{bmatrix}d \\ e \\ f\end{bmatrix}=ad+be+cf
 $$
 
-**Dot Product Conclusions**
+**Dot Product Conclusions**<br />
 Perpendicular vectors have dot product $0$ because the length of the projection is $0$. We can use dot products to determine whether vectors are facing in generally the same direction (dot product $>0$), perpendicular (dot product $=0$), or different directions (dot product $< 0$).
 
 **Cross Product** — $\vec{v}\times\vec{w}$
@@ -111,10 +111,10 @@ $$
 And can be remembered with the following diagram:
 ![[Pasted image 20240608114805.png]]
 
-**Vectors in Polar Form**
+**Vectors in Polar Form**<br />
 2d vectors can be given as $(r,\theta)$ (like polar coordinates), giving a magnitude and a direction. From there, to add them, you would have to convert each vector into a Cartesian vector $(r\cos{\theta},r\sin{\theta})$ and add those.
 
-**Lines**
+**Lines**<br />
 Lines can be defined as the set of all vectors obtained by multiplying a vector $\vec{v}$ by a scalar $c\in\mathbb{R}$:
 $$
 S_\text{line}= \left\{ c\cdot\vec{v} \mid c \in \mathbb{R} \right\}.
@@ -125,26 +125,26 @@ L(t)=t\cdot\vec{v}+\vec{b} \text{ (where }t\in\mathbb{R}\text{)}
 $$
 Basically, we just shift $S_\text{line}$ by $\vec{b}$. Why do we do this? Don't we have $y=mx+b$? Well, with vector lines, we can define lines in any real coordinate space, not just $\mathbb{R}^2$. Now, with vectors, we can solve for equations of lines very simply.
 
-**Linear Combination**
+**Linear Combination**<br />
 It's... a linear combination. If you have some vectors $\vec{v_1}, \vec{v_2},...,\vec{v_n}$ in $\mathbb{R}^m$ (real space). A linear combination is some linear combination of these vectors, where each vector is scaled by a real constant:
 $$
 a_1\vec{v_1}+a_2\vec{v_2}+...+a_n\vec{v_n}
 $$
 
-**Span**
+**Span**<br />
 A **span** is defined as the set of all linear combinations of a set $S$ of vectors. For example, two linearly independent vectors span a plane ($\mathbb{R}^2$). The span of a set of collinear $2$-tuples is the line on which they are collinear. Notation:
 $$
 \text{span}(\left\{ \vec{\textbf{0}}\right\})= \left\{ (0,0) \right\}
 $$
 
-**Linear Dependence**
+**Linear Dependence**<br />
 A set that is **linearly dependent** is a set where a member vector can be represented as a linear combination of other vectors in the set (i.e., that vector doesn't add any new "dimensionality" to the set). A more formal definition: a set $S$ is linearly _dependent_ iff
 $$
 c_1\vec{v_1}+c_2\vec{v_2}+...+c_n\vec{v_n}=\vec{\textbf{0}}
 $$
 Where not all $c_1...c_n$ are zero.
 
-**Linear Subspaces**
+**Linear Subspaces**<br />
 A **subspace of $\mathbb{R}^n$** is some subset $V$ of $\mathbb{R}^n$ that satisfies the following properties:
 1. Identity: $\vec{\textbf{0}}\in V$.
 2. Closure under multiplication: $\left\{c\cdot\vec{x}\in V\; \forall\; c\in \mathbb{R},\,\vec{x}\in V\right\}$.
@@ -154,28 +154,28 @@ A **subspace of $\mathbb{R}^n$** is some subset $V$ of $\mathbb{R}^n$ that satis
 
 # Matrices and Transformations
 
-**Matrices**
+**Matrices**<br />
 Matrices are... arrays!
 
-**Matrix Equivalency**
+**Matrix Equivalency**<br />
 Two matrices $A$ and $B$ are equivalent if there exist two real numbers $n$ and $p$ such that the following conditions hold:
 1. $\text{(Number of rows of }A\text{)}=n=\text{(Number of rows of }B\text{)}$
 2. $\text{(Number of columns of }A\text{)}=p=\text{(Number of columns of }B\text{)}$
 3. Corresponding indices of $A$ and $B$ are equivalent.
 
-**Matrix Addition**
+**Matrix Addition**<br />
 Matrix addition is defined elementwise — add corresponding elements. Matrix addition is commutative ($A+B=B+A$) and associative ($(A+B)+C=A+(B+C)$). Undefined if the orders of $A$ and $B$ are not the same.
 
-**Zero Matrix**
+**Zero Matrix**<br />
 The unique zero matrix of order $p\times n$ is a matrix (of order $p\times n$) whose entries are all zero. It is denoted with $\textbf{0}_{p\times n}$. If $A$ and $\textbf{0}_{p\times n}$ have the same order, then $A+\textbf{0}_{p\times n}=A$.
 
-**Scalar Multiplication**
+**Scalar Multiplication**<br />
 For a matrix $A$ and real number $\lambda$, $\lambda A$ is defined by $(\lambda A)_{i, j}=\lambda A_{i,j}$.
 1. $\lambda(A+B)=\lambda A+\lambda B$.
 2. $(\lambda_1 + \lambda_2)A=\lambda_1A + \lambda_2 A$.
-3. $(\lambda_1\lambda_2)A=\lambda_1(\lambda_2A)$.
+3. $(\lambda_1 \lambda_2)A=\lambda_1 (\lambda_2A)$.
 
-**Matrix Multiplication**
+**Matrix Multiplication**<br />
 Let $p, r$ and $n$ be positive integers, $A$ be a matrix with order $p\times r$, and $B$ be a matrix with order $r\times n$. The **product matrix**, $AB$, is the $p\times n$ matrix $C[c_{i,j}]$ defined by
 $$
 c_{ij}=\sum_{k=1}^ra_{ik}b_{kj},
@@ -184,7 +184,7 @@ For $i=1,2,\dots,p$ and $j=1,2,\dots n$. This means that $c_{i,I}$ is obtained b
 
 Lemma: if $B$ and $C$ are matrices such that $BC$ is defined, then $\lambda(BC)=B(\lambda C)$.
 
-**Transpose**
+**Transpose**<br />
 The transpose of a $p\times n$ matrix $A$ is the $n\times p$ matrix $A^T$ such that
 $$
 (A^T)_{i,j}=A_{j,i}.
@@ -199,21 +199,21 @@ $$
 \end{align}
 $$
 
-**Raising a Matrix to a Power**
+**Raising a Matrix to a Power**<br />
 $A^n$ (for any positive integer $n$) is called a "positive integral power of $A$."
 $${\left(A^n\right)}^T={\left(A^T\right)}^n$$
 
-**Symmetry**
+**Symmetry**<br />
 A matrix is *symmetric* if $A^T=A$. This can be possible if and only if $A$ is square and $A_{ij}=A_{ji}$. So, the main diagonal can be anything, but the other elements must be symmetric.
 
-**Skew Symmetry**
+**Skew Symmetry**<br />
 A matrix $A$ is *skew symmetric* if $A^T=-A$. This is true if and only if $A$ is square and $A_{ij}=-A_{ji}$. A skew symmetric matrix must have all diagonal elements equal to $0$.
 
-**Diagonal Matrix**
+**Diagonal Matrix**<br />
 A diagonal matrix is a matrix with only zeroes as the nondiagonal elements.
 
-**Row Equivalence**
+**Row Equivalence**<br />
 Two matrices are row equivalent if once can be changed to the other by a sequence of elementary row operations.
 
-**Pivot**
+**Pivot**<br />
 If a matrix is in row-echelon form, then the first nonzero element of each row is called a **pivot**, and a column in which a pivot appears is called a **pivot column**. In a system of linear equations, the pivot columns represent **basic variables**. Non-basic variables (ones that are not in a pivot column) are called **free variables**. Free variables can take on *any* value (we are "free" to choose any value).
