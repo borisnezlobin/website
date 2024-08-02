@@ -1,0 +1,169 @@
+# Introduction
+
+These physics notes are entirely based on the Flipping Physics AP Physics C Mechanics playlist. I will be skipping some videos, but I will try to cover as much as possible.
+
+Also, please note that these are *not* complete — I have yet to take the class, so I will be updating these notes as I learn more. I will also be adding some extra notes from the textbook and other sources.
+
+<hr />
+
+# Mechanics
+
+**Units**<br />
+Two types — Metric (SI, System Internationele) and Imperial (English).
+
+**Accuracy**<br />
+Accuracy is how close your measured or observed values are to the *accepted* value.
+
+**Precision** (REPEATABILITY)<br />
+Precision is how close your measured or observed values are to each other. Similar to how "repeatable" your experiment is. Also the degree of exactness of a measurement, or how many significant figures it has.
+
+**Relative Error**<br />
+How do we measure accuracy? Notice that this equation has only one measurement in it, so it can only be about accuracy.
+$$
+\text{Relative Error}=\frac{\text{Observed Value } - \text{ Accepted Value}}{\text{Accepted Value}}\times100\%
+$$
+
+**Displacement** — $\Delta x$ (change in position)
+Displacement is the straight-line distance between a start and end point. It has a direction, and direction must always be specified.
+$$
+\text{Displacement}=\text{Final Positon } - \text{ Initial Position} 
+$$
+Has magnitude! Magnitude is the value, or amount, without direction.
+
+**Direction**<br />
+There are three main ways to describe direction:
+1. The Cartesian coordinate plane ($x$ and $y$ axes)
+2. Relative directions (Up ($+$), down, left, right ($+$))
+3. Cardinal directions (North, East South, West).
+Up is NOT North — if you are facing North, you are facing forward. "$0$" does not have a direction!
+
+**Distance**<br />
+Distance is a unit of measure — it is the integral of the change in position over time, I guess. Always greater than or equal to the magnitude of the displacement.
+
+**Velocity**<br />
+Velocity is the direction and magnitude of distance per time:
+$$
+v=\frac{\Delta x}{\Delta t}=\frac{\text{Change in Position}}{\text{Change in Time}}$$
+- $v$ is velocity
+- $\Delta x$ is displacement (straight-line distance between a start and end point)
+- $\Delta t$ is the change in time.
+Since it is dependent on displacement, velocity also has magnitude and direction.
+
+**Speed**<br />
+Speed is the magnitude of velocity when the object moves in a straight line — displacement $\neq$ distance traveled!
+$$
+s=\frac{d}{t}=\frac{\text{Distance Traveled}}{\text{Time}}
+$$
+This uses distance traveled and NOT displacement. Speed does not have direction.
+
+**Position as a Function of Time**<br />
+$$
+\text{Slope}=m=\frac{\text{Rise}}{\text{Run}}=\frac{\Delta \text{Position}}{\Delta \text{Time}}=\frac{\text{Displacement (}\Delta x\text{)}}{\Delta\text{Time}}=\text{Velocity}
+$$
+So it's just calculus!
+
+
+**Acceleration**<br />
+Acceleration is the change in velocity with respect to time.
+$$
+\text{Acceleration} = a = \frac{\Delta v}{\Delta t}=\frac{\frac{\Delta x}{\Delta t}}{\Delta t}=\frac{\Delta x}{\Delta t^2}
+$$
+Acceleration is measured in (base units) meters per second per second ($\frac{m}{s^2}$). Since it is in terms of velocity (which is in terms of displacement), acceleration has both magnitude *and* direction.
+
+
+**Velocity as a Function of Time**<br />
+Velocity, measured in $\frac{\text{m}}{\text{s}}$, is on the vertical axis. Time, like in the position graph, is on the horizontal axis. Then, the slope of the graph is the change in velocity with respect to the change in time... which is acceleration! So it's just calculus.
+
+**Uniformly Accelerated Motion (UAM)**<br />
+Surprisingly enough, an object in UAM is moving at a constant (uniform) acceleration. Some examples include a ball rolling down an incline, an object falling, or an object being pushed up by buoyant force.
+
+**UAM Equations**<br />
+$$
+\begin{align}
+&(1)&V_f=V_i+a\Delta t \\
+&(2)&\Delta x=V_i\Delta t+\frac{1}{2}a\Delta t^2\\
+&(3)& V_f^2=V_i^2+2a\Delta x\\
+&(4)& \Delta x=\frac{1}{2}(V_f+V_i)\Delta t
+\end{align}
+$$
+Equation $(1)$ must be true because obviously the final velocity is the sum of the initial velocity and the acceleration applied over a period of time. Equation $(2)$ is true because the change in position (with direction) is equal to how much the initial velocity changes the position plus the amount that the position is changed by due to acceleration ($\int_{t_0}^{t_1} a\Delta t dt$). Equation $(3)$ is true because $v_f=v_i+at$. If we square both sides, we get $V_f^2=V_i^2+2\cdot v_i\cdot a\cdot t+a^2\cdot t^2$. We know that $a\cdot t^2$ is equal to $2$ times the displacement under constant acceleration and $v_i\cdot t$ is the displacement under constant velocity. So, we get $V_f^2 = V_i^2+2a\Delta x$. Equation $(4)$ is obvious — the change in position (with direction) is equal to the average velocity over a period of time times the change in time. Cool stuff. But wait — we have APC to cover! APC equations:
+$$
+\begin{align}
+&(1)&v=v_0 + at \\
+&(2)&x=x_0+v_0 t\frac12 at^2 \\
+&(3)& v^2 = v_0 ^ 2+ 2a(x-x_0)\\
+&(4)& x-x_0=\frac12 (v+v_0)t
+\end{align}
+$$
+
+
+**Free Fall**<br />
+https://www.youtube.com/watch?v=PIuAFrLeXfY&t=62s
+An object is in free fall if the only force acting on it is the force of gravity. Basically, it must not be touching any other object. And, of course (welcome to physics), there is no air resistance. On Earth (most of the time, ish), an object in free fall has acceleration (in the $y$ direction) equal to $-9.8\frac{\text{m}}{\text{s}^2}$.
+$$
+\begin{align}
+a_y&=-g=-9.8\frac{\text{m}}{\text{s}^2}\\
+g_{\text{Earth}}&=\text{Acceleration due to gravity}=9.81\frac{\text{m}}{\text{s}^2}
+\end{align}$$
+Mass is irrelevant!
+
+
+
+**Projectile Motion**<br />
+There are two components to projectile motion: $x$ and $y$ movement. In the $x$ direction, velocity is constant, so $V_x=\frac{\Delta x}{\Delta t}$. In the $y$ direction, the object is in free fall. So, it follows the UAM equations.
+
+**Projectile Motion Range**<br />
+The range of projectile motion is defined as the horizontal displacement ($\Delta x$) when the overall vertical displacement ($\Delta y$) is $0$.
+$$
+R=\Delta x=\frac{{V_i}^2\sin(2\theta_i)}{g}.
+$$
+- $V_i=||V_i||$ in m/s
+- $\theta_i=$ Initial or launch angle in DEGREES.
+
+**Relative Motion**<br />
+Velocity is measured from a frame of reference — from the Earth's perspective, an object could be moving, but from its own perspective, that object is stationary and the *Earth* is moving.
+$$
+V_{\text{\{name of thing\}\{name of observer\}}}=V_{\text{thing relative to 3rd thing}}-V_{\text{observer relative to 3rd thing}}
+$$
+A negative velocity of A relative to B is the same as the velocity of B relative to B. So, whenever we sum the velocity of A relative to B and the velocity of B relative to C, we get the velocity of A relative to C.
+
+**Inertia**<br />
+The tendency of an object to resist a change in its state of motion. Basically, the tendency of an object to resist acceleration. An object in motion will stay in motion, and one at rest will stay at rest. Type shit.
+
+**Inertial Mass**<br />
+A measure of inertia, or a measure of an object's resistance to acceleration. Experimentally identical to gravitational mass.
+
+**Force**<br />
+The ability to change the state of motion of an object (apply acceleration). There are two types of forces:
+- **Contact Forces** are when two objects touch.
+	- Ex. Applied Force, Drag Force, Friction Force, Normal Force, Spring Force, Tension.
+- **Field Forces** do not require the objects to touch.
+	- Ex. Gravity, Magnetic Force, Electric Force.
+
+**Force of Gravity ($F_g=\text{Weight}$)**<br />
+The attraction that exists between the Earth and an object. $F=ma$, but we know that $a=g$, so $F_g=mg$, where $m$ is **gravitational mass**. $F_g$ is DOWN (drop something). Note that the base SI dimension for $F_g$ is $\text{kg}\cdot\frac{\text{m}}{\text{s}^2}=\text{Newton (N)}$. For English units, pounds ($\text{lb}$)$=\text{slug}\cdot\frac{\text{ft}}{\text{s}^2}$.
+
+**Free Body Diagrams (FBD)/Force Diagram**<br />
+The diagram of all the forces acting on a freed (singled-out) object. Noteworthy forces:
+- $F_g$, the Force of Gravity (Weight).
+- $F_n$, the Force Normal (to a surface) that pushes an object up.
+- $F_a$, the Force Applied (to an object).
+- $F_f$, the Force of Friction.
+Contact forces should be drawn *at the point of contact*.
+
+**Center of Mass**<br />
+The location at which we consider all of an object's mass to be concentrated.
+
+**Newton's Laws of Motion**<br />
+1. An object at rest will remain at rest, and an object in motion will move at a constant velocity unless acted on by a net external force.
+2. Net force, $\sum \vec{F} =m\vec{a}$.
+3. Every force has an equal (in magnitude) and opposite (in direction) force. $\vec{F}_{12}=-\vec{F}_{21}$, where $\vec{F}_{12}$ and $\vec{F}_{21}$ are called a Newton's third law force pair.
+
+**Tension Force ($F_T$ or $T$)**<br />
+Tension Force is the force transmitted through a rope, cable, string, or wire pulled taut by forces acting on both ends. Tension is always a pull, is always directed along the rope, and is always in opposite directions on both ends of the rope but is equal in magnitude.
+
+**Equilibrium**<br />
+An object is in equilibrium if it has no net force acting on it. That is, it has zero acceleration. Types of equilibrium:
+- **Neutral Equilibrium:** An object is in neutral equilibrium if (while it's moving), its gravitational potential energy does not change.
+- **Stable Equilibrium:** An object is in stable equilibrium if its gravitational potential energy increases when it moves away from the equilibrium position.
+- **Unstable Equilibrium:** An object is in unstable equilibrium if its gravitational potential energy *decreases* when it moves away from the equilibrium position.
