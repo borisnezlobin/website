@@ -55,11 +55,13 @@ export default async function SubjectNotesPage({ params }: { params: { slug: str
             <h2 className="text-2xl font-bold">Table of Contents</h2>
             <ol>
                 {sections.map((section, i) => (
-                    <Link key={section.slug} className="link" href={`/notes/${note.slug}/${section.slug}`}>
-                        <li className="mt-4">
-                            {i + 1}. <span className="text-lg font-bold">{section.title}</span>
-                        </li>
-                    </Link>
+                    <div key={section.slug}>
+                        <Link className="link" href={`/notes/${note.slug}/${section.slug}`}>
+                            <li className="mt-4">
+                                {i + 1}. <span className="text-lg font-bold">{section.title}</span>
+                            </li>
+                        </Link>
+                    </div>
                 ))}
             </ol>
         </div>
