@@ -5,6 +5,41 @@ import { getNoteSections } from "../../getNoteSections";
 import ArticleBody from "@/app/components/article-body";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, List } from "@phosphor-icons/react/dist/ssr";
+import getMetadata from "@/app/lib/metadata";
+import NotFoundPage from "@/app/components/not-found-page";
+
+export async function generateMetadata({ params }: { params: { slug: string, section: string } }) {
+    const note = await db.note.findUnique({
+        where: { slug: params.slug },
+    });
+
+    if (!note) {
+        return getMetadata({
+            title: "Notes not found.",
+            info: "404",
+            description:
+                "The requested notes couldn't be found.\nVisit my website to contact me, see what I'm up to, and learn more about me!",
+        });
+    }
+
+    const sections = getNoteSections(readFileSync(path.resolve(process.cwd(), path.join("notes", note.slug + ".mdx")), "utf-8"));
+    const section = sections.find((section) => section.slug === params.section);
+
+    if (!section) {
+        return getMetadata({
+            title: `Section not found / ${note.title}`,
+            info: "404",
+            description:
+                `The requested section couldn't be found in my ${note.title} notes.\nVisit my website to contact me, see what I'm up to, and learn more about me!`,
+        });
+    }
+
+    return getMetadata({
+        title: `${section.title} / ${note.title}`,
+        description: `Check out my ${section.title} notes on ${note.title}! ${note.description}. ${sections.length} sections.`,
+    });
+}
+
 
 const SectionPage = async ({ params }: { params: { slug: string, section: string }}) => {
     const note = await db.note.findUnique({
@@ -12,9 +47,9 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
     });
 
     if (!note) {
-        return {
-            notFound: true,
-        };
+        return (
+            <NotFoundPage title="Notes not found." />
+        )
     }
 
     // oof code
@@ -26,9 +61,9 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
     const sectionIndex = sections.findIndex((section) => section.slug === params.section);
 
     if (sectionIndex === -1) {
-        return {
-            notFound: true,
-        };
+        return (
+            <NotFoundPage title={`Section of ${note.title} not found.`} />
+        )
     }
 
     const section = sections[sectionIndex];

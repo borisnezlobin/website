@@ -5,6 +5,7 @@ import { getNoteSections } from "../getNoteSections";
 import { readFileSync } from "fs";
 import path from "path";
 import Link from "next/link";
+import NotFoundPage from "@/app/components/not-found-page";
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
     const note = await db.note.findUnique({
@@ -32,9 +33,9 @@ export default async function SubjectNotesPage({ params }: { params: { slug: str
     });
 
     if (!note) {
-        return {
-            notFound: true,
-        };
+        return (
+            <NotFoundPage title="Notes not found." />
+        )
     }
 
     // oof code
