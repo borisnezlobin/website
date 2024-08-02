@@ -8,6 +8,25 @@ import { ArrowLeft, ArrowRight, List } from "@phosphor-icons/react/dist/ssr";
 import getMetadata from "@/app/lib/metadata";
 import NotFoundPage from "@/app/components/not-found-page";
 
+export async function generateStaticParams() {
+    const notes = await db.note.findMany({
+        select: { slug: true },
+    });
+
+    console.log("Generating section paths for notes:", notes);
+
+    return notes.flatMap((note) => {
+        try {
+            const sections = getNoteSections(readFileSync(path.resolve(process.cwd(), path.join("notes", note.slug + ".mdx")), "utf-8"));
+            return sections.map((section) => ({ params: { slug: note.slug, section: section.slug } }));
+        } catch (e) {
+            console.log("Error generating paths for note", note.slug);
+            console.error(e);
+            return [];
+        }
+    });
+}
+
 export async function generateMetadata({ params }: { params: { slug: string, section: string } }) {
     const note = await db.note.findUnique({
         where: { slug: params.slug },
