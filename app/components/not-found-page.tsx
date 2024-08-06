@@ -18,7 +18,7 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
     "group-hover:text-primary transition duration-300 dark:group-hover:text-primary";
 
   return (
-    <div className="h-screen relative top-[-3rem] flex flex-col justify-center items-center text-light-foreground dark:text-dark-foreground">
+    <div className="h-[100svh] relative top-[-3rem] flex flex-col justify-center items-center text-light-foreground dark:text-dark-foreground">
       <h1 className="text-8xl">404</h1>
       <p>{title}</p>
 
