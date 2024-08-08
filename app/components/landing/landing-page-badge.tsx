@@ -7,7 +7,7 @@ import Link from "next/link";
 import { useRef } from "react";
 
 const LandingPageBadge = ({
-    title, description, url, className, titleClassName = "", index
+    title, description, url, className, titleClassName = "", index = undefined
 }: { title: string, description: string, url?: string, className?: string, titleClassName?: string, index?: number }) => {
     const ref = useRef<HTMLDivElement>(null);
     const isVisible = useIsVisible(ref);
@@ -16,7 +16,7 @@ const LandingPageBadge = ({
         <div ref={ref} className={`
             p-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-2 rounded-lg border dark:border-neutral-800
             ${url ? "cursor-pointer hover:scale-105" : ""}
-            ${index !== undefined ? (isVisible ? "translate-y-0" : "translate-y-10") : ""}
+            ${index === undefined ? (isVisible ? "translate-y-0" : "translate-y-10") : ""}
             ${className ? className : ""}
         `}>
             <b className={`text-xl ${titleClassName}`}>
