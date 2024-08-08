@@ -96,28 +96,38 @@ export default function Home() {
                         <LandingPageBadge titleClassName={"w-24"} title={e.title} description={e.description} key={`project ${i}`} url={e.url} />
                     )}
                 </div>
-                <h3 className="font-bold text-xl mt-4">
+                <h3 className="font-bold text-xl mt-6">
                     <span className="text-primary dark:text-primary-dark">
                         2.5
                     </span>
                     {" "}Contributions
                 </h3>
-                <p>
+                <p className="my-3">
                     I&apos;ve contributed to a few open-source projects. Here are some of them:
                 </p>
                 <div className="w-screen overflow-hidden relative">
-                    {contributions.map((e, i) =>
-                        <div className="absolute h-max flex flex-row justify-start items-center animate-scroll">
+                    <div className="h-max p-4 flex flex-row justify-start gap-4 items-center animate-scroll">
+                        {contributions.map((e, i) =>
                             <LandingPageBadge
                                 title={e.title}
                                 description={e.description}
                                 key={`contribution ${i}`}
                                 url={e.url}
-                                className={`inline-block w-max`}
+                                className={`inline-block w-max flex-shrink-0`}
                                 index={i}
                             />
-                        </div>
-                    )}
+                        )}
+                        {contributions.map((e, i) =>
+                            <LandingPageBadge
+                                title={e.title}
+                                description={e.description}
+                                key={`contribution ${i}`}
+                                url={e.url}
+                                className={`inline-block w-max flex-shrink-0`}
+                                index={i}
+                            />
+                        )}
+                    </div>
                 </div>
             </Section>
         </main>
