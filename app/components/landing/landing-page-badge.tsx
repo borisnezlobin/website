@@ -16,9 +16,9 @@ const LandingPageBadge = ({
         <div ref={ref} className={`
             p-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-2 rounded-lg border dark:border-neutral-800
             ${url ? "cursor-pointer hover:scale-105" : ""}
-            ${isVisible ? "translate-y-0" : "translate-y-10"}
+            ${index !== undefined ? (isVisible ? "translate-y-0" : "translate-y-10") : ""}
             ${className ? className : ""}
-        `}  style={{ animationDelay: index ? index * 5 + "s" : "" }}>
+        `}>
             <b className={`text-xl ${titleClassName}`}>
                 {title}
             </b>
