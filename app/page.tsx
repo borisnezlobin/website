@@ -96,6 +96,29 @@ export default function Home() {
                         <LandingPageBadge titleClassName={"w-24"} title={e.title} description={e.description} key={`project ${i}`} url={e.url} />
                     )}
                 </div>
+                <h3 className="font-bold text-xl mt-4">
+                    <span className="text-primary dark:text-primary-dark">
+                        2.5
+                    </span>
+                    {" "}Contributions
+                </h3>
+                <p>
+                    I&apos;ve contributed to a few open-source projects. Here are some of them:
+                </p>
+                <div className="w-screen overflow-hidden relative">
+                    {contributions.map((e, i) =>
+                        <div className="absolute h-max flex flex-row justify-start items-center animate-scroll">
+                            <LandingPageBadge
+                                title={e.title}
+                                description={e.description}
+                                key={`contribution ${i}`}
+                                url={e.url}
+                                className={`inline-block w-max`}
+                                index={i}
+                            />
+                        </div>
+                    )}
+                </div>
             </Section>
         </main>
     );
