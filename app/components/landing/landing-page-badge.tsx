@@ -14,11 +14,15 @@ const LandingPageBadge = ({
 
     const component = (
         <div ref={ref} className={`
-            p-4 flex flex-col md:flex-row items-start md:items-center justify-start gap-2 rounded-lg border dark:border-neutral-800
+            p-4 flex md:flex-row items-start md:items-center justify-start gap-2 rounded-lg border dark:border-neutral-800
             ${url ? "cursor-pointer hover:scale-105" : ""}
             ${index === undefined ? (isVisible ? "translate-y-0" : "translate-y-10") : ""}
-            ${className ? className : ""}
-        `}>
+            ${className ? className : "flex-col"}
+        `}
+        style={{
+            animationDuration: `${index !== undefined ? "1s" : 0}`,
+        }}
+        >
             <b className={`text-xl ${titleClassName}`}>
                 {title}
             </b>
