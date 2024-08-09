@@ -105,7 +105,7 @@ export default function Home() {
                 <p className="my-3">
                     I&apos;ve contributed to a few open-source projects. Here are some of them:
                 </p>
-                <div className="w-screen overflow-hidden relative">
+                <div className="w-screen overflow-hidden relative ">
                     <div className="h-max p-4 flex flex-row justify-start gap-4 items-center animate-scroll">
                         {contributions.map((e, i) =>
                             <LandingPageBadge
@@ -113,7 +113,7 @@ export default function Home() {
                                 description={e.description}
                                 key={`contribution ${i}`}
                                 url={e.url}
-                                className={`inline-block w-max flex-shrink-0`}
+                                className={`inline-block w-max flex-shrink-0 flex-row`}
                                 index={i}
                             />
                         )}
@@ -123,7 +123,7 @@ export default function Home() {
                                 description={e.description}
                                 key={`contribution ${i}`}
                                 url={e.url}
-                                className={`inline-block w-max flex-shrink-0`}
+                                className={`inline-block w-max flex-shrink-0 flex-row`}
                                 index={i}
                             />
                         )}
