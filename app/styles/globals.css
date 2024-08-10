@@ -164,7 +164,7 @@ article {
     }
 
     hr {
-        @apply border-0 border-t-2 border-primary dark:border-primary-dark my-4;
+        @apply h-px bg-primary dark:bg-primary-dark my-4;
     }
 
     table {

@@ -9,13 +9,12 @@ References:
 1. [Linear Algebra, An Introduction (2nd Edition)](https://mathematicalolympiads.wordpress.com/wp-content/uploads/2012/08/lineer-algebra2.pdf)
 2. [Essence of Linear Algebra, 3Blue1Brown](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
 
-<hr />
+<hr >
 
 # Vectors and Coordinate Spaces
 
 **Vector**<br />
-Has a magnitude *and* direction. Something is moving at $5$mph is a magnitude (speed). Something moving East is a direction. $5$mph due East is a direction (velocity).
-
+The first, most basic concept in linear algebra. A vector can be anything, as we'll soon learn. At its most basic, a vector is a list of scalars. For example, in $\mathbb{R}^2$, a vector is a list of two scalars. In $\mathbb{R}^3$, a vector is a list of three scalars. In $\mathbb{R}^n$, a vector is a list of $n$ scalars. A vector can be represented as a column matrix, or as a list of scalars separated by commas. For example, the vector $\vec{v}=\begin{bmatrix}1\\2\end{bmatrix}$ can also be written as $\vec{v}=\begin{bmatrix}1, 2\end{bmatrix}$.
 $$
 \vec{v}=\langle5, 0\rangle=
 \left[ {\begin{array}{c}
@@ -24,27 +23,26 @@ $$
   \end{array} } \right]
 $$
 
-**Real Coordinate Spaces**<br />
-
-$\mathbb{R}^2$ is the 2d real coordinate space. Basically Cartesian coordinates, but not "visualized" like on a graph. Graph is just the way of visualizing the 2d real coordinate space. The 2d real coordinate space is the set of all real-valued **2-tuples** (like in Python!). More generally, $\mathbb{R}^n$ is the set of all real-valued $n$-tuples:
-
+**Real Coordinate Spaces ($\mathbb{R}^n$)**<br />
+If you've taken analysis, you're familiar with a **Cartesian coordinate system** — every point is a unique combination of $n$ real numbers. This is a **real coordinate space**. The set of all $n$-tuples of real numbers is denoted $\mathbb{R}^n$. For example, $\mathbb{R}^2$ is the set of all 2-tuples of real numbers, and $\mathbb{R}^3$ is the set of all 3-tuples of real numbers. Here's the general form of a vector in $\mathbb{R}^n$:
 $$
 \vec{v}\left[ {\begin{array}{c}
 a_1 \\
 a_2 \\
 ...\\
 a_n
-\end{array}}\right]\in\mathbb{R}^n
+\end{array}}\right]\in\mathbb{R}^n.
 $$
+Note that the "points" we've always worked with in high school, like $(3, 4)$, are actually vectors in $\mathbb{R}^2$. On another note, there also exist **complex coordinate spaces** ($\mathbb{C}^n$), where the scalars are complex numbers — but we won't focus on them.
+
+**Zero Vector**<br />
+The zero vector is a vector whose components are all zero. It is denoted by $\textbf{0}$, and exists in every real coordinate space.
 
 **Adding Vectors**<br />
-
 For vectors with identical dimensions, just add the corresponding components:
-
 $$
 \begin{bmatrix} 6\\ -2 \end{bmatrix} + \begin{bmatrix} -4\\ 5\end{bmatrix} = \begin{bmatrix} 2\\ 3\end{bmatrix}
 $$
-
 If the dimensions are different, you can (if needed) extend the vector in the lower space by adding zeroes to its higher dimensions (like with polynomials — a quadratic will have a coefficient of $0$ on the $x^5$ term).
 
 **Multiplying by a Scalar**<br />
@@ -64,72 +62,32 @@ $$
 **Unit Vector**<br />
 A vector with a magnitude of $1$. To normalize vectors, divide each component by the magnitude ($\times \frac{1}{||\vec{v}||}$).
 
-**Basis Vectors**<br />
-If you think of every components of a vector as scaling a unit vector, you could do something like (for example):
-$$
-\begin{align*}
-\hat{\textbf{i}}=\left [\begin{array}{c}1 \\ 0\end{array}\right ]&, \hat{\textbf{j}}=\left [\begin{array}{c}0 \\ 1\end{array}\right ] \\
-\\
-\vec{v}&=\left[ \begin{array}{c}2 \\ 3\end{array} \right] \\
-\vec{v}&=2\hat{\textbf{i}} + 3\hat{\textbf{j}}
-\end{align*}
-$$
-Then, you can add vectors by expressing them in terms of $\hat{\textbf{i}}$ and $\hat{\textbf{j}}$. These two vectors are called the **basis vectors** for the x-y coordinate system.
+**Standard Basis**<br />
+Until we formally cover bases, keep in the back of your mind that every vector in $\mathbb{R}^n$ is a combination of the standard basis vectors (which we'll call $\hat{\textbf{i}}$, $\hat{\textbf{j}}$, $\hat{\textbf{k}}$, etc.). For example, in $\mathbb{R}^2$, the standard basis vectors are, in order, $\begin{bmatrix}1\\0\end{bmatrix}$ and $\begin{bmatrix}0\\1\end{bmatrix}$.
 
 **Dot Product** — $\vec{v}\cdot\vec{w}$
 The projection of $\vec{w}$ onto $\vec{v}$ times the length of $\vec{v}$. The dot product can be negative (the length of the projection would be $\times(-1)$ if it were in the opposite direction of $\vec{v}$)! Calculated by multiplying the entries in each vector and adding them up:
 $$
 \begin{bmatrix}a \\ b \\ c\end{bmatrix}\cdot \begin{bmatrix}d \\ e \\ f\end{bmatrix}=ad+be+cf
 $$
-
-**Dot Product Conclusions**<br />
 Perpendicular vectors have dot product $0$ because the length of the projection is $0$. We can use dot products to determine whether vectors are facing in generally the same direction (dot product $>0$), perpendicular (dot product $=0$), or different directions (dot product $< 0$).
+This is just something you may come across in other branches of mathematics, but we won't need dot products much in linear algebra.
 
-**Cross Product** — $\vec{v}\times\vec{w}$
-In two dimensions, the cross product is the area of the parallelogram defined by the two non-collinear vectors $\vec{v}$ and $\vec{w}$. If $\vec{v}$ is "to the right" of $\vec{w}$, the cross product is positive. Otherwise, the area is negative. Computing the cross product is similar to computing <a href="#determinant">the determinant</a> (for two dimensions).
-$$
-\begin{align*}
-&\vec{v}=\begin{bmatrix}a \\ b\end{bmatrix} & \vec{w}=\begin{bmatrix}c \\ d\end{bmatrix}&\\
-\end{align*}
-$$
-$$\vec{v}\times\vec{w}=\det\left(\begin{bmatrix}a & c\\b & d\end{bmatrix}\right)=ad-bc$$
-But not for three dimensions! In three dimensions, $\vec{v}\times\vec{w}$ is a *vector* with length equal to the determinant, but perpendicular to the parallelogram defined by the two vectors. Make sure that the cross product follows the right hand rule! Calculated as follows:
-$$
-\begin{align}
-\begin{bmatrix}v_1\\v_2\\v_3\end{bmatrix}\times\begin{bmatrix}w_1\\w_2\\w_3\end{bmatrix}&=\det\left(\begin{bmatrix}\hat{\textbf{i}} & \hat{\textbf{j}} & \hat{\textbf{k}}\\ v_1 & v_2 & v_3\\ w_1 & w_2 & w_3\end{bmatrix}\right)\\
-\end{align}
-$$
-See [this article](https://mathinsight.org/cross_product_formula) for an explanation.
-The cross products of the three unit vectors are as follows:
-$$
-\begin{align*}
-\hat{\textbf{i}}\times\hat{\textbf{j}}=\hat{\textbf{k}}\\
-\hat{\textbf{j}}\times\hat{\textbf{k}}=\hat{\textbf{i}}\\
-\hat{\textbf{k}}\times{\hat{\textbf{i}}}=\hat{\textbf{j}}
-\end{align*}
-$$
-And can be remembered with the following diagram:
-![[Pasted image 20240608114805.png]]
+<hr />
+Now we need to define some terms that will be useful in the future.
 
-**Vectors in Polar Form**<br />
-2d vectors can be given as $(r,\theta)$ (like polar coordinates), giving a magnitude and a direction. From there, to add them, you would have to convert each vector into a Cartesian vector $(r\cos{\theta},r\sin{\theta})$ and add those.
-
-**Lines**<br />
-Lines can be defined as the set of all vectors obtained by multiplying a vector $\vec{v}$ by a scalar $c\in\mathbb{R}$:
-$$
-S_\text{line}= \left\{ c\cdot\vec{v} \mid c \in \mathbb{R} \right\}.
-$$
-Remember that vectors don't have a starting point! So really, all of these vectors are **collinear**, but they can be "located" anywhere. So really (again), $\vec{v}$ can be thought of as a "slope" vector. But what if we want a different $y$-intercept? We can do something really funny! We add a position vector to the line (that we just defined for vector $\vec{v}$):
-$$
-L(t)=t\cdot\vec{v}+\vec{b} \text{ (where }t\in\mathbb{R}\text{)}
-$$
-Basically, we just shift $S_\text{line}$ by $\vec{b}$. Why do we do this? Don't we have $y=mx+b$? Well, with vector lines, we can define lines in any real coordinate space, not just $\mathbb{R}^2$. Now, with vectors, we can solve for equations of lines very simply.
 
 **Linear Combination**<br />
-It's... a linear combination. If you have some vectors $\vec{v_1}, \vec{v_2},...,\vec{v_n}$ in $\mathbb{R}^m$ (real space). A linear combination is some linear combination of these vectors, where each vector is scaled by a real constant:
+If you have some vectors $\vec{v_1}, \vec{v_2},...,\vec{v_n}$ in $\mathbb{R}^m$ (real space). A linear combination is some linear combination of these vectors, where each vector is scaled by a real constant:
+$$a_1\vec{v_1}+a_2\vec{v_2}+...+a_n\vec{v_n}.$$
+As mentioned earlier, every vector in $\mathbb{R}^n$ can be represented as a linear combination of the standard basis vectors — but we'll see this term pop up a lot more!
+
+**Linear Dependence**<br />
+A set that is **linearly dependent** is a set where a member vector can be represented as a linear combination of other vectors in the set (i.e., that vector doesn't add any new "dimensionality" to the set). A more formal definition: a set $S$ is linearly _dependent_ if and only if
 $$
-a_1\vec{v_1}+a_2\vec{v_2}+...+a_n\vec{v_n}
+c_1\vec{v_1}+c_2\vec{v_2}+...+c_n\vec{v_n}=\textbf{0}
 $$
+Where not all $c_1...c_n$ are zero. Or, a set is linearly *independent* if the only solution to the above equation is $c_1=c_2=...=c_n=0$.
 
 **Span**<br />
 A **span** is defined as the set of all linear combinations of a set $S$ of vectors. For example, two linearly independent vectors span a plane ($\mathbb{R}^2$). The span of a set of collinear $2$-tuples is the line on which they are collinear. Notation:
@@ -137,59 +95,51 @@ $$
 \text{span}(\left\{ \vec{\textbf{0}}\right\})= \left\{ (0,0) \right\}
 $$
 
-**Linear Dependence**<br />
-A set that is **linearly dependent** is a set where a member vector can be represented as a linear combination of other vectors in the set (i.e., that vector doesn't add any new "dimensionality" to the set). A more formal definition: a set $S$ is linearly _dependent_ iff
-$$
-c_1\vec{v_1}+c_2\vec{v_2}+...+c_n\vec{v_n}=\vec{\textbf{0}}
-$$
-Where not all $c_1...c_n$ are zero.
-
-**Linear Subspaces**<br />
-A **subspace of $\mathbb{R}^n$** is some subset $V$ of $\mathbb{R}^n$ that satisfies the following properties:
-1. Identity: $\vec{\textbf{0}}\in V$.
-2. Closure under multiplication: $\left\{c\cdot\vec{x}\in V\; \forall\; c\in \mathbb{R},\,\vec{x}\in V\right\}$.
-3. Closer under addition: $\left\{\vec{a}+\vec{b}\in V \;\forall\; \vec{a}, \vec{b}\in V \right\}$.
-
-<hr />
-
-<hr >
-# Vector Spaces
-
 <hr >
 
 # Matrices
 
-**Matrices**
-Matrices are... arrays!
+**Matrices**<br />
+Matrices are pretty simple. They're just arrays of column vectors. For example, the matrix
+$$
+\begin{bmatrix}
+1 & 2 & 3\\
+4 & 5 & 6
+\end{bmatrix}
+$$
+is a $2\times 3$ matrix. The first row is $\begin{bmatrix}1 & 2 & 3\end{bmatrix}$, and the second row is $\begin{bmatrix}4 & 5 & 6\end{bmatrix}$. The first column is $\begin{bmatrix}1 \\ 4\end{bmatrix}$, the second column is $\begin{bmatrix}2 \\ 5\end{bmatrix}$, and the third column is $\begin{bmatrix}3 \\ 6\end{bmatrix}$.
 
-**Matrix Equivalency**
+**Matrix Equivalency**<br />
 Two matrices $A$ and $B$ are equivalent if there exist two real numbers $n$ and $p$ such that the following conditions hold:
 1. $\text{(Number of rows of }A\text{)}=n=\text{(Number of rows of }B\text{)}$
 2. $\text{(Number of columns of }A\text{)}=p=\text{(Number of columns of }B\text{)}$
 3. Corresponding indices of $A$ and $B$ are equivalent.
 
-**Matrix Addition**
+**Matrix Addition**<br />
 Matrix addition is defined elementwise — add corresponding elements. Matrix addition is commutative ($A+B=B+A$) and associative ($(A+B)+C=A+(B+C)$). Undefined if the orders of $A$ and $B$ are not the same.
 
-**Zero Matrix**
+**Zero Matrix**<br />
 The unique zero matrix of order $p\times n$ is a matrix (of order $p\times n$) whose entries are all zero. It is denoted with $\textbf{0}_{p\times n}$. If $A$ and $\textbf{0}_{p\times n}$ have the same order, then $A+\textbf{0}_{p\times n}=A$.
 
-**Scalar Multiplication**
+**Scalar Multiplication**<br />
 For a matrix $A$ and real number $\lambda$, $\lambda A$ is defined by $(\lambda A)_{i, j}=\lambda A_{i,j}$.
 1. $\lambda(A+B)=\lambda A+\lambda B$.
 2. $(\lambda_1 + \lambda_2)A=\lambda_1A + \lambda_2 A$.
 3. $(\lambda_1\lambda_2)A=\lambda_1(\lambda_2A)$.
 
-**Matrix Multiplication**
+**Matrix Multiplication**<br />
 Let $p, r$ and $n$ be positive integers, $A$ be a matrix with order $p\times r$, and $B$ be a matrix with order $r\times n$. The **product matrix**, $AB$, is the $p\times n$ matrix $C[c_{i,j}]$ defined by
 $$
 c_{ij}=\sum_{k=1}^ra_{ik}b_{kj},
 $$
 For $i=1,2,\dots,p$ and $j=1,2,\dots n$. This means that $c_{i,I}$ is obtained by multiplying the $i$th row of $A$ with the $j$th row of $B$ and summing. The multiplicative identity matrix is the diagonal matrix with only $1$ as its diagonal elements (and is denoted by $I_n$).
 
-Lemma: if $B$ and $C$ are matrices such that $BC$ is defined, then $\lambda(BC)=B(\lambda C)$.
+If $B$ and $C$ are matrices such that $BC$ is defined, then $\lambda(BC)=B(\lambda C)$.
 
-**Transpose**
+**Identity Matrix**<br />
+The identity matrix is a square matrix with $1$'s on the main diagonal and $0$'s elsewhere. It is denoted by $I_n$ (where $n$ is the order of the matrix). The identity matrix is the multiplicative identity for matrices — $AI_n=I_nA=A$.
+
+**Transpose**<br />
 The transpose of a $p\times n$ matrix $A$ is the $n\times p$ matrix $A^T$ such that
 $$
 (A^T)_{i,j}=A_{j,i}.
@@ -204,50 +154,59 @@ $$
 \end{align}
 $$
 
-**Raising a Matrix to a Power**
+**Raising a Matrix to a Power**<br />
 $A^n$ (for any positive integer $n$) is called a "positive integral power of $A$."
 $${\left(A^n\right)}^T={\left(A^T\right)}^n$$
 
-**Symmetry**
+**Symmetry**<br />
 A matrix is *symmetric* if $A^T=A$. This can be possible if and only if $A$ is square and $A_{ij}=A_{ji}$. So, the main diagonal can be anything, but the other elements must be symmetric.
 
-**Skew Symmetry**
+**Skew Symmetry**<br />
 A matrix $A$ is *skew symmetric* if $A^T=-A$. This is true if and only if $A$ is square and $A_{ij}=-A_{ji}$. A skew symmetric matrix must have all diagonal elements equal to $0$.
 
-**Diagonal Matrix**
+**Diagonal Matrix**<br />
 A diagonal matrix is a matrix with only zeroes as the nondiagonal elements.
 
-**Triangular Matrices**
+**Triangular Matrices**<br />
 1. **Upper Triangular**: A square matrix is upper triangular if $a_{i,j}=0$ whenever $i > j$.
-2. **Lower Triangular**: A square matrix is lower triangular if $a_{i,j}=0$ whenever $i < j$.
+2. **Lower Triangular**: A square matrix is lower triangular if $a_{i,j}=0$ whenever $i < j$.<br />
 An upper triangular matrix has elements that are all $0$ below the main diagonal, and a lower triangular matrix has zero elements above the main diagonal. The product of a UT or LT matrix with another UT or LT (must be the same) matrix is also UT or LT (must be the same).
+Here's an example of an upper triangular matrix:
+$$
+\begin{bmatrix}
+1 & 2 & 3\\
+0 & 4 & 5\\
+0 & 0 & 6
+\end{bmatrix}.
+$$
 
-**Row Equivalence**
+**Diagonal Matrix**<br />
+A diagonal matrix is a matrix where all the elements are zero except for the diagonal elements. The product of two diagonal matrices is also a diagonal matrix. So, a diagonal matrix is both UT and LT.
+
+**Row Equivalence**<br />
 Two matrices are row equivalent if once can be changed to the other by a sequence of elementary row operations.
 
-**Sub-matrix**
+**Sub-matrix**<br />
 A sub-matrix of a matrix $A$ is any matrix obtained by removing a number of rows or columns from $A$.
 
-**Partition**
-Not like in India. A matrix is partitioned if it is divided into submatrices by horizontal and vertical lines between rows and columns. The resulting submatrices are often(??) called **blocks**. Matrices are **compatibly partitioned** if the number of horizontal blocks in $A=$ the number of vertical blocks in $B$ (i.e., the block dimensions are multiplicable) AND each block $\times$ block operation "makes sense" — i.e., the submatrices can be multiplied. 
+**Partition**<br />
+A matrix is partitioned if it is divided into submatrices by horizontal and vertical lines between rows and columns. The resulting submatrices are often called **blocks**. Matrices are **compatibly partitioned** if the number of horizontal blocks in $A=$ the number of vertical blocks in $B$ (i.e., the block dimensions are multiplicable) AND each block $\times$ block operation "makes sense" — i.e., the submatrices can be multiplied.
+Note that partitioning a matrix doesn't change anything about the matrix — it's just a way to organize the matrix.
 
-**Symmetric Partition**
+**Symmetric Partition**<br />
 A symmetrically partitioned matrix is one where the horizontal and vertical partition lines occur in the same places relative to the sequence of rows and columns.
 
-**Diagonal Block**
+**Diagonal Block**<br />
 A diagonal block (in a symmetrically partitioned matrix) can be defined in two ways:
 1. A block bounded by the $i$-th and $i+1$st horizontal AND vertical partition lines.
-2. A block whose diagonal elements are all diagonal elements of $A$.
+2. A block whose diagonal elements are all diagonal elements of $A$.<br />
 Each diagonal block must be square. A **block diagonal matrix** is one whose nondiagonal blocks are all zero submatrices.
 
 
 <hr >
-
-<hr>
-
 # Transformations
 
-**Linear Transformation**
+**Linear Transformation**<br />
 A transformation is a function that takes in a vector and outputs another vector. A **linear transformation** must
 1. keep the origin at the origin.
 2. keep all lines as lines — no curving the lines.
@@ -278,7 +237,7 @@ $$
 $$
 If $V$ and $W$ are vector spaces with bases $B$ and $C$, respectively, and $T:V\to W$ is linear, then there exists an $m\times n$ matrix $A$ such that for every vector $v\in V$, $(Tv)_C=A(v)_B$. This matrix is obviously dependent on the bases $B$ and $C$; to reflect this dependence, we write $A_B^C$, where the subscript reflects the chosen basis for the *domain* of the transformation, and the superscript reflects the chosen basis for the *range* of the basis.
 
-**Image of a Transformation**
+**Image of a Transformation**<br />
 The image of a transformation $T:\mathbb{V}\to \mathbb{W}$ is  denoted $image(T)$, and is the subset of $\mathbb{W}$ of all $\left\{ Tv\; |\; v\in \mathbb{V} \right\}$. For any linear transformation $T:\mathbb{V}\to \mathbb{W}$,
 1. $\textbf{0}\in image(T)$.
 	1. $T$ is one-to-one if and only if $image(T)=\left\{\textbf{0}\right\}$.
@@ -286,7 +245,7 @@ The image of a transformation $T:\mathbb{V}\to \mathbb{W}$ is  denoted $image(T)
 	1. $T$ is onto if and only if $r(T)=\dim(\mathbb{W})$.
 If $\dim(\mathbb{V})=\dim(\mathbb{W})$ and $T:\mathbb{V}\to \mathbb{W}$ is linear, then $T$ is onto if and only if $T$ is one-to-one.
 
-**Null Space/Kernel**
+**Null Space/Kernel**<br />
 The set of vectors that get transformed into the origin during a transformation. For a transformation with full rank, the null space is just the zero vector. For a rank zero transformation, the null space is $n$-dimensional space. The kernel (or nullspace) of a transformation is:
 $$
 \ker(T)=\left\{v\in \mathbb{V} \;|\; Tv=0\right\}
@@ -296,19 +255,19 @@ For any transformation $T:\mathbb{V}\to \mathbb{W}$,
 2. $\ker(T)$ is a subspace of $\mathbb{V}$.
 If $V$ is finite dimensional and $T:\mathbb{V}\to \mathbb{W}$ is linear, then $r(T)+null(T)=\dim(\mathbb{V})$. A transformation is one-to-one if and only if $\ker(T)=\left\{\textbf{0}\right\}$.
 
-**Nullity**
+**Nullity**<br />
 The dimension of the nullspace of $T$ is called the **nullity** of $T$, and is denoted by $null(T)$.
 
-**Injective**
+**Injective**<br />
 A transformation $T$ is **injective** (one-to-one) if for all vectors $v_1, v_2\in \mathbb{V}$, $v_1\neq v_2$ implies $Tv_1\neq Tv_2$.
 
-**Surjective**
+**Surjective**<br />
 A transformation $T$ is **onto** (or surjective) if $\mathbb{W}=image(T)$. So $T$ is onto $\mathbb{W}$ if every element in the range is in the image of $T$.
 
-**Isomorphic**
+**Isomorphic**<br />
 If $T:\mathbb{V}\to \mathbb{W}$ is linear, onto, and one-to-one, then it is **isomorphic**, and an isomorphism exists between $\mathbb{V}$ and $\mathbb{W}$, denoted $\mathbb{V}\cong \mathbb{W}$. It is reflective, transitive, and symmetric. Since isomorphism is an **equivalence relation**, $\mathbb{V}\cong \mathbb{W}$ if and only if $\dim(\mathbb{V})=\dim(\mathbb{W})$ (there exists an isomorphism $T_1:\mathbb{V}\to \mathbb{R}^n$ and $T_2:\mathbb{W}\to \mathbb{R}^n$). This means that any $n$-dimensional vector space is just a copy of any other $n$-dimensional vector space, and any vector space (up to the names of its elements) is *completely determined* by its dimension.
 
-**Important Linear Transformations**
+**Important Linear Transformations**<br />
 - $90^\circ$ rotation counterclockwise:
 	- $\begin{bmatrix}0 & 1\\-1 & 0\end{bmatrix}$
 - Shear ($\hat{\textbf{i}}$ remains fixed and $\hat{\textbf{j}}$ moves to $(1, 1)$):
@@ -317,10 +276,10 @@ If $T:\mathbb{V}\to \mathbb{W}$ is linear, onto, and one-to-one, then it is **is
 	- $\begin{bmatrix}\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta\end{bmatrix}$
 
 
-**Reverse Transformation**
+**Reverse Transformation**<br />
 Given a matrix, how do you find what the transformation looks like? Well, you take the basis vectors and transform them — and that's what the transformation looks like.
 
-**Transformation Composition (Matrix Multiplication)**
+**Transformation Composition (Matrix Multiplication)**<br />
 Applying one transformation, then another, is still a linear transformation! So, there is a matrix that describes this **composition** of transformations, and we can call it the "product" of the two original matrices. However, since linear transformations aren't commutative (and are functions), we read matrix multiplication from right to left (just like we read $f(g(x))$). So how do we multiply matrices $A$ and $B$?
 $$
 A=\begin{bmatrix}a & b \\ c & d\end{bmatrix}, B=\begin{bmatrix}e & f \\ g & h\end{bmatrix}. m=B\cdot A
@@ -336,27 +295,25 @@ $$
 $$
 And this shows us the second way of thinking about multiplying matrices: memorize the formula!
 
-**Multi-dimensional Transformations**
+**Multi-dimensional Transformations**<br />
 If we think about linear transformations intuitively, we can easily extend them to higher dimensions — instead of a $2\times2$ transformation matrix (or, function), we have an $n\times n$ matrix that takes in an $n$-dimensional vector (instead of just a 2d vector). It's still the same! Of course, memorizing the formula for composition doesn't work quite as well for this one.
 
-**Dual Vector**
+**Dual Vector**<br />
 Transforming to 1 dimension of space is *computationally identical* (see 3Blue1Brown video about duality for intuition) to taking the dot product with some vector. For 2d-to-1d transformations,
 $$
 \begin{bmatrix}a&b\\\end{bmatrix}\begin{bmatrix}c\\d\end{bmatrix}=\begin{bmatrix}a\\b\end{bmatrix}\cdot\begin{bmatrix}c \\ d\end{bmatrix}.
 $$
 
-
-
-<hr>
+<hr >
 
 # The Determinant
 
 Transformations tend to stretch or shrink (squish) space. So how do we measure *by how much* it shrinks? We can measure the factor by which a given area increases or decreases.
 
-**Notation**
+**Notation**<br />
 Let $\mu_{ij}$ be the $(n-1)\times(n-1)$ submatrix of $A$ obtained by removing the $i$th row and $j$th column of $A$.
 
-**Determinant**
+**Determinant**<br />
 The **determinant** is the factor by which a given transformation changes any area. The determinant is $0$ if the transform transforms space into a lower dimension (area/volume is $0$). Well... ish. The determinant can be negative! This is when space is "inverted" — $\hat{\textbf{i}}$ becomes to the left of $\hat{\textbf{j}}$.
 
 Ex.
@@ -374,7 +331,7 @@ For a matrix $A=[a_{ij}]$, the scalar quantity $\det(\mu_{ij}(A))$ is called a *
 2. Multiply each element in the first row by its cofactor and sum the results.
 We can do this for any row or column, not just the first one. This obviously means that if a matrix has a zero row, the determinant is zero. Similarly, for an upper triangular matrix, the determinant is the product of the diagonal elements. The same is true for diagonal and lower triangular matrices.
 
-**Properties**
+**Properties**<br />
 - $(u_{ij}(A))^T=u_{ji}(A^T)$. Therefore, for any square matrix $A$, $\det(A)=\det(A^T)$.
 - If $A$ has two identical rows or columns, $\det(A)=0$. That is, if $r(A) < n$, $\det(A)=0$.
 - If $E$ is the elementary matrix corresponding to interchanging two rows of $A$, then $\det(E)=-1$ and $\det(EA)=-\det(A)=\det(E)\det(A)$.
@@ -391,7 +348,7 @@ A square matrix $A$ is nonsingular if and only if its determinant is nonzero. Th
 
 # Linear Systems of Equations
 
-**Linear Systems of Equations**
+**Linear Systems of Equations**<br />
 A system of equations (you know this), where every term is a scalar multiple of the variable. Then, each equation models a linear combination of the variables.
 
 ![[Pasted image 20240601195718.png]]
@@ -404,13 +361,13 @@ Therefore, there will be $0$, $1$, or infinitely many solutions.
 
 Theorem: Suppose $x_1$ and $x_2$ are solutions to the matrix equation $A\vec{x}=\vec{b}$. If $\alpha$ and $\beta$ are any real numbers such that $\alpha + \beta=1$, then $\alpha x_1 + \beta x_2$ is also a solution to the equation.
 
-**Consistent**
+**Consistent**<br />
 A linear system of equations is **consistent** if it has at least one solution. Otherwise, it is inconsistent.
 
-**Homogenous**
+**Homogenous**<br />
 A system of linear equations corresponding the matrix equation $A\vec{x}=\vec{b}$ is **homogenous** if $\vec{b}=\vec{\textbf{0}}$. Otherwise, it is inhomegenous. Every homogenous system is consistent ($\vec{x}=\vec{\textbf{0}}$, which is called the **trivial solution**).
 
-**Row-Reduced Form**
+**Row-Reduced Form**<br />
 A matrix is in row-reduced form if it satisfies the following four conditions:
 1. All zero rows (if any) appear below all nonzero rows.
 2. The first nonzero element in any nonzero row is $1$.
@@ -419,10 +376,10 @@ A matrix is in row-reduced form if it satisfies the following four conditions:
 
 Ex. $A=\begin{bmatrix}1 & 7 & -1 \\ 0 & 1 & 6 \\ 0 & 0 & 0\end{bmatrix}$ is in row-reduced form.
 
-**Pivot**
+**Pivot**<br />
 If a matrix is in row-echelon form, then the first nonzero element of each row is called a **pivot**, and a column in which a pivot appears is called a **pivot column**. In a system of linear equations, the pivot columns represent **basic variables**. Non-basic variables (ones that are not in a pivot column) are called **free variables**. Free variables can take on *any* value (we are "free" to choose any value)
 
-**Guassian Elimination**
+**Guassian Elimination**<br />
 First, note that the following three operations do not change the set of solutions:
 1. $R_1$ — Changing the order of equations.
 2. $R_2$ — Multiplying an equation by a nonzero scalar.
@@ -438,17 +395,19 @@ General guidelines for working with elementary row operations:
 - Never use an operation that changes a $0$ in a previous column.
 If the number $n$ of variables is greater than the number $r$ of variables, then the $r$ equations determine the values of $r$ variables, and the remaining $n-r$ variables have no restrictions. Thus, there are infinitely many solutions.
 
-**Elementary Matrices**
+**Elementary Matrices**<br />
 An elementary matrix $E$ is a square matrix such that multiplying it by $A$ on the left is the same as applying an elementary row operation to $A$. Elementary matrices are easily constructed by applying the corresponding elementary row operation to the identity matrix of the same order.
 
-**LU Decomposition**
+**LU Decomposition**<br />
 If a nonsingular (invertible) matrix $A$ can be written as the product of a lower triangular matrix on the left and an upper triangular matrix on the right, $A$ is said to have an LU decomposition. Let $R_3(i,j,k)$ denote the elementary row operation that adds $k$ times the $j$th row to $i$ where $k\neq 0$ and $i\neq j$. We know that the matrix $R_3(i,j,k)$ has all diagonal elements equal to $1$, element at $(i,j)$ equal to $k$, and $0$ everywhere else. So, if $i>j$, $R_3(i,j,k)$ is a lower triangular matrix. All diagonal elements of a square $n\times n$ nonsingular lower triangular matrix $L$ must be nonzero. A nonsingular $n\times n$ matrix $A$ has an LU decomposition if and only if $A$ can be transformed into an upper triangular matrix with $R_3(i,j,k)$ where $i>j$. A square matrix $A$ has an LU decomposition if $A$ can be transformed to an upper triangular matrix using only the third elementary row operation. If $A$ has an LU decomposition, we can solve the equation $A\vec{x}=\vec{b}$ by solving $L\vec{y}=\vec{b}$ and the equation $U\vec{x}=\vec{y}$. Then, we would have $LU\vec{x}=\vec{b}$, $L\vec{y}=\vec{b}$.
 
+
+<hr >
 ## Miscellaneous (TBD)
 
 
 
-**Inverse of a Matrix**
+**Inverse of a Matrix**<br />
 The "opposite" of a matrix or transformation. $A^{-1}$ (inverse of $A$) has the property that applying $A$, then $A^{-1}$ gives the identity transformation. So, $A^{-1}\cdot A=\begin{bmatrix}1 & 0\\0 & 1\end{bmatrix}$. Notes:
 - $AB=BA=I_n$. $B$ is the inverse of $A$, and $A$ is the inverse of $B$.
 - Non-invertible matrices are called **singular**. Invertible ones are called **non-singular**.
@@ -458,7 +417,7 @@ The "opposite" of a matrix or transformation. $A^{-1}$ (inverse of $A$) has the 
 - $(A^T)^{-1}=(A^{-1})^T$
 - $(\lambda A)^{-1}=\frac{1}{\lambda}A^{-1}$
 
-**Computing the Inverse of a Matrix**
+**Computing the Inverse of a Matrix**<br />
 Lemma 1. A square matrix is invertible if and only if it can be transformed by elementary row operations to row-reduced form with all diagonal entries nonzero.
 
 Lemma 2. Any row-reduced square matrix with all diagonal elements nonzero can be transformed to the identity matrix with elementary row operations.
@@ -471,7 +430,7 @@ For $2\times 2$ matrices, we can find the determinant directly with the formula:
 $$
 \begin{bmatrix}a & b \\ c & d\end{bmatrix}^{-1}=\frac{1}{ad-bc}\begin{bmatrix}d & -b\\ -c & a\end{bmatrix}.
 $$
-**Rank**
+**Rank**<br />
 Some squishes are more "squishy" than others — 3d space squished into a line is more "squished" than 3d space squished into a plane, but both transformations have determinant $0$. The **rank** describes this — it is the number of dimensions in the output. A transformation whose output is a line has a rank of $1$, while a transformation whose output is a plane has a rank of $2$.
 - The system $A\vec{x}=\vec{b}$ is consistent if and only if $r(A)=r(\begin{bmatrix}A \,| \;\, b\end{bmatrix})$.
 - An $n\times n$ matrix $A$ is invertible if and only if $r(A)=n$.
@@ -481,24 +440,24 @@ Some squishes are more "squishy" than others — 3d space squished into a line i
 - A square matrix is invertible if and only if it can be transformed to an upper triangular matrix with all diagonal elements equal to $1$ (no zero rows).
 - $r(AB)\leq \min(r(A), r(B))$.
 
-**Column Space**
+**Column Space**<br />
 Column space is the set of all possible outputs of $A\cdot\vec{v}$. This is just the *span* of the columns (the basis vectors)! For any $p\times n$ matrix $A$, $colrank(A)=rowrank(A)$. This means that the rank is equal to the column rank and the row rank. We can find bases for the column space in one of three ways:
 1. By inspection.
 2. By transposing, row-reducing, and taking nonzero columns.
 3. By row-reducing (to $R$) and taking pivotal columns in $R$'s corresponding columns in $A$.
 
-**Row Space**
+**Row Space**<br />
 The row space of a an $m\times n$ matrix $A$ is the span of the rows of $A$ each viewed as a matrix in $\mathbb{R}^n$. The **row rank** of a matrix is the dimension of the row space. The two are denoted $rowspace(A)$ and $rowrank(A)$. The basis of the row space of a matrix in row-reduced form is the nonzero rows of that matrix, and the row rank is the number of nonzero rows. Even better: if a matrix $B$ is obtained from matrix $A$ by applying some elementary row operations, then $rowspace(A)=rowspace(B)$. Also, if $B$ has some LI columns, the corresponding columns in $A$ are LI.
 
-**Full Rank**
+**Full Rank**<br />
 Not a poker hand! **Full rank** is when the rank of a transformation is the same as the number of input dimensions (number of columns).
 
 
 
-**Orthonormal Transformations**
+**Orthonormal Transformations**<br />
 Orthonormal transformations are ones that keep the dot products of vectors intact (scales, rotations).
 
-**Cramer's Rule**
+**Cramer's Rule**<br />
 If we think about each coordinate in a vector as (instead of the dot product) the determinant of the vector with the *other* basis vectors, we can find the original vector (i.e., $\vec{x}$ in $A\vec{x}=\vec{v}$, given $A$ and $\vec{v}$). How? Before the transformation, the $y$-coordinate of $\vec{x}$ is $1\cdot y$ — duh. Then, when we apply the transformation, the signed area of the parallelogram defined by $\vec{v}$ and where the first ($x$) basis vectors lands is $\det\left({A}\right)\cdot y$. So, we can solve for $y$! The formula is: $y=\frac{\text{Signed Area}}{\det(A)}$. But what's the signed area? It's the determinant of the same transformation as $A$, but where the basis vector that corresponds to the coordinate (in the example, $y$) is replaced by the output vector! So, the final formula (in two dimensions) is as follows:
 $$
 \begin{align}
@@ -514,7 +473,7 @@ $$
 
 ...As transformations between dimensions.
 
-**Non-Square Matrices**
+**Non-Square Matrices**<br />
 A transformation can reasonably transform inputs into higher dimensions (for example, rotate $90^\circ$ around the $x$-axis) — this would be a nonsquare matrix! Here's an example of one that takes a 2d space and transforms it into a 3d space. Notice that the column space (the span of where the vectors land) has the same number of dimensions as the input space — so the transformation is a full rank transformation.
 $$
 A=\begin{bmatrix}2 & 0 \\ -1 & 1 \\ -2 & 1\end{bmatrix}
@@ -534,36 +493,34 @@ We can express the other basis vectors in terms of our basis vectors, and we wil
 
 That's the same thing as a 2d transformation! We use the original coordinate system, and transform the basis vectors to the other system's coordinates. So, changing basis vectors is *matrix-vector multiplication*, where the matrices' columns are how we would express the other basis vectors! So, this matrix $A$ times our "misconception" of the other coordinate space's vector gives us the actual vector in the other coordinate space. But how do we go from the other coordinate system to our coordinate system? Inverse matrices! So to get a vector from our system converted to the other system, we multiply by $A^{-1}$.
 
-**Change of Basis for Transformations**
+**Change of Basis for Transformations**<br />
 We can change basis for transformations too! It's a bit more complicated, though.
 $$
 A^{-1}MA\vec{v}=\text{Transformed }\vec{v}\text{ in Other Coordinate System}
 $$
 
 <hr >
-
-<hr >
 # Eigenvectors, Values, Bases, and Spaces
 
-**Eigenvectors**
+**Eigenvectors**<br />
 Eigenvectors of a transformation are vectors that stay on their span during the transformation. There are two similar ways of defining them: through transformations and matrices. The gist is the same: a nonzero (important!) vector $v\in\mathbb{R}^n$ (matrix) or $v\in\mathbb{V}$ (transformation) is an eigenvector of $A$ (matrix) or $T:\mathbb{V}\to\mathbb{V}$ (linear transformation) if
 1. $Av=\lambda v$, or
 2. $Tv=\lambda v$.
 $\lambda$ is the eigenvector's...
 
-**Eigenvalue**
+**Eigenvalue**<br />
 An eigenvalue describes the scalar that the eigenvector is multiplied by as a result of the transformation. Why are eigenvectors important? Consider a 3d rotation — if you can find an eigenvector, you have found the axis of rotation for that transformation.
 
-**Eigenbasis**
+**Eigenbasis**<br />
 Whenever a matrix has zeroes everywhere except the diagonal, it's called a **diagonal matrix**. It means that every single basis vector is an eigenvector! Diagonal matrices allow you to do a lot — computations with them are very easy. But... isn't it unlikely that you'll get a diagonal matrix as your transformation? Well, funny thing — if you can find a set of eigenvectors that span space, you can change basis *to those eigenvectors* to get a diagonal transformation matrix!
 
-**Finding eigenthings**
+**Finding eigenthings**<br />
 $\lambda$ is an eigenvalue of the $n\times n$ matrix $A$ if and only if
 $$\det(A-\lambda I)=0.$$
 The above equation is called the **characteristic** equation of the matrix $A$. Solving the characteristic equation yields some number of eigenvalues $\lambda_1,\dots,\lambda_k$. We can find each eigenvalue's eigenspace by solving the equation $Ax=\lambda x$. This is equivalent to solving
 $$(A-\lambda I_n)x=0.$$
 
-**Theorems**
+**Theorems**<br />
 Thm. If $\mathbb{V}$ is finite dimensional and $:\mathbb{V}\to\mathbb{V}$ is linear, then there exists a basis $B$ of $\mathbb{V}$ such that the representation of $T$ with respect to $B$ is a diagonal matrix if and only if there exists a basis of $\mathbb{V}$ consisting of only eigenvectors of $T$.
 
 Thm. $u\in \mathbb{V}$ is an eigenvector with eigenvalue $\lambda$ for a given transformation $T:\mathbb{V}\to\mathbb{V}$ if and only if for any basis $C$ of $\mathbb{V}$ and matrix representation $A_C^C$ of $T$, $(u)_C$ is an eigenvector with eigenvalue $\lambda$ for $A_C^C$. So, to find all eigenvectors and eigenvalues of a transformation, it suffices to find all eigenvectors and eigenvalues of any matrix representation of that transformation.
@@ -585,7 +542,7 @@ Thm. If $x$ is an eigenvector of $A$ with eigenvalue $\lambda$, then
 1. $x$ is an eigenvector of $kA$ with eigenvalue $k\lambda$ for some scalar $k$.
 2. $x$ is an eigenvector of $A^n$ with eigenvalue $\lambda^n$ for each positive integer $n$.
 
-**Trace**
+**Trace**<br />
 The trace of an $n\times n$ matrix $A=[a_{ij}]$ is
 $$tr(A)=\sum_{i=1}^n a_{ii},$$
 which is just the sum of the diagonal elements.
@@ -595,21 +552,17 @@ Thm. Suppose $A$ is an $n\times n$ matrix with eigenvalues $\lambda_1, \dots, \l
 2. $\det(A)=\lambda_1\lambda_2\dots\lambda_n$.
 
 
-**Quick Trick for Finding $2\times2$ Eigenvalues**
+**Quick Trick for Finding $2\times2$ Eigenvalues**<br />
 There are a few things to know.
 1. $\text{tr}\left(\begin{bmatrix}a & b\\c & d\end{bmatrix}\right)=a+d=\lambda_1+\lambda_2$, so the average of these two diagonal entries is the same as the average of the two eigenvalues.
 2. $\det\left(\begin{bmatrix}a & b \\ c & d\end{bmatrix}\right)=ad-bc=\lambda_1\lambda_2$.
 3. $\lambda_1, \lambda_2 = m\pm \sqrt{m^2-p}$, where $m$ is the mean of the diagonals and $p$ is the determinant of the matrix.
 
-
-<hr>
-
-
 <hr >
 
 # Diagonalization (Applications of Eigenthings)
 
-**Diagonalizability**
+**Diagonalizability**<br />
 A square matrix is diagonalisable if it is similar to a diagonal matrix.
 
 Thm. An $n\times n$ matrix $A$ is diagonalisable if and only if it has $n$ linearly independent eigenvectors.
@@ -629,14 +582,15 @@ $$\dim(S_\lambda)=n-r(A-\lambda I_n)$$
 because $A-\lambda I_n$ is the kernel of $A:\mathbb{R}^n\to\mathbb{R}^n$.
 
 <hr >
+
 # Abstract Vector Spaces
 
-**What are vectors?**
+**What are vectors?**<br />
 They're arrows in space, right? This is what most people are taught in high school-level mathematics.
 
 But. There are such things as...
 
-**Vector-ish Thingies**
+**Vector-ish Thingies**<br />
 If you think about it, *functions* are just like vectors. You can add them. You can scale them. In essence, functions are just vectors with infinitely many coordinates!
 
 You can define linear transformations on functions — something that takes in a function and outputs another. A good example of this is the derivative. For a transformation (or **operator**) to be linear, it must satisfy the following two properties:
@@ -644,7 +598,7 @@ You can define linear transformations on functions — something that takes in a
 2. Scaling: $L(c\vec{v})=cL(\vec{v})$.
 These two are just a more formal definition of "grid lines remain parallel and evenly spaced" — just remember that linear transformations preserve the operations of scalar multiplication and addition.
 
-**Derivative as a Matrix**
+**Derivative as a Matrix**<br />
 What are the basis vectors for the polynomial space? Well, every polynomial is a linear combination of $1, x,\dots, x^\infty$, so we have infinitely many basis vectors: $b_0(x)=1$, $b_1(x)=x,\dots,$ $b_\infty()=x^\infty$. Then, the derivative is
 $$
 \begin{bmatrix}0 & 1 & 0 & 0 & 0&\dots\\0 & 0 & 2 & 0 & 0&\dots\\0 & 0 & 0 & 3 & 0&\dots\\0 & 0 & 0 & 0 & 4 & \dots\\\vdots & \vdots & \vdots & \vdots & \vdots & \ddots\end{bmatrix}.
@@ -653,7 +607,7 @@ How do we get that? Take the derivative of each basis vector ($b_0, b_1, \dots, 
 
 Back to the question — what are vectors? The answer is, put rules on them. Linear algebra is defined by 8 axioms, and all of the results that can be called "linear algebra" follow as a result of these 8 axioms. So, it *doesn't matter* what a "vector space" is — so long as it follows the axioms, the findings hold true.
 
-**Formal Definition of a Vector Space**
+**Formal Definition of a Vector Space**<br />
 A vector space is a set $V$ of objects (vectors) and a set of scalars (either $\mathbb{R}$ or $\mathbb{C}$), together with two binary operations, vector addition $\oplus$ and scalar multiplication $\odot$, that satisfy the following properties:
 - Addition:
 	- (A1) Closure: For all $u,v\in \mathbb{V},$ $u\oplus v\in \mathbb{V}$.
@@ -670,7 +624,15 @@ A vector space is a set $V$ of objects (vectors) and a set of scalars (either $\
 
 If $\mathbb{R}$ is the set of scalars for a vector space, that vector space is said to be a **real vector space**. If the set of scalars is $\mathbb{C}$, the vector space is said to be a **complex vector space**, or a **vector space over $\mathbb{C}$**. Any vector space defined over $\mathbb{C}$ with dimension $n$ can be viewed as a set over $\mathbb{R}$ with dimension $2n$.
 
-**Properties of Vector Spaces**
+
+**Subspaces**<br />
+A **subspace of $\mathbb{R}^n$** is some subset $V$ of $\mathbb{R}^n$ that satisfies the following properties:
+1. Identity: $\vec{\textbf{0}}\in V$.
+2. Closure under multiplication: $\left\{c\cdot\vec{x}\in V\; \forall\; c\in \mathbb{R},\,\vec{x}\in V\right\}$.
+3. Closer under addition: $\left\{\vec{a}+\vec{b}\in V \;\forall\; \vec{a}, \vec{b}\in V \right\}$.
+4. Non-emptiness: $V\neq \emptyset$.
+
+**Properties of Vector Spaces**<br />
 - In any vector space, there is a unique zero vector.
 - Additive inverses are unique.
 - For any $v\in \mathbb{V}$, if $v\oplus v=v$, $v=\textbf{0}$.
@@ -680,7 +642,7 @@ If $\mathbb{R}$ is the set of scalars for a vector space, that vector space is s
 - For any $v\in \mathbb{V}$, $v=-(-v)$.
 - For any $v\in \mathbb{V}$ and scalar $\alpha$, if $a\odot v=0$, either $a=0$ or $v=\textbf{0}$.
 
-**Spanning Set**
+**Spanning Set**<br />
 A set $S$ is a spanning set of $\mathbb{V}$ if $span(S)=\mathbb{V}$. This means that "$S$ spans $\mathbb{V}$." If $S\subset \mathbb{V}$, then:
 1. If $span(S)=\mathbb{V}$, then some subset of $S$ is a basis for $\mathbb{V}$.
 2. If $S$ is linearly independent, then $S$ is a subset of some basis for $\mathbb{V}$.
@@ -692,7 +654,7 @@ Lemmas:
 	1. $span\{v_1, \dots, v_k, \dots, v_n\}=span\{v_1,\dots, v_k+\lambda v_j, \dots, v_n\}$
 	2. $span\{v_1, \dots, v_k, \dots, v_n\}=span\{v_1,\lambda v_k, \dots, v_n\}$ (where $\lambda\in\mathbb{R}$ and $\lambda \neq 0$).
 
-**Basis**
+**Basis**<br />
 A **basis** for $\mathbb{V}$ is a *linearly independent* spanning set of $V$. Basically a "minimal" spanning set. A vector space is **finitely dimensional** if it has a basis with finitely many elements.
 
 Thm. If the set $S=\left\{ v_1,v_2,\dots,v_n \right\}$ spans $\mathbb{V}$, then any set $T$ with more than $n$ elements must be linearly dependent. From this it follows that if $B=\left\{v_1, v_2,\dots, v_n \right\}$ is a basis for $\mathbb{V}$, then every linearly dependent subset of $\mathbb{V}$ must have $n$ or fewer elements. Also, every basis for $\mathbb{V}$ has the same number of elements. The number of elements in a basis for $\mathbb{V}$ is called the **dimension** of $\mathbb{V}$.
