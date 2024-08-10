@@ -1,7 +1,7 @@
 import { NoteSection } from "./note-section-type";
 
 export const getNoteSections = (mdx: string): NoteSection[] => {
-    const sections = mdx.split("\n<hr />\n");
+    const sections = mdx.split("\n<hr >\n");
 
     return sections.map((section) => {
         const [mdTitle, ...contentLines] = section.trim().split("\n");
