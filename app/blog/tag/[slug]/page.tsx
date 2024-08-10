@@ -68,7 +68,7 @@ const TagPage = async ({ params }: { params: { slug: string } }) => {
         className="mx-auto h-16 object-contain rounded-lg m-0"
       />
       <div className="mt-4 w-full">
-        <div className="mx-auto flex flex-row justify-center flex-wrap gap-2 max-w-6xl">
+        <div className="mx-auto flex flex-row justify-center flex-wrap gap-2 max-w-6xl print:flex-col print:gap-4 w-full">
           {tag.articles.map((article) => (
             <BlogListItem inGrid={true} post={article} key={article.id} />
           ))}
@@ -76,7 +76,7 @@ const TagPage = async ({ params }: { params: { slug: string } }) => {
       </div>
       <LinkButton
         href="/blog/"
-        className="mt-8"
+        className="mt-8 print:hidden"
         direction="left"
         aria-label="Back to Blog"
       >
