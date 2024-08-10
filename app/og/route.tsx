@@ -15,7 +15,7 @@ export async function GET(request: NextRequest) {
                     {params.get("info")}
                 </p>
                 <div tw="flex flex-col justify-center items-end">
-                    <p tw="text-8xl font-bold text-black m-0" style={{}}>
+                    <p tw="text-8xl font-bold text-dark-background m-0" style={{}}>
                         {params.get("title") || "Boris Nezlobin"}
                     </p>
                     <p tw='text-3xl text-[#707070]'>
