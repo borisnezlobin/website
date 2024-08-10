@@ -80,7 +80,7 @@ const SearchBar = ({ query }: { query?: string }) => {
       action={() => {
         window.location.href = "/blog/search/" + search;
       }}
-      className="mt-4 flex w-full max-w-3xl flex-row items-center justify-start gap-2 flex-wrap"
+      className="mt-4 flex w-full max-w-3xl flex-row items-center justify-start gap-2 flex-wrap print:hidden"
     >
       <input
         type="text"

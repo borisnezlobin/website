@@ -89,11 +89,11 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
     }
     
     return (
-        <div className="min-h-[100svh] dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
+        <div className="min-h-[100svh] z-[1] w-full p-8 md:pt-8 print:bg-white print:text-dark-background print:dark:bg-white print:dark:text-dark-background">
             {post.image && <ArticleImageBg imageUrl={post.image} />}
             <header
                 className={`
-                    ${post.image ? "mt-[24rem] md:mt-0 bg-light-background/30 dark:bg-dark-background/3" : ""}
+                    ${post.image ? "mt-[24rem] md:mt-0 bg-light-background/30 dark:bg-dark-background/30" : ""}
                     0 gap-3 rounded-lg backdrop-blur-lg z-[1] flex flex-col justify-start items-start md:items-center p-0 md:p-4
                 `}
             >
@@ -122,7 +122,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                 </div>
             </div>
             {post && (
-                <div className="z-[1] flex flex-row justify-start items-center gap-2">
+                <div className="z-[1] flex flex-row justify-start items-center gap-2 print:hidden">
                     <p className="text-muted dark:text-muted-dark">Liked this article?</p>
                     <LikeButton slug={post.slug} />
                     <ShareButton />
@@ -132,15 +132,15 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
             <LinkButton
                 direction="left"
                 aria-label="Back to Blog"
-                className="mt-8"
+                className="mt-8 print:hidden"
                 href="/blog"
             >
                 Back to blog
             </LinkButton>
 
-            <h2 className="text-3xl mt-12">More articles</h2>
+            <h2 className="text-2xl mt-12 print:hidden">More articles</h2>
 
-            <div className="md:pl-8">
+            <div className="md:pl-8 print:hidden">
                 <ul>
                     {similarPosts.map((post) => (
                         <li key={post.id}>
@@ -151,7 +151,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
             </div>
             {post.tags.length > 0 && (
                 <LinkButton
-                    className="mt-6 mb-16"
+                    className="mt-6 mb-16 print:hidden"
                     href={`/blog/tag/${post.tags[0].slug}`}
                 >
                     View all

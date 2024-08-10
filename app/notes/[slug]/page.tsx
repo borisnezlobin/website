@@ -48,7 +48,7 @@ export default async function SubjectNotesPage({ params }: { params: { slug: str
 
     return (
         <div className="min-h-[100svh] dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
-            <h1 className="text-4xl font-bold">{note.title}</h1>
+            <h1 className="text-3xl font-bold">{note.title}</h1>
             <p className="mt-6 text-muted dark:text-muted-dark">Roughly {numWords} words.</p>
             <p>{note.description}</p>
             <LinkButton className="my-8" href={note.mdxURL}>Download the full Markdown</LinkButton>

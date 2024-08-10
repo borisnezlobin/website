@@ -47,7 +47,7 @@ a {
     outline: none;
     font-family: "charter";
     @apply bg-light-background dark:bg-dark-background text-light dark:text-dark transition-all duration-300;
-    @apply print:bg-white print:dark:bg-white print:text-black print:dark:text-black;
+    @apply print:bg-white print:dark:bg-white print:text-dark-background print:dark:text-dark-background;
 }
 
 .header-link {
@@ -55,6 +55,7 @@ a {
     @apply text-muted dark:text-muted-dark;
     @apply group-hover:text-light dark:group-hover:text-dark;
     @apply hover:text-light dark:hover:text-dark;
+    @apply print:text-dark-background print:dark:text-dark-background;
 }
 
 .link:not(:is(article .link)) {
@@ -71,6 +72,7 @@ a {
 
 article {
     line-height: 1.2rem;
+    @apply print:text-base print:dark:text-base;
 
     h1 {
         @apply text-2xl md:text-4xl font-bold border-b pb-2 mb-4;
@@ -101,7 +103,7 @@ article {
     }
 
     p {
-        @apply text-lg mb-4 leading-8;
+        @apply text-lg mb-4 leading-8 print:text-base;
     }
 
     ul {
@@ -122,7 +124,7 @@ article {
 
     a, .link {
         @apply underline transition-all duration-300;
-        @apply text-primary dark:text-primary-dark;
+        @apply text-primary dark:text-primary-dark print:dark:text-primary;
         /* @apply text-[#0b71e7] dark:text-[#4c9bf6];
         @apply hover:text-[#142a3b] dark:hover:text-sky-600; */
         @apply font-semibold;
@@ -143,6 +145,7 @@ article {
         @apply bg-[#e7e7e7] dark:bg-[#303030] border border-neutral-300 dark:border-neutral-600;
         @apply duration-300 transition-all;
         text-wrap: nowrap;
+        @apply print:bg-[#e7e7e7] print:dark:bg-[#e7e7e7] print:text-wrap;
     }
 
     pre {
@@ -178,13 +181,21 @@ article {
             display: none;
         }
         
-        /* This will ensure it is hidden if clicked outside */
         body {
             cursor: default;
         }
 
         label:focus {
             outline: none;
+        }
+    }
+
+    pre code, pre code *, pre {
+        @apply print:text-wrap;
+        @apply print:!text-dark-background print:dark:!text-dark-background print:!bg-white print:dark:!bg-white;
+
+        @media print {
+            page-break-inside: avoid;
         }
     }
 }
@@ -195,6 +206,7 @@ article {
     *:not(svg, g, path, span) {
         @apply text-light dark:text-dark bg-light-background dark:bg-dark-background;
         @apply transition-all duration-300;
+        @apply print:bg-white print:dark:bg-white print:text-dark-background print:dark:text-dark-background;
     }
 
     span:hover {
@@ -204,6 +216,10 @@ article {
     a {
         color: #1d9bf0;
         text-decoration: none;
+    }
+
+    @media print {
+        page-break-inside: avoid;
     }
 }
 
