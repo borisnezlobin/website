@@ -1,7 +1,3 @@
-"use client";
-
-import { LandingPageBadge } from "./landing-page-badge";
-
 type HorizontalScrollProps = {
     children?: React.ReactNode[];
 }
