@@ -38,81 +38,92 @@ const LinkWithIcon = ({
 
 const Footer = () => {
     return (
-        <footer className="w-full mt-4 flex flex-wrap md:pl-8 pb-24 justify-start items-center py-12 border-t gap-8 border-muted dark:border-muted-dark">
-            <section>
-                <p className="pl-8 md:pl-0 text-muted dark:text-muted-dark mb-2">
-                    About Me
+        <>
+            <footer className="print:hidden w-full mt-4 flex flex-wrap md:pl-8 pb-24 justify-start items-center py-12 border-t gap-8 border-muted dark:border-muted-dark">
+                <section>
+                    <p className="pl-8 md:pl-0 text-muted dark:text-muted-dark mb-2">
+                        About Me
+                    </p>
+                    <ul className="pl-8 md:pl-0 flex flex-row gap-2 justify-start items-start flex-wrap">
+                        <li>
+                            <LinkWithIcon title="Home" href="/" Icon={House}>
+                                Home
+                            </LinkWithIcon>
+                        </li>
+                        <li>
+                            <Separator />
+                        </li>
+                        <li>
+                            <LinkWithIcon title="Resume" href="/resume" Icon={TextAlignCenter}>
+                                Resume
+                            </LinkWithIcon>
+                        </li>
+                        <li>
+                            <Separator />
+                        </li>
+                        <li>
+                            <LinkWithIcon title="Contact" href="/contact" Icon={AddressBook}>
+                                Contact
+                            </LinkWithIcon>
+                        </li>
+                    </ul>
+                </section>
+
+                <Separator size="xlarge" className="hidden md:flex" />
+
+                <section>
+                    <p className="pl-8 md:pl-0 text-muted dark:text-muted-dark mb-2">
+                        My Work
+                    </p>
+                    <ul className="pl-8 md:pl-0 flex flex-row gap-2 justify-start items-start flex-wrap">
+                        <li>
+                            <LinkWithIcon title="Projects" href="/projects" Icon={Atom}>
+                                Projects
+                            </LinkWithIcon>
+                        </li>
+                        <li>
+                            <Separator />
+                        </li>
+                        <li>
+                            <LinkWithIcon title="Blog" href="/blog" Icon={Newspaper}>
+                                Blog
+                            </LinkWithIcon>
+                        </li>
+                        <li>
+                            <Separator />
+                        </li>
+                        <li>
+                            <LinkWithIcon title="Notes" href="/notes" Icon={HighlighterCircle}>
+                                Notes
+                            </LinkWithIcon>
+                        </li>
+                    </ul>
+                </section>
+
+
+                <Separator size="xlarge" className="hidden md:flex" />
+
+                <section className="pl-8 md:pl-0 md:pr-8">
+                    <p className="text-muted dark:text-muted-dark mb-2">Contact Me</p>
+                    <div className="flex flex-row gap-2 justify-start items-start flex-wrap">
+                        <SocialLinks />
+                    </div>
+                </section>
+
+                <p className="w-full text-muted dark:text-muted-dark text-center mt-8">
+                    © 2024 Boris Nezlobin. All rights reserved.
                 </p>
-                <ul className="pl-8 md:pl-0 flex flex-row gap-2 justify-start items-start flex-wrap">
-                    <li>
-                        <LinkWithIcon title="Home" href="/" Icon={House}>
-                            Home
-                        </LinkWithIcon>
-                    </li>
-                    <li>
-                        <Separator />
-                    </li>
-                    <li>
-                        <LinkWithIcon title="Resume" href="/resume" Icon={TextAlignCenter}>
-                            Resume
-                        </LinkWithIcon>
-                    </li>
-                    <li>
-                        <Separator />
-                    </li>
-                    <li>
-                        <LinkWithIcon title="Contact" href="/contact" Icon={AddressBook}>
-                            Contact
-                        </LinkWithIcon>
-                    </li>
-                </ul>
-            </section>
+            </footer>
 
-            <Separator size="xlarge" className="hidden md:flex" />
-
-            <section>
-                <p className="pl-8 md:pl-0 text-muted dark:text-muted-dark mb-2">
-                    My Work
-                </p>
-                <ul className="pl-8 md:pl-0 flex flex-row gap-2 justify-start items-start flex-wrap">
-                    <li>
-                        <LinkWithIcon title="Projects" href="/projects" Icon={Atom}>
-                            Projects
-                        </LinkWithIcon>
-                    </li>
-                    <li>
-                        <Separator />
-                    </li>
-                    <li>
-                        <LinkWithIcon title="Blog" href="/blog" Icon={Newspaper}>
-                            Blog
-                        </LinkWithIcon>
-                    </li>
-                    <li>
-                        <Separator />
-                    </li>
-                    <li>
-                        <LinkWithIcon title="Notes" href="/notes" Icon={HighlighterCircle}>
-                            Notes
-                        </LinkWithIcon>
-                    </li>
-                </ul>
-            </section>
-
-
-            <Separator size="xlarge" className="hidden md:flex" />
-
-            <section className="pl-8 md:pl-0 md:pr-8">
-                <p className="text-muted dark:text-muted-dark mb-2">Contact Me</p>
-                <div className="flex flex-row gap-2 justify-start items-start flex-wrap">
-                    <SocialLinks />
-                </div>
-            </section>
-
-            <p className="w-full text-muted dark:text-muted-dark text-center mt-8">
-                © 2024 Boris Nezlobin. All rights reserved.
+            <p aria-hidden className="w-full text-center hidden print:block">
+                <Link href="https://bnezlobin.vercel.app" className="mb-4 font-bold underline">
+                    bnezlobin.vercel.app
+                </Link><br />
+                <span className="text-muted dark:text-muted-dark">
+                    © 2024 Boris Nezlobin. All rights reserved.
+                </span>
             </p>
-        </footer>
+        </>
     );
 };
 

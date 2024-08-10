@@ -37,7 +37,7 @@ const projects = [
     { title: "YAPA", description: "Yet Another (Electron) Pomodoro App (with nice UI). It has Discord RPC!", url: "https://github.com/borisnezlobin/pomodoro" },
     { title: "SpatOS", description: "WIP - Yikes! High schoolers trying to make spatial operating systems doesn't turn out well." },
     { title: "UndoDB", description: "A small, no-SQL, in-memory, transaction-based database written in Java.", url: "https://github.com/borisnezlobin/undodb" },
-    { title: "L!m", description: "A Mozilla and Chrome RegEx-based time limit extension.", url: "https://github.com/borisnezlobin/lim" }
+    { title: "Lim", description: "A Mozilla and Chrome RegEx-based time limit extension.", url: "https://github.com/borisnezlobin/lim" }
 ]
 
 const contributions = [
@@ -83,7 +83,7 @@ export default function Home() {
                 title="Skills"
                 description=""
             >
-                <div className="w-full flex flex-wrap flex-row gap-4">
+                <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 print:gap-0">
                     {skills.map((e, i) => <LandingPageBadge title={e.title} description={e.description} key={`skill ${i}`} />)}
                 </div>
             </Section>
@@ -92,7 +92,7 @@ export default function Home() {
                 title="Projects"
                 description="My favorite projects. Check out /projects for writeups on each!"
             >
-                <div className="w-full flex flex-wrap flex-row gap-4 mt-4">
+                <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 mt-4">
                     {projects.map((e, i) =>
                         <LandingPageBadge titleClassName={"w-24"} title={e.title} description={e.description} key={`project ${i}`} url={e.url} />
                     )}
