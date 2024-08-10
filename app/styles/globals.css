@@ -213,3 +213,19 @@ article {
 .__Latex__ .katex, .__Latex__ .katex-html {
     font-size: 1em;
 }
+
+.scroller {
+    mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
+    -webkit-mask: linear-gradient(90deg, transparent, white 10%, white 90%, transparent);
+}
+
+.scroller .scroller-inner {
+    animation: scroll 40s linear infinite;
+    width: max-content;
+}
+
+@keyframes scroll {
+    to {
+        transform: translateX(calc(-50% - 0.5rem));
+    }
+}
