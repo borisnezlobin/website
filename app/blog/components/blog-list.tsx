@@ -66,8 +66,8 @@ const BlogList = ({
       className="min-h-[100svh] w-full p-8 pt-0 text-light-foreground dark:text-dark-foreground"
       suppressHydrationWarning
     >
-      <h1 className="text-5xl edo mt-8 mb-4">{title ? title : "My Blog"}</h1>
-      <center className="w-full my-8 mb-12">
+      <h1 className="text-3xl edo mt-8 mb-4">{title ? title : "My Blog"}</h1>
+      <center className="w-full my-8 mb-12 print:hidden">
         <p>
           <span className="text-xl font-bold mr-1 text-primary dark:text-primary-dark">&ldquo;</span>
           {quotes[index].text}
@@ -80,7 +80,7 @@ const BlogList = ({
         various thoughts that I put into article form! This is where I share much of what I do — projects, observations about modern society, and miscellaneous writings.
       </p> */}
       <SearchBar query={query} />
-      <p className="mt-1 text-muted dark:text-muted-dark">
+      <p className="mt-1 text-muted dark:text-muted-dark print:mb-4">
         {query && (
           <>
             <Link

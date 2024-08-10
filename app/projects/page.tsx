@@ -108,7 +108,7 @@ export default async function ProjectsPage() {
 
   return (
     <main className="p-4">
-      <h1 className="text-6xl font-bold text-left dark:text-dark edo">
+      <h1 className="text-3xl font-bold text-left dark:text-dark edo">
         Projects
       </h1>
       <p className="dark:text-dark text-left mt-2">

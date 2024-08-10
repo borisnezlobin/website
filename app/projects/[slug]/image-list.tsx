@@ -28,7 +28,7 @@ const Modal = ({ onClose, children }: { onClose: () => void, children: React.Rea
     return <div className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 dark:bg-white dark:bg-opacity-50 flex flex-col justify-center items-center">
         <div className="bg-white rounded-lg">
             <button onClick={onClose} className="absolute top-4 right-4 p-2">
-                <X weight="bold" className="w-8 h-8 text-white dark:text-black" />
+                <X weight="bold" className="w-8 h-8 text-white dark:text-dark-background" />
             </button>
             {children}
         </div>

@@ -27,7 +27,7 @@ export default async function NotesPage() {
 
     return (
         <div className="min-h-[100svh] dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
-            <h1 className="text-4xl font-bold">Lecture Notes</h1>
+            <h1 className="text-3xl font-bold">Lecture Notes</h1>
             <p className="mt-4">
                 A collection of notes I&apos;ve taken for various courses. Linear Algebra, AP Physics, and more.
             </p>

@@ -10,7 +10,7 @@ interface TagListProps {
 
 const TagList = ({ tags, maxLength = 5, redirectUrl, className }: TagListProps) => {
     return (
-        <div className={`flex flex-row justify-start items-center gap-2 ${className}`}>
+        <div className={`flex flex-row justify-start items-center gap-2 print:gap-1 ${className}`}>
             {tags.slice(0, maxLength).map((tag) => <TagBadge tag={tag} key={tag.id} />)}
             {tags.length > maxLength && (
                 <p className="text-sm">
