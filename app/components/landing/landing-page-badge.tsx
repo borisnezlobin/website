@@ -18,19 +18,21 @@ const LandingPageBadge = ({
             ${url ? "cursor-pointer hover:scale-105" : ""}
             ${index === undefined ? (isVisible ? "translate-y-0" : "translate-y-10") : ""}
             ${className ? className : "flex-col"}
+            print:flex-col print:gap-2 print:p-2 print:rounded-none print:border-none print:translate-y-0
         `}
         style={{
             animationDuration: `${index !== undefined ? "1s" : 0}`,
         }}
         >
-            <b className={`text-xl ${titleClassName}`}>
+            <b className={`text-xl ${titleClassName} print:flex print:text-lg print:gap-2 print:items-center`}>
                 {title}
+                {url && <ArrowSquareOut aria-hidden className="hidden print:block print:text-xl" />}
             </b>
-            {description && <Separator size="medium" className="hidden md:block transition-colors duration-300" />}
+            {description && <Separator size="medium" className="hidden md:block transition-colors duration-300 print:hidden" />}
             <p className="transition-colors duration-300">
                 {description}
             </p>
-            {url && <ArrowSquareOut />}
+            {url && <ArrowSquareOut className="print:hidden" />}
         </div>
     );
 

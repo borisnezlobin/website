@@ -12,6 +12,7 @@ body {
     color: rgb(var(--foreground-rgb));
     overflow-x: hidden;
     @apply bg-light-background dark:bg-dark-background;
+    @apply print:bg-white print:dark:bg-white;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -46,6 +47,7 @@ a {
     outline: none;
     font-family: "charter";
     @apply bg-light-background dark:bg-dark-background text-light dark:text-dark transition-all duration-300;
+    @apply print:bg-white print:dark:bg-white print:text-black print:dark:text-black;
 }
 
 .header-link {

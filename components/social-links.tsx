@@ -71,7 +71,7 @@ const SocialLinksBubble = () => {
   };
 
   return (
-    <div className="fixed flex bottom-4 z-10 right-4 flex-row items-center justify-center gap-4 border border-muted dark:border-muted-dark p-4 md:p-2 md:px-6 rounded-full shadow-lg bg-light-background dark:bg-dark-background">
+    <div className="print:hidden fixed flex bottom-4 z-10 right-4 flex-row items-center justify-center gap-4 border border-muted dark:border-muted-dark p-4 md:p-2 md:px-6 rounded-full shadow-lg bg-light-background dark:bg-dark-background">
       <span className="hidden md:flex flex-row justify-center items-center gap-4">
         <SocialLinks />
       </span>

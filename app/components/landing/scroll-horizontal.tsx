@@ -1,16 +1,29 @@
-type HorizontalScrollProps = {
-    children?: React.ReactNode[];
+import { Children, cloneElement, isValidElement, ReactElement, ReactNode } from 'react';
+
+interface HorizontalScrollProps {
+    children: ReactNode;
 }
 
-export const HorizontalScroll = ({ children }: HorizontalScrollProps) => {
+const HorizontalScroll = ({ children }: HorizontalScrollProps) => {
+    // Ensure children is an array of ReactElement
+    const elements = Children.toArray(children).filter(
+        (child): child is ReactElement => isValidElement(child)
+    );
 
     return (
-        <div className="w-full overflow-hidden motion-reduce:overflow-auto relative scroller">
-            <div className="h-max py-4 flex flex-row motion-reduce:flex-wrap justify-start gap-4 items-center scroller-inner">
-                {children}
+        <>
+            <div className="print:hidden w-full overflow-hidden motion-reduce:overflow-auto print:overflow-auto relative scroller">
+                <div className="h-max py-4 flex flex-row print:flex-col motion-reduce:flex-wrap print:flex-wrap justify-start gap-4 items-center scroller-inner">
+                    {children}
+                    {elements.map((e, i) => {
+                        return cloneElement(e, { key: i, "aria-hidden": "true" });
+                    })}
+                </div>
+            </div>
+            <div className="hidden flex-col print:flex">
                 {children}
             </div>
-        </div>
+        </>
     );
 }
 
