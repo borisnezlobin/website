@@ -89,11 +89,11 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
     }
     
     return (
-        <div className="min-h-[100svh] z-[1] w-full p-8 md:pt-8 print:bg-white print:text-dark-background print:dark:bg-white print:dark:text-dark-background">
+        <div className="min-h-[100svh] print:min-h-0 z-[1] w-full p-8 md:pt-8 print:bg-white print:text-dark-background print:dark:bg-white print:dark:text-dark-background">
             {post.image && <ArticleImageBg imageUrl={post.image} />}
             <header
                 className={`
-                    ${post.image ? "mt-[24rem] md:mt-0 bg-light-background/30 dark:bg-dark-background/30" : ""}
+                    ${post.image ? "mt-[24rem] md:mt-0 bg-light-background/30 dark:bg-dark-background/30 print:mt-0" : ""}
                     0 gap-3 rounded-lg backdrop-blur-lg z-[1] flex flex-col justify-start items-start md:items-center p-0 md:p-4
                 `}
             >
@@ -113,7 +113,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                 className={`z-[1] w-full justify-center items-center relative mt-2 mb-8 p-0 md:p-8 rounded-lg`}
             >
                 <div
-                    className={`z-[1] max-w-3xl ml-auto mr-auto relative w-full p-0 md:p-8 rounded-lg`}
+                    className={`z-[1] max-w-3xl ml-auto mr-auto relative w-full p-0 md:pt-8 rounded-lg`}
                 >
                     <p className="text-muted dark:text-muted-dark">
                         {post.tags.map((tag) => tag.name).join(", ")}
