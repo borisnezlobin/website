@@ -26,7 +26,7 @@ const ExploreTagsPage = async () => {
   });
 
   return (
-    <div className="min-h-[100svh] w-full p-8 text-light-foreground dark:text-dark-foreground">
+    <div className="min-h-[100svh] print:min-h-0 w-full p-8 text-light-foreground dark:text-dark-foreground">
       <h1 className="text-3xl edo">Tags</h1>
 
       {tags.map((tag) => (

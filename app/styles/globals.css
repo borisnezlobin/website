@@ -100,6 +100,9 @@ article {
 
     h1, h2, h3, h4, h5, h6 {
         @apply mt-8;
+        @media print {
+            page-break-inside: avoid;
+        }
     }
 
     p {
@@ -145,7 +148,7 @@ article {
         @apply bg-[#e7e7e7] dark:bg-[#303030] border border-neutral-300 dark:border-neutral-600;
         @apply duration-300 transition-all;
         text-wrap: nowrap;
-        @apply print:bg-[#e7e7e7] print:dark:bg-[#e7e7e7] print:text-wrap;
+        @apply print:bg-[#e7e7e7] print:dark:bg-[#e7e7e7];
     }
 
     pre {

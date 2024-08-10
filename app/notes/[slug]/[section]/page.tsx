@@ -88,7 +88,7 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
     const section = sections[sectionIndex];
 
     return (
-        <div className="min-h-[100svh] dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
+        <div className="min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
             <div className="z-[1] max-w-3xl ml-auto mr-auto relative w-full p-0 md:p-8">
                 <header className="border-b border-muted dark:border-muted-dark mb-6 pb-6">
                     <p>{note.title}</p>
@@ -97,7 +97,7 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
                 </header>
                 <ArticleBody body={section.content} />
             </div>
-            <div className="w-full flex flex-row flex-wrap justify-between items-center gap-4 pt-8">
+            <div className="w-full flex flex-row flex-wrap justify-between items-center gap-4 pt-8 print:hidden">
                 {sectionIndex > 0 ? (
                     <Link href={`/notes/${note.slug}/${sections[sectionIndex - 1].slug}`} className="link">
                         <ArrowLeft className="hidden sm:block" />
@@ -119,7 +119,7 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
                     </Link>
                 )}
             </div>
-            <div className="w-full mt-4 flex flex-row flex-wrap justify-center items-center">
+            <div className="w-full mt-4 flex flex-row flex-wrap justify-center items-center print:hidden">
                 <Link href={`/notes/${note.slug}`} className="link flex">
                     <List />Back to {note.title}
                 </Link>
