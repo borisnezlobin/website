@@ -55,7 +55,7 @@ const TagPage = async ({ params }: { params: { slug: string } }) => {
   console.log(`${CONFIG.API_URL}/og/tag?title=${tag.name}&img=${tag.image}`);
 
   return (
-    <div className="min-h-[100svh] w-full p-8 text-light-foreground dark:text-dark-foreground">
+    <div className="min-h-[100svh] print:min-h-0 w-full p-8 text-light-foreground dark:text-dark-foreground">
       <div className="flex flex-col md:flex-row justify-between items-center mx-auto max-w-7xl gap-3 md:gap-0">
         <h1 className="text-3xl edo">{tag.name}</h1>
         <p className="text-muted dark:text-muted-dark text-lg mb-4 md:m-0">

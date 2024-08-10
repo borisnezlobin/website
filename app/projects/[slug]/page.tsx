@@ -59,14 +59,14 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
     const githubRepo = project ? (project.github ? project.github.split("/") : []) : [];
 
     return (
-        <div className="flex flex-col gap-4 p-8 md:p-16">
+        <div className="flex flex-col gap-4 print:gap-0 p-8 md:p-16">
             <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between ">
                 <h1 className="text-3xl font-bold">
                     {project.title}
                 </h1>
-                {(project && project.github) && (
+                {project.github && (
                     <div className="flex flex-col justify-center items-start md:items-end">
-                        <Link href={project.github} aria-label="View code on Github" target="_blank" className="link flex flex-row items-center justify-center">
+                        <Link href={project.github} aria-label="View code on Github" target="_blank" className="link flex flex-row items-center justify-center print:text-muted print:dark:text-muted">
                             Source code on GitHub
                             <ArrowSquareOut className="ml-2" weight="bold" />
                         </Link>
@@ -74,22 +74,21 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
                     </div>
                 )}
             </div>
-            <p>
+            <p className="print:my-2">
                 {project.description}
             </p>
-            {project && <TagList tags={project.tags} />}
-            {(project && project.links.length > 0) && <hr />}
-            {(project && project.links.length > 0) && <h2 className="text-xl font-bold">Links</h2>}
-            {project &&
-                <ul className="flex flex-col gap-2 justify-start items-start">
-                    {project.links.map(link => (
-                        <li key={"li" + link} className="md:ml-4">
-                            <ProjectLink link={link} key={link} />
-                        </li>
-                    ))}
-                </ul>
-            }
-            <div className="flex flex-col gap-2 mt-4 self-center relative w-full">
+            <TagList tags={project.tags} />
+            {project.links.length > 0 && <hr className="print:my-4" />}
+            {project.links.length > 0 && <h2 className="text-xl font-bold">Links</h2>}
+            <ul className="flex flex-col gap-2 justify-start items-start">
+                {project.links.map(link => (
+                    <li key={"li" + link} className="md:ml-4">
+                        <ProjectLink link={link} key={link} />
+                    </li>
+                ))}
+            </ul>
+            <hr className="mt-2 print:my-4 w-full" />
+            <div className="flex flex-col gap-2 mt-4 self-center relative w-full max-w-3xl">
                 <ArticleBody body={project.body} />
             </div>
             {/* this part is so bad, and I really can't be bothered to figure out how to fix it atm... I swear I will make it look good someday */}

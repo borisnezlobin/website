@@ -107,10 +107,10 @@ const Footer = () => {
                 </p>
             </footer>
 
-            <p aria-hidden className="w-full text-center hidden print:block">
+            <p aria-hidden className="w-full text-center hidden print:flex gap-4 justify-between items-center print-footer border-t pt-4 border-muted">
                 <Link href="https://bnezlobin.vercel.app" className="mb-4 font-bold underline">
                     bnezlobin.vercel.app
-                </Link><br />
+                </Link>
                 <span className="text-muted dark:text-muted-dark">
                     © 2024 Boris Nezlobin. All rights reserved.
                 </span>
