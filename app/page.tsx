@@ -5,6 +5,7 @@ import { Age } from "./components/landing/age";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "./components/landing/section";
 import { LandingPageBadge } from "./components/landing/landing-page-badge";
+import HorizontalScroll from "./components/landing/scroll-horizontal";
 
 const skills = [
     { title: "TypeScript", description: "My go-to language for web projects" },
@@ -105,30 +106,18 @@ export default function Home() {
                 <p className="my-3">
                     I&apos;ve contributed to a few open-source projects. Here are some of them:
                 </p>
-                <div className="w-screen overflow-hidden relative ">
-                    <div className="h-max p-4 flex flex-row justify-start gap-4 items-center animate-scroll">
-                        {contributions.map((e, i) =>
-                            <LandingPageBadge
-                                title={e.title}
-                                description={e.description}
-                                key={`contribution ${i}`}
-                                url={e.url}
-                                className={`inline-block w-max flex-shrink-0 flex-row`}
-                                index={i}
-                            />
-                        )}
-                        {contributions.map((e, i) =>
-                            <LandingPageBadge
-                                title={e.title}
-                                description={e.description}
-                                key={`contribution ${i}`}
-                                url={e.url}
-                                className={`inline-block w-max flex-shrink-0 flex-row`}
-                                index={i}
-                            />
-                        )}
-                    </div>
-                </div>
+                <HorizontalScroll>
+                    {contributions.map((e, i) =>
+                        <LandingPageBadge
+                            title={e.title}
+                            description={e.description}
+                            key={`contribution ${i}`}
+                            url={e.url}
+                            className={`inline-block w-max flex-shrink-0 flex-row`}
+                            index={i}
+                        />
+                    )}
+                </HorizontalScroll>
             </Section>
         </main>
     );
