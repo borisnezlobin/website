@@ -9,6 +9,10 @@ References:
 1. [Linear Algebra, An Introduction (2nd Edition)](https://mathematicalolympiads.wordpress.com/wp-content/uploads/2012/08/lineer-algebra2.pdf)
 2. [Essence of Linear Algebra, 3Blue1Brown](https://www.youtube.com/playlist?list=PLZHQObOWTQDPD3MizzM2xVFitgF8hE_ab)
 
+I truly believe that knowledge is for everyone — if it weren't for random people on the internet, I wouldn't have been able to learn economics, calculus, computer science, or physics. Now, I'm giving back. I hope you find this useful.
+
+*p.s. This is a work in progress, and there may be errors. If you find any, please let me know!*
+
 <hr >
 
 # Vectors and Coordinate Spaces
@@ -352,7 +356,7 @@ But. There are such things as...
 **Vector-ish Thingies**<br />
 If you think about it, *functions* are just like vectors, no? You can add them. You can scale them. In essence, functions are just vectors with infinitely many coordinates, where the base is $x^\infty, \dots, x^2, x, 1$ instead of $\begin{bmatrix}1 & 0 & \dots\end{bmatrix}^T,\begin{bmatrix}0 & 1 & \dots \end{bmatrix}^T$.
 With this basis (for polynomials of degree $n$ or lower, the basis is called the **standard basis of $\mathbb{P}^n$**), you can represent any polynomial as a linear combination of the basis vectors. For example, the polynomial $3x^2+2x+1$ can be represented as $\begin{bmatrix}3 & 2 & 1\end{bmatrix}^T$.
-Back to the question — what are vectors? The answer is, anything that follows the rules. Linear algebra is defined by 8 axioms, and all of the results that can be called "linear algebra" follow as a result of these 8 axioms. So, it *doesn't matter* what a "vector space" is — so long as it follows the axioms, the findings hold true.
+Back to the question — what are vectors? The answer is, anything that follows the rules. Linear algebra is defined by 10 axioms, and all of the results that can be called "linear algebra" follow as a result of these 10 axioms. So, it *doesn't matter* what a "vector space" is — so long as it follows the axioms, the findings hold true.
 
 **Formal Definition of a Vector Space**<br />
 A vector space is a set $V$ of objects (vectors) and a set of scalars (either $\mathbb{R}$ or $\mathbb{C}$), together with two binary operations, vector addition $\oplus$ and scalar multiplication $\odot$, that satisfy the following properties:
@@ -374,10 +378,16 @@ If $\mathbb{R}$ is the set of scalars for a vector space, that vector space is s
 
 **Subspaces**<br />
 A **subspace of $\mathbb{R}^n$** is some subset $V$ of $\mathbb{R}^n$ that satisfies the following properties:
-1. Identity: $\vec{\textbf{0}}\in V$.
-2. Closure under multiplication: $\left\{c\cdot\vec{x}\in V\; \forall\; c\in \mathbb{R},\,\vec{x}\in V\right\}$.
-3. Closer under addition: $\left\{\vec{a}+\vec{b}\in V \;\forall\; \vec{a}, \vec{b}\in V \right\}$.
-4. Non-emptiness: $V\neq \emptyset$.
+1. Identity: $\vec{\textbf{0}}\in \mathbb{V}$.
+2. Closure under multiplication: $\left\{c\cdot\vec{x}\in \mathbb{V}\; \forall\; c\in \mathbb{R},\,\vec{x}\in \mathbb{V}\right\}$.
+3. Closer under addition: $\left\{\vec{a}+\vec{b}\in \mathbb{V} \;\forall\; \vec{a}, \vec{b}\in \mathbb{V} \right\}$.
+4. Non-emptiness: $\mathbb{V}\neq \emptyset$.
+
+These 4 properties can be simplified to one, closure under linear combination:
+$$
+\text{For all } \vec{v}, \vec{w}\in \mathbb{V} \text{ and scalars } c, d, c\vec{v}+d\vec{w}\in \mathbb{V}.
+$$
+As it implies the 4 hold true. We'll see subspaces used more when we talk about eigenvectors and eigenvalues.
 
 **Properties of Vector Spaces**<br />
 - In any vector space, there is a unique zero vector.
@@ -545,6 +555,12 @@ If $T:\mathbb{V}\to \mathbb{W}$ is linear, onto, and one-to-one, then it is **is
 - Counterclockwise rotation by $\theta$ around the origin:
 	- $\begin{bmatrix}\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta\end{bmatrix}$
 
+
+**Similar Matrices**<br />
+Two matrices $A$ and $B$ are **similar** if there exists an invertible matrix $P$ such that $B=P^{-1}AP$. Similar matrices have the same rank, determinant, and trace.
+As we'll see when we get to change of basis and determinants, similar matrices are matrices that represent the same linear transformation, but with different bases.
+Similarity (denoted $A\cong B$) is transitive, symmetric, and reflexive.
+
 **Transformation Composition (Matrix Multiplication)**<br />
 Applying one transformation, then another, is still a linear transformation! So, there is a matrix that describes this **composition** of transformations, and we can call it the "product" of the two original matrices. However, since linear transformations aren't commutative (and are functions), we read matrix multiplication from right to left (just like we read $f(g(x))$). So how do we multiply matrices $A$ and $B$?
 $$
@@ -593,7 +609,7 @@ Transformations tend to stretch or shrink (squish) space. So how do we measure *
 Let $\mu_{ij}$ be the $(n-1)\times(n-1)$ submatrix of $A$ obtained by removing the $i$th row and $j$th column of $A$.
 
 **Determinant**<br />
-The **determinant** is the factor by which a given transformation changes any area. The determinant is $0$ if the transform transforms space into a lower dimension (area/volume is $0$). Well... ish. Sorry. The determinant can be negative! This is when space is "inverted".
+The **determinant** is the factor by which a given transformation changes any area. The determinant is $0$ if the transform transforms space into a lower dimension (for example, $\mathbb{R}^3$ is transformed into a plane, or even a line). Well... ish. Sorry. The determinant can be negative! This is when space is "inverted".
 
 Ex.
 $$
@@ -630,14 +646,15 @@ A square matrix $A$ is nonsingular if and only if its determinant is nonzero. Th
 
 
 **Inverse of a Matrix**<br />
-The "opposite" of a matrix or transformation. $A^{-1}$ (inverse of $A$) has the property that applying $A$, then $A^{-1}$ gives the identity transformation. So, $A^{-1}\cdot A=\begin{bmatrix}1 & 0\\0 & 1\end{bmatrix}$. Notes:
+The "opposite" of a matrix or transformation, $A^{-1}$ (inverse of $A$) has the property that applying $A$, then $A^{-1}$ gives the identity transformation. So, $A^{-1}\cdot A=I_n$. Notes:
 - $AB=BA=I_n$. $B$ is the inverse of $A$, and $A$ is the inverse of $B$.
 - Non-invertible matrices are called **singular**. Invertible ones are called **non-singular**.
 - Inverses are unique.
-- $(A^{-1})^{-1}=A$
-- $(AB)^{-1}=B^{-1}A^{-1}$
-- $(A^T)^{-1}=(A^{-1})^T$
-- $(\lambda A)^{-1}=\frac{1}{\lambda}A^{-1}$
+- The following properties are true for invertible matrices $A$ and $B$:
+	- $(A^{-1})^{-1}=A$
+	- $(AB)^{-1}=B^{-1}A^{-1}$
+	- $(A^T)^{-1}=(A^{-1})^T$
+	- $(\lambda A)^{-1}=\frac{1}{\lambda}A^{-1}$
 
 **Computing the Inverse of a Matrix**<br />
 Lemma 1. A square matrix is invertible if and only if it can be transformed by elementary row operations to row-reduced form with all diagonal entries nonzero.
@@ -646,9 +663,26 @@ Lemma 2. Any row-reduced square matrix with all diagonal elements nonzero can be
 
 By these lemmas, we can write
 $$E_{k}E_{k-1}\dots E_2E_1A=I_n,$$
-so $A^{-1}=E_{k}E_{k-1}\dots E_2E_1$. So, we can compute the inverse of matrix $A$ by applying the elementary row operations $E_k,\dots, E_1$ to the identity matrix! In summary: to compute $A^{-1}$, apply the same row operations to the identity matrix as you applied to $A$ in order to transform it to the identity.
+so $A^{-1}=E_{k}E_{k-1}\dots E_2E_1$. So, we can compute the inverse of matrix $A$ by applying the elementary row operations $E_k,\dots, E_1$ to the identity matrix! So, to compute $A^{-1}$, apply the same row operations to the identity matrix as you applied to $A$ in order to transform it to the identity.
+One way of finding the inverse of an $n\times n$ matrix $A$ is as follows:
+1. Form the $n\times 2n$ matrix $[A\,|\,I_n]$.
+2. Row-reduce the matrix to $[I_n\,|\,A^{-1}]$.
+3. The matrix $A^{-1}$ is the $n\times n$ matrix on the right side of the augmented matrix.
 
-For $2\times 2$ matrices, we can find the determinant directly with the formula:
+Ex.
+$$
+\begin{align*}
+\text{Find the inverse of }&\begin{bmatrix}1 & 2\\3 & 4\end{bmatrix}.\\
+\left[\begin{array}{cc|cc}1 & 2 & 1 & 0\\3 & 4 & 0 & 1\end{array}\right]&\rightarrow
+\left[\begin{array}{cc|cc}1 & 2 & 1 & 0\\0 & -2 & -3 & 1\end{array}\right]\rightarrow\\
+\left[\begin{array}{cc|cc}1 & 2 & 1 & 0\\0 & 1 & 3/2 & -1/2\end{array}\right]&\rightarrow
+\left[\begin{array}{cc|cc}1 & 0 & -2 & 1\\0 & 1 & 3/2 & -1/2\end{array}\right]\rightarrow\\
+\text{So, the inverse is }&\boxed{\begin{bmatrix}-2 & 1\\3/2 & -1/2\end{bmatrix}}.
+\end{align*}
+$$
+It's good practice to verify results, so you should multiply the inverse by the original matrix to check that the result is the identity matrix.
+
+As a side note, for $2\times 2$ matrices, we can find the determinant directly with the formula:
 $$
 \begin{bmatrix}a & b \\ c & d\end{bmatrix}^{-1}=\frac{1}{ad-bc}\begin{bmatrix}d & -b\\ -c & a\end{bmatrix}.
 $$
@@ -666,24 +700,28 @@ For any $n\times n$ matrix $A$, the following are equivalent:
 9. The determinant of $A$ is nonzero.
 10. The transpose of $A$ is invertible.
 
+You don't need to memorize each one of these, but do take the time to understand *why* they are true — this will help you remember them.
+
 <hr >
 # Change of Basis
 
-If $\mathbb{V}$ is a vector space with basis $B$ and $\mathbb{W}$ is a basis with basis $C$, and $T:\mathbb{V}\to \mathbb{W}$ is linear, then there exists a matrix $A_B^C$ such that $(Tv)_C=A_B^C(v)_B$. The $j$th column consists of the coordinate representation of the $j$th vector in $\mathbb{V}$'s basis expressed with respect to basis $C$. If $B$ and $C$ are two bases of vector space $\mathbb{V}$, then there exists a **transition matrix** $P_B^C$ such that $(v)_C=P_B^C (v)_B$ for all $v\in \mathbb{V}$.
+If $\mathbb{V}$ is a vector space with basis $B$ and $\mathbb{W}$ is a basis with basis $C$, and $T:\mathbb{V}\to \mathbb{W}$ is linear, then there exists a matrix $A_B^C$ such that $(Tv)_C=A_B^C(v)_B$. The $j$th column consists of the coordinate representation of the $j$th vector in $\mathbb{V}$'s basis expressed with respect to basis $C$.
+This is just a more general form of how we've been talking about transformations: before, we weren't including bases, but now we're explicitly stating that the transformation is from one basis to another.
+If $B$ and $C$ are two bases of vector space $\mathbb{V}$, then there exists a **transition matrix** $P_B^C$ (read: "$P$ from $B$ to $C$") such that $(v)_C=P_B^C (v)_B$ for all $v\in \mathbb{V}$.
 
 If $\mathbb{V}$ is a vector space with bases $B$ and $C$ and $T:\mathbb{V}\to \mathbb{V}$ is linear, then $P_B^CA_B^B=A_C^CP_B^C$.
 
-Given two matrices $A$ and $\widetilde{A}$, $\widetilde{A}$ is said to be **similar** to $A$ if there exists an invertible matrix $P$ such that $A=P^{-1}\widetilde{A}P$. This relation is symmetric — $A$ is similar to $\widetilde{A}$ if and only if $\widetilde{A}$ is similar to $A$.
-
-We can express the other basis vectors in terms of our basis vectors, and we will be able to use the other system's coordinates to scale the other system's basis vectors, expressed in our coordinate system.
-
-That's the same thing as a 2d transformation! We use the original coordinate system, and transform the basis vectors to the other system's coordinates. So, changing basis vectors is *matrix-vector multiplication*, where the matrices' columns are how we would express the other basis vectors! So, this matrix $A$ times our "misconception" of the other coordinate space's vector gives us the actual vector in the other coordinate space. But how do we go from the other coordinate system to our coordinate system? Inverse matrices! So to get a vector from our system converted to the other system, we multiply by $A^{-1}$.
+**So how do we change basis?**<br />
+We can change basis by multiplying by the transition matrix! If we have a vector $v$ in basis $B$ (denoted "$(v)_B$"), we can find its representation in basis $C$ by multiplying by $P_B^C$. So, $(v)_C=P_B^C(v)_B$.
+That's the same thing as a 2d transformation! We use the original coordinate system, and transform the basis vectors to the other system's coordinates. So, changing basis vectors is *matrix-vector multiplication*, where the matrices' columns are how we would express the "other" basis vectors!
 
 **Change of Basis for Transformations**<br />
-We can change basis for transformations too! It's a bit more complicated, though.
+We can change the basis that a transformation is represented in the same way we would change basis for vectors:
 $$
-A^{-1}MA\vec{v}=\text{Transformed }\vec{v}\text{ in Other Coordinate System}
+A_C^C=P_B^CA_B^BP_B^C.
 $$
+If you read this out loud, it'll make sense: "$A$ from base $C$ to $C$ is equal to the transition matrix from $C$ to $B$ times $A$ from $B$ to $B$ times the transition matrix from $B$ to $C$."
+We'll see an incredibly powerful application of this in the [Diagonalization section](/notes/linalg/diagonalization).
 
 
 
@@ -709,6 +747,8 @@ The above equation is called the **characteristic** equation of the matrix $A$. 
 $$(A-\lambda I_n)x=0.$$
 
 **Theorems**<br />
+There are a ton of results related to eigenvalues and eigenvectors. Here are a few. Try to prove eaach one, or at least understand why they're true.
+
 Thm. If $\mathbb{V}$ is finite dimensional and $:\mathbb{V}\to\mathbb{V}$ is linear, then there exists a basis $B$ of $\mathbb{V}$ such that the representation of $T$ with respect to $B$ is a diagonal matrix if and only if there exists a basis of $\mathbb{V}$ consisting of only eigenvectors of $T$.
 
 Thm. $u\in \mathbb{V}$ is an eigenvector with eigenvalue $\lambda$ for a given transformation $T:\mathbb{V}\to\mathbb{V}$ if and only if for any basis $C$ of $\mathbb{V}$ and matrix representation $A_C^C$ of $T$, $(u)_C$ is an eigenvector with eigenvalue $\lambda$ for $A_C^C$. So, to find all eigenvectors and eigenvalues of a transformation, it suffices to find all eigenvectors and eigenvalues of any matrix representation of that transformation.
@@ -740,11 +780,15 @@ Thm. Suppose $A$ is an $n\times n$ matrix with eigenvalues $\lambda_1, \dots, \l
 2. $\det(A)=\lambda_1\lambda_2\dots\lambda_n$.
 
 
+<hr />
+
 **Quick Trick for Finding $2\times2$ Eigenvalues**<br />
 There are a few things to know.
 1. $\text{tr}\left(\begin{bmatrix}a & b\\c & d\end{bmatrix}\right)=a+d=\lambda_1+\lambda_2$, so the average of these two diagonal entries is the same as the average of the two eigenvalues.
 2. $\det\left(\begin{bmatrix}a & b \\ c & d\end{bmatrix}\right)=ad-bc=\lambda_1\lambda_2$.
 3. $\lambda_1, \lambda_2 = m\pm \sqrt{m^2-p}$, where $m$ is the mean of the diagonals and $p$ is the determinant of the matrix.
+
+This is from a [3Blue1Brown video](https://www.youtube.com/watch?v=e50Bj7jn9IQ), and it's a really cool trick! It's a good way to check your work, and it's a good way to find eigenvalues quickly.
 
 <hr >
 
@@ -752,15 +796,19 @@ There are a few things to know.
 
 # Diagonalization (Applications of Eigenthings)
 
+Diagonalization is used all the time in computer graphics, physics, and engineering. It's a way of simplifying a transformation by changing the basis to one of eigenvectors. This is a powerful tool, and it's a great way to understand the power of eigenvectors and eigenvalues.
+
 **Diagonalizability**<br />
 A square matrix is diagonalisable if it is similar to a diagonal matrix.
+
+<hr />
 
 Thm. An $n\times n$ matrix $A$ is diagonalisable if and only if it has $n$ linearly independent eigenvectors.
 
 While we can't guarantee that $A$ is similar to a unique diagonal matrix, we can guarantee the following:
 If $A$ is similar to the diagonal matrices $D_1$ and $D_2$, then $D_1$ and $D_2$ have the same set of diagonal elements (with the same multiplicities).
 
-Thm. Let $A$ be a square matrix. For each positive integer $k$, if $x_1,\dots,x_k$ is are eigenvectors of $A$ with distinct eigenvalues $\lambda_1,\dots,\lambda_k$, then $\left\{x_1,\dots,x_k\right\}$ is linearly independent. (eigenvectors with distinct eigenvalues are linearly independent).
+Thm. Let $A$ be a square matrix. For each positive integer $k$, if $x_1,\dots,x_k$ is are eigenvectors of $A$ with distinct eigenvalues $\lambda_1,\dots,\lambda_k$, then $\left\{x_1,\dots,x_k\right\}$ is linearly independent (this is just saying that eigenvectors with distinct eigenvalues are linearly independent).
 
 Thm. If $A$ is $n\times n$ and $A$ has $n$ distinct real eigenvalues, then $A$ is diagonalizable.
 
@@ -770,3 +818,16 @@ Thm. If $A$ is an $n\times n$ matrix with with real eigenvalues $\lambda_1,\dots
 Thm. If $\lambda$ is an eigenvalue of the $n\times n$ matrix $A$, then
 $$\dim(S_\lambda)=n-r(A-\lambda I_n)$$
 because $A-\lambda I_n$ is the kernel of $A:\mathbb{R}^n\to\mathbb{R}^n$.
+
+<hr />
+
+**What's the point of diagonalization?**<br />
+Let's consider some matrix $A$ that represents a transformation. What if we want to apply it three times ($A^3$)? Well, we could multiply $A$ by itself three times, but that's a lot of work.
+If we can find a diagonal matrix $D$ that is similar to $A$, then $A=PDP^{-1}$, and $A^3=PD^3P^{-1}$. But $D^3$ is just the diagonal elements cubed! So, we can find $A^3$ by just cubing the diagonal elements of $D$.
+Diagonalization also makes it easy to find the inverse of a matrix. If $A=PDP^{-1}$, then $A^{-1}=PD^{-1}P^{-1}$, and $D^{-1}$ is just the reciprocal of the diagonal elements.
+
+<hr />
+
+*~ The End ~*
+
+What I've covered here is just the beginning of linear algebra. There's so much more to learn, and I hope you continue to explore. If you have any questions, feel free to reach out to me at [my email](mailto:boris.nezlobin@gmail.com). Good luck!

@@ -127,7 +127,7 @@ article {
 
     ul > li, ol > li {
         ul > li, ol > li {
-            margin-left: 20px;
+            margin-left: 3rem;
         }
     }
 
@@ -240,9 +240,13 @@ article {
 
 .__Latex__ .katex, .__Latex__ .katex-html {
     font-size: 1em;
+}
+
+.__Latex__ {
     text-wrap: nowrap;
-    /* disable line break inside */
     white-space: nowrap;
+    overflow-x: auto;
+    overflow-y: visible;
 }
 
 .scroller {
