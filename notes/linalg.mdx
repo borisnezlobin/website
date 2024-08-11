@@ -425,13 +425,26 @@ This is a very powerful tool, and it's why we use linear algebra. It's not just 
 
 If you're not sure how we came up with $A$, you'll see it later when we talk about transformations. For now, just know that it's a way to represent the derivative of a polynomial as a matrix.
 
+<hr >
 
 # Rank, Nullity, and Dimension
 
+**Row Rank**<br />
+The row rank of a matrix is the dimension of the row space of the matrix. The row rank of a matrix is the maximum number of linearly independent rows in the matrix.
+Unsurprisingly, the row rank is denoted $rowrank(A)$.
+
+**Column Rank**<br />
+The column rank of a matrix is the dimension of the column space of the matrix. The column rank of a matrix is the maximum number of linearly independent columns in the matrix.
+If you had to guess how the column rank is denoted, what would you say? $colrank(A)$? You're right!
+
+_If you didn't say $colrank(A)$...I don't know what to tell you._
+
 **Rank**<br />
-- The system $A\vec{x}=\vec{b}$ is consistent if and only if $r(A)=r(\begin{bmatrix}A \,| \;\, b\end{bmatrix})$.
-- An $n\times n$ matrix $A$ is invertible if and only if $r(A)=n$.
-- If we have an consistent $n$-variable SLE $Ax=b$, then the solutions to the system are expressible in $n-r(A)$ unknowns.
+The rank of a matrix is, interestingly, the same as the row rank and the column rank.
+There are a number of properties of the rank of a matrix:
+- The system $A\vec{x}=\vec{b}$ is consistent if and only if $r(A)=r(\begin{bmatrix}A \,| \,\, b\end{bmatrix})$. This is clear because it means that the columns of $A$ with $b$ are linearly dependent, so $b$ can be expressed as a linear combination of $A$'s columns.
+- An $n\times n$ matrix $A$ is invertible if and only if $r(A)=n$ ($A$ can be row-reduced to the identity matrix).
+- If we have an consistent $n$-variable SLE $Ax=b$, then the solutions to the system are expressible in $n-r(A)$ unknowns (the number of zero rows after row-reducing).
 - If $AB=I$, then the rows of $A$ are linearly independent, and $r(A)=n$.
 - If $A$ is an $n\times n$ matrix such that $r(A)=n$, then there exists matrix $C$ such that $CA=I_n$.
 - A square matrix is invertible if and only if it can be transformed to an upper triangular matrix with all diagonal elements equal to $1$ (no zero rows).
@@ -449,6 +462,10 @@ The row space of a an $m\times n$ matrix $A$ is the span of the rows of $A$ each
 **Full Rank**<br />
 Not a poker hand! **Full rank** is when the rank of a transformation is the same as the number of input dimensions (number of columns).
 
+**Finding a Basis for the...**<br />
+1. **Row Space**: Find the row-reduced form of the matrix. The basis is the set of nonzero rows.
+2. **Image/Column Space**: Find the row-reduced form of the transpose of the matrix. The basis is the set of nonzero rows.
+3. **Kernel/Null Space**: Find the row-reduced form of the matrix. The basis is the set of special solutions to the system $Ax=\textbf{0}$. Here, row-reducing isn't actually necessary, but it's helpful to solve $Ax=\textbf{0}$
 
 <hr >
 
@@ -528,10 +545,6 @@ If $T:\mathbb{V}\to \mathbb{W}$ is linear, onto, and one-to-one, then it is **is
 - Counterclockwise rotation by $\theta$ around the origin:
 	- $\begin{bmatrix}\cos\theta & -\sin\theta \\ \sin\theta & \cos\theta\end{bmatrix}$
 
-
-**Reverse Transformation**<br />
-Given a matrix, how do you find what the transformation looks like? Well, you take the basis vectors and transform them — and that's what the transformation looks like.
-
 **Transformation Composition (Matrix Multiplication)**<br />
 Applying one transformation, then another, is still a linear transformation! So, there is a matrix that describes this **composition** of transformations, and we can call it the "product" of the two original matrices. However, since linear transformations aren't commutative (and are functions), we read matrix multiplication from right to left (just like we read $f(g(x))$). So how do we multiply matrices $A$ and $B$?
 $$
@@ -553,7 +566,10 @@ And this shows us the second way of thinking about multiplying matrices: memoriz
 
 _P.S. I do not support the second way._
 
-<hr >
+<hr />
+
+If you recall, in an earlier section we talked about the derivative as a linear transformation, denoted by a matrix with respect to the standard basis of $\mathbb{P}^n$. Do you see how we arrived at that matrix now? We just followed where each basis vector went!
+
 
 <hr >
 # Non-square Matrices
@@ -577,12 +593,13 @@ Transformations tend to stretch or shrink (squish) space. So how do we measure *
 Let $\mu_{ij}$ be the $(n-1)\times(n-1)$ submatrix of $A$ obtained by removing the $i$th row and $j$th column of $A$.
 
 **Determinant**<br />
-The **determinant** is the factor by which a given transformation changes any area. The determinant is $0$ if the transform transforms space into a lower dimension (area/volume is $0$). Well... ish. The determinant can be negative! This is when space is "inverted" — $\hat{\textbf{i}}$ becomes to the left of $\hat{\textbf{j}}$.
+The **determinant** is the factor by which a given transformation changes any area. The determinant is $0$ if the transform transforms space into a lower dimension (area/volume is $0$). Well... ish. Sorry. The determinant can be negative! This is when space is "inverted".
 
 Ex.
 $$
-\det\left({\begin{bmatrix}3 & 0\\0 & 2\end{bmatrix}}\right)=6
+\det\left({\begin{bmatrix}3 & 0\\0 & 2\end{bmatrix}}\right)=6.
 $$
+Do you see why? We stretch the $y$-axis by $3$, and the $x$-axis by $2$, so the area of any shape is stretched by $6$.
 
 The determinant ($\det(A)=|A|$) is more formally defined recursively:
 1. If $A$ is the $1\times 1$ matrix $A=[a_{11}]$, then $\det(A)=a_{11}$.
@@ -592,6 +609,7 @@ $$\det(A)=\sum_{j=1}^n (-1)^{j + 1}a_{1j} \det(\mu_{1j}(A)).$$
 For a matrix $A=[a_{ij}]$, the scalar quantity $\det(\mu_{ij}(A))$ is called a **minor** of $A$, and $(-1)^{j+i}\det(\mu_{ij}(A))$ is called a **cofactor**. To compute the determinant of $A$, we can
 1. Compute the cofactor of each element in the first row.
 2. Multiply each element in the first row by its cofactor and sum the results.
+
 We can do this for any row or column, not just the first one. This obviously means that if a matrix has a zero row, the determinant is zero. Similarly, for an upper triangular matrix, the determinant is the product of the diagonal elements. The same is true for diagonal and lower triangular matrices.
 
 **Properties**<br />
