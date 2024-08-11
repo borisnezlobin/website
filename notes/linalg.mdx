@@ -118,9 +118,6 @@ Two matrices $A$ and $B$ are equivalent if there exist two real numbers $n$ and 
 **Matrix Addition**<br />
 Matrix addition is defined elementwise — add corresponding elements. Matrix addition is commutative ($A+B=B+A$) and associative ($(A+B)+C=A+(B+C)$). Undefined if the orders of $A$ and $B$ are not the same.
 
-**Zero Matrix**<br />
-The unique zero matrix of order $p\times n$ is a matrix (of order $p\times n$) whose entries are all zero. It is denoted with $\textbf{0}_{p\times n}$. If $A$ and $\textbf{0}_{p\times n}$ have the same order, then $A+\textbf{0}_{p\times n}=A$.
-
 **Scalar Multiplication**<br />
 For a matrix $A$ and real number $\lambda$, $\lambda A$ is defined by $(\lambda A)_{i, j}=\lambda A_{i,j}$.
 1. $\lambda(A+B)=\lambda A+\lambda B$.
@@ -137,36 +134,16 @@ For $i=1,2,\dots,p$ and $j=1,2,\dots n$. This means that $c_{i,I}$ is obtained b
 If $B$ and $C$ are matrices such that $BC$ is defined, then $\lambda(BC)=B(\lambda C)$. Here's a gif:
 <img src="https://boydjohnson.dev/blog/concurrency-matrix-multiplication/matrix-multiplication-good.gif"></img>
 
+## Special Types of Matrices
+
+There are some special types of matrices that we'll need to know about.
+
 **Identity Matrix**<br />
 The identity matrix is a square matrix with $1$'s on the main diagonal and $0$'s elsewhere. It is denoted by $I_n$ (where $n$ is the order of the matrix). The identity matrix is the multiplicative identity for matrices: $AI_n=I_nA=A$.
 
-**Transpose**<br />
-The transpose of a $p\times n$ matrix $A$ is the $n\times p$ matrix $A^T$ such that
-$$
-(A^T)_{i,j}=A_{j,i}.
-$$
-Essentially, each row of $A$ becomes a column of $A^T$. Transposes have the following properties:
-$$
-\begin{align}
-(A^T)^T&=A\\
-(\lambda A)^T&=\lambda(A^T)\\
-(A+B)^T&=A^T+B^T\\
-(AB)^T&=B^TA^T
-\end{align}
-$$
+**Zero Matrix**<br />
+The unique zero matrix of order $p\times n$ is a matrix (of order $p\times n$) whose entries are all zero. It is denoted with $\textbf{0}_{p\times n}$. If $A$ and $\textbf{0}_{p\times n}$ have the same order, then $A+\textbf{0}_{p\times n}=A$.
 
-**Raising a Matrix to a Power**<br />
-$A^n$ (for any positive integer $n$) is called a "positive integral power of $A$."
-$${\left(A^n\right)}^T={\left(A^T\right)}^n$$
-
-**Symmetry**<br />
-A matrix is *symmetric* if $A^T=A$. This can be possible if and only if $A$ is square and $A_{ij}=A_{ji}$. So, the main diagonal can be anything, but the other elements must be symmetric.
-
-**Skew Symmetry**<br />
-A matrix $A$ is *skew symmetric* if $A^T=-A$. This is true if and only if $A$ is square and $A_{ij}=-A_{ji}$. A skew symmetric matrix must have all diagonal elements equal to $0$.
-
-**Diagonal Matrix**<br />
-A diagonal matrix is a matrix with only zeroes as the nondiagonal elements.
 
 **Triangular Matrices**<br />
 1. **Upper Triangular**: A square matrix is upper triangular if $a_{i,j}=0$ whenever $i > j$.
@@ -184,13 +161,10 @@ $$
 **Diagonal Matrix**<br />
 A diagonal matrix is a matrix where all the elements are zero except for the diagonal elements. The product of two diagonal matrices is also a diagonal matrix. So, a diagonal matrix is both UT and LT.
 
-**Row Equivalence**<br />
-Two matrices are row equivalent if once can be changed to the other by a sequence of elementary row operations.
-
 **Sub-matrix**<br />
-A sub-matrix of a matrix $A$ is any matrix obtained by removing a number of rows or columns from $A$.
+A sub-matrix of a matrix $A$ is any matrix obtained by removing a number of rows or columns from $A$. We'll need this when we talk about the determinant.
 
-**Partition**<br />
+**Partitioned Matrix**<br />
 A matrix is partitioned if it is divided into submatrices by horizontal and vertical lines between rows and columns. The resulting submatrices are often called **blocks**. Matrices are **compatibly partitioned** if the number of horizontal blocks in $A=$ the number of vertical blocks in $B$ (i.e., the block dimensions are multiplicable) AND each block $\times$ block operation "makes sense" — i.e., the submatrices can be multiplied.
 Note that partitioning a matrix doesn't change anything about the matrix — it's just a way to organize the matrix.
 
@@ -202,6 +176,38 @@ A diagonal block (in a symmetrically partitioned matrix) can be defined in two w
 1. A block bounded by the $i$-th and $i+1$st horizontal AND vertical partition lines.
 2. A block whose diagonal elements are all diagonal elements of $A$.<br />
 Each diagonal block must be square. A **block diagonal matrix** is one whose nondiagonal blocks are all zero submatrices.
+
+## Special Matrix Definitions
+
+**Row Equivalence**<br />
+Two matrices are row equivalent if once can be changed to the other by a sequence of elementary row operations.
+
+
+**Positive Integral Power**<br />
+$A^n$ (for any positive integer $n$) is called a "positive integral power of $A$."
+
+**Transpose**<br />
+The transpose of a $p\times n$ matrix $A$ is the $n\times p$ matrix $A^T$ such that
+$$
+(A^T)_{i,j}=A_{j,i}.
+$$
+Essentially, each row of $A$ becomes a column of $A^T$. Transposes have the following properties:
+$$
+\begin{align}
+(A^T)^T&=A\\
+(\lambda A)^T&=\lambda(A^T)\\
+(A+B)^T&=A^T+B^T\\
+(AB)^T&=B^TA^T\\
+{\left(A^n\right)}^T&={\left(A^T\right)}^n
+\end{align}
+$$
+
+**Symmetry**<br />
+A matrix is *symmetric* if $A^T=A$. This can be possible if and only if $A$ is square and $A_{ij}=A_{ji}$. So, the main diagonal can be anything, but the other elements must be symmetric.
+
+**Skew Symmetry**<br />
+A matrix $A$ is *skew symmetric* if $A^T=-A$. This is true if and only if $A$ is square and $A_{ij}=-A_{ji}$. A skew symmetric matrix must have all diagonal elements equal to $0$.
+It is a good exercise to prove that a skew symmetric matrix $A$ squared is symmetric, and $A^3$ is skew symmetric.
 
 
 <hr >
@@ -323,7 +329,7 @@ $$
 \begin{bmatrix}
 k & 0 & 0 & \dots & 0\\
 0 & 1 & 0 & \dots & 0\\
-0 & 0 & 0 & \dots & 0\\
+0 & 0 & 1 & \dots & 0\\
 \vdots & \vdots & \vdots & \ddots & \vdots\\
 0 & 0 & 0 & \dots & 1
 \end{bmatrix}.
@@ -344,21 +350,9 @@ They're arrows in space, right? This is what most people are taught in high scho
 But. There are such things as...
 
 **Vector-ish Thingies**<br />
-If you think about it, *functions* are just like vectors, no? You can add them. You can scale them. In essence, functions are just vectors with infinitely many coordinates and bases $1, x, x^2, x^3,\dots$ instead of $\begin{bmatrix}1 \\ 0 \\ \vdots\end{bmatrix},\begin{bmatrix}0 \\ 1 \\ \vdots \end{bmatrix}$.
-
-You can define linear transformations on functions — something that takes in a function and outputs another. A good example of this is the derivative. For a transformation (or **operator**) to be linear, it must satisfy the following two properties:
-1. Additivity: $L(\vec{v}+\vec{w})=L(\vec{v})+L(\vec{w})$.
-2. Scaling: $L(c\vec{v})=cL(\vec{v})$.
-These two are just a more formal definition of "grid lines remain parallel and evenly spaced" — just remember that linear transformations preserve the operations of scalar multiplication and addition.
-
-**Derivative as a Matrix**<br />
-What are the basis vectors for the polynomial space? Well, every polynomial is a linear combination of $1, x,\dots, x^\infty$, so we have infinitely many basis vectors: $b_0(x)=1$, $b_1(x)=x,\dots,$ $b_\infty()=x^\infty$. Then, the derivative is
-$$
-\begin{bmatrix}0 & 1 & 0 & 0 & 0&\dots\\0 & 0 & 2 & 0 & 0&\dots\\0 & 0 & 0 & 3 & 0&\dots\\0 & 0 & 0 & 0 & 4 & \dots\\\vdots & \vdots & \vdots & \vdots & \vdots & \ddots\end{bmatrix}.
-$$
-How do we get that? Take the derivative of each basis vector ($b_0, b_1, \dots, b_\infty$) and write it in the corresponding column — that's what we did with linear transformations with real coordinate spaces.
-
-Back to the question — what are vectors? The answer is, put rules on them. Linear algebra is defined by 8 axioms, and all of the results that can be called "linear algebra" follow as a result of these 8 axioms. So, it *doesn't matter* what a "vector space" is — so long as it follows the axioms, the findings hold true.
+If you think about it, *functions* are just like vectors, no? You can add them. You can scale them. In essence, functions are just vectors with infinitely many coordinates, where the base is $x^\infty, \dots, x^2, x, 1$ instead of $\begin{bmatrix}1 & 0 & \dots\end{bmatrix}^T,\begin{bmatrix}0 & 1 & \dots \end{bmatrix}^T$.
+With this basis (for polynomials of degree $n$ or lower, the basis is called the **standard basis of $\mathbb{P}^n$**), you can represent any polynomial as a linear combination of the basis vectors. For example, the polynomial $3x^2+2x+1$ can be represented as $\begin{bmatrix}3 & 2 & 1\end{bmatrix}^T$.
+Back to the question — what are vectors? The answer is, anything that follows the rules. Linear algebra is defined by 8 axioms, and all of the results that can be called "linear algebra" follow as a result of these 8 axioms. So, it *doesn't matter* what a "vector space" is — so long as it follows the axioms, the findings hold true.
 
 **Formal Definition of a Vector Space**<br />
 A vector space is a set $V$ of objects (vectors) and a set of scalars (either $\mathbb{R}$ or $\mathbb{C}$), together with two binary operations, vector addition $\oplus$ and scalar multiplication $\odot$, that satisfy the following properties:
@@ -418,22 +412,57 @@ Thm. If the set $S=\left\{ v_1,v_2,\dots,v_n \right\}$ spans $\mathbb{V}$, then 
 Bases are used to express any vector in the vector space. For any vector $\vec{u}\in \mathbb{V}$, there is only one way to express $\vec{u}$ as a linear combination of the basis vectors. The coefficients used in this linear combination are called the **coordinates**, and can be written as $n$-tuples or column matrices.
 We'll use this a lot later when we talk about transformations and change of basis operations.
 
+<hr />
+
+I wanted to talk a bit more about why we might want to use polynomials as vectors (or anything, for that matter). The truth is, linear algebra is a tool — a *very* powerful one. Consider taking the derivative of a polynomial.
+There is no "strictly math" way to implement it, in, say, Python. But if we consider the polynomial as a vector, we can take the derivative of the polynomial by simple matrix multiplication — which is easy-peasy in Python.
+Then, the derivative could be defined as
+$$
+A=\begin{bmatrix}0 & 1 & 0 & 0 & 0&\dots\\0 & 0 & 2 & 0 & 0&\dots\\0 & 0 & 0 & 3 & 0&\dots\\0 & 0 & 0 & 0 & 4 & \dots\\\vdots & \vdots & \vdots & \vdots & \vdots & \ddots\end{bmatrix},
+$$
+with respect to the basis $\left\{1, x, x^2, x^3, \dots\right\}$. So, the derivative of the polynomial $p(x)=1+2x+3x^2$ is just $Ap(x)=\begin{bmatrix}0&2&6&0&\dots\end{bmatrix}^T=2+6x$.
+This is a very powerful tool, and it's why we use linear algebra. It's not just about vectors and matrices — it's about the power of abstraction and the ability to manipulate things in ways that we couldn't before.
+
+If you're not sure how we came up with $A$, you'll see it later when we talk about transformations. For now, just know that it's a way to represent the derivative of a polynomial as a matrix.
+
+
+# Rank, Nullity, and Dimension
+
+**Rank**<br />
+- The system $A\vec{x}=\vec{b}$ is consistent if and only if $r(A)=r(\begin{bmatrix}A \,| \;\, b\end{bmatrix})$.
+- An $n\times n$ matrix $A$ is invertible if and only if $r(A)=n$.
+- If we have an consistent $n$-variable SLE $Ax=b$, then the solutions to the system are expressible in $n-r(A)$ unknowns.
+- If $AB=I$, then the rows of $A$ are linearly independent, and $r(A)=n$.
+- If $A$ is an $n\times n$ matrix such that $r(A)=n$, then there exists matrix $C$ such that $CA=I_n$.
+- A square matrix is invertible if and only if it can be transformed to an upper triangular matrix with all diagonal elements equal to $1$ (no zero rows).
+- $r(AB)\leq \min(r(A), r(B))$.
+
+**Column Space**<br />
+Column space is the set of all possible outputs of $A\cdot\vec{v}$. This is just the *span* of the columns (the basis vectors)! For any $p\times n$ matrix $A$, $colrank(A)=rowrank(A)$. This means that the rank is equal to the column rank and the row rank. We can find bases for the column space in one of three ways:
+1. By inspection.
+2. By transposing, row-reducing, and taking nonzero columns.
+3. By row-reducing (to $R$) and taking pivotal columns in $R$'s corresponding columns in $A$.
+
+**Row Space**<br />
+The row space of a an $m\times n$ matrix $A$ is the span of the rows of $A$ each viewed as a matrix in $\mathbb{R}^n$. The **row rank** of a matrix is the dimension of the row space. The two are denoted $rowspace(A)$ and $rowrank(A)$. The basis of the row space of a matrix in row-reduced form is the nonzero rows of that matrix, and the row rank is the number of nonzero rows. Even better: if a matrix $B$ is obtained from matrix $A$ by applying some elementary row operations, then $rowspace(A)=rowspace(B)$. Also, if $B$ has some LI columns, the corresponding columns in $A$ are LI.
+
+**Full Rank**<br />
+Not a poker hand! **Full rank** is when the rank of a transformation is the same as the number of input dimensions (number of columns).
+
+
 <hr >
 
 # Transformations
 
 **Linear Transformation**<br />
-A transformation is a function that takes in a vector and outputs another vector. A **linear transformation** must
-1. keep the origin at the origin.
-2. keep all lines as lines — no curving the lines.
-(todo: mathbb)
-To denote that a transformation $T$ has domain $V$ and range $W$, we write $T:V\to W$. A transformation $T:V\to W$ (mathematically) is **linear** if for all scalars $v_1, v_2$ and scalars $\alpha,\beta$:
+A transformation is a function that takes in a vector and outputs another vector — not at all different from our typical AP Calculus BC-style vector-valued functions. Now, however, we're working with vectors that could be *anything*, not just Cartesian coordinates.
+To denote that a transformation $T$ has domain $\mathbb{V}$ and range $\mathbb{W}$, we write $T:\mathbb{V}\to \mathbb{W}$. A transformation $T:\mathbb{V}\to \mathbb{W}$ (mathematically) is **linear** if for all scalars $v_1, v_2$ and scalars $\alpha,\beta$:
 $$
 T(\alpha v_1 + \beta v_2) = \alpha T(v_1)+\beta T(v_2).
 $$
-For any vector space $V$ with basis $B$, the transformation $\phi:V\to R^n$ defined by $\phi(v)=(v)_B$ is linear, one-to-one, and onto.
+For any vector space $\mathbb{V}$ with basis $B$, the transformation $\phi:\mathbb{V}\to \mathbb{R}^n$ defined by $\phi(v)=(v)_B$ is linear, one-to-one, and onto, where $(v)_B$ is the coordinate vector of $v$ with respect to $B$.
 
-How do we describe these numerically? An interesting observation is that we only need to follow where the basis vectors end up — since grid lines must be parallel and evenly spaced in the transform, a vector like $\vec{v}=2\hat{\textbf{i}}+3\hat{\textbf{j}}$ transformed is the _same linear combination_ of the transformed $\hat{\textbf{i}}$ and $\hat{\textbf{j}}$ as the original vector was of $\hat{\textbf{i}}$ and $\hat{\textbf{j}}$! So, a linear transformation is completely described by 4 numbers — the coordinates where $\hat{\textbf{i}}$ and $\hat{\textbf{j}}$ land. This can be packaged into a $2\times 2$ matrix where each column describes the transformed locations of  $\hat{\textbf{i}}$ and $\hat{\textbf{j}}$. In the most general case:
+How do we describe these numerically? An interesting observation is that we only need to follow where the basis vectors end up — since the linear transformation preserves addition and multiplication (linear combination), a vector like $\vec{v}=2\hat{\textbf{i}}+3\hat{\textbf{j}}$ transformed is the _same linear combination_ of the transformed $\hat{\textbf{i}}$ and $\hat{\textbf{j}}$ as the original vector was of $\hat{\textbf{i}}$ and $\hat{\textbf{j}}$! So, a linear transformation is completely described by  the coordinates where $\hat{\textbf{i}}$ and $\hat{\textbf{j}}$ land. This can be packaged into a matrix where each column describes the transformed locations of  $\hat{\textbf{i}}$ and $\hat{\textbf{j}}$. In the most general ($2\times 2$) case:
 
 $$
 \begin{bmatrix}a & b \\ c & d\end{bmatrix}\cdot\begin{bmatrix}x \\ y\end{bmatrix}=\begin{bmatrix}ax+by\\cx + dy\end{bmatrix}
@@ -451,7 +480,7 @@ $$
 &=\boxed{\begin{bmatrix}29\\-3\end{bmatrix}}
 \end{align*}
 $$
-If $V$ and $W$ are vector spaces with bases $B$ and $C$, respectively, and $T:V\to W$ is linear, then there exists an $m\times n$ matrix $A$ such that for every vector $v\in V$, $(Tv)_C=A(v)_B$. This matrix is obviously dependent on the bases $B$ and $C$; to reflect this dependence, we write $A_B^C$, where the subscript reflects the chosen basis for the *domain* of the transformation, and the superscript reflects the chosen basis for the *range* of the basis.
+If $\mathbb{V}$ and $\mathbb{W}$ are vector spaces with bases $B$ and $C$, respectively, and $T:\mathbb{V}\to \mathbb{W}$ is linear, then there exists an $m\times n$ matrix $A$ such that for every vector $v\in \mathbb{V}$, $(Tv)_C=A(v)_B$. This matrix is obviously dependent on the bases $B$ and $C$; to reflect this dependence, we write $A_B^C$, where the subscript reflects the chosen basis for the *domain* of the transformation, and the superscript reflects the chosen basis for the *range* of the basis.
 
 **Image of a Transformation**<br />
 The image of a transformation $T:\mathbb{V}\to \mathbb{W}$ is  denoted $image(T)$, and is the subset of $\mathbb{W}$ of all $\left\{ Tv\; |\; v\in \mathbb{V} \right\}$. For any linear transformation $T:\mathbb{V}\to \mathbb{W}$,
@@ -460,6 +489,13 @@ The image of a transformation $T:\mathbb{V}\to \mathbb{W}$ is  denoted $image(T)
 2. $image(T)$ is a subspace of $W$.
 	1. $T$ is onto if and only if $r(T)=\dim(\mathbb{W})$.
 If $\dim(\mathbb{V})=\dim(\mathbb{W})$ and $T:\mathbb{V}\to \mathbb{W}$ is linear, then $T$ is onto if and only if $T$ is one-to-one.
+
+**Rank**<br />
+Some squishes (\**sigh*\*... transformations) are more "squishy" than others — 3d space squished into a line is more "squished" than 3d space squished into a plane, but both transformations have determinant $0$. The **rank** describes this — it is the number of dimensions in the output. A transformation whose output is a line has a rank of $1$, while a transformation whose output is a plane has a rank of $2$.
+Formally, the rank of a linear transformation $T:\mathbb{V}\to \mathbb{W}$ is
+$$
+r(T)=\dim(image(T)).
+$$
 
 **Null Space/Kernel**<br />
 The set of vectors that get transformed into the origin during a transformation. For a transformation with full rank, the null space is just the zero vector. For a rank zero transformation, the null space is $n$-dimensional space. The kernel (or nullspace) of a transformation is:
@@ -470,6 +506,7 @@ For any transformation $T:\mathbb{V}\to \mathbb{W}$,
 1. $\textbf{0}\in \ker(T)$.
 2. $\ker(T)$ is a subspace of $\mathbb{V}$.
 If $V$ is finite dimensional and $T:\mathbb{V}\to \mathbb{W}$ is linear, then $r(T)+null(T)=\dim(\mathbb{V})$. A transformation is one-to-one if and only if $\ker(T)=\left\{\textbf{0}\right\}$.
+
 
 **Nullity**<br />
 The dimension of the nullspace of $T$ is called the **nullity** of $T$, and is denoted by $null(T)$.
@@ -498,7 +535,10 @@ Given a matrix, how do you find what the transformation looks like? Well, you ta
 **Transformation Composition (Matrix Multiplication)**<br />
 Applying one transformation, then another, is still a linear transformation! So, there is a matrix that describes this **composition** of transformations, and we can call it the "product" of the two original matrices. However, since linear transformations aren't commutative (and are functions), we read matrix multiplication from right to left (just like we read $f(g(x))$). So how do we multiply matrices $A$ and $B$?
 $$
-A=\begin{bmatrix}a & b \\ c & d\end{bmatrix}, B=\begin{bmatrix}e & f \\ g & h\end{bmatrix}. m=B\cdot A
+A=\begin{bmatrix}a & b \\ c & d\end{bmatrix}, B=\begin{bmatrix}e & f \\ g & h\end{bmatrix}.
+$$
+$$
+M=B\cdot A
 $$
 There are two ways to think about it. The first way is the intuitive way: the first column of $A$ shows where $\hat{\textbf{i}}$ is transformed to, and the second shows where $\hat{\textbf{j}}$ is transformed to. Then, just multiply the two vectors by $B$ to get where the two transformed vectors go:
 $$
@@ -511,42 +551,9 @@ $$
 $$
 And this shows us the second way of thinking about multiplying matrices: memorize the formula!
 
-**Multi-dimensional Transformations**<br />
-If we think about linear transformations intuitively, we can easily extend them to higher dimensions — instead of a $2\times2$ transformation matrix (or, function), we have an $n\times n$ matrix that takes in an $n$-dimensional vector (instead of just a 2d vector). It's still the same! Of course, memorizing the formula for composition doesn't work quite as well for this one.
-
-**Dual Vector**<br />
-Transforming to 1 dimension of space is *computationally identical* (see 3Blue1Brown video about duality for intuition) to taking the dot product with some vector. For 2d-to-1d transformations,
-$$
-\begin{bmatrix}a&b\\\end{bmatrix}\begin{bmatrix}c\\d\end{bmatrix}=\begin{bmatrix}a\\b\end{bmatrix}\cdot\begin{bmatrix}c \\ d\end{bmatrix}.
-$$
-
+_P.S. I do not support the second way._
 
 <hr >
-
-# Rank, Nullity, and Dimension
-
-**Rank**<br />
-Some squishes are more "squishy" than others — 3d space squished into a line is more "squished" than 3d space squished into a plane, but both transformations have determinant $0$. The **rank** describes this — it is the number of dimensions in the output. A transformation whose output is a line has a rank of $1$, while a transformation whose output is a plane has a rank of $2$.
-- The system $A\vec{x}=\vec{b}$ is consistent if and only if $r(A)=r(\begin{bmatrix}A \,| \;\, b\end{bmatrix})$.
-- An $n\times n$ matrix $A$ is invertible if and only if $r(A)=n$.
-- If we have an consistent $n$-variable SLE $Ax=b$, then the solutions to the system are expressible in $n-r(A)$ unknowns.
-- If $AB=I$, then the rows of $A$ are linearly independent, and $r(A)=n$.
-- If $A$ is an $n\times n$ matrix such that $r(A)=n$, then there exists matrix $C$ such that $CA=I_n$.
-- A square matrix is invertible if and only if it can be transformed to an upper triangular matrix with all diagonal elements equal to $1$ (no zero rows).
-- $r(AB)\leq \min(r(A), r(B))$.
-
-**Column Space**<br />
-Column space is the set of all possible outputs of $A\cdot\vec{v}$. This is just the *span* of the columns (the basis vectors)! For any $p\times n$ matrix $A$, $colrank(A)=rowrank(A)$. This means that the rank is equal to the column rank and the row rank. We can find bases for the column space in one of three ways:
-1. By inspection.
-2. By transposing, row-reducing, and taking nonzero columns.
-3. By row-reducing (to $R$) and taking pivotal columns in $R$'s corresponding columns in $A$.
-
-**Row Space**<br />
-The row space of a an $m\times n$ matrix $A$ is the span of the rows of $A$ each viewed as a matrix in $\mathbb{R}^n$. The **row rank** of a matrix is the dimension of the row space. The two are denoted $rowspace(A)$ and $rowrank(A)$. The basis of the row space of a matrix in row-reduced form is the nonzero rows of that matrix, and the row rank is the number of nonzero rows. Even better: if a matrix $B$ is obtained from matrix $A$ by applying some elementary row operations, then $rowspace(A)=rowspace(B)$. Also, if $B$ has some LI columns, the corresponding columns in $A$ are LI.
-
-**Full Rank**<br />
-Not a poker hand! **Full rank** is when the rank of a transformation is the same as the number of input dimensions (number of columns).
-
 
 <hr >
 # Non-square Matrices
