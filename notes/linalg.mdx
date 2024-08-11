@@ -134,10 +134,11 @@ c_{ij}=\sum_{k=1}^ra_{ik}b_{kj},
 $$
 For $i=1,2,\dots,p$ and $j=1,2,\dots n$. This means that $c_{i,I}$ is obtained by multiplying the $i$th row of $A$ with the $j$th row of $B$ and summing. The multiplicative identity matrix is the diagonal matrix with only $1$ as its diagonal elements (and is denoted by $I_n$).
 
-If $B$ and $C$ are matrices such that $BC$ is defined, then $\lambda(BC)=B(\lambda C)$.
+If $B$ and $C$ are matrices such that $BC$ is defined, then $\lambda(BC)=B(\lambda C)$. Here's a gif:
+<img src="https://boydjohnson.dev/blog/concurrency-matrix-multiplication/matrix-multiplication-good.gif"></img>
 
 **Identity Matrix**<br />
-The identity matrix is a square matrix with $1$'s on the main diagonal and $0$'s elsewhere. It is denoted by $I_n$ (where $n$ is the order of the matrix). The identity matrix is the multiplicative identity for matrices — $AI_n=I_nA=A$.
+The identity matrix is a square matrix with $1$'s on the main diagonal and $0$'s elsewhere. It is denoted by $I_n$ (where $n$ is the order of the matrix). The identity matrix is the multiplicative identity for matrices: $AI_n=I_nA=A$.
 
 **Transpose**<br />
 The transpose of a $p\times n$ matrix $A$ is the $n\times p$ matrix $A^T$ such that
@@ -208,17 +209,18 @@ Each diagonal block must be square. A **block diagonal matrix** is one whose non
 # Linear Systems of Equations
 
 **Linear Systems of Equations**<br />
-A system of equations (you know this), where every term is a scalar multiple of the variable. Then, each equation models a linear combination of the variables.
+A system of equations (you know this), where every term is a scalar multiple of a variable. Then, each equation models a linear combination of the variables.
 
-![[Pasted image 20240601195718.png]]
+<img src="https://i.postimg.cc/bJcChf9N/Pasted-image-20240601195718.pngh"></img>
 _Credit to 3Blue1Brown._
 
-This can be written as $A\cdot \vec{x}=\vec{v}$. So a system of linear equations is just a vector that, when transformed by $A$, gives $\vec{v}$! To solve, we subdivide into the cases where the determinant is
-1. Nonzero. There will always be one and only one vector that transforms to $\vec{v}$. So, you can multiply $A\cdot \vec{x}=\vec{v}$ by $A^{-1}$ and get $\vec{x}=A^{-1}\cdot \vec{v}$.
-2. Zero. The matrix $A$ transforms space into a lower dimension, so there are an infinite number of vectors that are transformed into $\vec{v}$, and so there is no inverse. You can still have a solution! If $\vec{v}$ is on the line (or whatever space got squished into), there is a line of solutions.
-Therefore, there will be $0$, $1$, or infinitely many solutions.
+This can be written as $A\cdot \vec{x}=\vec{v}$. So a system of linear equations is just a vector that, when transformed by $A$, gives $\vec{v}$! The solution to a system of linear equations is the vector $\vec{x}$ that, when transformed by $A$, gives $\vec{v}$.
+How do we solve a system of linear equations (SLE)? We can use Gaussian elimination: we write the SLE as an augmented matrix, row reduce it, and then solve the resulting system of equations.<br />
+First, let's note that a system of linear equations will have either zero, one, or infinitely many solutions:
 
 Theorem: Suppose $x_1$ and $x_2$ are solutions to the matrix equation $A\vec{x}=\vec{b}$. If $\alpha$ and $\beta$ are any real numbers such that $\alpha + \beta=1$, then $\alpha x_1 + \beta x_2$ is also a solution to the equation.
+
+Here are some important terms we need before we can solve SLEs:
 
 **Consistent**<br />
 A linear system of equations is **consistent** if it has at least one solution. Otherwise, it is inconsistent.
@@ -238,24 +240,95 @@ Ex. $A=\begin{bmatrix}1 & 7 & -1 \\ 0 & 1 & 6 \\ 0 & 0 & 0\end{bmatrix}$ is in r
 **Pivot**<br />
 If a matrix is in row-echelon form, then the first nonzero element of each row is called a **pivot**, and a column in which a pivot appears is called a **pivot column**. In a system of linear equations, the pivot columns represent **basic variables**. Non-basic variables (ones that are not in a pivot column) are called **free variables**. Free variables can take on *any* value (we are "free" to choose any value)
 
+Now we're ready to solve SLEs!
+
+The first thing we need to do is form an **augmented matrix**. This is a matrix that has the coefficients of the variables on the left and the constants on the right. For example, the augmented matrix of the system
+$$
+\begin{align}
+x_1+2x_2+3x_3&=4\\
+2x_1+5x_2+2x_3&=3\\
+3x_1+7x_2+8x_3&=1
+\end{align}
+$$
+is
+$$
+\begin{bmatrix}
+1 & 2 & 3 & 4\\
+2 & 5 & 2 & 3\\
+3 & 7 & 8 & 1
+\end{bmatrix}.
+$$
+
+<hr />
+
+Once we've constructed this augmented matrix, we can use **Gaussian elimination** to row reduce it. This involves using elementary row operations to transform the augmented matrix into row-reduced form.
+
 **Guassian Elimination**<br />
 First, note that the following three operations do not change the set of solutions:
 1. $R_1$ — Changing the order of equations.
 2. $R_2$ — Multiplying an equation by a nonzero scalar.
 3. $R_3$ — Adding to one a equation a scalar times another equation.
+
+These are called **elementary row operations**. We'll talk more about them in a later section.
 The **augmented matrix of the system** $A\vec{x}=\vec{b}$ is $\left [A\;\textbf{|}\;\vec{b} \right]$. Guassian elimination has 4 steps:
 1. Write the system of equations as an augmented matrix.
 2. Use elementary row operations to transform the augmented matrix into row-reduced form.
 3. Write the equations corresponding to the reduced augmented matrix.
 4. Solve the new set of equations with back-substitution.
-General guidelines for working with elementary row operations:
+
+Here are some general guidelines for working with elementary row operations:
 - Completely transform one column into the required form before starting on another.
 - Work the columns in order from left to right.
 - Never use an operation that changes a $0$ in a previous column.
+
 If the number $n$ of variables is greater than the number $r$ of variables, then the $r$ equations determine the values of $r$ variables, and the remaining $n-r$ variables have no restrictions. Thus, there are infinitely many solutions.
+Once we've row-reduced the augmented matrix, we can write the system of equations corresponding to the reduced augmented matrix. We can then solve this system of equations using back-substitution. For example:
+$$
+\begin{align}
+x_1+2x_2+3x_3&=4\\
+2x_1+2x_2+2x_3&=2\\
+3x_1+6x_2+9x_3&=12
+\end{align}
+$$
+The augmented matrix is
+$$
+\begin{bmatrix}
+1 & 2 & 3 & 4\\
+2 & 2 & 2 & 2\\
+3 & 6 & 9 & 12
+\end{bmatrix}.
+$$
+The row-reduced form of the augmented matrix is
+$$
+\begin{bmatrix}
+1 & 2 & 3 & 4\\
+0 & 1 & 2 & 3\\
+0 & 0 & 0 & 0
+\end{bmatrix}.
+$$
+The corresponding system of equations is
+$$
+\begin{align}
+x_1+2x_2+3x_3&=4\\
+x_2+2x_3&=3\\
+0&=0
+\end{align}
+$$
+The last equation is a **trivial equation** and doesn't provide any new information. So, we can ignore it. We can then solve the remaining two equations using back-substitution.
 
 **Elementary Matrices**<br />
 An elementary matrix $E$ is a square matrix such that multiplying it by $A$ on the left is the same as applying an elementary row operation to $A$. Elementary matrices are easily constructed by applying the corresponding elementary row operation to the identity matrix of the same order.
+So, the elementary matrix that corresponds to multiplying the first row of an $n\times n$ matrix by $k$ is
+$$
+\begin{bmatrix}
+k & 0 & 0 & \dots & 0\\
+0 & 1 & 0 & \dots & 0\\
+0 & 0 & 0 & \dots & 0\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+0 & 0 & 0 & \dots & 1
+\end{bmatrix}.
+$$
+
 
 **LU Decomposition**<br />
 If a nonsingular (invertible) matrix $A$ can be written as the product of a lower triangular matrix on the left and an upper triangular matrix on the right, $A$ is said to have an LU decomposition. Let $R_3(i,j,k)$ denote the elementary row operation that adds $k$ times the $j$th row to $i$ where $k\neq 0$ and $i\neq j$. We know that the matrix $R_3(i,j,k)$ has all diagonal elements equal to $1$, element at $(i,j)$ equal to $k$, and $0$ everywhere else. So, if $i>j$, $R_3(i,j,k)$ is a lower triangular matrix. All diagonal elements of a square $n\times n$ nonsingular lower triangular matrix $L$ must be nonzero. A nonsingular $n\times n$ matrix $A$ has an LU decomposition if and only if $A$ can be transformed into an upper triangular matrix with $R_3(i,j,k)$ where $i>j$. A square matrix $A$ has an LU decomposition if $A$ can be transformed to an upper triangular matrix using only the third elementary row operation. If $A$ has an LU decomposition, we can solve the equation $A\vec{x}=\vec{b}$ by solving $L\vec{y}=\vec{b}$ and the equation $U\vec{x}=\vec{y}$. Then, we would have $LU\vec{x}=\vec{b}$, $L\vec{y}=\vec{b}$.
@@ -271,7 +344,7 @@ They're arrows in space, right? This is what most people are taught in high scho
 But. There are such things as...
 
 **Vector-ish Thingies**<br />
-If you think about it, *functions* are just like vectors. You can add them. You can scale them. In essence, functions are just vectors with infinitely many coordinates!
+If you think about it, *functions* are just like vectors, no? You can add them. You can scale them. In essence, functions are just vectors with infinitely many coordinates and bases $1, x, x^2, x^3,\dots$ instead of $\begin{bmatrix}1 \\ 0 \\ \vdots\end{bmatrix},\begin{bmatrix}0 \\ 1 \\ \vdots \end{bmatrix}$.
 
 You can define linear transformations on functions — something that takes in a function and outputs another. A good example of this is the derivative. For a transformation (or **operator**) to be linear, it must satisfy the following two properties:
 1. Additivity: $L(\vec{v}+\vec{w})=L(\vec{v})+L(\vec{w})$.
@@ -290,17 +363,17 @@ Back to the question — what are vectors? The answer is, put rules on them. Lin
 **Formal Definition of a Vector Space**<br />
 A vector space is a set $V$ of objects (vectors) and a set of scalars (either $\mathbb{R}$ or $\mathbb{C}$), together with two binary operations, vector addition $\oplus$ and scalar multiplication $\odot$, that satisfy the following properties:
 - Addition:
-	- (A1) Closure: For all $u,v\in \mathbb{V},$ $u\oplus v\in \mathbb{V}$.
-	- (A2) Commutativity: For all $u,v\in \mathbb{V}$, $u\oplus v=v\oplus u$.
-	- (A3) Associativity: For all $u,v,w\in \mathbb{V}$, $(u\oplus v)\oplus w=u\oplus (v\oplus w)$.
-	- (A4) Existence of an identity: There exists a zero vector in $\mathbb{V}$ (denoted $\textbf{0}$) such that for every $v\in \mathbb{V}$, $v\oplus \textbf{0}=v$.
-	- (A5) Existence of inverse: There exists for every $v\in \mathbb{V}$ a $-v$ such that $v\oplus (-v)=0$.
+    - (A1) Closure: For all $u,v\in \mathbb{V},$ $u\oplus v\in \mathbb{V}$.
+    - (A2) Commutativity: For all $u,v\in \mathbb{V}$, $u\oplus v=v\oplus u$.
+    - (A3) Associativity: For all $u,v,w\in \mathbb{V}$, $(u\oplus v)\oplus w=u\oplus (v\oplus w)$.
+    - (A4) Existence of an identity: There exists a zero vector in $\mathbb{V}$ (denoted $\textbf{0}$) such that for every $v\in \mathbb{V}$, $v\oplus \textbf{0}=v$.
+    - (A5) Existence of inverse: There exists for every $v\in \mathbb{V}$ a $-v$ such that $v\oplus (-v)=0$.
 - Multiplication:
-	- (S1) Closure: For all $u\in \mathbb{V}$ and all scalars $\alpha$, $\alpha\odot u\in \mathbb{V}$.
-	- (S2) Associativity: For all $u\in \mathbb{V}$ and scalars $\alpha, \beta$, $\alpha \odot(\beta\odot u)=(\alpha\cdot\beta)\odot u$.
-	- (S3) Non-scaling property: $1$ is an identity element. For all vectors $u\in \mathbb{V}$, $1\odot u=u$.
-	- (S4) Distributivity (1): For all $u\in \mathbb{V}$ and scalars $\alpha$ and $\beta$, $(\alpha + \beta)\odot u=\alpha\odot u \oplus \beta\odot u$. Note that "$+$" refers to standard addition of real and complex numbers.
-	- (S5) Distributivity (2): For all $u, v\in \mathbb{V}$ and scalars $\alpha$, $\alpha\odot(u\oplus v)=\alpha\odot u \oplus \alpha\odot v$.
+    - (S1) Closure: For all $u\in \mathbb{V}$ and all scalars $\alpha$, $\alpha\odot u\in \mathbb{V}$.
+    - (S2) Associativity: For all $u\in \mathbb{V}$ and scalars $\alpha, \beta$, $\alpha \odot(\beta\odot u)=(\alpha\cdot\beta)\odot u$.
+    - (S3) Non-scaling property: $1$ is an identity element. For all vectors $u\in \mathbb{V}$, $1\odot u=u$.
+    - (S4) Distributivity (1): For all $u\in \mathbb{V}$ and scalars $\alpha$ and $\beta$, $(\alpha + \beta)\odot u=\alpha\odot u \oplus \beta\odot u$. Note that "$+$" refers to standard addition of real and complex numbers.
+    - (S5) Distributivity (2): For all $u, v\in \mathbb{V}$ and scalars $\alpha$, $\alpha\odot(u\oplus v)=\alpha\odot u \oplus \alpha\odot v$.
 
 If $\mathbb{R}$ is the set of scalars for a vector space, that vector space is said to be a **real vector space**. If the set of scalars is $\mathbb{C}$, the vector space is said to be a **complex vector space**, or a **vector space over $\mathbb{C}$**. Any vector space defined over $\mathbb{C}$ with dimension $n$ can be viewed as a set over $\mathbb{R}$ with dimension $2n$.
 
@@ -322,31 +395,28 @@ A **subspace of $\mathbb{R}^n$** is some subset $V$ of $\mathbb{R}^n$ that satis
 - For any $v\in \mathbb{V}$, $v=-(-v)$.
 - For any $v\in \mathbb{V}$ and scalar $\alpha$, if $a\odot v=0$, either $a=0$ or $v=\textbf{0}$.
 
+
+
 **Spanning Set**<br />
 A set $S$ is a spanning set of $\mathbb{V}$ if $span(S)=\mathbb{V}$. This means that "$S$ spans $\mathbb{V}$." If $S\subset \mathbb{V}$, then:
 1. If $span(S)=\mathbb{V}$, then some subset of $S$ is a basis for $\mathbb{V}$.
 2. If $S$ is linearly independent, then $S$ is a subset of some basis for $\mathbb{V}$.
+
 Lemmas:
 1. If $\mathbb{V}$ is a vector space and $S\subset T\subset \mathbb{V}$, then $span(S)\subset span(T)$.
 2. If $\mathbb{V}$ is a vector space and $S\subset \mathbb{V}$, then $span(span(S))=span(S)$.
 3. If $\mathbb{V}$ is a vector space and $S,T\subset \mathbb{V}$ such that $S\subset T$, then $span(S)\subset span(T)$.
 4. If $v_1,\dots, v_n$ are vectors in vector space $\mathbb{V}$, then
-	1. $span\{v_1, \dots, v_k, \dots, v_n\}=span\{v_1,\dots, v_k+\lambda v_j, \dots, v_n\}$
-	2. $span\{v_1, \dots, v_k, \dots, v_n\}=span\{v_1,\lambda v_k, \dots, v_n\}$ (where $\lambda\in\mathbb{R}$ and $\lambda \neq 0$).
+    1. $span\{v_1, \dots, v_k, \dots, v_n\}=span\{v_1,\dots, v_k+\lambda v_j, \dots, v_n\}$
+    2. $span\{v_1, \dots, v_k, \dots, v_n\}=span\{v_1,\lambda v_k, \dots, v_n\}$ (where $\lambda\in\mathbb{R}$ and $\lambda \neq 0$).
 
 **Basis**<br />
 A **basis** for $\mathbb{V}$ is a *linearly independent* spanning set of $V$. Basically a "minimal" spanning set. A vector space is **finitely dimensional** if it has a basis with finitely many elements.
 
 Thm. If the set $S=\left\{ v_1,v_2,\dots,v_n \right\}$ spans $\mathbb{V}$, then any set $T$ with more than $n$ elements must be linearly dependent. From this it follows that if $B=\left\{v_1, v_2,\dots, v_n \right\}$ is a basis for $\mathbb{V}$, then every linearly dependent subset of $\mathbb{V}$ must have $n$ or fewer elements. Also, every basis for $\mathbb{V}$ has the same number of elements. The number of elements in a basis for $\mathbb{V}$ is called the **dimension** of $\mathbb{V}$.
 
-Note: The solutions to any linear homogenous differential equation of order $n$ is a vector space of dimension $n$.
-
 Bases are used to express any vector in the vector space. For any vector $\vec{u}\in \mathbb{V}$, there is only one way to express $\vec{u}$ as a linear combination of the basis vectors. The coefficients used in this linear combination are called the **coordinates**, and can be written as $n$-tuples or column matrices.
-
-<hr >
-
-# Rank, Nullity, and Dimension
-
+We'll use this a lot later when we talk about transformations and change of basis operations.
 
 <hr >
 
@@ -450,6 +520,34 @@ $$
 \begin{bmatrix}a&b\\\end{bmatrix}\begin{bmatrix}c\\d\end{bmatrix}=\begin{bmatrix}a\\b\end{bmatrix}\cdot\begin{bmatrix}c \\ d\end{bmatrix}.
 $$
 
+
+<hr >
+
+# Rank, Nullity, and Dimension
+
+**Rank**<br />
+Some squishes are more "squishy" than others — 3d space squished into a line is more "squished" than 3d space squished into a plane, but both transformations have determinant $0$. The **rank** describes this — it is the number of dimensions in the output. A transformation whose output is a line has a rank of $1$, while a transformation whose output is a plane has a rank of $2$.
+- The system $A\vec{x}=\vec{b}$ is consistent if and only if $r(A)=r(\begin{bmatrix}A \,| \;\, b\end{bmatrix})$.
+- An $n\times n$ matrix $A$ is invertible if and only if $r(A)=n$.
+- If we have an consistent $n$-variable SLE $Ax=b$, then the solutions to the system are expressible in $n-r(A)$ unknowns.
+- If $AB=I$, then the rows of $A$ are linearly independent, and $r(A)=n$.
+- If $A$ is an $n\times n$ matrix such that $r(A)=n$, then there exists matrix $C$ such that $CA=I_n$.
+- A square matrix is invertible if and only if it can be transformed to an upper triangular matrix with all diagonal elements equal to $1$ (no zero rows).
+- $r(AB)\leq \min(r(A), r(B))$.
+
+**Column Space**<br />
+Column space is the set of all possible outputs of $A\cdot\vec{v}$. This is just the *span* of the columns (the basis vectors)! For any $p\times n$ matrix $A$, $colrank(A)=rowrank(A)$. This means that the rank is equal to the column rank and the row rank. We can find bases for the column space in one of three ways:
+1. By inspection.
+2. By transposing, row-reducing, and taking nonzero columns.
+3. By row-reducing (to $R$) and taking pivotal columns in $R$'s corresponding columns in $A$.
+
+**Row Space**<br />
+The row space of a an $m\times n$ matrix $A$ is the span of the rows of $A$ each viewed as a matrix in $\mathbb{R}^n$. The **row rank** of a matrix is the dimension of the row space. The two are denoted $rowspace(A)$ and $rowrank(A)$. The basis of the row space of a matrix in row-reduced form is the nonzero rows of that matrix, and the row rank is the number of nonzero rows. Even better: if a matrix $B$ is obtained from matrix $A$ by applying some elementary row operations, then $rowspace(A)=rowspace(B)$. Also, if $B$ has some LI columns, the corresponding columns in $A$ are LI.
+
+**Full Rank**<br />
+Not a poker hand! **Full rank** is when the rank of a transformation is the same as the number of input dimensions (number of columns).
+
+
 <hr >
 # Non-square Matrices
 
@@ -542,50 +640,6 @@ For any $n\times n$ matrix $A$, the following are equivalent:
 8. The equation $Ax=b$ has exactly one solution for each $b$ in $\mathbb{R}^n$.
 9. The determinant of $A$ is nonzero.
 10. The transpose of $A$ is invertible.
-
-<hr >
-## Miscellaneous (TBD)
-
-
-
-**Rank**<br />
-Some squishes are more "squishy" than others — 3d space squished into a line is more "squished" than 3d space squished into a plane, but both transformations have determinant $0$. The **rank** describes this — it is the number of dimensions in the output. A transformation whose output is a line has a rank of $1$, while a transformation whose output is a plane has a rank of $2$.
-- The system $A\vec{x}=\vec{b}$ is consistent if and only if $r(A)=r(\begin{bmatrix}A \,| \;\, b\end{bmatrix})$.
-- An $n\times n$ matrix $A$ is invertible if and only if $r(A)=n$.
-- If we have an consistent $n$-variable SLE $Ax=b$, then the solutions to the system are expressible in $n-r(A)$ unknowns.
-- If $AB=I$, then the rows of $A$ are linearly independent, and $r(A)=n$.
-- If $A$ is an $n\times n$ matrix such that $r(A)=n$, then there exists matrix $C$ such that $CA=I_n$.
-- A square matrix is invertible if and only if it can be transformed to an upper triangular matrix with all diagonal elements equal to $1$ (no zero rows).
-- $r(AB)\leq \min(r(A), r(B))$.
-
-**Column Space**<br />
-Column space is the set of all possible outputs of $A\cdot\vec{v}$. This is just the *span* of the columns (the basis vectors)! For any $p\times n$ matrix $A$, $colrank(A)=rowrank(A)$. This means that the rank is equal to the column rank and the row rank. We can find bases for the column space in one of three ways:
-1. By inspection.
-2. By transposing, row-reducing, and taking nonzero columns.
-3. By row-reducing (to $R$) and taking pivotal columns in $R$'s corresponding columns in $A$.
-
-**Row Space**<br />
-The row space of a an $m\times n$ matrix $A$ is the span of the rows of $A$ each viewed as a matrix in $\mathbb{R}^n$. The **row rank** of a matrix is the dimension of the row space. The two are denoted $rowspace(A)$ and $rowrank(A)$. The basis of the row space of a matrix in row-reduced form is the nonzero rows of that matrix, and the row rank is the number of nonzero rows. Even better: if a matrix $B$ is obtained from matrix $A$ by applying some elementary row operations, then $rowspace(A)=rowspace(B)$. Also, if $B$ has some LI columns, the corresponding columns in $A$ are LI.
-
-**Full Rank**<br />
-Not a poker hand! **Full rank** is when the rank of a transformation is the same as the number of input dimensions (number of columns).
-
-
-
-**Orthonormal Transformations**<br />
-Orthonormal transformations are ones that keep the dot products of vectors intact (scales, rotations).
-
-**Cramer's Rule**<br />
-If we think about each coordinate in a vector as (instead of the dot product) the determinant of the vector with the *other* basis vectors, we can find the original vector (i.e., $\vec{x}$ in $A\vec{x}=\vec{v}$, given $A$ and $\vec{v}$). How? Before the transformation, the $y$-coordinate of $\vec{x}$ is $1\cdot y$ — duh. Then, when we apply the transformation, the signed area of the parallelogram defined by $\vec{v}$ and where the first ($x$) basis vectors lands is $\det\left({A}\right)\cdot y$. So, we can solve for $y$! The formula is: $y=\frac{\text{Signed Area}}{\det(A)}$. But what's the signed area? It's the determinant of the same transformation as $A$, but where the basis vector that corresponds to the coordinate (in the example, $y$) is replaced by the output vector! So, the final formula (in two dimensions) is as follows:
-$$
-\begin{align}
-A=\begin{bmatrix}a_1 & b_1 & c_1\\a_2 & b_2 & c_2\\a_3 & b_3 & c_3\end{bmatrix}\\
-A\begin{bmatrix}x\\y\\z\end{bmatrix}=\begin{bmatrix}M_1 \\ M_2 \\ M_3\end{bmatrix}& \\
-x=\frac{\begin{vmatrix}M_1 & b_1 & c_1\\M_2 & b_2 & c_2\\M_3 & b_3 & c_3\end{vmatrix}}{\begin{vmatrix}A\end{vmatrix}},\;\;\; y=\frac{\begin{vmatrix}a_1 & M_1 & c_1\\a_2 & M_2 & c_2\\a_3 & M_3 & c_3\end{vmatrix}}{\begin{vmatrix}A\end{vmatrix}}&,\;\;\; z=\frac{\begin{vmatrix}a_1 & b_1 & M_1\\a_2 & b_2 & M_2\\a_3 & b_3 & M_3\end{vmatrix}}{\begin{vmatrix}A\end{vmatrix}}
-\end{align}
-$$
-
-
 
 <hr >
 # Change of Basis
