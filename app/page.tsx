@@ -50,7 +50,6 @@ const contributions = [
 export default function Home() {
     return (
         <main className="flex flex-col justify-center items-start mb-[30vh] p-4 lg:p-0">
-
             <div className="h-[100svh] relative top-[-3rem] items-center w-full flex flex-col justify-center p-4">
                 <p className="text-base md:text-2xl">Hi, I&apos;m</p>
                 <h1 className="text-3xl font-bold dark:text-dark edo text-center md:text-7xl">
