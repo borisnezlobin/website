@@ -65,7 +65,7 @@ const ContactMePage = () => {
                     Want to reach out?
                 </h1>
                 <p className="text-base md:text-2xl">
-                    Here's how.
+                    Here&apos;s how.
                 </p>
             </div>
             <ScrollForMore />
