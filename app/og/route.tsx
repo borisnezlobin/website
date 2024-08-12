@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
                         {params.get("info")}
                     </p>
                     <div tw="flex flex-col justify-center items-center">
-                        <p tw="text-8xl text-center font-bold text-[#1c1c1c] m-0 mb-2" style={{ fontFamily: 'Charter', lineHeight: "10rem" }}>
+                        <p tw="text-8xl text-center font-bold text-[#3c3c3c] m-0 mb-2" style={{ fontFamily: 'Charter', lineHeight: "10rem" }}>
                             {params.get("title") || "Boris Nezlobin."}
                         </p>
                         <p tw='text-3xl text-[#707070]' style={{ fontFamily: 'CustomFont' }}>
