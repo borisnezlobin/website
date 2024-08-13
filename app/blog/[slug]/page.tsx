@@ -97,7 +97,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                     0 gap-3 rounded-lg backdrop-blur-lg z-[1] flex flex-col justify-start items-start md:items-center p-0 md:p-4
                 `}
             >
-                <h1 className="text-3xl md:text-5xl bg-transparent dark:bg-transparent edo">
+                <h1 className="text-3xl md:text-5xl bg-transparent dark:bg-transparent text-center">
                     {post.title}
                 </h1>
                 <DateAndLikes
@@ -105,7 +105,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                     className={`mt-2 bg-transparent dark:bg-transparent ${post.image ? "text-light dark:text-dark" : "text-muted dark:text-muted-dark"}`}
                     containerClass="bg-transparent dark:bg-transparent"
                 />
-                <p className="bg-transparent dark:bg-transparent mt-2 mb-1 font-semibold">
+                <p className="bg-transparent dark:bg-transparent font-semibold text-center print:text-left">
                     {post.description}
                 </p>
             </header>

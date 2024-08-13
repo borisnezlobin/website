@@ -71,7 +71,7 @@ a {
 }
 
 article {
-    line-height: 1.2rem;
+    line-height: 1.4rem;
     @apply print:text-base print:dark:text-base;
 
     h1 {
@@ -107,6 +107,7 @@ article {
 
     p {
         @apply text-lg mb-4 leading-8 print:text-base;
+        line-height: 2.5rem;
     }
 
     ul {
@@ -119,6 +120,7 @@ article {
 
     li {
         @apply text-lg mb-2;
+        line-height: 2.5rem;
     }
 
     li::marker, ol::marker {
