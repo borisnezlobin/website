@@ -113,7 +113,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                 className={`z-[1] w-full justify-center items-center relative mt-2 mb-8 p-0 md:p-8 rounded-lg`}
             >
                 <div
-                    className={`z-[1] max-w-3xl ml-auto mr-auto relative w-full p-0 md:pt-8 rounded-lg`}
+                    className={`z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 md:pt-8 rounded-lg`}
                 >
                     <p className="text-muted dark:text-muted-dark">
                         {post.tags.map((tag) => tag.name).join(", ")}
