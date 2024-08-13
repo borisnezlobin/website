@@ -88,7 +88,7 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
                 ))}
             </ul>
             <hr className="mt-2 print:my-4 w-full" />
-            <div className="flex flex-col gap-2 mt-4 self-center relative w-full max-w-3xl">
+            <div className="flex flex-col gap-2 mt-4 self-center relative w-full max-w-2xl">
                 <ArticleBody body={project.body} />
             </div>
             {/* this part is so bad, and I really can't be bothered to figure out how to fix it atm... I swear I will make it look good someday */}
