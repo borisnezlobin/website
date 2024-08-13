@@ -224,8 +224,7 @@ A system of equations (you know this), where every term is a scalar multiple of 
 <img src="https://i.postimg.cc/bJcChf9N/Pasted-image-20240601195718.pngh"></img>
 _Credit to 3Blue1Brown._
 
-This can be written as $A\cdot \vec{x}=\vec{v}$. So a system of linear equations is just a vector that, when transformed by $A$, gives $\vec{v}$! The solution to a system of linear equations is the vector $\vec{x}$ that, when transformed by $A$, gives $\vec{v}$.
-How do we solve a system of linear equations (SLE)? We can use Gaussian elimination: we write the SLE as an augmented matrix, row reduce it, and then solve the resulting system of equations.<br />
+This can be written as $A\cdot \vec{x}=\vec{v}$. So the solution to a system of linear equations is just a vector that, when transformed by $A$, gives $\vec{v}$! How do we solve a system of linear equations (SLE)? We can use Gaussian elimination: we write the SLE as an augmented matrix, row reduce it, and then solve the resulting system of equations.<br />
 First, let's note that a system of linear equations will have either zero, one, or infinitely many solutions:
 
 Theorem: Suppose $x_1$ and $x_2$ are solutions to the matrix equation $A\vec{x}=\vec{b}$. If $\alpha$ and $\beta$ are any real numbers such that $\alpha + \beta=1$, then $\alpha x_1 + \beta x_2$ is also a solution to the equation.
@@ -512,9 +511,9 @@ If $\mathbb{V}$ and $\mathbb{W}$ are vector spaces with bases $B$ and $C$, respe
 **Image of a Transformation**<br />
 The image of a transformation $T:\mathbb{V}\to \mathbb{W}$ is  denoted $image(T)$, and is the subset of $\mathbb{W}$ of all $\left\{ Tv\; |\; v\in \mathbb{V} \right\}$. For any linear transformation $T:\mathbb{V}\to \mathbb{W}$,
 1. $\textbf{0}\in image(T)$.
-	1. $T$ is one-to-one if and only if $image(T)=\left\{\textbf{0}\right\}$.
 2. $image(T)$ is a subspace of $W$.
 	1. $T$ is onto if and only if $r(T)=\dim(\mathbb{W})$.
+	
 If $\dim(\mathbb{V})=\dim(\mathbb{W})$ and $T:\mathbb{V}\to \mathbb{W}$ is linear, then $T$ is onto if and only if $T$ is one-to-one.
 
 **Rank**<br />
@@ -747,7 +746,7 @@ The above equation is called the **characteristic** equation of the matrix $A$. 
 $$(A-\lambda I_n)x=0.$$
 
 **Theorems**<br />
-There are a ton of results related to eigenvalues and eigenvectors. Here are a few. Try to prove eaach one, or at least understand why they're true.
+There are a ton of results related to eigenvalues and eigenvectors. Here are a few. Try to prove each one, or at least understand why they're true.
 
 Thm. If $\mathbb{V}$ is finite dimensional and $:\mathbb{V}\to\mathbb{V}$ is linear, then there exists a basis $B$ of $\mathbb{V}$ such that the representation of $T$ with respect to $B$ is a diagonal matrix if and only if there exists a basis of $\mathbb{V}$ consisting of only eigenvectors of $T$.
 
