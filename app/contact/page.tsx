@@ -3,6 +3,7 @@ import { ScrollForMore } from "../components/landing/scroll-for-more";
 import getMetadata from "../lib/metadata";
 import { DiscordLogo, Envelope, GithubLogo, Globe, LinkedinLogo } from "@phosphor-icons/react/dist/ssr";
 import { Separator } from "@/components/separator";
+import Image from "next/image";
 
 export const metadata = getMetadata({
     title: "Contact Me",
@@ -67,6 +68,9 @@ const ContactMePage = () => {
                 <p className="text-base md:text-2xl">
                     Here&apos;s how.
                 </p>
+                <div className="hidden lg:block absolute right-4 bottom-1 z-10">
+                    <Image src="/me.png" alt="Picture of me" width={200} height={400}/>
+                </div>
             </div>
             <ScrollForMore />
             <div className="w-full flex flex-col md:flex-row print:flex-col flex-wrap gap-8 justify-start items-center md:justify-center md:items-center print:justify-start print:items-start">
