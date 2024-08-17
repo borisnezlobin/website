@@ -111,11 +111,11 @@ article {
     }
 
     ul {
-        @apply list-disc list-inside mb-4;
+        @apply list-disc mb-4 ml-4;
     }
 
     ol {
-        @apply list-decimal list-inside mb-4;
+        @apply list-decimal mb-4 ml-4;
     }
 
     li {
@@ -125,12 +125,6 @@ article {
 
     li::marker, ol::marker {
         @apply text-muted dark:text-muted-dark;
-    }
-
-    ul > li, ol > li {
-        ul > li, ol > li {
-            margin-left: 3rem;
-        }
     }
 
 
@@ -176,9 +170,33 @@ article {
         @apply h-px bg-primary dark:bg-primary-dark my-4;
     }
 
+    .table-container {
+        @apply overflow-x-auto max-w-2xl mx-auto;
+    }
+
     table {
-        @apply border-collapse border-2 border-primary dark:border-primary-dark;
-        @apply w-full;
+        @apply border-collapse min-w-96 w-full rounded-lg p-4 transition-colors duration-300;
+        border-collapse: collapse;
+    
+        @media print {
+            page-break-inside: avoid;
+        }
+    
+        th, td {
+            @apply p-2 transition-colors duration-300 min-w-fit px-4;
+        }
+
+        th {
+            @apply border border-neutral-300 dark:border-neutral-600;
+        }
+    
+        td {
+            @apply pb-0 text-sm border border-dotted border-neutral-300 dark:border-neutral-600;
+
+            * {
+                @apply text-sm;
+            }
+        }
     }
 
     .footnote {
