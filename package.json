@@ -29,7 +29,8 @@
     "react-dom": "^18.2.0",
     "react-latex-next": "^3.0.0",
     "react-tweet": "^3.2.1",
-    "remark": "^15.0.1"
+    "remark": "^15.0.1",
+    "remark-gfm": "^4.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.10.0",
