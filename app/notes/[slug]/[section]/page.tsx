@@ -7,6 +7,7 @@ import Link from "next/link";
 import { ArrowLeft, ArrowRight, List } from "@phosphor-icons/react/dist/ssr";
 import getMetadata from "@/app/lib/metadata";
 import NotFoundPage from "@/app/components/not-found-page";
+import BackToRouteLink from "@/app/components/back-to-route";
 
 export async function generateStaticParams() {
     const notes = await db.note.findMany({
@@ -91,7 +92,7 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
         <div className="min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
             <div className="z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 md:p-8">
                 <header className="border-b border-muted dark:border-muted-dark mb-6 pb-6">
-                    <p>{note.title}</p>
+                    <BackToRouteLink href={`/notes/${note.slug}`} text={note.title} />
                     <h1 className="text-3xl font-bold mb-2">{section.title}</h1>
                     <p className="text-muted dark:text-muted-dark mb-2">{sectionIndex + 1}/{sections.length} in {note.title}. <span><Link href={`/notes/${note.slug}`} className="link font-bold">See all</Link></span>.</p>
                 </header>

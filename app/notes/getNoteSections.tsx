@@ -10,7 +10,7 @@ export const getNoteSections = (mdx: string): NoteSection[] => {
         const title = mdTitle.replace(/^#+ /, "");
 
         return {
-            slug: title.replace(/,| \(.*\)/g, "").replace(/[^a-zA-Z0-9]/g, "-").toLowerCase(),
+            slug: title.replace(/,| \(.*\)/g, "").replace(/Unit [0-9]: /g, "").replace(/[^a-zA-Z0-9]/g, "-").toLowerCase(),
             title,
             content,
         };
