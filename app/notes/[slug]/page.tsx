@@ -6,6 +6,7 @@ import { readFileSync } from "fs";
 import path from "path";
 import Link from "next/link";
 import NotFoundPage from "@/app/components/not-found-page";
+import BackToRouteLink from "@/app/components/back-to-route";
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
     const note = await db.note.findUnique({
@@ -48,6 +49,7 @@ export default async function SubjectNotesPage({ params }: { params: { slug: str
 
     return (
         <div className="min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
+            <BackToRouteLink href="/notes" text="Back to Notes" />
             <h1 className="text-3xl font-bold">{note.title}</h1>
             <p className="mt-6 text-muted dark:text-muted-dark">Roughly {numWords} words.</p>
             <p>{note.description}</p>
