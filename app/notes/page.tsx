@@ -20,8 +20,6 @@ export const generateStaticParams = async () => {
 export default async function NotesPage() {
     const notes = await db.note.findMany();
 
-    console.log(notes);
-
     return (
         <div className="min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
             <h1 className="text-3xl font-bold">Lecture Notes</h1>
@@ -29,7 +27,7 @@ export default async function NotesPage() {
                 A collection of notes I&apos;ve taken for various courses. Linear Algebra, AP Physics C, and more.
             </p>
 
-            <div className="mt-8">
+            <div className="mt-8 flex flex-wrap gap-2">
                 {notes.map((note) => (
                     <NotesListItem key={note.slug} note={note} />
                 ))}
