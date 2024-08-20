@@ -1,0 +1,25 @@
+// what is ENF analysis
+In every video, there are a ton of noises. Most commonly, they're the ones we hear. However, in every video, at 50 or 60 Hz, there's another incredibly important noise: the power grid. Power grids in the United States run at ~50Hz, and those elsewhere tend to run at 60Hz. They slightly adjust their frequency 24/7, in no particular pattern, to match power demand. Since every single grid has these unique sounds, we can, in theory, accurately match *any audio sample* to an exact time (and general region) of recording. We can even verify the authenticity of any audio sample! This approach, using electrical network frequency (ENF) analysis, is currently used by (supposedly) only a few government-level actors. Open-source intelligence [tooling developers at Bellingcat](https://github.com/bellingcat) are working on a public implementation of the technique. However, [available datasets](https://power-grid-frequency.org/) are very limited and out-of-date.
+
+This is where a high schooler with too much free time can help. At [mainsfrequency.com](https://mainsfrequency.com), there is a widget that shows the current ENF in Europe:![[Pasted image 20240820124637.png]]
+If it has this data updating constantly, surely I can get it too, right? Checking the network tab, we see second-by-second requests to some server at `netzfrequenzmessung.de`:
+```bash
+curl 'https://netzfrequenzmessung.de:9081/frequenz02c.xml?c=1279246' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:129.0) Gecko/20100101 Firefox/129.0' -H 'Accept: */*' -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept-Encoding: gzip, deflate, br, zstd' -H 'Content-Type: text/plain' -H 'Origin: https://www.mainsfrequency.com' -H 'DNT: 1' -H 'Sec-GPC: 1' -H 'Connection: keep-alive' -H 'Referer: https://www.mainsfrequency.com/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache'
+```
+
+What's this `c` query parameter? It was pretty simple to find in the source code:
+```js
+function AjaxAufruf() {
+	if( req) {
+		if ("withCredentials" in req){  // nur wenn Browser CORS unterstützt gibt es Credentials
+			req.open( "GET", url0+"?c="+Math.round(Math.random()*100000)*31, true );  // verschiedene Namen da IE sonst cacht und nix erneuert				
+			req.onreadystatechange = CallbackFkt;        
+			req.setRequestHeader('Content-Type',  "text/plain");			
+			try{ req.send( null ); } catch(e) { console.log('Fehler: '+e); }	
+		}
+	}
+}
+```
+*Code as found originally, with modified indentation.*
+
+Now, I don't speak German, but I do speak `Math.round(Math.random()*100000)*31`! From here, I started trying random `c`-values. Out of the ones I tried, `-31` and `310000` always worked, while most others returned a `429 Too Many Requests` or `426 Not Acceptable`. I love breaking things :)
