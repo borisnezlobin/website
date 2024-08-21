@@ -1,10 +1,8 @@
 "use client"
 
-import { Article, Tag } from "@prisma/client";
+import { Article } from "@prisma/client";
 import Link from "next/link";
 import { DateAndLikes } from "./date-and-likes";
-import TagBadge from "../tag/tag-badge";
-import TagList from "../tag/tag-list";
 
 const ArticleSquareCard = ({ article }: { article: Article }) => {
     return (
@@ -16,10 +14,6 @@ const ArticleSquareCard = ({ article }: { article: Article }) => {
                 <p>{article.description}</p>
                 <DateAndLikes article={article} className="sm:opacity-0 group-hover:opacity-100" />
             </Link>
-            <div className="flex flex-row justify-start items-center absolute bottom-2">
-                {/* @ts-ignore */}
-                <TagList tags={article.tags} />
-            </div>
         </div>
     );
 }

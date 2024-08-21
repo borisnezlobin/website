@@ -18,10 +18,6 @@ const SearchPage = () => {
         <Link href="/blog" className="link font-semibold" aria-label="Go to blog">
           Go to blog
         </Link>
-        <p className="text-muted dark:text-muted-dark">or</p>
-        <Link href="/blog/tags" className="link font-semibold" aria-label="Explore tags">
-          Explore articles
-        </Link>
       </div>
     </div>
   );

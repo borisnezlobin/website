@@ -23,7 +23,6 @@ async function searchPosts(query: string){
                 { body: { contains: query } },
             ]
         },
-        include: { tags: true },
     });
 
     console.log("Found", posts.length, "posts");

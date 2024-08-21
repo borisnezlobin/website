@@ -4,8 +4,8 @@ generator client {
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  url       = env("PROD_POSTGRES_PRISMA_URL")
+  directUrl = env("PROD_POSTGRES_URL_NON_POOLING")
 }
 
 model Article {
@@ -18,23 +18,11 @@ model Article {
   slug        String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
-  tags        Tag[]
 
   @@index([title], name: "articles_title")
   @@index([createdAt], name: "created_at")
   @@index([likes], name: "likes")
   @@map(name: "articles")
-}
-
-model Tag {
-  id       String    @id @default(cuid())
-  name     String    @unique
-  slug     String    @unique
-  image    String
-  articles Article[]
-  projects Project[]
-
-  @@map(name: "tags")
 }
 
 model Project {
@@ -49,7 +37,6 @@ model Project {
   slug        String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
-  tags        Tag[]
 
   @@index([title], name: "projects_title")
   @@index([createdAt], name: "project_created_at")

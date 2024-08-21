@@ -54,14 +54,6 @@ const Footer = () => {
                             <Separator />
                         </li>
                         <li>
-                            <LinkWithIcon title="Resume" href="/resume" Icon={TextAlignCenter}>
-                                Resume
-                            </LinkWithIcon>
-                        </li>
-                        <li>
-                            <Separator />
-                        </li>
-                        <li>
                             <LinkWithIcon title="Contact" href="/contact" Icon={AddressBook}>
                                 Contact
                             </LinkWithIcon>

@@ -1,17 +1,14 @@
 "use client";
 
-import { Article, Tag } from "@prisma/client";
+import { Article } from "@prisma/client";
 import Link from "next/link";
 import { DateAndLikes } from "./date-and-likes";
-import TagList from "../tag/tag-list";
 
 const BlogListItem = ({
   post,
-  tags = [],
   inGrid = false,
 }: {
   post: Article;
-  tags?: Tag[];
   inGrid: boolean;
 }) => (
   <div
@@ -27,7 +24,6 @@ const BlogListItem = ({
         <h2 className="text-xl flex flex-row justify-start items-center header-link">
           {post.title}
         </h2>
-        <TagList tags={tags} />
       </div>
       <p>{post.description}</p>
       <DateAndLikes
