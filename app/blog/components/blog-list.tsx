@@ -75,10 +75,6 @@ const BlogList = ({
         </p>
         <p className="text-muted dark:text-muted-dark">— {quotes[index].source}</p>
       </center>
-      {/* <p className="mt-1 text-muted dark:text-muted-dark">
-        Read my blog posts about software engineering, web development, and
-        various thoughts that I put into article form! This is where I share much of what I do — projects, observations about modern society, and miscellaneous writings.
-      </p> */}
       <SearchBar query={query} />
       <p className="mt-1 text-muted dark:text-muted-dark print:mb-4">
         {query && (
@@ -94,18 +90,11 @@ const BlogList = ({
           </>
         )}
         Showing {articles.length} post{articles.length == 1 ? " " : "s "}
-        <span className="text-muted dark:text-muted-dark">{" • "}</span>
-        <Link href="/blog/tags" className="link" aria-label="Explore tags">
-          Explore all
-        </Link>
       </p>
       {articles.map((post) => (
-        // all my homies love
-        // @ts-ignore
         <BlogListItem
           post={post}
-          // @ts-ignore
-          tags={post.tags ? post.tags : []}
+          inGrid={false}
           key={post.id}
         />
       ))}

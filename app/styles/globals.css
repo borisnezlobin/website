@@ -178,33 +178,34 @@ article {
         @apply overflow-x-auto max-w-2xl mx-auto;
     }
 
+    /* TABLES */
     table:not(.gist table) {
         @apply border-collapse min-w-96 w-full rounded-lg p-4 transition-colors duration-300;
         border-collapse: collapse;
-        
-        th, td {
-            @apply p-2 transition-colors duration-300 min-w-fit px-4;
-        }
-
-        th {
-            @apply border border-neutral-300 dark:border-neutral-600;
-        }
+    }
     
-        td {
-            @apply text-sm border border-dotted border-neutral-300 dark:border-neutral-600;
-
-            * {
-                @apply text-sm;
-            }
-        }
-
-        tr.important {
-            * {
-                @apply font-semibold bg-[#eeeeee] dark:bg-neutral-800 print:bg-white print:border-solid;
-            }
-        }
+    table:not(.gist table) th,
+    table:not(.gist table) td {
+        @apply p-2 transition-colors duration-300 min-w-fit px-4;
+    }
+    
+    table:not(.gist table) th {
+        @apply border border-neutral-300 dark:border-neutral-600;
+    }
+    
+    table:not(.gist table) td {
+        @apply text-sm border border-dotted border-neutral-300 dark:border-neutral-600;
+    }
+    
+    table:not(.gist table) td * {
+        @apply text-sm;
+    }
+    
+    table:not(.gist table) tr.important * {
+        @apply font-semibold bg-[#eeeeee] dark:bg-neutral-800 print:bg-white print:border-solid;
     }
 
+    /* FOOTNOTES */
     .footnote {
         input:checked ~ span,
         label:focus ~ span {
@@ -216,16 +217,13 @@ article {
         label:focus ~ span {
             display: none;
         }
-        
-        body {
-            cursor: default;
-        }
 
         label:focus {
             outline: none;
         }
     }
 
+    /* CODE BLOCKS */
     pre code, pre code *, pre {
         @apply print:text-wrap;
         @apply print:!text-dark-background print:dark:!text-dark-background print:!bg-white print:dark:!bg-white;

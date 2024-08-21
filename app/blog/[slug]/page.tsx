@@ -26,7 +26,6 @@ async function getDataForSlug(slug: string) {
     console.log("Getting blog post", slug);
     const blogPost = await db.article.findUnique({
         where: { slug },
-        include: { tags: true },
     });
 
     if (!blogPost) {
@@ -40,16 +39,8 @@ async function getDataForSlug(slug: string) {
         where: {
             NOT: {
                 slug,
-            },
-            tags: {
-                some: {
-                    slug: {
-                        in: blogPost.tags.map((tag) => tag.slug),
-                    },
-                },
-            },
+            }
         },
-        include: { tags: true },
         take: 3,
     });
 
@@ -115,9 +106,6 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                 <div
                     className={`z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 md:pt-8 rounded-lg`}
                 >
-                    <p className="text-muted dark:text-muted-dark">
-                        {post.tags.map((tag) => tag.name).join(", ")}
-                    </p>
                     <ArticleBody body={post.body} />
                 </div>
             </div>
@@ -144,19 +132,11 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                 <ul>
                     {similarPosts.map((post) => (
                         <li key={post.id}>
-                            <BlogListItem post={post} tags={post.tags} inGrid={false} />
+                            <BlogListItem post={post} inGrid={false} />
                         </li>
                     ))}
                 </ul>
             </div>
-            {post.tags.length > 0 && (
-                <LinkButton
-                    className="mt-6 mb-16 print:hidden"
-                    href={`/blog/tag/${post.tags[0].slug}`}
-                >
-                    View all
-                </LinkButton>
-            )}
         </div>
     );
 }
