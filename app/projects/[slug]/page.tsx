@@ -6,7 +6,6 @@ import Link from "next/link";
 import GithubStars from "./github-stars";
 import { ProjectLink } from "../components";
 import ArticleBody from "@/app/components/article-body";
-import TagList from "@/app/blog/tag/tag-list";
 
 export async function generateStaticParams() {
     const projects = await db.project.findMany({
@@ -47,9 +46,6 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
         where: {
             slug
         },
-        include: {
-            tags: true
-        }
     });
 
     if (!project) {
@@ -77,7 +73,6 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
             <p className="print:my-2">
                 {project.description}
             </p>
-            <TagList tags={project.tags} />
             {project.links.length > 0 && <hr className="print:my-4" />}
             {project.links.length > 0 && <h2 className="text-xl font-bold">Links</h2>}
             <ul className="flex flex-col gap-2 justify-start items-start">
@@ -91,14 +86,6 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
             <div className="flex flex-col gap-2 mt-4 self-center relative w-full max-w-2xl">
                 <ArticleBody body={project.body} />
             </div>
-            {/* this part is so bad, and I really can't be bothered to figure out how to fix it atm... I swear I will make it look good someday */}
-            {/* {(project && project.images.length > 0) && (
-                <>
-                    <div className="flex flex-col gap-2">
-                        <ImageList images={project.images} />
-                    </div>
-                </>
-            )} */}
         </div>
     );
 }

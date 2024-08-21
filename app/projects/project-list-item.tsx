@@ -1,7 +1,6 @@
 "use client";
 
-import { Project, Tag } from "@prisma/client";
-import TagList from "../blog/tag/tag-list";
+import { Project} from "@prisma/client";
 import { IconButton } from "@/components/buttons";
 import { GithubLogo } from "@phosphor-icons/react/dist/ssr";
 
@@ -19,13 +18,6 @@ const ProjectListItem = ({ project }: { project: Project }) => {
                 })}
             </p>
             <p className="text-ellipsis h-full w-full">{project.description}</p>
-            <TagList
-                // @ts-ignore
-                tags={project.tags || []}
-                maxLength={3}
-                redirectUrl={`/projects/${project.slug}`}
-                className="absolute bottom-2"
-            />
             {project.github && (
                 <IconButton
                     icon={<GithubLogo className="h-6 w-6" />}
