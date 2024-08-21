@@ -14,12 +14,12 @@ export async function generateStaticParams() {
         select: { slug: true },
     });
 
-    console.log("Generating section paths for notes:", notes);
-
     return notes.flatMap((note) => {
         try {
             const sections = getNoteSections(readFileSync(path.resolve(process.cwd(), path.join("notes", note.slug + ".mdx")), "utf-8"));
-            return sections.map((section) => ({ params: { slug: note.slug, section: section.slug } }));
+            const arr = sections.map((section) => ({ params: { slug: note.slug, section: section.slug } }));
+            console.log("Generated paths for note", arr);
+            return arr;
         } catch (e) {
             console.log("Error generating paths for note", note.slug);
             console.error(e);

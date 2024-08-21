@@ -9,6 +9,7 @@ import {
 } from "@phosphor-icons/react";
 import { likePost } from "./actions";
 import { useEffect, useState } from "react";
+import Image from "next/image";
 
 const LikeButton = ({ slug }: { slug: string }) => {
   const [liked, setLiked] = useState(false);
@@ -106,7 +107,7 @@ const ArticleImageBg = ({ imageUrl }: { imageUrl: string }) => {
   return (
     <div className="absolute top-[3rem] left-0 h-96 bg-transparent w-screen z-0 print:hidden">
       <div className="md:absolute h-full inset-0 bg-transparent">
-        <img src={imageUrl} className="w-full h-full object-cover" />
+        <Image alt="Article Image" src={imageUrl} className="w-full h-full object-cover" />
       </div>
       <div className="hidden transition-all duration-300 md:block md:absolute bg-transparent dark:bg-transparent inset-0 bg-gradient-to-t from-light-background dark:from-dark-background to-transparent" />
     </div>
