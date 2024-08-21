@@ -1,52 +1,30 @@
-// what is ENF analysis
-In every video, there are a ton of noises. Most commonly, they're the ones we hear. However, in every video, at 50 or 60 Hz, there's another incredibly important noise: the power grid. Power grids in the United States run at ~50Hz, and those elsewhere tend to run at 60Hz. They slightly adjust their frequency 24/7, in no particular pattern, to match power demand. Since every single grid has these unique sounds, we can, in theory, accurately match *any audio sample* to an exact time (and general region) of recording. We can even verify the authenticity of any audio sample! This approach, using electrical network frequency (ENF) analysis, is currently used by (supposedly) only a few government-level actors. Open-source intelligence [tooling developers at Bellingcat](https://github.com/bellingcat) are working on a public implementation of the technique. However, [available datasets](https://power-grid-frequency.org/) are very limited and out-of-date.
+In every audio sample, there are obviously noises. Most commonly, they're the ones we hear. However, in every recorded (in real life) audio sample, at about 50 or 60 Hz, there's another incredibly important noise: the power grid. Power grids in the United States run at about 50Hz, and those elsewhere tend to run at about 60Hz. They slightly adjust their frequency every second, in no particular pattern, to match power demand. Since every single grid has these unique sounds, we can, in theory, accurately match *any audio sample* to an exact time (and general region) of recording. We can even verify the authenticity of any audio sample! This approach, using electrical network frequency (ENF) analysis, is currently (allegedly) used by only a few government-level actors. Open-source intelligence [tooling developers at Bellingcat](https://github.com/bellingcat) are working on a public implementation of the technique. However, [available ENF datasets](https://power-grid-frequency.org/) are very limited and out-of-date, but crucial for the approach to work.
 
-This is where a high schooler with too much free time can help. At [mainsfrequency.com](https://mainsfrequency.com), there is a widget that shows the current ENF in Europe:![[Pasted image 20240820124637.png]]
-If it has this data updating constantly, surely I can get it too, right? Checking the network tab, we see second-by-second requests to some server at `netzfrequenzmessung.de`:
+This is where a high schooler with too much free time can help. At [mainsfrequency.com](https://mainsfrequency.com), there is a widget that shows the current ENF of the European grid:
+<img src="https://i.postimg.cc/MGdjJBVP/Pasted-image-20240820124637.png"></img>
+If this website has this data updating constantly, surely I can get it too, right? Needless to say, a European ENF dataset that's up-to-date would have quite an impact on the usefulness of ENF analysis. Checking the network tab in dev tools, we see second-by-second requests to some server at `netzfrequenzmessung.de`:
 ```bash
-curl 'https://netzfrequenzmessung.de:9081/frequenz02c.xml?c=1279246' -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:129.0) Gecko/20100101 Firefox/129.0' -H 'Accept: */*' -H 'Accept-Language: en-US,en;q=0.5' -H 'Accept-Encoding: gzip, deflate, br, zstd' -H 'Content-Type: text/plain' -H 'Origin: https://www.mainsfrequency.com' -H 'DNT: 1' -H 'Sec-GPC: 1' -H 'Connection: keep-alive' -H 'Referer: https://www.mainsfrequency.com/' -H 'Sec-Fetch-Dest: empty' -H 'Sec-Fetch-Mode: cors' -H 'Sec-Fetch-Site: cross-site' -H 'Pragma: no-cache' -H 'Cache-Control: no-cache'
+curl 'https://netzfrequenzmessung.de:9081/frequenz02c.xml?c=1279246' -H 'User-Agent: {redacted}' -H 'Accept: */*' -H 'Accept-Language: en-US,en;q=0.5' -H 'Content-Type: text/plain'
 ```
 
 What's this `c` query parameter? It was pretty simple to find in the source code:
-```js
-function AjaxAufruf() {
-	if( req) {
-		if ("withCredentials" in req){  // nur wenn Browser CORS unterstützt gibt es Credentials
-			req.open( "GET", url0+"?c="+Math.round(Math.random()*100000)*31, true );  // verschiedene Namen da IE sonst cacht und nix erneuert				
-			req.onreadystatechange = CallbackFkt;        
-			req.setRequestHeader('Content-Type',  "text/plain");			
-			try{ req.send( null ); } catch(e) { console.log('Fehler: '+e); }	
-		}
-	}
-}
-```
+
+<GistEmbed gistId="borisnezlobin/d54554294e3bc8849ebcc35b4c55a09e" />
+
 *Code as found originally, with modified indentation.*
 
-Now, I don't speak German, but I do speak `Math.round(Math.random()*100000)*31`! From here, I started trying random `c`-values. Out of the ones I tried, `-31` and `310000` always worked, while most others returned a `429 Too Many Requests` or `426 Not Acceptable`. I love breaking things :)
+Now, I don't speak German, but I do speak `Math.round(Math.random()*100000)*31`! It seems that `c` is used to verify the authenticity of the request (instead of CORS...?). Using the same number twice returns a `429 Too Many Requests` (but it seems to reset every so often). From here, I started trying random `c`-values. Out of the ones I tried, `-31` and `310000` always worked, while most others returned a `429 Too Many Requests` or `406 Not Acceptable`. I love breaking things :)
 
-How I got `-31` and `310000` is anyone's guess, but they seem to always work. The only issue I came across with these two numbers was a rate limit if I made another request in less than (around) half a second. I ended up with code that switched up these numbers (also, to be safe, I alternate through a few user agents and generate a random IP for the various `Forwarded` headers). In Python, the code is basically
+How I got `-31` and `310000` is anyone's guess, but they seem to always work. The only issue I came across with these two numbers was a rate limit if I made another request with the same `c` in less than (around) half a second. I ended up with code that switched up these numbers (also, to be safe, I alternate through a few user agents and generate a random IP for the various `Forwarded` headers — the server doesn't seem to check the true origin). In Python, the code is basically
 
-```python
-def get_enf_data():
-    url = "https://netzfrequenzmessung.de:9081/frequenz02c.xml?c=" + get_c()
-    ip = get_ip()
-    headers = {
-        "Accept": "*/*",
-        "Accept-Language": "en-US,en;q=0.5",
-        "Connection": "keep-alive",
-        "Host": "www.mainsfrequency.com",
-        "Referer": "https://www.mainsfrequency.com/", # trust me bro
-        "Sec-Fetch-Dest": "empty",
-        "Sec-Fetch-Mode": "cors",
-        "Sec-Fetch-Site": "same-origin",
-        "User-Agent": getUA(),
-        "Forwarded": "for=" + ip,
-        "X-Forwarded-For": ip,
-    }
-    response = requests.get(url, headers=headers)
-    # parse XML, write to CSV...
-```
+<GistEmbed gistId="borisnezlobin/9b9dc958634ebbdb44c6c1a8ed1f0b72" />
 
-Running this function about once a second on [HackClub's Nest](https://hackclub.app/) (an amazing, free service for high schoolers that I highly recommend) gives fewer than ten seconds of data loss per day! One hour of data looks very "this is the ENF signature of a power grid over a timeframe of one hour, plotted with `matplotlib`"-y:![[Pasted image 20240820160440.png]]
-Rendering a full day (it was an accident...) took a pretty long time, but looks very believable:![[Pasted image 20240820160516.png]]
-Cool! We now have day-by-day CSV data of the European grid's ENF signature. Every month, I also run a script to compile all of the CSV into a single Parquet file to share with the world. I'll publish the data at the end of every month (it hasn't been a month yet).
+Running this function about once a second on [HackClub's Nest](https://hackclub.app/) (an amazing, free service for high schoolers that I highly recommend) gives fewer than ten seconds of data loss per day!* The following graph looks very "this is the ENF signature of a power grid over a timeframe of one hour, plotted with `matplotlib`"-y:
+<img className="invert" src="https://i.postimg.cc/0N8J4nMK/Pasted-image-20240820160440.png"></img>
+*\* — For rate limits that last less than three seconds, we average the value that was skipped. I found that averaging a gap more than one second could lead to unpredictable results, so I didn't average those errors. The ten-seconds-of-data-loss statement includes both filled and unfilled errors.*
+
+Rendering a full day (it was an accident...) took a pretty long time, but looks very believable:
+<img className="invert" src="https://i.postimg.cc/QtCK8MqX/Pasted-image-20240820171519.png"></img>
+Cool! We now have day-by-day CSV data of the European grid's ENF signature. Every month, I also run a script to compile all of the CSV into a single Parquet file to share with the world (but mostly the people at Bellingcat).
+
+tl;dr: open-source is AWESOME and breaking things is fun.
