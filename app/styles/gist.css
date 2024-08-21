@@ -2823,7 +2823,11 @@
     right: 0;
     bottom: 30px;
     left: 0;
-    overflow: scroll
+    overflow: scroll;
+
+    @media print {
+        overflow: visible;
+    }
 }
 
 .gist .gist-file .scroll .gist-meta {
