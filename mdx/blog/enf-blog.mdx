@@ -3,9 +3,8 @@ In every audio sample, there are obviously noises. Most commonly, they're the on
 This is where a high schooler with too much free time can help. At [mainsfrequency.com](https://mainsfrequency.com), there is a widget that shows the current ENF of the European grid:
 <img src="https://cloud-9tirn0ug5-hack-club-bot.vercel.app/0image.png"></img>
 If this website has this data updating constantly, surely I can get it too, right? Needless to say, a European ENF dataset that's up-to-date would have quite an impact on the usefulness of ENF analysis. Checking the network tab in dev tools, we see second-by-second requests to some server at `netzfrequenzmessung.de`:
-```bash
-curl 'https://netzfrequenzmessung.de:9081/frequenz02c.xml?c=1279246' -H 'User-Agent: {redacted}' -H 'Accept: */*' -H 'Accept-Language: en-US,en;q=0.5' -H 'Content-Type: text/plain'
-```
+
+<GistEmbed gistId="borisnezlobin/5c5770608cb719d2f03e5a4ade607eb2" />
 
 What's this `c` query parameter? It was pretty simple to find in the source code:
 
