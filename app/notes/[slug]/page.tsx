@@ -3,7 +3,6 @@ import getMetadata from "@/app/lib/metadata";
 import { LinkButton } from "@/components/buttons";
 import { getNoteSections } from "../getNoteSections";
 import { readFileSync } from "fs";
-import path from "path";
 import Link from "next/link";
 import NotFoundPage from "@/app/components/not-found-page";
 import BackToRouteLink from "@/app/components/back-to-route";
