@@ -4,7 +4,6 @@ import {
   LinkedinLogo,
   Moon,
   Sun,
-  TwitterLogo,
   XLogo,
 } from "@phosphor-icons/react/dist/ssr";
 import { Separator } from "./separator";
