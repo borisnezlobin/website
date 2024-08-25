@@ -1,0 +1,60 @@
+*If you're here just to see how I got my result, skip to the "Solution" section.*
+
+This article is a bit on the sillier side due to how I approached the problem, and how I ended up using it to procrastinate my other work. The problem is very simple to describe: I wanted my blog (this website!) to use [SSG](https://nextjs.org/docs/app), and I wanted my Markdown files to be able to show code snippets. Originally, I was just getting the data on the server and passing a promise to a client component<Footnote id="1">Did I really think that was a good idea??</Footnote> that would wait for the promise to resolve, and then passing it through Remark and Prism (not to be confused with Prisma, which I also used in this project). Obviously, passing a promise from server to client is a really, *really* stupid idea. Having realized that, and having noticed that SSG was faster and better for SEO, I decided to make my (mostly static) blog be SSG'd. Now, in order to do this, I needed to port my markdown rendering to the server.
+
+My attempted solutions, in order, were:
+#### 1. Using `Unified` and Untold Horrors
+
+Since I was already using Remark, I might as well try to use Unified, right? That was so bad. My code was vaguely something like
+
+<GistEmbed gistId="borisnezlobin/b1e3d40dabd0ebebc4b4e8391dee6f94" />
+
+Much of this code has been deleted to maintain brevity. Notice the `any`s all over the place? This code was largely adapted from a guide that was from 2019 (5 years is a lot in the NextJS ecosystem!) and in JavaScript. When GitHub Copilot and ChatGPT gave up on trying to figure out the `any`s and `// @ts-ignore`s, I gave up too!
+
+#### 2. NextJS MDX and `mdx-embed`
+
+In the end, I settled on using [NextJS's MDX](https://nextjs.org/docs/app/building-your-application/configuring/mdx) to compile my blog pages — which is currently delivering this blog post. However, I didn't want to do Physics, so I decided I also *needed* to have the ability to embed things in my markdown. The first thing I wanted to do was make GitHub Gists embeddable (even though I had a way to display code already). This turned out to be very much not-easy. See, all of the guides I checked just pointed me to `mdx-embed`... which 1. uses ESM (so importing it was impossible) and 2. was last updated in 2022, meaning that the only way to install it was with `--force` — which is fine, if it didn't break everything — which `mdx-embed` did.
+
+#### 2.5 NextJS MDX
+
+Of course, you may be thinking, "doesn't GitHub literally have a button called 'Embed' that gives you the embed code?" It does! The code it gives you is simple, just a script tag:
+
+```
+<script src="https://gist.github.com/borisnezlobin/91aa0b2c95d5e63264ee4da2d7649fc9.js"></script>
+```
+
+The thing is, I want my MDX to be compiled at build time, so changing the DOM from this script didn't work.
+
+## Solution
+
+In the end, I used NextJS's MDX plugin and a custom component, `GistEmbed`, to get Gists. Getting gists to be displayed was a bit difficult because of the aforementioned "script doesn't run" issue. If you [visit the script that loads](https://gist.github.com/borisnezlobin/91aa0b2c95d5e63264ee4da2d7649fc9.js), however, you'll find that it's actually quite simple:
+
+<GistEmbed gistId="borisnezlobin/02a02ca7cc57e3d7c10703bd893024e4" />
+
+So, the obvious thing to do is load the CSS on the website (we can steal Github's massive CSS file, then add some of our own code to the end of it), make a request to this JavaScript file, parse out the escaped characters, and then render it. Finally, we can modify the CSS file to get the look we want! Easy-peasy... ish. Reasoning through the Inception-style escaped characters took a while, but I ended up with the fun chain of RegEx `replace` calls you see here:
+
+<GistEmbed gistId="borisnezlobin/22e4ed52cd37d9c14c34be049a41b6a5" />
+
+In case you're wondering, the usage for this is (in your MDX file, assuming you have `next-mdx-remote` and `@next/mdx` set up<Footnote id="2">Want to learn more/get set up? Here is the one resource (other than Copilot) I used, and the way I use it in my code:{"\n\n\n"}<br />1. [NextJS Docs](https://nextjs.org/docs/app/building-your-application/configuring/mdx), particularly the [`next-mdx-remote` section](https://nextjs.org/docs/app/building-your-application/configuring/mdx#remote-mdx).<br />2. [My code](https://github.com/borisnezlobin/website/blob/main/app/components/article-body.tsx).</Footnote>):
+
+```tsx
+<GistEmbed gistId="borisnezlobin/22e4ed52cd37d9c14c34be049a41b6a5" />
+```
+
+If we try this right now, we'll get something vaguely Gist-looking but uglier. And, it won't change colors based on the preferred color scheme. Also, it'll have annoying margins, it won't look nice, and so on and so forth. This is where our CSS comes into play! I copied the `<link rel="stylesheet" src="...">` from the first `document.write()` into `gist.css` and ran Prettier. After that, starting from line 2864, I started changing the more important styles.
+
+<GistEmbed gistId="borisnezlobin/307e5e45c85b42a8269be0da26bde3a3" />
+
+I won't go over all of them here, but the more important ones are the two at the bottom. The first of those applies a filter for dark mode — this is because I was (unsurprisingly) too lazy to change the several hundred colors that GitHub gives me for light mode. So, I color shift to a more dark-mode friendly (brigher and less saturated = more pastel) color scheme. This messed up the string color, so I changed it to a VSCode-ish orange — except I had to "undo" the color filter to get my desired orange. That was fun!
+
+The full `gist.css` can be [found on GitHub](https://github.com/borisnezlobin/website/blob/main/app/styles/gist.css).
+
+# That's not all.
+
+Of course, if I got Gists to work, why not get other embeds to work as well? The two that came seemed like obvious choices were $\LaTeX$ embeds and Twitter (not $\mathbb{X}$, it's just silly). Math embeds with `react-latex-next` were somewhat easier to implement (but still not easy!). For math, I had to do similar text-escaping shenanigans (that I won't go over too in-depth here), but it was basically just `.replaceAll("\\", "\\\\")` and `replaceAll("{", "\\{")` to stop React from trying to evaluate the contents inside of curly brackets as JS expressions. Tweets, on the other hand... wow. I didn't know it was possible to make embeds *quite* that bad. I have a whole thread-rant (on Twitter) about Twitter embeds:
+
+<Tweet tweetId="1817713386102428029" />
+
+But (after taking a few wrong turns, like trying to reverse-engineer the embed code<Footnote id="3" >I love [unminify.com](https://unminify.com).</Footnote>), I found `react-tweet`, which solved the issue. It's unfortunate that I had to bring in two new dependencies for tweets and math, but I think that it turned out really nice (although, the tweet embeds are... a *little* scuffed, and the images don't load), and they definitely make this blog more interactive/information-y/whatever, words are difficult. YouTube embeds (should I ever want them), are just `iframe`s, so they won't need any shenanigans like GitHub did.
+
+Hopefully, this article has been of some use to you, or simply entertaining!
