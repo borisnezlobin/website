@@ -63,15 +63,15 @@ export default function Home() {
             <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4">
                 <p className="dark:text-dark text-left w-full">
                     I&apos;m an 11th grader at Palo Alto High School writing code for fun.
-                    My favorite technologies to work with are T3, Electron, React Native, and Unity.
+                    I make things, with a focus on increasing accessibility in data, knowledge, and code. I love open-source.
                     Read on to see my skills, or check out <Link className="link underline font-semibold" href="/blog">my blog</Link>,{" "}
-                    <Link className="link underline font-semibold" href="/resume">resume</Link>, or <Link className="link underline font-semibold" href="/projects">projects I&apos;ve worked on</Link>.<br />
+                    <Link className="link underline font-semibold" href="/notes">lecture notes</Link>, or <Link className="link underline font-semibold" href="/projects">projects I&apos;ve worked on</Link>.<br />
                     <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4">
                         <LinkButton href="/blog" className="">
                             Check out my blog
                         </LinkButton>
-                        <Link className="hidden md:flex link underline flex-row justify-center font-semibold items-center gap-1" href="/resume">
-                            Resume
+                        <Link className="hidden md:flex link underline flex-row justify-center font-semibold items-center gap-1" href="/projects">
+                            Projects
                             <ArrowRight weight="bold" />
                         </Link>
                     </span>

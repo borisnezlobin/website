@@ -6,7 +6,7 @@ import { GithubLogo } from "@phosphor-icons/react/dist/ssr";
 
 const ProjectListItem = ({ project }: { project: Project }) => {
     return (
-        <div className="flex border border-neutral-300 dark:border-neutral-600 hover:border-neutral-500 hover:dark:border-neutral-400 relative group cursor-pointer flex-col h-48 w-full p-4 rounded-lg tranition-all hover:shadow-lg hover:-translate-y-px">
+        <div className="border overflow-clip border-neutral-300 dark:border-neutral-600 hover:border-neutral-500 hover:dark:border-neutral-400 relative group cursor-pointer w-full h-48 p-4 rounded-lg tranition-all hover:shadow-lg hover:-translate-y-px">
             <h2 className="text-xl flex flex-row header-link justify-start items-center">
                 {project.title}
             </h2>
@@ -17,7 +17,9 @@ const ProjectListItem = ({ project }: { project: Project }) => {
                 year: "numeric",
                 })}
             </p>
-            <p className="text-ellipsis h-full w-full">{project.description}</p>
+            <p className="w-full overflow-hidden text-ellipsis line-clamp-4">
+                {project.description}
+            </p>
             {project.github && (
                 <IconButton
                     icon={<GithubLogo className="h-6 w-6" />}
