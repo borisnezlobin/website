@@ -30,17 +30,14 @@ model Project {
   title       String
   description String
   body        String
-  images      String[]
   links       String[]
   github      String?
-  likes       Int      @default(0)
   slug        String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
 
   @@index([title], name: "projects_title")
   @@index([createdAt], name: "project_created_at")
-  @@index([likes], name: "project_likes")
   @@map(name: "projects")
 }
 
