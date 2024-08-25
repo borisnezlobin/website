@@ -12,9 +12,9 @@ const ProjectListItem = ({ project }: { project: Project }) => {
             </h2>
             <p className="text-muted dark:text-muted-dark mb-2">
                 {project.createdAt.toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
                 })}
             </p>
             <p className="w-full overflow-hidden text-ellipsis line-clamp-4">

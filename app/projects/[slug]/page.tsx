@@ -29,13 +29,17 @@ export async function generateMetadata({
             title: "Project not found",
             info: "404",
             description:
-                "This project couldn't be found.\nVisit my website to contact me, see what I'm up to, and learn more about me!",
+                "This project couldn't be found. Visit my website to contact me, see what I'm up to, and learn more about me!",
         });
     }
 
     return getMetadata({
         title: `${proj.title}`,
-        info: proj.likes > 0 ? `${proj.likes} Like${proj.likes == 1 ? "" : "s"}` : "",
+        info: "Started on " + proj.createdAt.toLocaleDateString("en-US", {
+            month: "long",
+            day: "numeric",
+            year: "numeric",
+        }),
         description: `${proj.description}`,
     });
 }
