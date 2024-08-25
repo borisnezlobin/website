@@ -1,6 +1,5 @@
 import db from "@/app/lib/db";
 import { readFileSync } from "fs";
-import path from "path";
 import { getNoteSections } from "../../getNoteSections";
 import ArticleBody from "@/app/components/article-body";
 import Link from "next/link";
@@ -39,7 +38,7 @@ export async function generateMetadata({ params }: { params: { slug: string, sec
             title: "Notes not found.",
             info: "404",
             description:
-                "The requested notes couldn't be found.\nVisit my website to contact me, see what I'm up to, and learn more about me!",
+                "The requested notes couldn't be found. Visit my website to contact me, see what I'm up to, and learn more about me!",
         });
     }
 
@@ -48,15 +47,16 @@ export async function generateMetadata({ params }: { params: { slug: string, sec
 
     if (!section) {
         return getMetadata({
-            title: `Section not found / ${note.title}`,
-            info: "404",
+            title: `Section not found.`,
+            info: note.title,
             description:
-                `The requested section couldn't be found in my ${note.title} notes.\nVisit my website to contact me, see what I'm up to, and learn more about me!`,
+                `The requested section couldn't be found in my ${note.title} notes. Visit my website to contact me, see what I'm up to, and learn more about me!`,
         });
     }
 
     return getMetadata({
-        title: `${section.title} / ${note.title}`,
+        title: `${section.title}`,
+        info: note.title,
         description: `Check out my ${section.title} notes on ${note.title}! ${note.description}. ${sections.length} sections.`,
     });
 }
