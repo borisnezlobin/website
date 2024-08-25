@@ -6,7 +6,7 @@ import { GithubLogo } from "@phosphor-icons/react/dist/ssr";
 
 const ProjectListItem = ({ project }: { project: Project }) => {
     return (
-        <div className="border overflow-clip border-neutral-300 dark:border-neutral-600 hover:border-neutral-500 hover:dark:border-neutral-400 relative group cursor-pointer w-full h-48 p-4 rounded-lg tranition-all hover:shadow-lg hover:-translate-y-px">
+        <div className="md:border overflow-clip border-neutral-300 dark:border-neutral-600 hover:border-neutral-500 hover:dark:border-neutral-400 relative group cursor-pointer w-full md:h-48 md:p-4 rounded-lg tranition-all hover:shadow-lg hover:-translate-y-px">
             <h2 className="text-xl flex flex-row header-link justify-start items-center">
                 {project.title}
             </h2>
@@ -26,7 +26,7 @@ const ProjectListItem = ({ project }: { project: Project }) => {
                     onClick={() => {
                         window.open(project.github || "https://github.com/borisnezlobin");
                     }}
-                    className="absolute top-2 right-2"
+                    className="absolute top-2 right-2 hidden md:block"
                 />
             )}
         </div>
