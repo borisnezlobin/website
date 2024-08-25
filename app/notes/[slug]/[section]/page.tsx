@@ -8,6 +8,7 @@ import { ArrowLeft, ArrowRight, List } from "@phosphor-icons/react/dist/ssr";
 import getMetadata from "@/app/lib/metadata";
 import NotFoundPage from "@/app/components/not-found-page";
 import BackToRouteLink from "@/app/components/back-to-route";
+import getNoteMdxPath from "@/app/utils/get-note-mdx-path";
 
 export async function generateStaticParams() {
     const notes = await db.note.findMany({
@@ -16,7 +17,7 @@ export async function generateStaticParams() {
 
     return notes.flatMap((note) => {
         try {
-            const sections = getNoteSections(readFileSync(path.resolve(process.cwd(), path.join("notes", note.slug + ".mdx")), "utf-8"));
+            const sections = getNoteSections(readFileSync(getNoteMdxPath(note.slug), "utf-8"));
             const arr = sections.map((section) => ({ params: { slug: note.slug, section: section.slug } }));
             console.log("Generated paths for note", arr);
             return arr;
@@ -42,7 +43,7 @@ export async function generateMetadata({ params }: { params: { slug: string, sec
         });
     }
 
-    const sections = getNoteSections(readFileSync(path.resolve(process.cwd(), path.join("notes", note.slug + ".mdx")), "utf-8"));
+    const sections = getNoteSections(readFileSync(getNoteMdxPath(note.slug), "utf-8"));
     const section = sections.find((section) => section.slug === params.section);
 
     if (!section) {
@@ -74,7 +75,7 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
 
     // oof code
     // const content = await (await fetch(note.mdxURL)).text();
-    const configDirectory = path.resolve(process.cwd(), path.join("notes", note.slug + ".mdx"));
+    const configDirectory = getNoteMdxPath(note.slug);
     const content = readFileSync(configDirectory, "utf-8");
     const sections = getNoteSections(content);
 
