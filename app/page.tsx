@@ -31,13 +31,13 @@ const skills = [
 ];
 
 const projects = [
-    { title: "OneShip", description: "A full-stack web and mobile application built for my school.", url: "https://paly.app" },
-    { title: "Portfolio", description: "My very own website :) Designed and built from the ground up by me.", url: "https://bnezlobin.vercel.app" },
-    // { title: "Run4U", description: "A work-in-progress, full stack, run generating application for the 2024 Congressional App Challenge" },
+    { title: "OneShip", description: "A full-stack web and mobile application built for my school.", url: "/projects/oneship" },
+    { title: "Portfolio", description: "My very own website :) Designed and built from the ground up by me.", url: "/projects/portfolio" },
     { title: "YAPA", description: "Yet Another (Electron) Pomodoro App (with nice UI). It has Discord RPC!", url: "https://github.com/borisnezlobin/pomodoro" },
-    { title: "SpatOS", description: "WIP - Yikes! High schoolers trying to make spatial operating systems doesn't turn out well." },
+    { title: "SpatOS", description: "WIP - Yikes! High schoolers trying to make spatial operating systems doesn't turn out well.", url: "/projects/spatos" },
     { title: "UndoDB", description: "A small, no-SQL, in-memory, transaction-based database written in Java.", url: "https://github.com/borisnezlobin/undodb" },
-    { title: "Lim", description: "A Mozilla and Chrome RegEx-based time limit extension.", url: "https://github.com/borisnezlobin/lim" }
+    { title: "Lim", description: "A Mozilla and Chrome RegEx-based time limit extension.", url: "/projects/lim" },
+    { title: "ENF", description: "Collecting and analyzing European electrical network frequency data.", url: "/projects/enf" },
 ]
 
 const contributions = [
@@ -89,14 +89,14 @@ export default function Home() {
             <Section
                 id="2.0"
                 title="Projects"
-                description="My favorite projects. Check out /projects for writeups on each!"
+                description="My favorite projects. Most of them have writeups!"
             >
                 <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 mt-4">
                     {projects.map((e, i) =>
                         <LandingPageBadge titleClassName={"w-24"} title={e.title} description={e.description} key={`project ${i}`} url={e.url} />
                     )}
                 </div>
-                <h3 className="font-bold text-xl mt-6">
+                <h3 className="font-bold text-xl mt-8">
                     <span className="text-primary dark:text-primary-dark">
                         2.5
                     </span>
