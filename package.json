@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "prisma generate && npx vercel dev",
     "lint": "next lint",
     "postinstall": "prisma generate",
     "seed": "node -r dotenv/config ./scripts/seed.js"

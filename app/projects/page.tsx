@@ -17,12 +17,6 @@ export default async function ProjectsPage() {
             <h1 className="text-3xl font-bold text-left dark:text-dark">Projects</h1>
             <p className="dark:text-dark text-left mt-2">
                 Check out all of the things I&apos;ve worked on!
-                <br />
-                I&apos;ve made a lot of cool stuff, and helped out with some open-source
-                projects that I&apos;m interested in. For every project, I tend to do a
-                writeup, so you can learn more about it and how it works. They also
-                serve as a way for me to document what I&apos;ve learned and practice my
-                writing skills.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 mt-8 md:mt-4">

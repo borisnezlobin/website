@@ -22,7 +22,7 @@ const ProjectListItem = ({ project }: { project: Project }) => {
             </p>
             {project.github && (
                 <IconButton
-                    icon={<GithubLogo className="h-6 w-6" />}
+                    icon={<GithubLogo className="h-6 w-6 transition-colors duration-300" />}
                     onClick={() => {
                         window.open(project.github || "https://github.com/borisnezlobin");
                     }}
