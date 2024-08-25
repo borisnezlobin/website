@@ -20,12 +20,12 @@ export default function RootLayout({
       <body suppressHydrationWarning>
         <Providers>
           <div className="w-full fixed z-10 top-0 left-0 p-4 print:hidden progressive-blur">
-            <div className="flex flex-row justify-around w-full sm:w-1/2 items-center">
+            <div className="flex flex-row justify-around md:justify-start md:pl-6 md:gap-24 w-full md:w-2/3 items-center">
               <Link href={"/"} className="link">Home.</Link>
               <Link href={"/blog"} className="link">Blog.</Link>
               <Link href={"/projects"} className="link">Projects.</Link>
-              <Link href={"/notes"} className="link hidden md:block">Notes.</Link>
-              <Link href={"/contact"} className="link hidden md:block">Contact.</Link>
+              <Link href={"/notes"} className="link !hidden md:!block">Notes.</Link>
+              <Link href={"/contact"} className="link !hidden md:!block">Contact.</Link>
             </div>
           </div>
           <div className="w-full h-full pt-[3rem] print:pt-0">
