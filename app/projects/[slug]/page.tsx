@@ -57,7 +57,7 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
     return (
         <div className="flex flex-col gap-4 print:gap-0 p-8 md:p-16">
             <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between ">
-                <h1 className="text-3xl font-bold">
+                <h1 className="text-3xl font-bold mb-3 md:mb-0">
                     {project.title}
                 </h1>
                 {project.github && (
