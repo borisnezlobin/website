@@ -8,7 +8,7 @@ import {
   XLogo,
 } from "@phosphor-icons/react";
 import { likePost } from "./actions";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import Image from "next/image";
 
 const LikeButton = ({ slug }: { slug: string }) => {
@@ -73,7 +73,7 @@ const TweetArticleButton = () => {
   );
 };
 
-const SearchBar = ({ query }: { query?: string }) => {
+const SearchBar = ({ query, children }: { query?: string, children?: ReactNode }) => {
   const [search, setSearch] = useState(query || "");
 
   return (
@@ -81,14 +81,14 @@ const SearchBar = ({ query }: { query?: string }) => {
       action={() => {
         window.location.href = "/blog/search/" + search;
       }}
-      className="mt-4 flex w-full max-w-2xl flex-row items-center justify-start gap-2 flex-wrap print:hidden"
+      className="mt-4 flex w-full flex-row items-center justify-center gap-2 flex-wrap print:hidden"
     >
       <input
         type="text"
         placeholder="Search"
         defaultValue={query}
         onChange={(e) => setSearch(e.target.value)}
-        className="p-2 w-full bg-light-background dark:bg-dark-background text-light-foreground dark:text-dark-foreground border border-light-foreground dark:border-dark-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-light-foreground dark:focus:ring-dark-foreground"
+        className="p-2 max-w-2xl w-full bg-light-background dark:bg-dark-background text-light-foreground dark:text-dark-foreground border border-light-foreground dark:border-dark-foreground rounded-md focus:outline-none focus:ring-2 focus:ring-light-foreground dark:focus:ring-dark-foreground"
       />
       <IconButton
         className="flex flex-row justify-center items-center gap-2 transition-all duration-300"
@@ -99,6 +99,7 @@ const SearchBar = ({ query }: { query?: string }) => {
           </>
         }
       />
+      {children}
     </form>
   );
 };
