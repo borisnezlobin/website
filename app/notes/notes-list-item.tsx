@@ -8,7 +8,7 @@ export const NotesListItem = ({ note }: { note: Note }) => {
                     {note.title}
                 </h2>
                 <p className="text-muted dark:text-muted-dark mb-2">
-                    {note.updatedAt.toLocaleDateString("en-US", {
+                    {new Date(note.updatedAt).toLocaleDateString("en-US", {
                         month: "long",
                         day: "numeric",
                         year: "numeric",
