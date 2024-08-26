@@ -3,6 +3,7 @@ import { Project } from "@prisma/client";
 import ProjectListItem from "./project-list-item";
 import Link from "next/link";
 import getMetadata from "../lib/metadata";
+import { getProjects } from "../lib/db-caches";
 
 export const metadata = getMetadata({
   title: "My Projects",
@@ -10,7 +11,7 @@ export const metadata = getMetadata({
 })
 
 export default async function ProjectsPage() {
-  const projects = await db.project.findMany();
+  const projects = await getProjects();
 
   return (
         <main className="min-h-[100svh] print:min-h-0 z-[1] w-full p-8 md:pt-8">
@@ -31,5 +32,5 @@ export default async function ProjectsPage() {
                 ))}
             </div>
         </main>
-  );
+    );
 }

@@ -1,4 +1,4 @@
-import { SearchBar } from "../[slug]/components";
+import { SearchBar } from "../[slug]/search-bar";
 import Link from "next/link";
 import { Metadata } from "next";
 import getMetadata from "@/app/lib/metadata";

@@ -2,7 +2,7 @@
 
 import { Article } from "@prisma/client";
 import Link from "next/link";
-import { DateAndLikes } from "./date-and-likes";
+import { ArticleDate } from "./article-date";
 
 const BlogListItem = ({
     post,
@@ -33,7 +33,7 @@ const BlogListItem = ({
                 https://bnezlobin.vercel.app/blog/{post.slug}
             </p>
             <p>{post.description}</p>
-            <DateAndLikes
+            <ArticleDate
                 article={post}
                 className="sm:opacity-0 group-hover:opacity-100 print:opacity-100"
             />

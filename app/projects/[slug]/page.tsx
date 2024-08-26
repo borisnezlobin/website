@@ -6,11 +6,10 @@ import Link from "next/link";
 import GithubStars from "./github-stars";
 import { ProjectLink } from "../components";
 import ArticleBody from "@/app/components/article-body";
+import { getProject, getProjects } from "@/app/lib/db-caches";
 
 export async function generateStaticParams() {
-    const projects = await db.project.findMany({
-        select: { slug: true }
-    });
+    const projects = await getProjects();
 
     return projects.map((project) => ({ params: { slug: project.slug } }));
 }
@@ -20,9 +19,7 @@ export async function generateMetadata({
 }: {
     params: { slug: string };
 }) {
-    const proj = await db.project.findUnique({
-        where: { slug: params.slug },
-    });
+    const proj = await getProject(params.slug);
 
     if (!proj) {
         return getMetadata({
@@ -46,11 +43,7 @@ export async function generateMetadata({
 
 async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
     console.log("Rendering project page for slug: " + slug);
-    const project = await db.project.findUnique({
-        where: {
-            slug
-        },
-    });
+    const project = await getProject(slug);
 
     if (!project) {
         return <NotFoundPage title="Project not found" />;
