@@ -11,7 +11,7 @@ const ProjectListItem = ({ project }: { project: Project }) => {
                 {project.title}
             </h2>
             <p className="text-muted dark:text-muted-dark mb-2">
-                {project.createdAt.toLocaleDateString("en-US", {
+                {new Date(project.createdAt).toLocaleDateString("en-US", {
                     month: "long",
                     day: "numeric",
                     year: "numeric",

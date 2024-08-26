@@ -32,11 +32,6 @@ export async function generateMetadata({
 
     return getMetadata({
         title: `${proj.title}`,
-        info: "Started on " + proj.createdAt.toLocaleDateString("en-US", {
-            month: "long",
-            day: "numeric",
-            year: "numeric",
-        }),
         description: `${proj.description}`,
     });
 }
