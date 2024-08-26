@@ -74,8 +74,8 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
             {post.image && <ArticleImageBg imageUrl={post.image} />}
             <header
                 className={`
-                    gap-3 rounded-lg backdrop-blur-lg z-[1] flex flex-col justify-start items-start p-0 md:p-4
-                    ${post.image ? "mt-[24rem] md:mt-0 bg-light-background/30 dark:bg-dark-background/30 print:mt-0 md:items-center" : "md:p-0 md:mt-8 max-w-2xl mx-auto"}
+                    gap-3 rounded-lg backdrop-blur-lg z-[1] flex flex-col justify-start items-start p-0 
+                    ${post.image ? "mt-[24rem] md:mt-0 bg-light-background/30 dark:bg-dark-background/30 print:mt-0 md:items-center md:p-4" : "md:p-0 md:mt-8 max-w-2xl mx-auto"}
                 `}
             >
                 <h1 className="text-3xl md:text-4xl bg-transparent dark:bg-transparent w-full text-center max-w-2xl">
