@@ -14,14 +14,12 @@ model Article {
   description String
   body        String
   image       String?
-  likes       Int      @default(0)
   slug        String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt
 
   @@index([title], name: "articles_title")
   @@index([createdAt], name: "created_at")
-  @@index([likes], name: "likes")
   @@map(name: "articles")
 }
 
@@ -45,7 +43,6 @@ model Note {
   id          String   @id @default(cuid())
   title       String
   description String
-  mdxURL      String
   slug        String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now()) @updatedAt

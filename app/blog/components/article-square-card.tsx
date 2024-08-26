@@ -2,7 +2,7 @@
 
 import { Article } from "@prisma/client";
 import Link from "next/link";
-import { DateAndLikes } from "./date-and-likes";
+import { ArticleDate } from "./article-date";
 
 const ArticleSquareCard = ({ article }: { article: Article }) => {
     return (
@@ -12,7 +12,7 @@ const ArticleSquareCard = ({ article }: { article: Article }) => {
                     {article.title}
                 </h2>
                 <p>{article.description}</p>
-                <DateAndLikes article={article} className="sm:opacity-0 group-hover:opacity-100" />
+                <ArticleDate article={article} className="sm:opacity-0 group-hover:opacity-100" />
             </Link>
         </div>
     );

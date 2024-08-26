@@ -2,6 +2,7 @@ import db from "../lib/db";
 import { Metadata } from "next";
 import BlogList from "./components/blog-list";
 import getMetadata from "../lib/metadata";
+import { getBlogs } from "../lib/db-caches";
 
 export const metadata: Metadata = getMetadata({
     title: "My Blog",
@@ -9,11 +10,9 @@ export const metadata: Metadata = getMetadata({
 });
 
 
-const BlogPage = async () => {
-    const posts = await db.article.findMany({
-        orderBy: { createdAt: "desc" },
-    });
 
+const BlogPage = async () => {
+    const posts = await getBlogs();
 
     return (
         <BlogList articles={posts} title="My Blog" />
