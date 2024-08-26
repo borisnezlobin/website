@@ -1,17 +1,15 @@
 import db from "@/app/lib/db";
 import getMetadata from "@/app/lib/metadata";
-import { LinkButton } from "@/components/buttons";
 import { getNoteSections } from "../getNoteSections";
 import { readFileSync } from "fs";
 import Link from "next/link";
 import NotFoundPage from "@/app/components/not-found-page";
 import BackToRouteLink from "@/app/components/back-to-route";
 import getNoteMdxPath from "@/app/utils/get-note-mdx-path";
+import { getNote, getNotes } from "@/app/lib/db-caches";
 
 export async function generateMetadata({ params }: { params: { slug: string } }) {
-    const note = await db.note.findUnique({
-        where: { slug: params.slug },
-    });
+    const note = await getNote(params.slug);
 
     if (!note) {
         return getMetadata({
@@ -28,10 +26,14 @@ export async function generateMetadata({ params }: { params: { slug: string } })
     });
 }
 
+export async function generateStaticParams() {
+    const notes = await getNotes();
+
+    return notes.map((note) => ({ params: { slug: note.slug } }));
+}
+
 export default async function SubjectNotesPage({ params }: { params: { slug: string } }) {
-    const note = await db.note.findUnique({
-        where: { slug: params.slug },
-    });
+    const note = await getNote(params.slug);
 
     if (!note) {
         return (
@@ -39,10 +41,8 @@ export default async function SubjectNotesPage({ params }: { params: { slug: str
         )
     }
 
-    // oof code
-    // const content = await (await fetch(note.mdxURL)).text();
     const configDirectory = getNoteMdxPath(note.slug);
-    const content = readFileSync(configDirectory, "utf-8");
+    const content = readFileSync(configDirectory, "utf-8"); // TODO: make this cached
     const sections = getNoteSections(content);
 
     const numWords = content.split(/\s+/).length;

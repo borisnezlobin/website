@@ -2,6 +2,7 @@ import { revalidatePath } from "next/cache";
 import db from "../lib/db";
 import getMetadata from "../lib/metadata";
 import { NotesListItem } from "./notes-list-item";
+import { getNotes } from "../lib/db-caches";
 
 export const metadata = getMetadata({
     title: "Lecture Notes",
@@ -9,16 +10,14 @@ export const metadata = getMetadata({
 });
 
 export const generateStaticParams = async () => {
-    const slugs = await db.note.findMany({
-        select: { slug: true },
-    });
+    const slugs = await getNotes();
 
     console.log("Generating paths for notes:", slugs);
     return slugs.map((note) => ({ params: { slug: note.slug } }));
 }
 
 export default async function NotesPage() {
-    const notes = await db.note.findMany();
+    const notes = await getNotes();
 
     return (
         <div className="min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">

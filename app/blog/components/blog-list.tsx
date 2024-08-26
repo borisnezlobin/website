@@ -1,5 +1,5 @@
 import { Article } from "@prisma/client";
-import { SearchBar } from "../[slug]/components";
+import { SearchBar } from "../[slug]/search-bar";
 import Link from "next/link";
 import BlogListItem from "./blog-list-item";
 
