@@ -6,6 +6,12 @@ import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "./components/landing/section";
 import { LandingPageBadge } from "./components/landing/landing-page-badge";
 import HorizontalScroll from "./components/landing/scroll-horizontal";
+import getMetadata from "./lib/metadata";
+
+export const metadata = getMetadata({
+    info: "Hi, I'm",
+    title: "Boris Nezlobin",
+});
 
 const skills = [
     { title: "TypeScript", description: "My go-to language for web projects" },
