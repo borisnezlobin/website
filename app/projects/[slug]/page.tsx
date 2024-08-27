@@ -23,7 +23,7 @@ export async function generateMetadata({
 
     if (!proj) {
         return getMetadata({
-            title: "Project not found",
+            title: "Project not found.",
             info: "404",
             description:
                 "This project couldn't be found. Visit my website to contact me, see what I'm up to, and learn more about me!",
@@ -31,8 +31,8 @@ export async function generateMetadata({
     }
 
     return getMetadata({
-        title: `${proj.title}`,
-        description: `${proj.description}`,
+        title: proj.title,
+        description: proj.description,
     });
 }
 
