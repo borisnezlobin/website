@@ -7,6 +7,7 @@ import GithubStars from "./github-stars";
 import { ProjectLink } from "../components";
 import ArticleBody from "@/app/components/article-body";
 import { getProject, getProjects } from "@/app/lib/db-caches";
+import BackToRouteLink from "@/app/components/back-to-route";
 
 export async function generateStaticParams() {
     const projects = await getProjects();
@@ -25,6 +26,7 @@ export async function generateMetadata({
         return getMetadata({
             title: "Project not found.",
             info: "404",
+            subtitle: "Boris Nezlobin.",
             description:
                 "This project couldn't be found. Visit my website to contact me, see what I'm up to, and learn more about me!",
         });
@@ -32,6 +34,8 @@ export async function generateMetadata({
 
     return getMetadata({
         title: proj.title,
+        info: new Date(proj.createdAt).toLocaleDateString(),
+        subtitle: "A project by Boris Nezlobin.",
         description: proj.description,
     });
 }
@@ -47,7 +51,8 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
     const githubRepo = project ? (project.github ? project.github.split("/") : []) : [];
 
     return (
-        <div className="flex flex-col gap-4 print:gap-0 p-8 md:p-16">
+        <div className="flex flex-col items-start gap-4 print:gap-0 p-8 md:p-16">
+            <BackToRouteLink href="/projects" text="Back to Projects" />
             <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between ">
                 <h1 className="text-3xl font-bold mb-3 md:mb-0">
                     {project.title}
@@ -67,15 +72,15 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
             </p>
             {project.links.length > 0 && <hr className="print:my-4" />}
             {project.links.length > 0 && <h2 className="text-xl font-bold">Links</h2>}
-            <ul className="flex flex-col gap-2 justify-start items-start">
+            <ul className="flex flex-col gap-2 print:pt-2 justify-start items-start">
                 {project.links.map(link => (
                     <li key={"li" + link} className="md:ml-4">
-                        <ProjectLink link={link} key={link} />
+                        <ProjectLink link={link} />
                     </li>
                 ))}
             </ul>
-            <hr className="mt-2 print:my-4 w-full" />
-            <div className="flex flex-col gap-2 mt-4 self-center relative w-full max-w-2xl">
+            <hr className="mt-2 w-full print:my-4" />
+            <div className="flex flex-col gap-2 mt-4 print:m-0 self-center relative w-full max-w-2xl">
                 <ArticleBody body={project.body} />
             </div>
         </div>

@@ -1,8 +1,6 @@
-"use client";
-
 import { Project} from "@prisma/client";
-import { IconButton } from "@/components/buttons";
 import { GithubLogo } from "@phosphor-icons/react/dist/ssr";
+import Link from "next/link";
 
 const ProjectListItem = ({ project }: { project: Project }) => {
     return (
@@ -21,13 +19,15 @@ const ProjectListItem = ({ project }: { project: Project }) => {
                 {project.description}
             </p>
             {project.github && (
-                <IconButton
-                    icon={<GithubLogo className="h-6 w-6 transition-colors duration-300" />}
-                    onClick={() => {
-                        window.open(project.github || "https://github.com/borisnezlobin");
-                    }}
-                    className="absolute top-2 right-2 hidden md:block"
-                />
+                <Link
+                    href={project.github}
+                    target="_blank"
+                    aria-label="View code on Github"
+                    rel="noopener noreferrer"
+                    className="p-2 hover:bg-light-foreground/20 dark:hover:bg-dark-foreground/20 rounded-lg bg-transparent text-light dark:text-dark absolute top-2 right-2 hidden md:block"
+                >
+                    <GithubLogo className="h-6 w-6 transition-colors duration-300" />
+                </Link>
             )}
         </div>
     );

@@ -34,6 +34,7 @@ export async function generateMetadata({ params }: { params: { slug: string, sec
         return getMetadata({
             title: "Notes not found.",
             info: "404",
+            subtitle: "Boris Nezlobin.",
             description:
                 "The requested notes couldn't be found. Visit my website to contact me, see what I'm up to, and learn more about me!",
         });
@@ -46,6 +47,7 @@ export async function generateMetadata({ params }: { params: { slug: string, sec
         return getMetadata({
             title: `Section not found.`,
             info: note.title,
+            subtitle: "Boris Nezlobin.",
             description:
                 `The requested section couldn't be found in my ${note.title} notes. Visit my website to contact me, see what I'm up to, and learn more about me!`,
         });
@@ -54,7 +56,8 @@ export async function generateMetadata({ params }: { params: { slug: string, sec
     return getMetadata({
         title: `${section.title}`,
         info: note.title,
-        description: `Check out my ${section.title} notes on ${note.title}! ${note.description}. ${sections.length} sections.`,
+        subtitle: "Notes by Boris Nezlobin.",
+        description: `Check out my ${section.title} notes on ${note.title}! ${note.description}. ${sections.length} sections. Made and published by Boris Nezlobin.`,
     });
 }
 

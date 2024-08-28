@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
     const fontData = await fontResponse.arrayBuffer();
 
     const title = decodeURIComponent(params.get("title") || "Boris Nezlobin.");
-    const info = decodeURIComponent(params.get("info") || "404");
+    let info = decodeURIComponent(params.get("info") || "");
     const subtitle = decodeURIComponent(params.get("subtitle") || "");
     
 
@@ -19,15 +19,15 @@ export async function GET(request: NextRequest) {
         (
             <div tw="w-full flex h-full bg-[#f5f5f5] p-16">
                 <div tw="mx-auto flex flex-col justify-center items-center">
-                    <p tw='text-3xl text-[#707070]'>
+                    <p tw={`text-3xl text-[#707070] ${info ? "block" : "hidden"}`}>
                         {info}
                     </p>
                     <div tw="flex flex-col justify-center items-center">
                         <p tw="text-8xl text-center font-bold text-[#3c3c3c] m-0 mb-2" style={{ fontFamily: 'Charter', lineHeight: "10rem" }}>
                             {title}
                         </p>
-                        <p tw='text-3xl text-[#707070]' style={{ fontFamily: 'CustomFont' }}>
-                            {subtitle}{subtitle ? " / " : ""}{title}
+                        <p tw={`text-3xl text-[#707070] ${subtitle ? "block" : "hidden"}`} style={{ fontFamily: 'Charter' }}>
+                            {subtitle}
                         </p>
                     </div>
                 </div>

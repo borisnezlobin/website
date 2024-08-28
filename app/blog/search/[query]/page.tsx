@@ -5,9 +5,10 @@ import getMetadata from "@/app/lib/metadata";
 
 export async function generateMetadata({ params }: { params: { query: string } }) {
     return getMetadata({
-        title: `Search results for "${params.query}"`,
+        title: `Search results for "${params.query.slice(0, 20)}"`,
         info: (new Date()).toLocaleDateString(),
-        description: `Search results for "${params.query}"`,
+        subtitle: "Boris Nezlobin.",
+        description: `Search results for "${params.query}" on Boris Nezlobin's blog.`,
     });
 }
 

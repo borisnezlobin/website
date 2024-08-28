@@ -6,8 +6,9 @@ import getMetadata from "../lib/metadata";
 import { getProjects } from "../lib/db-caches";
 
 export const metadata = getMetadata({
-  title: "My Projects",
-  description: "Check out the projects I've worked on and read my writeups about each.",
+    title: "Projects.",
+    info: "Boris Nezlobin.",
+    description: "Check out the projects I've worked on and read my writeups about each.",
 })
 
 export default async function ProjectsPage() {

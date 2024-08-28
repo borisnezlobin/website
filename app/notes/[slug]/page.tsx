@@ -15,6 +15,7 @@ export async function generateMetadata({ params }: { params: { slug: string } })
         return getMetadata({
             title: "Notes not found.",
             info: "404",
+            subtitle: "Boris Nezlobin.",
             description:
                 "The requested notes couldn't be found.\nVisit my website to contact me, see what I'm up to, and learn more about me!",
         });
@@ -22,7 +23,8 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 
     return getMetadata({
         title: `${note.title}`,
-        description: note.description,
+        subtitle: "Notes by Boris Nezlobin.",
+        description: note.description + ". Made and published by Boris Nezlobin.",
     });
 }
 

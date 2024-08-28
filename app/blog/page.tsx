@@ -1,15 +1,13 @@
-import db from "../lib/db";
 import { Metadata } from "next";
 import BlogList from "./components/blog-list";
 import getMetadata from "../lib/metadata";
 import { getBlogs } from "../lib/db-caches";
 
 export const metadata: Metadata = getMetadata({
-    title: "My Blog",
+    title: "Boris Nezlobin's Blog",
     description: "Read my blog posts about software engineering, everyday life, and more!",
+    subtitle: "Software engineering, education, and more.",
 });
-
-
 
 const BlogPage = async () => {
     const posts = await getBlogs();
