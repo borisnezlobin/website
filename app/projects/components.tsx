@@ -1,19 +1,22 @@
-"use client";
-
-import { ArrowRight, ArrowSquareOut } from "@phosphor-icons/react";
+import { ArrowRight, ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { headers } from "next/headers";
 
 const ProjectLink = ({ link }: { link: string }) => {
     const host = link.split("/")[2].split(".")[0];
-    if(typeof window !== "undefined" && link.includes(window.location.hostname)){
+
+    const headersList = headers();
+    const myHost = headersList.get("host");
+
+    if(myHost && link.includes(myHost)) {
         return (
             <div>
                 <p className="text-base font-bold">
                     Related Article
                 </p>
-                <Link aria-label="Related Article" href={link} className="link md:ml-4 flex flex-row gap-2 justify-center items-center">
+                <Link aria-label="Related Article" href={link} className="link md:ml-4 flex flex-row gap-2 justify-center items-center text-muted dark:text-muted-dark print:text-muted">
                     {link}
-                    <ArrowRight className="" weight="bold" />
+                    <ArrowRight weight="bold" />
                 </Link>
             </div>
         );
@@ -24,9 +27,9 @@ const ProjectLink = ({ link }: { link: string }) => {
             <p className="text-base font-bold">
                 {host.slice(0, 1).toUpperCase() + host.slice(1)}
             </p>
-            <Link aria-label={host} href={link} target="_blank" className="link md:ml-4 flex flex-row gap-2 justify-center items-center">
+            <Link aria-label={host} href={link} target="_blank" className="link md:ml-4 flex flex-row gap-2 justify-center items-center text-muted dark:text-muted-dark print:text-muted">
                 {link}
-                <ArrowSquareOut className="" weight="bold" />
+                <ArrowSquareOut weight="bold" />
             </Link>
         </div>
     );

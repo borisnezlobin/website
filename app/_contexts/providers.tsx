@@ -3,7 +3,6 @@
 import SocialLinksBubble from "@/components/social-links";
 import { ThemeProvider } from "next-themes";
 
-
 interface ProvidersProps {
     children: React.ReactNode;
 }
