@@ -3,11 +3,11 @@ import { ScrollForMore } from "../components/landing/scroll-for-more";
 import getMetadata from "../lib/metadata";
 import { DiscordLogo, Envelope, GithubLogo, Globe, LinkedinLogo } from "@phosphor-icons/react/dist/ssr";
 import { Separator } from "@/components/separator";
-import Image from "next/image";
 
 export const metadata = getMetadata({
     title: "Contact Me",
-    info: "Questions, comments, suggestions?",
+    description: "Questions, comments, suggestions? Find me on GitHub, LinkedIn, or send me an email.",
+    subtitle: "Boris Nezlobin."
 });
 
 const ContactType = ({ title, icon, url, urlTitle }: { title: string, icon: ReactNode, url: string, urlTitle?: string }) => {

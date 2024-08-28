@@ -5,8 +5,9 @@ import getMetadata from "@/app/lib/metadata";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 
 export const metadata: Metadata = getMetadata({
-    title: "Search My Blog",
-    description: "Search for articles on my blog",
+    title: "Search Blog.",
+    subtitle: "Boris Nezlobin.",
+    description: "Search for articles on my blog.",
 });
 
 const SearchPage = () => {
