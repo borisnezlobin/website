@@ -1,14 +1,10 @@
 import { ArrowRight, ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
-import { headers } from "next/headers";
 
 const ProjectLink = ({ link }: { link: string }) => {
     const host = link.split("/")[2].split(".")[0];
 
-    const headersList = headers();
-    const myHost = headersList.get("host");
-
-    if(myHost && link.includes(myHost)) {
+    if(link.includes("borisn") || link.includes("bnezlobin")) {
         return (
             <div>
                 <p className="text-base font-bold">
