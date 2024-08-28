@@ -1,5 +1,4 @@
 import NotFoundPage from "@/app/components/not-found-page";
-import db from "@/app/lib/db";
 import getMetadata from "@/app/lib/metadata";
 import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";

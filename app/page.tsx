@@ -10,7 +10,6 @@ import getMetadata from "./lib/metadata";
 
 export const metadata = getMetadata({
     info: "Hi, I'm",
-    title: "Boris Nezlobin.",
 });
 
 const skills = [
