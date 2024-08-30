@@ -12,15 +12,18 @@ export const metadata = getMetadata({
     info: "Hi, I'm",
 });
 
+const languages = [
+    { title: "TypeScript" },
+    { title: "Java" },
+    { title: "C++" },
+    { title: "Python" },
+    { title: "C#" },
+    { title: "Rust" },
+    { title: "JavaScript" },
+    { title: "HTML/CSS" },
+]
+
 const skills = [
-    { title: "TypeScript", description: "My go-to language for web projects" },
-    { title: "Java", description: "Used for robotics and AP CSA" },
-    { title: "C++", description: "Used for competitive programming (USACO)" },
-    { title: "Python", description: "First language I learned" },
-    { title: "C#", description: "Game dev in Unity" },
-    { title: "Rust", description: "Oh crab..." },
-    { title: "JavaScript", description: "" },
-    { title: "HTML/CSS", description: "" },
     { title: "Git", description: "Learned by contributing to open source" },
     { title: "Docker", description: "" },
     { title: "Postman", description: "APIs never work on the first try" },
@@ -85,25 +88,47 @@ export default function Home() {
             <Section
                 id="1.0"
                 title="Skills"
-                description=""
+                description="Check out what I know! I'm always learning new things."
             >
-                <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 print:gap-0">
+                <h3 className="font-bold text-xl mt-4">
+                    <span className="text-primary dark:text-primary-dark">
+                        1.1
+                    </span>
+                    {" "}Languages
+                </h3>
+                <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 mt-4">
+                    {languages.map((e, i) => <LandingPageBadge title={e.title} description="" key={`language ${i}`} />)}
+                </div>
+                <h3 className="font-bold text-xl mt-8">
+                    <span className="text-primary dark:text-primary-dark">
+                        1.2
+                    </span>
+                    {" "}Tools
+                </h3>
+                <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 print:gap-0 mt-4">
                     {skills.map((e, i) => <LandingPageBadge title={e.title} description={e.description} key={`skill ${i}`} />)}
                 </div>
             </Section>
             <Section
                 id="2.0"
-                title="Projects"
+                title="My Work"
                 description="My favorite projects. Most of them have writeups!"
             >
+                <h3 className="font-bold text-xl mt-8">
+                    <span className="text-primary dark:text-primary-dark">
+                        2.1
+                    </span>
+                    {" "}Projects
+                </h3>
                 <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 mt-4">
                     {projects.map((e, i) =>
                         <LandingPageBadge titleClassName={"w-24"} title={e.title} description={e.description} key={`project ${i}`} url={e.url} />
                     )}
                 </div>
+                
                 <h3 className="font-bold text-xl mt-8">
                     <span className="text-primary dark:text-primary-dark">
-                        2.5
+                        2.2
                     </span>
                     {" "}Contributions
                 </h3>
@@ -117,7 +142,7 @@ export default function Home() {
                             description={e.description}
                             key={`contribution ${i}`}
                             url={e.url}
-                            className={`inline-block w-max flex-shrink-0 flex-row`}
+                            className={`inline-block w-max flex-shrink-0 flex-row items-center`}
                             index={i}
                         />
                     )}
