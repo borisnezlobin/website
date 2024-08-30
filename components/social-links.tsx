@@ -1,13 +1,8 @@
-"use client";
 import {
     GithubLogo,
     LinkedinLogo,
-    Moon,
-    Sun,
     XLogo,
 } from "@phosphor-icons/react/dist/ssr";
-import { Separator } from "./separator";
-import { useTheme } from "next-themes";
 import { IconWeight } from "@phosphor-icons/react";
 
 const defaultIconClass =
@@ -37,8 +32,6 @@ const links = [
     },
 ];
 
-const defaultColor = " hover:text-primary dark:hover:text-primary";
-
 const SocialLinks = () => {
     return (
         <>
@@ -61,34 +54,4 @@ const SocialLinks = () => {
     );
 };
 
-const SocialLinksBubble = () => {
-    const { theme, setTheme } = useTheme();
-
-    const toggleTheme = () => {
-        console.log("theme", theme);
-        setTheme(theme === "light" ? "dark" : "light");
-    };
-
-    return (
-        <div className="print:hidden fixed flex bottom-4 z-10 right-4 flex-row items-center justify-center gap-4 border border-muted dark:border-muted-dark p-4 md:p-2 md:px-6 rounded-full shadow-lg bg-light-background dark:bg-dark-background">
-            <span className="hidden md:flex flex-row justify-center items-center gap-4">
-                <SocialLinks />
-            </span>
-            <Separator vertical={false} className="hidden md:block" />
-            <button
-                className="w-6 h-6 text-gray-500 transition duration-100 hover:text-primary-dark dark:hover:text-primary-dark"
-                onClick={toggleTheme}
-                aria-label="Change theme"
-            >
-                {theme === "light" ? (
-                    <Moon className={defaultIconClass + defaultColor} />
-                ) : (
-                    <Sun className={defaultIconClass + defaultColor} />
-                )}
-            </button>
-        </div>
-    );
-};
-
-export default SocialLinksBubble;
 export { SocialLinks };

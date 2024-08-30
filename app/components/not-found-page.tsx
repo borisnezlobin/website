@@ -2,7 +2,7 @@
 import Link from "next/link";
 import { Atom, HouseSimple } from "@phosphor-icons/react/dist/ssr";
 import { SecondaryButton } from "@/components/buttons";
-import SocialLinksBubble from "@/components/social-links";
+import SocialLinksBubble from "@/components/social-links-bubble";
 import { Separator } from "@/components/separator";
 import { useRouter } from "next/navigation";
 import { Newspaper } from "@phosphor-icons/react";
