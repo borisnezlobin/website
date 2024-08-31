@@ -41,6 +41,10 @@ const quotes = [
         source: "W. Somerset Maughan",
     },
     {
+        text: "Write me off and I'd love to read it.",
+        source: "LOOM, Imagine Dragons",
+    },
+    {
         text: "Here is a lesson in creative writing. First rule: Do not use semicolons. They are transvestite hermaphrodites representing absolutely nothing. All they do is show you've been to college.",
         source: "Kurt Vonnegut, A Man Without a Country",
     },
