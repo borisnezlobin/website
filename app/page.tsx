@@ -23,26 +23,30 @@ const languages = [
     { title: "HTML/CSS" },
 ]
 
-const skills = [
-    { title: "Git", description: "Learned by contributing to open source" },
-    { title: "Docker", description: "" },
-    { title: "Postman", description: "APIs never work on the first try" },
-    { title: "React", description: "Used for OneShip's frontend" },
-    { title: "React Native", description: "The only way I know how to make mobile apps" },
-    { title: "NextJS", description: "Powering this website" },
-    { title: "TailwindCSS", description: "text-center p-4 font-bold" },
-    { title: "Prisma + Postgres", description: "How else would I store my blogs?" },
-    { title: "ElectronJS", description: "Easy desktop apps" },
-    { title: "ExpressJS", description: "" },
-    { title: "IDEs", description: "VSCode, CLion, IntelliJ, AS, and Zed are my favorites" },
-    { title: "Team Management", description: "Software Lead for Kuriosity Robotics, '24-25" },
+const tech = [
+    { title: "React" },
+    { title: "React Native"},
+    { title: "NextJS" },
+    { title: "TailwindCSS" },
+    { title: "Prisma + Postgres" },
+    { title: "ElectronJS" },
+    { title: "ExpressJS" },
 ];
+
+const tools = [
+    { title: "IDEs", description: "VSCode, CLion, IntelliJ, AS, and Zed are my favorites" },
+    { title: "Jira / Slack", description: "Kuriosity Robotics Software Lead, '24-25" },
+    { title: "Unity", description: "Game Engine" },
+    { title: "Git", description: "" },
+    { title: "Postman", description: "" },
+    { title: "Docker", description: "" },
+]
 
 const projects = [
     { title: "OneShip", description: "A full-stack web and mobile application built for my school.", url: "/projects/oneship" },
     { title: "Portfolio", description: "My very own website :) Designed and built from the ground up by me.", url: "/projects/portfolio" },
     { title: "YAPA", description: "Yet Another (Electron) Pomodoro App (with nice UI). It has Discord RPC!", url: "https://github.com/borisnezlobin/pomodoro" },
-    { title: "SpatOS", description: "WIP - Yikes! High schoolers trying to make spatial operating systems doesn't turn out well.", url: "/projects/spatos" },
+    { title: "SpatOS", description: "My CS Capstone project — making a 2D Rust-based operating system 3-dimensional (WIP).", url: "/projects/spatos" },
     { title: "UndoDB", description: "A small, no-SQL, in-memory, transaction-based database written in Java.", url: "https://github.com/borisnezlobin/undodb" },
     { title: "Lim", description: "A Mozilla and Chrome RegEx-based time limit extension.", url: "/projects/lim" },
     { title: "ENF", description: "Collecting and analyzing European electrical network frequency data.", url: "/projects/enf" },
@@ -57,7 +61,7 @@ const contributions = [
 
 export default function Home() {
     return (
-        <main className="flex flex-col justify-center items-start mb-[30vh] p-4 lg:p-0">
+        <main className="flex flex-col justify-center items-start mb-16 p-4 lg:p-0">
             <div className="h-[100svh] relative top-[-3rem] items-center w-full flex flex-col justify-center p-4">
                 <p className="text-base md:text-2xl">Hi, I&apos;m</p>
                 <h1 className="text-3xl font-bold dark:text-dark edo text-center md:text-7xl">
@@ -65,7 +69,7 @@ export default function Home() {
                 </h1>
             </div>
             <ScrollForMore />
-            <h2 className="text-xl sm:text-4xl mt-12 font-bold text-left dark:text-dark">
+            <h2 className="text-xl sm:text-4xl font-bold text-left dark:text-dark">
                 <Age />
             </h2>
             <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4">
@@ -97,16 +101,41 @@ export default function Home() {
                     {" "}Languages
                 </h3>
                 <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 mt-4">
-                    {languages.map((e, i) => <LandingPageBadge title={e.title} description="" key={`language ${i}`} />)}
+                    {languages.map((e, i) => <LandingPageBadge
+                            title={e.title}
+                            description=""
+                            key={`language ${i}`}
+                        />
+                    )}
                 </div>
                 <h3 className="font-bold text-xl mt-8">
                     <span className="text-primary dark:text-primary-dark">
                         1.2
                     </span>
-                    {" "}Tools
+                    {" "}Technologies
                 </h3>
                 <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 print:gap-0 mt-4">
-                    {skills.map((e, i) => <LandingPageBadge title={e.title} description={e.description} key={`skill ${i}`} />)}
+                    {tech.map((e, i) => <LandingPageBadge
+                            description=""
+                            title={e.title}
+                            key={`skill ${i}`}
+                        />
+                    )}
+                </div>
+
+                <h3 className="font-bold text-xl mt-8">
+                    <span className="text-primary dark:text-primary-dark">
+                        1.3
+                    </span>
+                    {" "}Tools
+                </h3>
+                <div className="w-full flex flex-wrap flex-row items-center print:flex-col gap-4 print:gap-0 mt-4">
+                    {tools.map((e, i) => <LandingPageBadge
+                        title={e.title}
+                        description={e.description}
+                        key={`skill ${i}`}
+                        />
+                    )}
                 </div>
             </Section>
             <Section
@@ -122,7 +151,13 @@ export default function Home() {
                 </h3>
                 <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 mt-4">
                     {projects.map((e, i) =>
-                        <LandingPageBadge titleClassName={"w-24"} title={e.title} description={e.description} key={`project ${i}`} url={e.url} />
+                        <LandingPageBadge
+                            titleClassName={"w-24 text-center"}
+                            title={e.title}
+                            description={e.description}
+                            key={`project ${i}`}
+                            url={e.url}
+                        />
                     )}
                 </div>
                 
