@@ -1,19 +1,32 @@
 import db from "./db";
 import { unstable_cache } from "next/cache";
 
-const getBlogs = unstable_cache(async () => {
+type AnyFunction = (...args: any[]) => any;
+
+const wrapWithCache = <T extends AnyFunction>(fn: T): T => {
+    if (process.env.NODE_ENV === "development") {
+        return fn;
+    }
+    return unstable_cache(fn) as T;
+}
+
+const getBlogsWithoutCache = async () => {
     return await db.article.findMany({
         orderBy: { createdAt: "desc" },
     });
-});
+}
 
-const getBlog = unstable_cache(async (slug: string) => {
+const getBlogs = wrapWithCache(getBlogsWithoutCache);
+
+const getBlogWithoutCache = async (slug: string) => {
     return db.article.findUnique({
         where: { slug },
     });
-});
+}
 
-const getSimilarPosts = unstable_cache(async (slug: string) => {
+const getBlog = wrapWithCache(getBlogWithoutCache);
+
+const getSimilarPostsWithoutCache = async (slug: string) => {
     return await db.article.findMany({
         where: {
             NOT: {
@@ -22,27 +35,37 @@ const getSimilarPosts = unstable_cache(async (slug: string) => {
         },
         take: 3,
     });
-});
+}
 
-const getNotes = unstable_cache(async () => {
+const getSimilarPosts = wrapWithCache(getSimilarPostsWithoutCache);
+
+const getNotesWithoutCache = async () => {
     return db.note.findMany();
-});
+}
 
-const getNote = unstable_cache(async (slug: string) => {
+const getNotes = wrapWithCache(getNotesWithoutCache);
+
+const getNoteWithoutCache = async (slug: string) => {
     return db.note.findUnique({
         where: { slug },
     });
-});
+}
 
-const getProjects = unstable_cache(async () => {
+const getNote = wrapWithCache(getNoteWithoutCache);
+
+const getProjectsWithoutCache = async () => {
     return db.project.findMany();
-});
+};
 
-const getProject = unstable_cache(async (slug: string) => {
+const getProjects = wrapWithCache(getProjectsWithoutCache);
+
+const getProjectWithoutCache = async (slug: string) => {
     return db.project.findUnique({
         where: { slug },
     });
-});
+}
+
+const getProject = wrapWithCache(getProjectWithoutCache);
 
 export {
     getBlogs,
