@@ -27,7 +27,7 @@ export default async function NotesPage() {
                 A collection of notes I&apos;ve taken for various courses. Linear Algebra, AP Physics C, and more.
             </p>
 
-            <div className="mt-8 flex flex-wrap gap-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 mt-8 md:mt-4">
                 {notes.map((note) => (
                     <NotesListItem key={note.slug} note={note} />
                 ))}
