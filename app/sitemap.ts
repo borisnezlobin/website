@@ -7,19 +7,19 @@ import { readFileSync } from 'fs';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const blogs = await getBlogs();
     const blogRoutes = blogs.map((blog) => ({
-        url: `https://borisn.dev/blog/${blog.slug}`,
+        url: `https://www.borisn.dev/blog/${blog.slug}`,
         lastModified: blog.updatedAt,
     }));
 
     const projects = await getProjects();
     const projectRoutes = projects.map((project) => ({
-        url: `https://borisn.dev/projects/${project.slug}`,
+        url: `https://www.borisn.dev/projects/${project.slug}`,
         lastModified: project.updatedAt,
     }));
 
     const notes = await getNotes();
     const noteRoutes = notes.map((note) => ({
-        url: `https://borisn.dev/notes/${note.slug}`,
+        url: `https://www.borisn.dev/notes/${note.slug}`,
         lastModified: note.updatedAt,
     }));
 
@@ -27,18 +27,18 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         const content = readFileSync(getNoteMdxPath(note.slug), 'utf-8');
         const sections = getNoteSections(content);
         return sections.map((section) => ({
-            url: `https://borisn.dev/notes/${note.slug}/${section.slug}`,
+            url: `https://www.borisn.dev/notes/${note.slug}/${section.slug}`,
             lastModified: note.updatedAt,
         }));
     });
 
 
     const sitemap = [
-        { url: 'https://borisn.dev/' },
-        { url: 'https://borisn.dev/blog' },
-        { url: 'https://borisn.dev/contact' },
-        { url: 'https://borisn.dev/projects' },
-        { url: 'https://borisn.dev/notes' },
+        { url: 'https://www.borisn.dev/' },
+        { url: 'https://www.borisn.dev/blog' },
+        { url: 'https://www.borisn.dev/contact' },
+        { url: 'https://www.borisn.dev/projects' },
+        { url: 'https://www.borisn.dev/notes' },
         ...blogRoutes,
         ...projectRoutes,
         ...noteRoutes,
