@@ -60,6 +60,10 @@ const quotes = [
     {
         text: "Outliers are those who have been given opportunities",
         source: "Malcolm Gladwell, Outliers",
+    },
+    {
+        text: "I could bankrupt you with 3 VMs and a Python script.",
+        source: "@FeathersCasual on X"
     }
 ];
 
