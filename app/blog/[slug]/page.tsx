@@ -16,7 +16,7 @@ export async function generateStaticParams() {
         select: { slug: true },
     });
 
-    console.log("Generating paths for blog posts:", posts);
+    console.log("\nGenerating paths for blog posts:", posts.map((post) => post.slug));
 
     return posts.map((post) => ({ params: { slug: post.slug } }));
 }

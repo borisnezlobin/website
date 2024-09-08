@@ -12,7 +12,7 @@ const GithubStars = ({ repository, author }: { repository: string, author: strin
         .then((data) => {
             setStars(data.stargazers_count);
         });
-    }, []);
+    }, [author, repository]);
     
     return (
         <div className="flex items-center gap-1 text-sm print:hidden">

@@ -17,7 +17,7 @@ export async function generateStaticParams() {
         try {
             const sections = getNoteSections(readFileSync(getNoteMdxPath(note.slug), "utf-8"));
             const arr = sections.map((section) => ({ params: { slug: note.slug, section: section.slug } }));
-            console.log("Generated paths for note", arr);
+            console.log("Generated paths for note", note.title);
             return arr;
         } catch (e) {
             console.log("Error generating paths for note", note.slug);
@@ -46,8 +46,8 @@ export async function generateMetadata({ params }: { params: { slug: string, sec
     if (!section) {
         return getMetadata({
             title: `Section not found.`,
-            info: note.title,
-            subtitle: "Boris Nezlobin.",
+            subtitle: note.title,
+            info: "Boris Nezlobin.",
             description:
                 `The requested section couldn't be found in my ${note.title} notes. Visit my website to contact me, see what I'm up to, and learn more about me!`,
         });
@@ -55,8 +55,8 @@ export async function generateMetadata({ params }: { params: { slug: string, sec
 
     return getMetadata({
         title: `${section.title}`,
-        info: note.title,
-        subtitle: "Notes by Boris Nezlobin.",
+        subtitle: note.title,
+        info: "Notes by Boris Nezlobin.",
         description: `Check out my ${section.title} notes on ${note.title}! ${note.description}. ${sections.length} sections. Made and published by Boris Nezlobin.`,
     });
 }

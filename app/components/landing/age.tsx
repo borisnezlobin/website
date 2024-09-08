@@ -12,7 +12,7 @@ const Age = () => {
         setInterval(() => {
             setMsSince(Date.now() - msStart);
         }, 10)
-    }, []);
+    }, [msStart]);
 
     const age = timeSince + (0.000000000031689 * msSince);
     return <>
