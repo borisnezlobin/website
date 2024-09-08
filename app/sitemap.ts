@@ -23,9 +23,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: note.updatedAt,
     }));
 
+    console.log()
     const noteSections = notes.flatMap((note) => {
-        const content = readFileSync(getNoteMdxPath(note.slug), 'utf-8');
-        const sections = getNoteSections(content);
+        const sections = getNoteSections(readFileSync(getNoteMdxPath(note.slug), "utf-8"));
+        console.log(note.title, "has", sections.length, "sections");
         return sections.map((section) => ({
             url: `https://www.borisn.dev/notes/${note.slug}/${section.slug}`,
             lastModified: note.updatedAt,
@@ -42,9 +43,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ...blogRoutes,
         ...projectRoutes,
         ...noteRoutes,
+        ...noteSections,
     ];
 
-    console.log('Generated sitemap:', sitemap);
+    // console.log('Generated sitemap:', sitemap);
 
     return sitemap;
 }
