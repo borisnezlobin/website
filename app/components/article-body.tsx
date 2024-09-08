@@ -5,6 +5,8 @@ import Tweet from './mdx-components/twitter-embed';
 import Footnote from './mdx-components/footnote';
 import { AnchorHTMLAttributes, TableHTMLAttributes } from 'react';
 import '../styles/gist.css';
+import InfoBox from './mdx-components/info-box';
+import Accordion from './mdx-components/accordion';
 
 const ArticleBody = ({ body }: { body: string }) => {
     const parseBody = (body: string) => {
@@ -36,7 +38,7 @@ const ArticleBody = ({ body }: { body: string }) => {
             />
             <MDXRemote
                 source={parseBody(body)}
-                components={{ GistEmbed, MathEmbed, Tweet, Footnote, a: NewTabLink, table: TableContainer }}
+                components={{ GistEmbed, MathEmbed, Tweet, InfoBox, Accordion, Footnote, a: NewTabLink, table: TableContainer }}
             />
         </article>
     );
