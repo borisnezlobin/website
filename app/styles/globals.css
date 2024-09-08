@@ -3,9 +3,17 @@
 @tailwind utilities;
 
 :root {
-    --foreground-rgb: 0, 0, 0;
-    --background-start-rgb: 214, 219, 220;
-    --background-end-rgb: 255, 255, 255;
+    --info-bg: #d0eefc;
+    --question-bg: #c6fada;
+    --warning-bg: #fde2e2;
+    --definition-bg: #f0f0f0;
+}
+
+:root.dark{
+    --info-bg: #0d2538;
+    --question-bg: #0c310c;
+    --warning-bg: #3e1313;
+    --definition-bg: #242424;
 }
 
 body {
@@ -49,6 +57,59 @@ a {
     font-family: "charter";
     @apply bg-light-background dark:bg-dark-background text-light dark:text-dark transition-all duration-300;
     @apply print:bg-white print:dark:bg-white print:text-dark-background print:dark:text-dark-background;
+}
+
+.info-box {
+    @apply rounded-lg p-4 my-4;
+    transition: all 300ms;
+
+    * {
+        transition: all 300ms;
+    }
+
+    :last-child {
+        margin-bottom: 0;
+    }
+}
+
+.info-box[data-info-type="info"] {
+    background-color: var(--info-bg);
+    * {
+        background-color: var(--info-bg);
+    }
+}
+
+.info-box[data-info-type="definition"] {
+    background-color: var(--definition-bg);
+
+
+    @media print {
+        background-color: white;
+        border: 1px solid #e7e7e7;
+
+        * {
+            background-color: white !important;
+        }
+    }
+
+    * {
+        background-color: var(--definition-bg);
+    };
+}
+
+.info-box[data-info-type="question"] {
+    background-color: var(--question-bg);
+    *:not(.__Latex__ *) {
+        background-color: var(--question-bg);
+    }
+}
+
+
+.info-box[data-info-type="warning"] {
+    background-color: var(--warning-bg);
+    *:not(.__Latex__ *) {
+        background-color: var(--warning-bg);
+    }
 }
 
 .header-link {
