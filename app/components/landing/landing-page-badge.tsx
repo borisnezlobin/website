@@ -25,14 +25,15 @@ const LandingPageBadge = ({
                 animationDuration: `${index !== undefined ? "1s" : 0}`,
             }}
         >
-            <b className={`text-lg print:flex print:text-lg print:gap-2 print:items-center ${titleClassName}`}>
+            <b className={`text-lg print:flex print:text-lg print:gap-2 print:items-center ${titleClassName} flex items-center justify-center gap-2`}>
                 {title}
+                {url && <ArrowSquareOut className="print:hidden md:hidden" />}
             </b>
             {description && <Separator size="medium" className="hidden md:block transition-colors duration-300 print:hidden" />}
             {description && <p className="transition-colors duration-300">
                 {description}
             </p>}
-            {url && <ArrowSquareOut className="print:hidden" />}
+            {url && <ArrowSquareOut className="print:hidden hidden md:block" />}
             {url && <span aria-hidden="true" className="hidden print:block text-muted">{url}</span>}
         </div>
     );

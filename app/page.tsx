@@ -118,7 +118,7 @@ export default function Home() {
                     {tech.map((e, i) => <LandingPageBadge
                             description=""
                             title={e.title}
-                            key={`skill ${i}`}
+                            key={`tech ${i}`}
                         />
                     )}
                 </div>
@@ -133,7 +133,7 @@ export default function Home() {
                     {tools.map((e, i) => <LandingPageBadge
                         title={e.title}
                         description={e.description}
-                        key={`skill ${i}`}
+                        key={`tools ${i}`}
                         />
                     )}
                 </div>
@@ -149,10 +149,10 @@ export default function Home() {
                     </span>
                     {" "}Projects
                 </h3>
-                <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 mt-4">
+                <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 mt-4 pr-4">
                     {projects.map((e, i) =>
                         <LandingPageBadge
-                            titleClassName={"w-24 text-center"}
+                            titleClassName={"md:w-24 md:text-center"}
                             title={e.title}
                             description={e.description}
                             key={`project ${i}`}
