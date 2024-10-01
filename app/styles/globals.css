@@ -74,7 +74,7 @@ a {
 
 .info-box[data-info-type="info"] {
     background-color: var(--info-bg);
-    * {
+    *:not(.__Latex__ *) {
         background-color: var(--info-bg);
     }
 }
@@ -87,12 +87,12 @@ a {
         background-color: white;
         border: 1px solid #e7e7e7;
 
-        * {
+        *:not(.__Latex__ *) {
             background-color: white !important;
         }
     }
 
-    * {
+    *:not(.__Latex__ *) {
         background-color: var(--definition-bg);
     };
 }
@@ -134,7 +134,14 @@ a {
 
 article {
     line-height: 1.4rem;
+    width: 100%;
+    position: relative;
     @apply print:text-base print:dark:text-base;
+
+    * {
+        position: relative;
+        max-width: 100%;
+    }
 
     h1 {
         @apply text-2xl md:text-4xl font-bold border-b pb-2 mb-4;
@@ -332,11 +339,19 @@ article {
     font-size: 1em;
 }
 
-.__Latex__ {
+.__Latex__ .katex, .__Latex__ .katex-html:not(.katex-display) {
+    display: inline-flex;
+    flex-direction: row;
+}
+
+.__Latex__ .katex-html {
     text-wrap: nowrap;
     white-space: nowrap;
     overflow-x: auto;
-    overflow-y: visible;
+    overflow-y: hidden;
+    padding: 0.15rem 0.15rem;
+    width: 100%;
+    max-width: 100%;
 }
 
 .scroller {
