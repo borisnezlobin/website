@@ -16,7 +16,11 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <head></head>
+            <head>
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                <link rel="preconnect" href="https://fonts.gstatic.com" />
+                <link href="https://fonts.googleapis.com/css2?family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet" />
+            </head>
             <body suppressHydrationWarning>
                 <ThemeProvider attribute="class">
                     <div className="w-screen min-w-screen min-h-[100svh] print:min-h-0 bg-light-background dark:bg-dark-background transition-all duration-300">

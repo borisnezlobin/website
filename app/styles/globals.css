@@ -23,6 +23,13 @@ body {
     @apply print:bg-white print:dark:bg-white;
 }
 
+.emph {
+  font-family: "Source Code Pro", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
 @media (prefers-color-scheme: dark) {
     :root {
         --foreground-rgb: 255, 255, 255;
@@ -168,7 +175,7 @@ article {
     }
 
     h1, h2, h3, h4, h5, h6 {
-        @apply mt-8;
+        @apply mt-8 emph;
         @media print {
             page-break-inside: avoid;
         }
@@ -215,7 +222,7 @@ article {
     }
 
     *:not(pre) > code {
-        @apply px-2 py-1 rounded-lg mr-[0.1rem];
+        @apply px-2 py-1 rounded-lg mr-[0.1rem] emph;
         font-size: 0.875em;
         @apply bg-[#e7e7e7] dark:bg-[#303030] border border-neutral-300 dark:border-neutral-600;
         @apply duration-300 transition-all;

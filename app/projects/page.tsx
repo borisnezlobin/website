@@ -16,7 +16,7 @@ export default async function ProjectsPage() {
 
   return (
         <main className="min-h-[100svh] print:min-h-0 z-[1] w-full p-8 md:pt-8">
-            <h1 className="text-3xl font-bold text-left dark:text-dark">Projects</h1>
+            <h1 className="text-3xl font-bold text-left dark:text-dark emph">Projects</h1>
             <p className="dark:text-dark text-left mt-2">
                 Check out all of the things I&apos;ve worked on!
             </p>

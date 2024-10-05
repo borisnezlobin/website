@@ -90,7 +90,7 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
             <div className="z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 md:p-8">
                 <header className="border-b border-muted dark:border-muted-dark mb-6 pb-6">
                     <BackToRouteLink href={`/notes/${note.slug}`} text={note.title} />
-                    <h1 className="text-3xl font-bold mb-2">{section.title}</h1>
+                    <h1 className="text-3xl font-bold mb-2 emph">{section.title}</h1>
                     <p className="text-muted dark:text-muted-dark mb-2">{sectionIndex + 1}/{sections.length} in {note.title}. <span><Link href={`/notes/${note.slug}`} className="link font-bold">See all</Link></span>.</p>
                 </header>
                 <ArticleBody body={section.content} />
