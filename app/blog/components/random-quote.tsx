@@ -75,16 +75,17 @@ const RandomQuote: React.FC = () => {
     return (
         <center className="w-full my-12 md:mb-24 print:hidden">
             <p>
-                <span className="text-2xl font-bold mr-3">
+                {/* <span className="text-2xl font-bold mr-3">
                     &ldquo;
-                </span>
+                </span> */}
                 {quotes[index].text}
-                <span className="text-2xl font-bold ml-2">
+                {/* <span className="text-2xl font-bold ml-2">
                     &rdquo;
-                </span>
-            </p>
-            <p className="text-muted dark:text-muted-dark">
-                — {quotes[index].source}
+                </span> */}
+            {/* </p> */}
+            <span className="text-muted dark:text-muted-dar pl-2">
+                &nbsp;— {quotes[index].source}
+            </span>
             </p>
             <p onClick={() => setIndex(getRandomIndex)} className="group link mt-4 cursor-pointer font-semibold justify-center">
                 <DiceFive className="group-hover:rotate-[35deg] transition-transform duration-300 text-xl group-active:scale-125" />

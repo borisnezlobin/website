@@ -53,7 +53,7 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
         <div className="flex flex-col items-start gap-4 print:gap-0 p-8 md:p-16">
             <BackToRouteLink href="/projects" text="Back to Projects" />
             <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between ">
-                <h1 className="text-3xl font-bold mb-3 md:mb-0">
+                <h1 className="text-3xl font-bold mb-3 md:mb-0 emph">
                     {project.title}
                 </h1>
                 {project.github && (

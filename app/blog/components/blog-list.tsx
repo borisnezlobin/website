@@ -18,7 +18,7 @@ const BlogList = ({
             className="min-h-[100svh] print:min-h-0 w-full p-8 pt-0 text-light-foreground dark:text-dark-foreground"
             suppressHydrationWarning
         >
-            <h1 className="text-3xl edo mt-8 mb-4">{title ? title : "My Blog"}</h1>
+            <h1 className="text-3xl emph mt-8 mb-4">{title ? title : "My Blog"}</h1>
             <SearchBar query={query}>
                 <p className="text-muted dark:text-muted-dark print:mb-4">
                 {query && (
