@@ -63,13 +63,13 @@ export default function Home() {
     return (
         <main className="flex flex-col justify-center items-start mb-16 p-4 lg:p-0">
             <div className="h-[100svh] relative top-[-3rem] items-center w-full flex flex-col justify-center p-4">
-                <p className="text-base md:text-2xl">Hi, I&apos;m</p>
+                <p className="text-base md:text-2xl emph">Hi, I&apos;m</p>
                 <h1 className="text-3xl font-bold dark:text-dark edo text-center md:text-7xl">
                     Boris Nezlobin.
                 </h1>
             </div>
             <ScrollForMore />
-            <h2 className="text-xl sm:text-4xl font-bold text-left dark:text-dark">
+            <h2 className="text-xl sm:text-3xl sm:text-[2rem] text-left dark:text-dark">
                 <Age />
             </h2>
             <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4">
@@ -94,7 +94,7 @@ export default function Home() {
                 title="Skills"
                 description="Check out what I know! I'm always learning new things."
             >
-                <h3 className="font-bold text-xl mt-4">
+                <h3 className="font-bold text-xl mt-4 emph">
                     <span className="text-primary dark:text-primary-dark">
                         1.1
                     </span>
@@ -108,7 +108,7 @@ export default function Home() {
                         />
                     )}
                 </div>
-                <h3 className="font-bold text-xl mt-8">
+                <h3 className="font-bold text-xl mt-8 emph">
                     <span className="text-primary dark:text-primary-dark">
                         1.2
                     </span>
@@ -123,7 +123,7 @@ export default function Home() {
                     )}
                 </div>
 
-                <h3 className="font-bold text-xl mt-8">
+                <h3 className="font-bold text-xl mt-8 emph">
                     <span className="text-primary dark:text-primary-dark">
                         1.3
                     </span>
@@ -143,7 +143,7 @@ export default function Home() {
                 title="My Work"
                 description="My favorite projects. Most of them have writeups!"
             >
-                <h3 className="font-bold text-xl mt-8">
+                <h3 className="font-bold text-xl mt-8 emph">
                     <span className="text-primary dark:text-primary-dark">
                         2.1
                     </span>
@@ -161,7 +161,7 @@ export default function Home() {
                     )}
                 </div>
                 
-                <h3 className="font-bold text-xl mt-8">
+                <h3 className="font-bold text-xl mt-8 emph">
                     <span className="text-primary dark:text-primary-dark">
                         2.2
                     </span>
