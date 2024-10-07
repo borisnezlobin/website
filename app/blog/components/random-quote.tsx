@@ -83,7 +83,7 @@ const RandomQuote: React.FC = () => {
                     &rdquo;
                 </span> */}
             {/* </p> */}
-            <span className="text-muted dark:text-muted-dar pl-2">
+            <span className="text-muted dark:text-muted-dar pl-2 whitespace-nowrap">
                 &nbsp;— {quotes[index].source}
             </span>
             </p>

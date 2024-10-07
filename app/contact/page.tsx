@@ -12,12 +12,12 @@ export const metadata = getMetadata({
 
 const ContactType = ({ title, icon, url, urlTitle }: { title: string, icon: ReactNode, url: string, urlTitle?: string }) => {
     return (
-        <div className="flex flex-col gap-2 justify-center md:items-start">
-            <h3 className="text-2xl font-bold dark:text-dark flex gap-4 justify-center items-center">
-                {icon}
+        <div className="flex flex-row flex-wrap gap-2 justify-center items-center w-full">
+            <div className="text-xl md:text-4xl">{icon}</div>
+            <p className="dark:text-dark font-bold md:text-3xl flex gap-2 justify-center items-center">
                 {title}
-            </h3>
-            <a href={url} title={urlTitle ? urlTitle : title} className="link underline font-semibold">
+            </p>
+            <a href={url} title={urlTitle ? urlTitle : title} target="_blank" className="link underline font-semibold emph ml-4">
                 {urlTitle ? urlTitle : url}
             </a>
         </div>
@@ -52,35 +52,35 @@ const CONTACT_TYPES = [
     {
         title: "Website",
         icon: <Globe />,
-        urlTitle: "bnezlobin.vercel.app",
-        url: "https://bnezlobin.vercel.app",
+        urlTitle: "borisn.dev",
+        url: "https://borisn.dev",
     }
 ];
 
 
 const ContactMePage = () => {
     return (
-        <main className="flex flex-col justify-center items-start mb-[30vh] p-4 lg:p-0">
+        <main className="flex flex-col justify-center items-start mb-12 md:mb-[30vh] p-4 lg:p-0">
             <div className="h-[100svh] print:hidden relative top-[-3rem] items-center w-full flex flex-col justify-center p-4 gap-4">
                 <h1 className="text-3xl font-bold dark:text-dark text-center md:text-4xl lg:text-5xl">
                     Want to reach out?
                 </h1>
                 <p className="text-base md:text-2xl">
-                    Here&apos;s how.
+                    I (mostly) don&apos;t bite :)
                 </p>
             </div>
             <ScrollForMore />
-            <div className="w-full flex flex-col md:flex-row print:flex-col flex-wrap gap-8 justify-start items-center md:justify-center md:items-center print:justify-start print:items-start">
+            <div className="w-full flex flex-col md:flex-row print:flex-col flex-wrap gap-8 md:gap-24 justify-start items-start md:justify-center md:items-center print:justify-start print:items-start">
                 {CONTACT_TYPES.map((e, i) => {
                     return (
-                        <div className="flex gap-8" key={`contact ${i}`}>
+                        <div className="flex gap-36" key={`contact ${i}`}>
                             <ContactType
                                 title={e.title}
                                 icon={e.icon}
                                 url={e.url}
                                 urlTitle={e.urlTitle}
                             />
-                            {i < CONTACT_TYPES.length - 1 && <Separator size="xlarge" className="hidden md:block print:hidden" />}
+                            {/* {i < CONTACT_TYPES.length - 1 && <Separator size="xlarge" className="hidden md:block print:hidden" />} */}
                         </div>
                     );
                 })}
