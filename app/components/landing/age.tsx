@@ -15,7 +15,7 @@ const Age = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setMsSince(Date.now() - msStart);
-        }, 100);
+        }, 40);
 
         return () => clearInterval(interval);
     }, [msStart]);
