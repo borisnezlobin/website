@@ -46,32 +46,71 @@ This test for geometric series (known as the geometric series test) is one of a 
 
 ### Convergence Tests
 
-How do we determine whether a series converges? It is often quite difficult — for example, does $\sum_{n=1}^\infty \frac{1}{n}$ converge? We can use a number of tests to determine whether a series converges:
-
-1. Divergence Test. If $\lim_{n\to\infty}a_n\neq 0$, then $\sum a_n$ diverges. Use this test before all others! However, remember that the Divergence Test is not an "if and only if" statement — the only thing it can guarantee is whether a given series diverges (just because the test doesn't say it diverges doesn't mean it doesn't — consider the harmonic series).
-2. Geometric Series. A geometric series $\sum ar^{n-1}$ converges if and only if $|r|< 1$.
-3. Comparison Test. Suppose that $0\leq a_n\leq b_n$ and $\sum b_n$ converges. Then, $\sum a_n$ converges. By similar logic, if $a_n\geq  c_n$ and $\sum c_n$ diverges, then $\sum a_n$ also diverges.
-4. Integral Test. Suppose $f(x)$ is a continuous, positive, decreasing (all three of these must hold!) function for  $x \geq 1$, and that $f(n)$ represents the terms of the sequence $a_n$ for which you are summing the series $\sum a_n$. Then, the series $\sum a_n$ converges if and only if the improper integral $\int_1^\infty f(x)dx$ converges. I recommend watching [Dr. Trefor Bazett's video](https://www.youtube.com/watch?v=JHTS3WMU7aA) about this test for a visual representation.
-5. Limit Comparison Test. If the ratio $\frac{a_n}{b_n}$ approaches a positive limit $L$, then $\sum a_n$ and $\sum b_n$ both either converge or both diverge.
-
-
-
+1. **Divergence Test**. If $\lim_{n\to\infty}a_n\neq 0$, then $\sum a_n$ diverges. Use this test before all others! However, remember that the Divergence Test is not an "if and only if" statement — the only thing it can guarantee is whether a given series diverges (just because the test doesn't say it diverges doesn't mean it doesn't — consider the harmonic series).
+2. **Geometric Series**. A geometric series $\sum ar^{n-1}$ converges if and only if $|r|< 1$.
+3. **Comparison Test**. Suppose that $0\leq a_n\leq b_n$ and $\sum b_n$ converges. Then, $\sum a_n$ converges. By similar logic, if $a_n\geq  c_n$ and $\sum c_n$ diverges, then $\sum a_n$ also diverges.
+4. **Integral Test**. Suppose $f(x)$ is a continuous, positive, decreasing (all three of these must hold!) function for  $x \geq 1$, and that $f(n)$ represents the terms of the sequence $a_n$ for which you are summing the series $\sum a_n$. Then, the series $\sum a_n$ converges if and only if the improper integral $\int_1^\infty f(x)dx$ converges. I recommend watching [Dr. Trefor Bazett's video](https://www.youtube.com/watch?v=JHTS3WMU7aA) about this test for a visual representation.
+5. **Limit Comparison Test**. If the ratio $\frac{a_n}{b_n}$ approaches a positive limit $L$, then $\sum a_n$ and $\sum b_n$ both either converge or both diverge.
+7. **Ratio Test**. If we have the series $\sum a_n$, we can decide whether it converges by considering the following: $L=\lim_{n\to\infty} |\frac{a_{n+1}}{a_n}|$. If $L< 1$, the series absolutely converges; if $L> 1$, it diverges; and if $L = 1$, the series may be divergent, conditionally convergent, or absolutely convergent.
+8. **Root Test**. Same as the Ratio Test, but $L=\lim_{n\to\infty}\left | a_n\right |^{\frac1n}.$
+9. **Alternating Series Test**. An alternating series is one where the terms can be written as $a_n=(-1)^n b_n$ or $a_n=(-1)^{n + 1} b_n.$ $a_n$ converges if $\lim_{n\to\infty} a_n=0$ and $\{b_n\}$ is a decreasing sequence.
 
 
+<hr/>
+
+### Taylor Series
+
+How do we actually calculate $\cos(x)$ for all $x$? How do we know that $\cos(39^\circ)\approx 0.777$? In computers, we obviously have a few optimizations (say, when $x\approx 0^\circ,45^\circ,$ or $60^\circ$). However, we don't *really* know how to find the exact value of a function like $\cos$ that isn't easily representable. This is where we decided to use the magic of approximation. If a function $f(x)$ is continuous and infinitely differentiable (and we can find its derivatives), we can model it with something called a **Taylor series** that gives us a polynomial approximation of the function.
+
+**Taylor Series**<br />
+For an infinitely differentiable function $f$, its Taylor polynomial centered at $x=a$ is
+$$
+\begin{align*}
+f(x)&=\sum_{n=0}^\infty \frac{f^{(n)}(a)}{n!}(x-a)^n\\
+&=f(a)+f'(a)(x-a)+\frac{f''(a)}{2}(x-a)^2+\frac{f'''(a)}{6}(x-a)^3+\dots
+\end{align*}
+$$
+(See [Paul's Online Math Notes](https://tutorial.math.lamar.edu/classes/calcii/taylorseries.aspx) for an explanation of how this is found.)
+
+When $a=0,$ the series is called the **Maclaurin series**.
+
+Then, we can also find the **error** in Taylor approximation:
+$$R_n(x)=f(x)-T_n(x),$$
+Which means that we can write
+$$f(x)=T_n(x)+R_n(x).$$
 
 
+Ex. Find the Taylor series for $e^x$ around $x=0.$ (then Google the answer, I ain't typing allat out.)
 
+<hr >
 
+# Vectors
 
+**Vectors**<br />
+Vectors are lists of points that represent a a linear combination of basis vectors... but that's a topic for linear algebra. In two dimensions, they're "arrows" from the origin to a point. So, the vector $\langle 3, 2\rangle$ represents "3 units across and two up."\
 
+There are some nontrivial operations we can do with vectors (I'm sure you can figure out how to do vector addition and multiplication by scalars).
 
+**Dot Product ($\vec{a}\cdot \vec{b}=c$)**<br />
+This is the "multiplication" of vectors. Essentially, it gives us a scalar value representing how much $\vec{a}$ aligns with $\vec{b}$ in terms of magnitude and direction.
+<img src="https://cloud-32m804cxp-hack-club-bot.vercel.app/0image.png" className="invert"></img>
+There are two ways to calculate it: $\vec{a}\cdot\vec{b}=||a|| \cos(\theta)$ and $\langle a_x a_y \rangle\cdot \langle b_{x},b_{y}\rangle=a_{x}b_{x}+a_{y}b_{y}.$
 
+**Projection**<br />
+The projection of a vector $\vec{a}$ onto another vector $\vec{b}$ gives us the actual vector:
+$$
+\text{proj}_{b}(\vec{a})=\frac{a\cdot b}{||b||^2} \vec{b}.
+$$
+See if you can figure out why this makes sense given what you know about the dot product (and the diagram above).
 
-
-
-
-
-
+**Cross Product ($\vec{a}\times \vec{b}=\vec{c}$)**<br />
+In three dimensions, the cross product of $\vec{a}$ and $\vec{b}$ returns a vector $\vec{c}$ that is perpendicular to both — that is, the normal vector to the plane defined by $\vec{a}$ and $\vec{b}.$ The magnitude of $\vec{c}$ is the area of the parallelogram with $\vec{a}$ and $\vec{b}$ for sides. Calculating it is somewhat tedious, but it looks like:
+$$
+\vec{a}\times \vec{b}=(a_{1} \hat{i}+a_{2} \hat{j} + a_{3} \hat{k})\times (b_{1} \hat{i} + b_{2} \hat{j} + b_{3} \hat{k})= \begin{bmatrix}
+a_{2}b_{3}-a_{3}b_{2}\\ a_{3}b_{1} - a_{1}b_{3} \\ a_{1}b_{2} -a_{2}b_{1}
+\end{bmatrix}.
+$$
+So... I hope and pray that you don't have to calculate this manually in any of your classes, ever.
 
 
 
