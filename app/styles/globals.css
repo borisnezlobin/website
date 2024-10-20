@@ -213,10 +213,10 @@ article {
     }
 
     blockquote {
-        @apply border-l-4 border-neutral-400 dark:border-neutral-400 pl-4 mb-4;
+        @apply border-l-4 border-neutral-400 dark:border-neutral-400 pl-4 mb-4 italic;
 
         p {
-            @apply text-neutral-500 dark:text-neutral-400 text-lg;
+            @apply text-neutral-500 dark:text-neutral-400 text-lg italic;
             line-height: 2.3rem;
         }
     }
