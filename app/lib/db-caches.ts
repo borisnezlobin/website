@@ -13,6 +13,13 @@ const wrapWithCache = <T extends AnyFunction>(fn: T): T => {
 const getBlogsWithoutCache = async () => {
     return await db.article.findMany({
         orderBy: { createdAt: "desc" },
+        where: {
+            slug: {
+                not: {
+                    startsWith: "draft",
+                },
+            }
+        }
     });
 }
 
@@ -32,6 +39,11 @@ const getSimilarPostsWithoutCache = async (slug: string) => {
             NOT: {
                 slug,
             },
+            slug: {
+                not: {
+                    startsWith: "draft",
+                },
+            },
         },
         take: 3,
     });
@@ -40,7 +52,15 @@ const getSimilarPostsWithoutCache = async (slug: string) => {
 const getSimilarPosts = wrapWithCache(getSimilarPostsWithoutCache);
 
 const getNotesWithoutCache = async () => {
-    return db.note.findMany();
+    return db.note.findMany({
+        where: {
+            slug: {
+                not: {
+                    startsWith: "draft",
+                },
+            }
+        }
+    });
 }
 
 const getNotes = wrapWithCache(getNotesWithoutCache);
@@ -54,7 +74,15 @@ const getNoteWithoutCache = async (slug: string) => {
 const getNote = wrapWithCache(getNoteWithoutCache);
 
 const getProjectsWithoutCache = async () => {
-    return db.project.findMany();
+    return db.project.findMany({
+        where: {
+            slug: {
+                not: {
+                    startsWith: "draft",
+                },
+            }
+        }
+    });
 };
 
 const getProjects = wrapWithCache(getProjectsWithoutCache);
