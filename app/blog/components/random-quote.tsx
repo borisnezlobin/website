@@ -43,7 +43,7 @@ const quotes = [
     },
     {
         text: "Write me off and I'd love to read it.",
-        source: "LOOM, Imagine Dragons",
+        source: "Wake Up, Imagine Dragons",
     },
     {
         text: "Here is a lesson in creative writing. First rule: Do not use semicolons. They are transvestite hermaphrodites representing absolutely nothing. All they do is show you've been to college.",
@@ -58,12 +58,28 @@ const quotes = [
         source: "Me, deleting my database",
     },
     {
-        text: "Outliers are those who have been given opportunities",
+        text: "Outliers are those who have been given opportunities.",
         source: "Malcolm Gladwell, Outliers",
     },
     {
         text: "I could bankrupt you with 3 VMs and a Python script.",
         source: "@FeathersCasual on X"
+    },
+    {
+        text: "r u mad at me",
+        source: "Me, to my code"
+    },
+    {
+        text: "It's not about making money, it's about taking money. Destroying the status quo because the status is not quo. The world is a mess and I just need to rule it.",
+        source: "Dr. Horrible, Dr. Horrible's Sing-Along Blog"
+    },
+    {
+        text: "It's harder to give away fish than it is to catch them.",
+        source: "John Steinbeck, The Winter of Our Discontent"
+    },
+    {
+        text: "Strength and success — they are above morality, above criticism. It seems, then, that it is not what you do, but how you do it and what you call it. Is there a check in men, deep in them, that stops or punishes? There doesn't seem to be. The only punishment is for failure.",
+        source: "John Steinbeck, The Winter of Our Discontent"
     }
 ];
 
@@ -83,9 +99,9 @@ const RandomQuote: React.FC = () => {
                     &rdquo;
                 </span> */}
             {/* </p> */}
-            <span className="text-muted dark:text-muted-dar pl-2 whitespace-nowrap">
-                &nbsp;— {quotes[index].source}
-            </span>
+            <p className="text-muted dark:text-muted-dar pl-2 whitespace-nowrap">
+                {quotes[index].source}
+            </p>
             </p>
             <p onClick={() => setIndex(getRandomIndex)} className="group link mt-4 cursor-pointer font-semibold justify-center">
                 <DiceFive className="group-hover:rotate-[35deg] transition-transform duration-300 text-xl group-active:scale-125" />
