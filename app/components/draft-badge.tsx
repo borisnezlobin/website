@@ -8,17 +8,13 @@ const DraftBadge = () => {
 
     useEffect(() => {
         if (ref.current && draftRef.current) {
-            // get width
             const width = ref.current.offsetWidth;
             const height = window.document.body.offsetHeight;
 
             const draftWidth = draftRef.current.offsetWidth;
-            const draftHeight = draftRef.current.offsetHeight;
 
-            // calculate how many times to repeat text horizontally (with 8px gap)
-            const repeatX = Math.ceil(width / (draftWidth + 800));
-            
-            // create span elements under `ref` element
+            const repeatX = Math.ceil(width / (draftWidth + 196));
+
             for (let j = 0; j < repeatX; j++) {
                 const span = document.createElement("span");
                 span.innerText = "DRAFT";
@@ -26,9 +22,8 @@ const DraftBadge = () => {
             }
 
             const sin = Math.sin(12 * Math.PI / 180);
-            // const sin = 0.5;
             const repeatY = Math.ceil(height / (sin * width));
-            console.log(height, width, repeatY);
+
             for (let i = 0; i < repeatY - 1; i++) {
                 const clone = ref.current.cloneNode(true) as HTMLDivElement;
                 clone.style.top = `calc(${(i) * sin * width}px)`;
@@ -46,7 +41,7 @@ const DraftBadge = () => {
                     DRAFT
                 </span>
             </div>
-            <div className="absolute print:hidden top-0 z-[5] left-0 w-full  pointer-events-none emph bg-transparent dark:bg-transparent !font-extrabold text-primary/10  dark:text-primary-dark/10">
+            <div className="absolute print:hidden top-0 z-[5] left-0 w-full pointer-events-none emph bg-transparent dark:bg-transparent !font-extrabold text-primary/10 dark:text-primary-dark/10">
                 <div
                     className="absolute flex flex-row w-full top-0 left-0 rotate-12 text-5xl bg-transparent dark:bg-transparent pointer-events-none emph font-extrabold text-primary/10 gap-[196px] dark:text-primary-dark/10"
                     ref={ref}
