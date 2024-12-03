@@ -52,15 +52,7 @@ const getSimilarPostsWithoutCache = async (slug: string) => {
 const getSimilarPosts = wrapWithCache(getSimilarPostsWithoutCache);
 
 const getNotesWithoutCache = async () => {
-    return db.note.findMany({
-        where: {
-            slug: {
-                not: {
-                    startsWith: "draft",
-                },
-            }
-        }
-    });
+    return db.note.findMany();
 }
 
 const getNotes = wrapWithCache(getNotesWithoutCache);

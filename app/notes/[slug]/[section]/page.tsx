@@ -9,6 +9,7 @@ import NotFoundPage from "@/app/components/not-found-page";
 import BackToRouteLink from "@/app/components/back-to-route";
 import getNoteMdxPath from "@/app/utils/get-note-mdx-path";
 import { getNote, getNotes } from "@/app/lib/db-caches";
+import { DraftBadge } from "@/app/components/draft-badge";
 
 export async function generateStaticParams() {
     const notes = await getNotes();
@@ -84,45 +85,49 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
     }
 
     const section = sections[sectionIndex];
+    const isDraft = note.slug.startsWith("draft-") || section.slug.startsWith("draft-");
 
     return (
-        <div className="min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
-            <div className="z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 md:p-8">
-                <header className="border-b border-muted dark:border-muted-dark mb-6 pb-6">
-                    <BackToRouteLink href={`/notes/${note.slug}`} text={note.title} />
-                    <h1 className="text-3xl font-bold mb-2 emph">{section.title}</h1>
-                    <p className="text-muted dark:text-muted-dark mb-2">{sectionIndex + 1}/{sections.length} in {note.title}. <span><Link href={`/notes/${note.slug}`} className="link font-bold">See all</Link></span>.</p>
-                </header>
-                <ArticleBody body={section.content} />
-            </div>
-            <div className="w-full flex flex-row flex-wrap justify-between items-center gap-4 pt-8 print:hidden">
-                {sectionIndex > 0 ? (
-                    <Link href={`/notes/${note.slug}/${sections[sectionIndex - 1].slug}`} className="link">
-                        <ArrowLeft className="hidden sm:block" />
-                        <span className="sm:hidden">Prev: </span>
-                        <span className="underline">{sections[sectionIndex - 1].title}</span>
+        <>
+            {isDraft && (<DraftBadge />)}
+            <div className="min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
+                <div className="z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 md:p-8">
+                    <header className="border-b border-muted dark:border-muted-dark mb-6 pb-6">
+                        <BackToRouteLink href={`/notes/${note.slug}`} text={note.title} />
+                        <h1 className="text-3xl font-bold mb-2 emph">{section.title}</h1>
+                        <p className="text-muted dark:text-muted-dark mb-2">{sectionIndex + 1}/{sections.length} in {note.title}. <span><Link href={`/notes/${note.slug}`} className="link font-bold">See all</Link></span>.</p>
+                    </header>
+                    <ArticleBody body={section.content} />
+                </div>
+                <div className="w-full flex flex-row flex-wrap justify-between items-center gap-4 pt-8 print:hidden">
+                    {sectionIndex > 0 ? (
+                        <Link href={`/notes/${note.slug}/${sections[sectionIndex - 1].slug}`} className="link">
+                            <ArrowLeft className="hidden sm:block" />
+                            <span className="sm:hidden">Prev: </span>
+                            <span className="underline">{sections[sectionIndex - 1].title}</span>
+                        </Link>
+                    ) : (
+                        <Link href={`/notes/${note.slug}`} className="link">
+                            <ArrowLeft className="hidden sm:block" />
+                            <span className="sm:hidden">Prev: </span>
+                            <span className="underline">Table of Contents</span>
+                        </Link>
+                    )}
+                    {sectionIndex < sections.length - 1 && (
+                        <Link href={`/notes/${note.slug}/${sections[sectionIndex + 1].slug}`} className="link">
+                            <span className="sm:hidden">Next: </span>
+                            <span className="underline">{sections[sectionIndex + 1].title}</span>
+                            <ArrowRight className="hidden sm:block"/>
+                        </Link>
+                    )}
+                </div>
+                <div className="w-full mt-4 flex flex-row flex-wrap justify-center items-center print:hidden">
+                    <Link href={`/notes/${note.slug}`} className="link flex">
+                        <List />Back to {note.title}
                     </Link>
-                ) : (
-                    <Link href={`/notes/${note.slug}`} className="link">
-                        <ArrowLeft className="hidden sm:block" />
-                        <span className="sm:hidden">Prev: </span>
-                        <span className="underline">Table of Contents</span>
-                    </Link>
-                )}
-                {sectionIndex < sections.length - 1 && (
-                    <Link href={`/notes/${note.slug}/${sections[sectionIndex + 1].slug}`} className="link">
-                        <span className="sm:hidden">Next: </span>
-                        <span className="underline">{sections[sectionIndex + 1].title}</span>
-                        <ArrowRight className="hidden sm:block"/>
-                    </Link>
-                )}
+                </div>
             </div>
-            <div className="w-full mt-4 flex flex-row flex-wrap justify-center items-center print:hidden">
-                <Link href={`/notes/${note.slug}`} className="link flex">
-                    <List />Back to {note.title}
-                </Link>
-            </div>
-        </div>
+        </>
     );
 }
 
