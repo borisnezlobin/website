@@ -15,7 +15,7 @@ const DraftBadge = () => {
 
             const repeatX = Math.ceil(width / (draftWidth + 196));
 
-            for (let j = 0; j < repeatX; j++) {
+            for (let j = 0; j < repeatX + 1; j++) {
                 const span = document.createElement("span");
                 span.innerText = "DRAFT";
                 ref.current.appendChild(span);
