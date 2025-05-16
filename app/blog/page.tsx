@@ -4,7 +4,7 @@ import getMetadata from "../lib/metadata";
 import { getBlogs } from "../lib/db-caches";
 
 export const metadata: Metadata = getMetadata({
-    title: "Boris Nezlobin's Blog",
+    title: "Blog",
     description: "Read my blog posts about software engineering, everyday life, and more!",
     subtitle: "Software engineering, education, and more.",
 });
