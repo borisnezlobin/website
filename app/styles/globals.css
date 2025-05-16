@@ -48,7 +48,6 @@ body {
 }
 
 p,
-div,
 input,
 main,
 h1,
@@ -62,8 +61,19 @@ i,
 a {
     outline: none;
     font-family: "charter";
-    @apply bg-light-background dark:bg-dark-background text-light dark:text-dark transition-all duration-300;
+    @apply bg-light-background dark:bg-dark-background text-light dark:text-dark !transition-all !duration-300;
     @apply print:bg-white print:dark:bg-white print:text-dark-background print:dark:text-dark-background;
+}
+
+div:not(.callout) {
+    outline: none;
+    font-family: "charter";
+    @apply bg-light-background dark:bg-dark-background text-light dark:text-dark !transition-all !duration-300;
+    @apply print:bg-white print:dark:bg-white print:text-dark-background print:dark:text-dark-background;
+}
+
+.callout * {
+    @apply !bg-transparent dark:!bg-transparent;
 }
 
 .info-box {
@@ -128,10 +138,19 @@ a {
 }
 
 .link:not(:is(article .link)) {
-    @apply hover:underline transition-all duration-300 inline-flex flex-row items-center justify-center gap-2;
+    @apply !no-underline hover:!underline !transition-all !duration-300 !inline-flex flex-row items-center justify-center gap-2;
     @apply text-light dark:text-dark;
     @apply group-hover:text-primary dark:group-hover:text-primary-dark;
     @apply hover:text-primary dark:hover:text-primary-dark;
+}
+
+.external-link, .internal-link {
+    @apply hover:!underline !transition-all !duration-300;
+    @apply text-light dark:text-dark;
+    @apply group-hover:text-primary dark:group-hover:text-primary-dark;
+    @apply hover:text-primary dark:hover:text-primary-dark;
+    background-image: none !important;
+    padding-inline-end: 0 !important;
 }
 
 .edo {
@@ -376,3 +395,5 @@ article {
         transform: translateX(calc(-50% - 0.5rem));
     }
 }
+
+/** obsidian inserts stuff */

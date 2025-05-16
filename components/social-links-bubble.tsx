@@ -5,7 +5,7 @@ import { SocialLinks } from "./social-links";
 import { Separator } from "./separator";
 import { Moon, Sun } from "@phosphor-icons/react/dist/ssr";
 
-const defaultColor = " hover:text-primary dark:hover:text-primary";
+const defaultColor = " hover:text-primary dark:hover:text-primary-dark";
 const defaultIconClass =
   "w-6 h-6 text-muted dark:text-muted-dark transition duration-100";
 
@@ -24,7 +24,7 @@ const SocialLinksBubble = () => {
             </span>
             <Separator vertical={false} className="hidden md:block" />
             <button
-                className="w-6 h-6 text-gray-500 transition duration-100 hover:text-primary-dark dark:hover:text-primary-dark"
+                className="w-6 h-6 text-gray-500 transition duration-100"
                 onClick={toggleTheme}
                 aria-label="Change theme"
             >
