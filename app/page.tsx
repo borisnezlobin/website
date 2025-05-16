@@ -20,7 +20,7 @@ const languages = [
     { title: "C#" },
     { title: "Rust" },
     { title: "JavaScript" },
-    { title: "HTML/CSS" },
+    { title: "HTML/CSS*" },
 ]
 
 const tech = [
@@ -34,23 +34,23 @@ const tech = [
 ];
 
 const tools = [
-    { title: "IDEs", description: "VSCode, CLion, IntelliJ, AS, and Zed are my favorites" },
-    { title: "Jira / Slack", description: "Kuriosity Robotics Software Lead, '24-25" },
     { title: "Unity", description: "Game Engine" },
     { title: "Git", description: "" },
     { title: "Postman", description: "" },
     { title: "Docker", description: "" },
+    { title: "Jira / Slack", description: "Kuriosity Robotics Software Lead, '24-25" },
+    { title: "Email", description: "love using this" }
 ]
 
 const projects = [
     { title: "OneShip", description: "A full-stack web and mobile application built for my school.", url: "/projects/oneship" },
     { title: "Portfolio", description: "My very own website :) Designed and built from the ground up by me.", url: "/projects/portfolio" },
     { title: "YAPA", description: "Yet Another (Electron) Pomodoro App (with nice UI). It has Discord RPC!", url: "https://github.com/borisnezlobin/pomodoro" },
-    { title: "SpatOS", description: "My CS Capstone project — making a 2D Rust-based operating system 3-dimensional (WIP).", url: "/projects/spatos" },
+    { title: "rendr", description: "My CS Capstone project — making a 3D renderer (also a raytracer). WIP.", url: "/projects/rendr" },
     { title: "UndoDB", description: "A small, no-SQL, in-memory, transaction-based database written in Java.", url: "https://github.com/borisnezlobin/undodb" },
     { title: "Lim", description: "A Mozilla and Chrome RegEx-based time limit extension.", url: "/projects/lim" },
     { title: "ENF", description: "Collecting and analyzing European electrical network frequency data.", url: "/projects/enf" },
-]
+];
 
 const contributions = [
     { title: "TypeHero", description: "Profanity filter, DevEx, and UI", url: "https://typehero.dev" },
@@ -74,8 +74,7 @@ export default function Home() {
             </h2>
             <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4">
                 <p className="dark:text-dark text-left w-full">
-                    I&apos;m an 11th grader at Palo Alto High School writing code for fun.
-                    I make things, with a focus on increasing accessibility in data, knowledge, and code. I love open-source.
+                    I&apos;m an 11th grader at Palo Alto High School writing code for fun (and interning at Lockheed Martin's Advanced Technology Center!).
                     Read on to see my skills, or check out <Link className="link underline font-semibold" href="/blog">my blog</Link>,{" "}
                     <Link className="link underline font-semibold" href="/notes">lecture notes</Link>, or <Link className="link underline font-semibold" href="/projects">projects I&apos;ve worked on</Link>.<br />
                     <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4">
@@ -100,7 +99,7 @@ export default function Home() {
                     </span>
                     {" "}Languages
                 </h3>
-                <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 mt-4">
+                <div className="w-full flex flex-wrap flex-row gap-4 print:gap-4 print:items-start mt-4">
                     {languages.map((e, i) => <LandingPageBadge
                             title={e.title}
                             description=""
@@ -108,13 +107,14 @@ export default function Home() {
                         />
                     )}
                 </div>
-                <h3 className="font-bold text-xl mt-8 emph">
+                <p className="mt-6 text-sm">* is HTML really a language though?</p>
+                <h3 className="font-bold text-xl mt-4 emph">
                     <span className="text-primary dark:text-primary-dark">
                         1.2
                     </span>
                     {" "}Technologies
                 </h3>
-                <div className="w-full flex flex-wrap flex-row print:flex-col gap-4 print:gap-0 mt-4">
+                <div className="w-full flex flex-wrap flex-row gap-4 print:gap-4 print:items-start mt-4">
                     {tech.map((e, i) => <LandingPageBadge
                             description=""
                             title={e.title}
@@ -129,7 +129,7 @@ export default function Home() {
                     </span>
                     {" "}Tools
                 </h3>
-                <div className="w-full flex flex-wrap flex-row items-center print:flex-col gap-4 print:gap-0 mt-4">
+                <div className="w-full flex flex-wrap items-center flex-row gap-4 print:gap-4 print:items-start mt-4">
                     {tools.map((e, i) => <LandingPageBadge
                         title={e.title}
                         description={e.description}

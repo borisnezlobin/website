@@ -2,6 +2,7 @@
 
 import { DiceFive } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
+import { text } from "stream/consumers";
 
 
 const quotes = [
@@ -80,6 +81,34 @@ const quotes = [
     {
         text: "Strength and success — they are above morality, above criticism. It seems, then, that it is not what you do, but how you do it and what you call it. Is there a check in men, deep in them, that stops or punishes? There doesn't seem to be. The only punishment is for failure.",
         source: "John Steinbeck, The Winter of Our Discontent"
+    },
+    {
+        text: "And confidence is a stain they can't wipe off.",
+        source: "Drop the World, Lil Wayne"
+    },
+    {
+        text: "I'm not a businessman; I'm a business, man.",
+        source: "Jay-Z"
+    },
+    {
+        text: "You can’t concentrate on doing anything if you are thinking, “What’s gonna happen if it doesn’t go right?”",
+        source: "Malcolm Gladwell, David and Goliath"
+    },
+    {
+        text: "Because the act of facing overwhelming odds produces greatness and beauty.",
+        source: "Malcolm Gladwell, David and Goliath"
+    },
+    {
+        text: "'Til all my sleeves are stained red from all the truth that I've said.",
+        source: "Secrets, One Republic"
+    },
+    {
+        text: "There's no mountain I can't climb, no tower too high, no plane I can't learn how to fly.",
+        source: "My Dad's Gone Crazy, Eminem"
+    },
+    {
+        text: "I'm going to hell. Who's coming with me?",
+        source: "My Dad's Gone Crazy, Eminem"
     }
 ];
 

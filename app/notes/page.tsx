@@ -1,5 +1,3 @@
-import { revalidatePath } from "next/cache";
-import db from "../lib/db";
 import getMetadata from "../lib/metadata";
 import { NotesListItem } from "./notes-list-item";
 import { getNotes } from "../lib/db-caches";

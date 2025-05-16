@@ -15,8 +15,8 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
 
     return (
         <div className="h-[100svh] relative top-[-3rem] flex flex-col justify-center items-center text-light-foreground dark:text-dark-foreground">
-            <h1 className="text-8xl">404</h1>
-                <p>{title}</p>
+            <h1 className="text-8xl emph text-primary dark:text-primary-dark">404</h1>
+                <p>{title} :P</p>
 
                 <div className="w-full md:w-1/2 h-px bg-muted dark:bg-muted-dark my-4" />
 
@@ -24,7 +24,7 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
                     <Link
                         href="/"
                         aria-label="Home"
-                        className="flex flex-row group text-gray-500 justify-center items-center"
+                        className="flex flex-row group text-light-foreground dark:text-dark-foreground justify-center items-center"
                     >
                         <HouseSimple className={"w-6 h-6 " + linkClass} />
                         <p className={"ml-2 " + linkClass}>Home</p>
@@ -33,7 +33,7 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
                     <Link
                         href="/blog"
                         aria-label="Blog"
-                        className="flex flex-row group text-gray-500 justify-center items-center"
+                        className="flex flex-row group text-light-foreground dark:text-dark-foreground justify-center items-center"
                     >
                         <Newspaper className={"w-6 h-6 " + linkClass} />
                         <p className={"ml-2 " + linkClass}>Blog</p>
@@ -42,7 +42,7 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
                     <Link
                         href="/projects"
                         aria-label="Projects"
-                        className="flex flex-row group text-gray-500 justify-center items-center"
+                        className="flex flex-row group text-light-foreground dark:text-dark-foreground justify-center items-center"
                     >
                         <Atom className={"w-6 h-6 " + linkClass} />
                         <p className={"ml-2 " + linkClass}>Projects</p>
