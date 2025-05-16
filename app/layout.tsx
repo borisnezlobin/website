@@ -1,4 +1,5 @@
 import "./styles/globals.css";
+import "./styles/obsidian.css";
 import getMetadata from "./lib/metadata";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Analytics } from "@vercel/analytics/react";

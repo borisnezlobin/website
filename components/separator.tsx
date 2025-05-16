@@ -34,11 +34,11 @@ export const Separator: React.FC<SeparatorProps> = ({ vertical = false, children
     const margin = children ? "m-0" : (!vertical ? "mx-2" : "my-2");
     return (
         <div className={`flex ${vertical ? "flex-row" : "flex-col"} justify-start gap-2 items-center ${className}`}>
-            <div className={`bg-muted dark:bg-muted-dark ${sizes[size][!vertical ? "vertical" : "horizontal"]} ${margin}`} />
+            <div className={`!bg-muted dark:!bg-muted-dark ${sizes[size][!vertical ? "vertical" : "horizontal"]} ${margin}`} />
             {children ?
             <>
                 {children}
-                <div className={`bg-muted dark:bg-muted-dark ${sizes[size][!vertical ? "vertical" : "horizontal"]} ${margin}`} />
+                <div className={`!bg-muted dark:!bg-muted-dark ${sizes[size][!vertical ? "vertical" : "horizontal"]} ${margin}`} />
             </>
             : <></>
             }

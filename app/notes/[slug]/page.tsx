@@ -55,7 +55,7 @@ export default async function SubjectNotesPage({ params }: { params: { slug: str
             <h1 className="text-3xl font-bold emph pt-4">{note.title}</h1>
             <p className="mt-6 text-muted dark:text-muted-dark">Roughly {numWords} words.</p>
             <p>{note.description}</p>
-            <hr className="my-8" />
+            <div className="h-px w-full bg-muted dark:bg-muted-dark my-8" />
             <h2 className="text-2xl font-bold">Table of Contents</h2>
             <ol>
                 {sections.map((section, i) => (

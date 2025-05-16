@@ -1,5 +1,5 @@
 import db from "@/app/lib/db";
-import { readFileSync } from "fs";
+import { fstat, readFileSync } from "fs";
 import { getNoteSections } from "../../getNoteSections";
 import ArticleBody from "@/app/components/article-body";
 import Link from "next/link";
@@ -78,18 +78,27 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
 
     const sectionIndex = sections.findIndex((section) => section.slug === params.section);
 
-    if (sectionIndex === -1) {
+    if (sectionIndex === -1 && params.section !== "test") {
         return (
             <NotFoundPage title={`Section of ${note.title} not found.`} />
         )
     }
 
-    const section = sections[sectionIndex];
+    let section;
+    if (params.section == "test") {
+        section = {
+            slug: "test",
+            title: "test ap physics",
+            content: readFileSync('/Users/randomletters/Downloads/bored/HTML Exports/export test.html').toString()
+        };
+    } else {
+        section = sections[sectionIndex];
+    }
     const isDraft = note.slug.startsWith("draft-") || section.slug.startsWith("draft-");
 
     return (
         <>
-            {isDraft && (<DraftBadge />)}
+            {/* {isDraft && (<DraftBadge />)} */}
             <div className="min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
                 <div className="z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 md:p-8">
                     <header className="border-b border-muted dark:border-muted-dark mb-6 pb-6">
@@ -97,7 +106,7 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
                         <h1 className="text-3xl font-bold mb-2 emph">{section.title}</h1>
                         <p className="text-muted dark:text-muted-dark mb-2">{sectionIndex + 1}/{sections.length} in {note.title}. <span><Link href={`/notes/${note.slug}`} className="link font-bold">See all</Link></span>.</p>
                     </header>
-                    <ArticleBody body={section.content} />
+                    {params.section == "test" ? <div dangerouslySetInnerHTML={{ __html: section.content}} /> : <ArticleBody body={section.content} /> }
                 </div>
                 <div className="w-full flex flex-row flex-wrap justify-between items-center gap-4 pt-8 print:hidden">
                     {sectionIndex > 0 ? (
