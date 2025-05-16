@@ -19,8 +19,8 @@ const ShareButton = () => {
         <IconButton
             onClick={() => {
                 navigator.share({
-                title: "Check out this article by Boris Nezlobin!",
-                url: window.location.href,
+                    title: "Check out this article by Boris Nezlobin!",
+                    url: window.location.href,
                 });
             }}
             icon={<Share className="h-6 w-6" />}
