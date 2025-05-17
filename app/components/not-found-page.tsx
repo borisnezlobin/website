@@ -18,7 +18,7 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
             <h1 className="text-8xl emph text-primary dark:text-primary-dark">404</h1>
                 <p>{title} :P</p>
 
-                <div className="w-full md:w-1/2 h-px bg-muted dark:bg-muted-dark my-4" />
+                <div className="w-full md:w-1/2 h-px !bg-muted dark:!bg-muted-dark my-4" />
 
                 <div className="flex flex-row justify-between items-center gap-4 mt-4">
                     <Link
