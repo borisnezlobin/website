@@ -44,21 +44,21 @@ const Footer = () => {
                     <p className="pl-8 md:pl-0 text-muted dark:text-muted-dark mb-2">
                         About Me
                     </p>
-                    <ul className="pl-8 md:pl-0 flex flex-row gap-2 justify-start items-start flex-wrap">
-                        <li>
+                    <div className="pl-8 md:pl-0 flex flex-row gap-2 justify-start items-start flex-wrap">
+                        <span>
                             <LinkWithIcon title="Home" href="/" Icon={House}>
                                 Home
                             </LinkWithIcon>
-                        </li>
-                        <li>
+                        </span>
+                        <span>
                             <Separator />
-                        </li>
-                        <li>
+                        </span>
+                        <span>
                             <LinkWithIcon title="Contact" href="/contact" Icon={AddressBook}>
                                 Contact
                             </LinkWithIcon>
-                        </li>
-                    </ul>
+                        </span>
+                    </div>
                 </section>
 
                 <Separator size="xlarge" className="hidden md:flex" />
@@ -67,31 +67,30 @@ const Footer = () => {
                     <p className="pl-8 md:pl-0 text-muted dark:text-muted-dark mb-2">
                         My Work
                     </p>
-                    <ul className="pl-8 md:pl-0 flex flex-row gap-2 justify-start items-start flex-wrap">
-                        <li>
+                    <div className="pl-8 md:pl-0 flex flex-row gap-2 justify-start items-start flex-wrap">
+                        <span>
                             <LinkWithIcon title="Projects" href="/projects" Icon={Atom}>
                                 Projects
                             </LinkWithIcon>
-                        </li>
-                        <li>
+                        </span>
+                        <span>
                             <Separator />
-                        </li>
-                        <li>
+                        </span>
+                        <span>
                             <LinkWithIcon title="Blog" href="/blog" Icon={Newspaper}>
                                 Blog
                             </LinkWithIcon>
-                        </li>
-                        <li>
+                        </span>
+                        <span>
                             <Separator />
-                        </li>
-                        <li>
+                        </span>
+                        <span>
                             <LinkWithIcon title="Notes" href="/notes" Icon={HighlighterCircle}>
                                 Notes
                             </LinkWithIcon>
-                        </li>
-                    </ul>
+                        </span>
+                    </div>
                 </section>
-
 
                 <Separator size="xlarge" className="hidden md:flex" />
 
@@ -103,7 +102,7 @@ const Footer = () => {
                 </section>
 
                 <p className="w-full text-muted dark:text-muted-dark text-center mt-8">
-                    © 2024 Boris Nezlobin. All rights reserved.
+                    Copyright Boris Nezlobin 2024. All rights reserved.
                 </p>
             </footer>
 
@@ -112,7 +111,7 @@ const Footer = () => {
                     borisn.dev
                 </Link>
                 <span className="text-muted dark:text-muted-dark">
-                    © 2024 Boris Nezlobin. All rights reserved.
+                    Copyright Boris Nezlobin 2024. All rights reserved.
                 </span>
             </p>
         </>

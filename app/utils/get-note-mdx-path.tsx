@@ -4,4 +4,9 @@ const getNoteMdxPath = (slug: string) => {
     return path.resolve(process.cwd(), path.join("mdx", "notes", slug.replaceAll("draft-", "") + ".mdx"));
 }
 
+const getNoteHTMLPath = (slug: string) => {
+    return path.resolve(process.cwd(), path.join("mdx", "notes", slug.replaceAll("draft-", "") + ".html"));
+}
+
 export default getNoteMdxPath;
+export { getNoteHTMLPath };

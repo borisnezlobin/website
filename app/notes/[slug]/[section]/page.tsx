@@ -1,15 +1,16 @@
 import db from "@/app/lib/db";
 import { fstat, readFileSync } from "fs";
-import { getNoteSections } from "../../getNoteSections";
+import { getNoteSections, getHTMLNoteSections } from "../../getNoteSections";
 import ArticleBody from "@/app/components/article-body";
 import Link from "next/link";
 import { ArrowLeft, ArrowRight, List } from "@phosphor-icons/react/dist/ssr";
 import getMetadata from "@/app/lib/metadata";
 import NotFoundPage from "@/app/components/not-found-page";
 import BackToRouteLink from "@/app/components/back-to-route";
-import getNoteMdxPath from "@/app/utils/get-note-mdx-path";
+import getNoteMdxPath, { getNoteHTMLPath } from "@/app/utils/get-note-mdx-path";
 import { getNote, getNotes } from "@/app/lib/db-caches";
 import { DraftBadge } from "@/app/components/draft-badge";
+import { Wrapper } from "./skibidiwrapper";
 
 export async function generateStaticParams() {
     const notes = await getNotes();
@@ -72,9 +73,9 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
         )
     }
 
-    const configDirectory = getNoteMdxPath(note.slug);
+    const configDirectory = getNoteHTMLPath(note.slug);
     const content = readFileSync(configDirectory, "utf-8");
-    const sections = getNoteSections(content);
+    const sections = getHTMLNoteSections(content);
 
     const sectionIndex = sections.findIndex((section) => section.slug === params.section);
 
@@ -84,16 +85,7 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
         )
     }
 
-    let section;
-    if (params.section == "test") {
-        section = {
-            slug: "test",
-            title: "test ap physics",
-            content: readFileSync('/Users/randomletters/Downloads/bored/HTML Exports/export test.html').toString()
-        };
-    } else {
-        section = sections[sectionIndex];
-    }
+    let section = sections[sectionIndex];
     const isDraft = note.slug.startsWith("draft-") || section.slug.startsWith("draft-");
 
     return (
@@ -106,7 +98,7 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
                         <h1 className="text-3xl font-bold mb-2 emph">{section.title}</h1>
                         <p className="text-muted dark:text-muted-dark mb-2">{sectionIndex + 1}/{sections.length} in {note.title}. <span><Link href={`/notes/${note.slug}`} className="link font-bold">See all</Link></span>.</p>
                     </header>
-                    {params.section == "test" ? <div dangerouslySetInnerHTML={{ __html: section.content}} /> : <ArticleBody body={section.content} /> }
+                    <Wrapper content={section.content} />
                 </div>
                 <div className="w-full flex flex-row flex-wrap justify-between items-center gap-4 pt-8 print:hidden">
                     {sectionIndex > 0 ? (
