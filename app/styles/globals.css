@@ -49,7 +49,7 @@ body {
 
 p,
 input,
-main,
+main, hr,
 h1,
 h2,
 h3,
@@ -74,6 +74,15 @@ div:not(.callout) {
 
 .callout * {
     @apply !bg-transparent dark:!bg-transparent;
+}
+
+ul {
+    list-style-type: disc;
+}
+
+li::marker, ol::marker {
+    /* yes I know these are technically flipped lol */
+    @apply !text-muted-dark dark:!text-muted;
 }
 
 .info-box {
@@ -145,10 +154,9 @@ div:not(.callout) {
 }
 
 .external-link, .internal-link {
-    @apply hover:!underline !transition-all !duration-300;
-    @apply text-light dark:text-dark;
-    @apply group-hover:text-primary dark:group-hover:text-primary-dark;
-    @apply hover:text-primary dark:hover:text-primary-dark;
+    @apply !underline !transition-all !duration-300 font-bold !text-muted dark:!text-muted-dark;
+    @apply group-hover:!text-primary dark:group-hover:!text-primary-dark;
+    @apply hover:!text-primary dark:hover:!text-primary-dark;
     background-image: none !important;
     padding-inline-end: 0 !important;
 }
