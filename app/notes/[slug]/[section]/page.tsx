@@ -92,7 +92,7 @@ const SectionPage = async ({ params }: { params: { slug: string, section: string
         <>
             {/* {isDraft && (<DraftBadge />)} */}
             <div className="min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
-                <div className="z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 md:p-8">
+                <div className="z-[1] max-w-3xl ml-auto mr-auto relative w-full p-0 md:p-8">
                     <header className="border-b border-muted dark:border-muted-dark mb-6 pb-6">
                         <BackToRouteLink href={`/notes/${note.slug}`} text={note.title} />
                         <h1 className="text-3xl font-bold mb-2 emph">{section.title}</h1>
