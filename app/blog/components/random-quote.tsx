@@ -1,8 +1,7 @@
 "use client";
 
-import { DiceFive } from "@phosphor-icons/react/dist/ssr";
+import { DiceFiveIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
-import { text } from "stream/consumers";
 
 
 const quotes = [
@@ -115,25 +114,20 @@ const quotes = [
 
 const RandomQuote: React.FC = () => {
     const getRandomIndex = () => Math.floor(Math.random() * quotes.length);
-    const [index, setIndex] = useState(getRandomIndex());
+    const random = getRandomIndex()
+    const [index, setIndex] = useState(random);
     
     return (
         <center className="w-full my-12 md:mb-24 print:hidden">
             <p>
-                {/* <span className="text-2xl font-bold mr-3">
-                    &ldquo;
-                </span> */}
                 {quotes[index].text}
-                {/* <span className="text-2xl font-bold ml-2">
-                    &rdquo;
-                </span> */}
-            {/* </p> */}
-            <p className="text-muted dark:text-muted-dark pl-2 whitespace-nowrap">
-                {quotes[index].source}
-            </p>
+                <br />
+                <span className="text-muted dark:text-muted-dark pl-2 whitespace-nowrap">
+                    {quotes[index].source}
+                </span>
             </p>
             <p onClick={() => setIndex(getRandomIndex)} className="group link mt-4 cursor-pointer font-semibold justify-center">
-                <DiceFive className="group-hover:rotate-[35deg] transition-transform duration-300 text-xl group-active:scale-125" />
+                <DiceFiveIcon className="group-hover:rotate-[35deg] transition-transform duration-300 text-xl group-active:scale-125" />
                 <span>
                     Get another quote
                 </span>

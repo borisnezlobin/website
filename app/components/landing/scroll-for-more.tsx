@@ -1,5 +1,5 @@
 "use client"
-import { ArrowFatLineDown } from "@phosphor-icons/react/dist/ssr";
+import { ArrowFatLineDownIcon } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useState } from "react";
 
 const ScrollForMore = () => {
@@ -19,9 +19,9 @@ const ScrollForMore = () => {
             <p aria-hidden className="text-muted dark:text-muted-dark hidden print:block">
                 More
             </p>
-            <ArrowFatLineDown size={24} weight="thin" className="animate-bounce print:animate-none" />
+            <ArrowFatLineDownIcon size={24} weight="thin" className="animate-bounce print:animate-none" />
         </div>
-        <div className="h-[1px] bg-[#dddddd] dark:bg-[#444] w-screen"/>
+        <div className="h-[1px] !bg-[#dddddd] dark:!bg-[#444] w-screen"/>
     </div>
 }
 

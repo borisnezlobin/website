@@ -80,7 +80,6 @@ const ContactMePage = () => {
                                 url={e.url}
                                 urlTitle={e.urlTitle}
                             />
-                            {/* {i < CONTACT_TYPES.length - 1 && <Separator size="xlarge" className="hidden md:block print:hidden" />} */}
                         </div>
                     );
                 })}
