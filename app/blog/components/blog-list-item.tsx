@@ -30,7 +30,7 @@ const BlogListItem = ({
                 </h2>
             </div>
             <p aria-hidden className="hidden print:block text-muted dark:text-muted-dark">
-                https://bnezlobin.vercel.app/blog/{post.slug}
+                https://borisn.dev/blog/{post.slug}
             </p>
             <p>{post.description}</p>
             <ArticleDate

@@ -6,7 +6,7 @@ Built with NextJS, PostgreSQL, Prism (and Prisma), Vercel, TypeScript, and my fa
 
 Check out some of my blog posts:
 
-- [PAUSD's mishandling of student voice and advanced mathematics](https://bnezlobin.vercel.app/blog/pausd-mvc)
-- [Collecting electrical network frequency data on the European grid](https://bnezlobin.vercel.app/blog/enf-data)
+- [PAUSD's mishandling of student voice and advanced mathematics](https://borisn.dev/blog/pausd-mvc)
+- [Collecting electrical network frequency data on the European grid](https://borisn.dev/blog/enf-data)
 
 ...with more to come!
