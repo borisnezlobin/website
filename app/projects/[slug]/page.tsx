@@ -69,8 +69,7 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
             <p className="print:my-2">
                 {project.description}
             </p>
-            {project.links.length > 0 && <hr className="print:my-4" />}
-            {project.links.length > 0 && <h2 className="text-xl font-bold">Links</h2>}
+            {project.links.length > 0 && <h2 className="text-xl font-bold mt-3">Links</h2>}
             <ul className="flex flex-col gap-2 print:pt-2 justify-start items-start">
                 {project.links.map(link => (
                     <li key={"li" + link} className="md:ml-4">

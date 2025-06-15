@@ -33,6 +33,7 @@
   margin-left: var(--spreadHorizontalWrapped-margin-LR);
   margin-right: var(--spreadHorizontalWrapped-margin-LR);
 }
+
 body {
   --anim-duration-none: 300ms;
   --anim-duration-superfast: 300ms;
@@ -766,6 +767,15 @@ body {
   --pdf-shadow: 0 0 0 1px var(--background-modifier-border);
   --pdf-thumbnail-shadow: 0 0 0 1px var(--background-modifier-border);
 }
+
+
+@media print {
+  body {
+    --line-height-normal: 1.3;
+    --line-height-tight: 1;
+  }
+}
+
 iframe {
   color-scheme: normal;
 }
@@ -1657,7 +1667,8 @@ body {
 .callout[data-callout="attention"],
 .callout[data-callout="caution"],
 .callout[data-callout="warning"] {
-  --callout-color: var(--callout-warning);
+  /* --callout-color: var(--callout-warning); */
+  --callout-color: 236, 117, 0;
   --callout-icon: lucide-alert-triangle;
 }
 .callout[data-callout="fail"],

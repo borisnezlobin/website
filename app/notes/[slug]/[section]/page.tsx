@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: { slug: string, sec
         });
     }
 
-    const sections = getNoteSections(readFileSync(getNoteMdxPath(note.slug), "utf-8"));
+    const sections = getNoteSections(readFileSync(getNoteHTMLPath(note.slug), "utf-8"));
     const section = sections.find((section) => section.slug === params.section);
 
     if (!section) {

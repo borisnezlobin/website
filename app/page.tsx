@@ -74,7 +74,7 @@ export default function Home() {
             </h2>
             <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4">
                 <p className="dark:text-dark text-left w-full">
-                    I&apos;m an 11th grader at Palo Alto High School writing code for fun (and interning at Lockheed Martin's Advanced Technology Center!).
+                    I&apos;m a 12th grader at Palo Alto High School writing code for fun (and interning at Lockheed Martin's Advanced Technology Center!).
                     Read on to see my skills, or check out <Link className="link underline font-semibold" href="/blog">my blog</Link>,{" "}
                     <Link className="link underline font-semibold" href="/notes">lecture notes</Link>, or <Link className="link underline font-semibold" href="/projects">projects I&apos;ve worked on</Link>.<br />
                     <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4">
