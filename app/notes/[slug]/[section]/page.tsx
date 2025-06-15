@@ -16,7 +16,7 @@ export async function generateStaticParams() {
 
     return notes.flatMap((note) => {
         try {
-            const sections = getNoteSections(readFileSync(getNoteMdxPath(note.slug), "utf-8"));
+            const sections = getNoteSections(readFileSync(getNoteHTMLPath(note.slug), "utf-8"));
             const arr = sections.map((section) => ({ params: { slug: note.slug, section: section.slug } }));
             console.log("Generated paths for note", note.title);
             return arr;
