@@ -8,5 +8,9 @@ const getNoteHTMLPath = (slug: string) => {
     return path.resolve(process.cwd(), path.join("mdx", "notes", slug.replaceAll("draft-", "") + ".html"));
 }
 
+const getBlogHTMLPath = (slug: string) => {
+    return path.resolve(process.cwd(), path.join("mdx", "blog", slug.replaceAll("draft-", "") + ".html"));
+}
+
 export default getNoteMdxPath;
-export { getNoteHTMLPath };
+export { getNoteHTMLPath, getBlogHTMLPath };

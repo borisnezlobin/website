@@ -11,6 +11,9 @@ import BlogListItem from "../components/blog-list-item";
 import ArticleBody from "@/app/components/article-body";
 import { getBlog, getSimilarPosts } from "@/app/lib/db-caches";
 import { DraftBadge } from "@/app/components/draft-badge";
+import { Wrapper } from "@/app/notes/[slug]/[section]/skibidiwrapper";
+import { getBlogHTMLPath } from "@/app/utils/get-note-mdx-path";
+import { readFileSync } from "fs";
 
 export async function generateStaticParams() {
     const posts = await db.article.findMany({
@@ -24,7 +27,7 @@ export async function generateStaticParams() {
 
 async function getDataForSlug(slug: string) {
     console.log("Getting blog post", slug);
-    const blogPost = await getBlog(slug);
+    let blogPost = await getBlog(slug);
 
     if (!blogPost) {
         console.log(`Blog post ${slug} not found`);
@@ -34,6 +37,12 @@ async function getDataForSlug(slug: string) {
     }
 
     const similarPosts = await getSimilarPosts(slug);
+
+    // set post.body to be the content of the HTML file
+    const path = getBlogHTMLPath(slug);
+    const content = readFileSync(path, 'utf-8');
+    console.log(content);
+    blogPost.body = content;
 
     return {
         post: blogPost,
@@ -98,7 +107,8 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
                         <span className="text-muted dark:text-muted-dark font-normal">
                             {new Date(post.createdAt).toLocaleDateString()}&nbsp;&nbsp;
                         </span>
-                        <ArticleBody body={post.body} />
+                        <Wrapper content={post.body} />
+                        {/* <ArticleBody body={post.body} /> */}
                     </div>
                 </div>
                 {post && (
