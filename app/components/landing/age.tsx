@@ -35,4 +35,4 @@ const Age = () => {
     );
 };
 
-export { Age };
+export default Age;

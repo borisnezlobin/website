@@ -1,12 +1,12 @@
 import { LinkButton } from "components/buttons";
 import Link from "next/link";
 import { ScrollForMore } from "./components/landing/scroll-for-more";
-import { Age } from "./components/landing/age";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "./components/landing/section";
 import { LandingPageBadge } from "./components/landing/landing-page-badge";
 import HorizontalScroll from "./components/landing/scroll-horizontal";
 import getMetadata from "./lib/metadata";
+import dynamic from "next/dynamic";
 
 export const metadata = getMetadata({
     info: "Hi, I'm",
@@ -59,6 +59,11 @@ const contributions = [
     { title: "ShadowFinder", description: "CLI Caching", url: "https://github.com/bellingcat/ShadowFinder" }
 ]
 
+const DynamicAgeNoSSR = dynamic(
+  () => import('./components/landing/age'),
+  { ssr: false }
+)
+
 export default function Home() {
     return (
         <main className="flex flex-col justify-center items-start mb-16 p-4 lg:p-0">
@@ -70,11 +75,11 @@ export default function Home() {
             </div>
             <ScrollForMore />
             <h2 className="text-xl sm:text-3xl sm:text-[2rem] text-left dark:text-dark">
-                <Age />
+                <DynamicAgeNoSSR />
             </h2>
             <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4">
                 <p className="dark:text-dark text-left w-full">
-                    I&apos;m a 12th grader at Palo Alto High School writing code for fun (and interning at Lockheed Martin's Advanced Technology Center!).
+                    I&apos;m a 12th grader at Palo Alto High School writing code for fun (and interning at Lockheed Martin&apos;s Advanced Technology Center!).
                     Read on to see my skills, or check out <Link className="link underline font-semibold" href="/blog">my blog</Link>,{" "}
                     <Link className="link underline font-semibold" href="/notes">lecture notes</Link>, or <Link className="link underline font-semibold" href="/projects">projects I&apos;ve worked on</Link>.<br />
                     <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4">
