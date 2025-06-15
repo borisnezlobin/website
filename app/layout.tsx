@@ -1,5 +1,5 @@
 import "./styles/globals.css";
-// import "./styles/obsidian.css";
+import "./styles/obsidian.css";
 import getMetadata from "./lib/metadata";
 import Footer from "./components/footer";
 import Link from "next/link";

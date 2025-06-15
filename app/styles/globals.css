@@ -72,6 +72,10 @@ div:not(.callout) {
     @apply print:bg-white print:dark:bg-white print:text-dark-background print:dark:text-dark-background;
 }
 
+strong {
+    @apply text-muted dark:text-muted-dark;
+}
+
 .callout * {
     @apply !bg-transparent dark:!bg-transparent;
 }
