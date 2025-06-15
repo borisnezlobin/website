@@ -303,6 +303,7 @@ mjx-container [size="Lg"] { font-size: 144%; }
 mjx-container [size="LG"] { font-size: 173%; }
 mjx-container [size="hg"] { font-size: 207%; }
 mjx-container [size="HG"] { font-size: 249%; }
+
 mjx-container [width="full"] { width: 100%; }
 mjx-box { display: inline-block; }
 mjx-block { display: block; }
@@ -1989,3 +1990,18 @@ mjx-c.mjx-c40::before {
                 padding: 0.442em 0.556em 0.194em 0px;
                 content: "p";
                 }
+
+
+
+@media print {
+    mjx-container [size="s"] { font-size: 70.7%; }
+    mjx-container [size="ss"] { font-size: 50%; }
+    mjx-container [size="Tn"] { font-size: 60%; }
+    mjx-container [size="sm"] { font-size: 85%; }
+    mjx-container [size="lg"] { font-size: 120%; }
+    mjx-container [size="Lg"] { font-size: 144%; }
+    mjx-container [size="LG"] { font-size: 173%; }
+    mjx-container [size="hg"] { font-size: 103%; }
+    mjx-container [size="HG"] { font-size: 125%; }
+    mjx-container [display="true"] { scale: 80%; }
+}

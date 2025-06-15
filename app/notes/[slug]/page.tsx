@@ -44,6 +44,7 @@ export default async function SubjectNotesPage({ params }: { params: { slug: str
     }
 
     const configDirectory = getNoteHTMLPath(note.slug);
+    console.log(configDirectory);
     const content = readFileSync(configDirectory, "utf-8"); // TODO: make this cached
     const sections = getHTMLNoteSections(content);
 
@@ -55,7 +56,7 @@ export default async function SubjectNotesPage({ params }: { params: { slug: str
             <h1 className="text-3xl font-bold emph pt-4">{note.title}</h1>
             {/* <p className="mt-6 text-muted dark:text-muted-dark">Roughly {numWords} words.</p> */}
             <p className="mt-6">{note.description}</p>
-            <div className="h-px w-full bg-muted dark:bg-muted-dark my-8" />
+            <div className="h-px w-full !bg-muted-dark dark:!bg-muted my-8" />
             <h2 className="text-2xl font-bold">Table of Contents</h2>
             <ol className="pl-8">
                 {sections.map((section, i) => (
