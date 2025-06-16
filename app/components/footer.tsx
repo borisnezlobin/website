@@ -107,7 +107,7 @@ const Footer = () => {
             </footer>
 
             <p aria-hidden className="w-full text-center hidden print:flex gap-4 justify-between items-center print-footer border-t pt-4 border-muted">
-                <Link href="https://borisn.dev" className="mb-4 font-bold underline">
+                <Link href="https://borisn.dev" className="font-bold underline">
                     borisn.dev
                 </Link>
                 <span className="text-muted dark:text-muted-dark">
