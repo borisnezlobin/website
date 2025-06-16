@@ -531,7 +531,7 @@ script {
 }
 
 @media print {
-  a[href]:after {
+  .skibidiwrapper a[href]:after {
     content: " (" attr(href) ")";
   }
   a {
