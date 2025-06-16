@@ -14,6 +14,7 @@ import { DraftBadge } from "@/app/components/draft-badge";
 import { Wrapper } from "@/app/notes/[slug]/[section]/skibidiwrapper";
 import { getBlogHTMLPath } from "@/app/utils/get-note-mdx-path";
 import { readFileSync } from "fs";
+import { formatDateWithOrdinal } from "@/app/utils/format-date";
 
 export async function generateStaticParams() {
     const posts = await db.article.findMany({
@@ -82,29 +83,29 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
     return (
         <>
             {params.slug.startsWith("draft") && <DraftBadge />}
-            <div className={`min-h-[100svh] relative print:min-h-0 z-[1] w-full p-8 print:bg-white print:text-dark-background print:dark:bg-white print:dark:text-dark-background`}>
+            <div className={`min-h-[100svh] print:min-h-0 z-[1] w-full p-8 print:bg-white print:text-dark-background print:dark:bg-white print:dark:text-dark-background`}>
                 {post.image && <ArticleImageBg imageUrl={post.image} />}
                 <header
                     className={`
-                        gap-3 rounded-lg backdrop-blur-lg z-[1] flex flex-col justify-start items-start p-0 
-                        ${post.image ? "mt-[24rem] md:mt-0 bg-light-background/30 dark:bg-dark-background/30 print:mt-0 md:items-center md:p-4" : "md:p-0 md:mt-8 max-w-2xl mx-auto"}
+                        gap-3 rounded-lg z-[1] flex flex-col justify-start items-start p-0 duration-300 transition-all
+                        ${post.image ? "backdrop-blur-none md:backdrop-blur-lg mt-[20rem] md:py-12 md:mt-0 bg-light-background/50 dark:bg-dark-background/50 print:mt-0 md:items-center md:p-4" : "md:p-0 md:mt-8 max-w-2xl mx-auto"}
                     `}
                 >
-                    <h1 className="text-3xl md:text-4xl bg-transparent dark:bg-transparent w-full text-center max-w-2xl text-[#101010] dark:text-[#fafafa] print:dark:text-[#101010]">
+                    <h1 className={`text-[1.75rem] font-bold md:font-normal md:text-4xl bg-transparent dark:bg-transparent w-full text-center max-w-2xl text-[#101010] dark:text-[#fafafa] print:dark:text-[#101010]`}>
                         {post.title}
                     </h1>
-                    <p className={`bg-transparent dark:bg-transparent font-semibold print:text-left max-w-2xl ${!post.image ? "text-left mt-8" : "text-center"}`}>
+                    <p className={`bg-transparent dark:bg-transparent font-semibold print:text-left max-w-2xl ${!post.image ? "text-left mt-8" : "text-left md:text-center"}`}>
                         {post.description}
                     </p>
                 </header>
                 <div
-                    className={`z-[1] w-full justify-center items-center relative mt-2 mb-8 p-0 md:p-8 rounded-lg ${!post.image ? "md:pt-0" : ""}`}
+                    className={`z-[1] w-full justify-center items-center relative mt-2 mb-8 p-0 md:p-8 rounded-lg ${!post.image ? "md:pt-0" : "md:pt-0"}`}
                 >
                     <div
                         className={`z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 md:pt-8 rounded-lg`}
                     >
                         <span className="text-muted dark:text-muted-dark font-normal">
-                            {new Date(post.createdAt).toLocaleDateString()}&nbsp;&nbsp;
+                            Published {formatDateWithOrdinal(new Date(post.createdAt))}&nbsp;&nbsp;
                         </span>
                         <Wrapper content={post.body} />
                         {/* <ArticleBody body={post.body} /> */}

@@ -1991,7 +1991,14 @@ mjx-c.mjx-c40::before {
                 content: "p";
                 }
 
-
+mjx-c.mjx-c1D44B.TEX-I::before {
+          padding: 0.683em 0.852em 0px 0px;
+          content: "X";
+        }
+        mjx-c.mjx-c1D54F.TEX-A::before {
+          padding: 0.683em 0.722em 0px 0px;
+          content: "X";
+        }
 
 @media print {
     mjx-container [size="s"] { font-size: 70.7%; }

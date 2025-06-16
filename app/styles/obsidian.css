@@ -2472,6 +2472,7 @@ input.metadata-property-key-input:focus {
   + div
   > :is(h1, h2, h3, h4, h5, h6) {
   margin-top: var(--heading-spacing);
+  padding-bottom: 8px;
 }
 
 .markdown-rendered h1,
@@ -5519,6 +5520,7 @@ html
   + .heading-wrapper
   > .heading:first-child {
   margin-top: var(--heading-spacing);
+  padding-bottom: 8px;
 }
 .heading-children {
   transition: height ease-in-out, margin-bottom ease-in-out;
