@@ -1,5 +1,5 @@
 /* src/css/codeblocks.css */
-body {
+:root {
   --border-radius: 10px;
   --gradient-background-colour: transparent;
   --code-padding: 8px;

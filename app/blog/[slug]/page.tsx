@@ -41,7 +41,6 @@ async function getDataForSlug(slug: string) {
     // set post.body to be the content of the HTML file
     const path = getBlogHTMLPath(slug);
     const content = readFileSync(path, 'utf-8');
-    console.log(content);
     blogPost.body = content;
 
     return {
