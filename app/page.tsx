@@ -46,7 +46,7 @@ const projects = [
     { title: "OneShip", description: "A full-stack web and mobile application built for my school.", url: "/projects/oneship" },
     { title: "Portfolio", description: "My very own website :) Designed and built from the ground up by me.", url: "/projects/portfolio" },
     { title: "YAPA", description: "Yet Another (Electron) Pomodoro App (with nice UI). It has Discord RPC!", url: "https://github.com/borisnezlobin/pomodoro" },
-    { title: "rendr", description: "My CS Capstone project — making a 3D renderer (also a raytracer). WIP.", url: "/projects/rendr" },
+    { title: "rendr", description: "My CS Capstone project — making a 3D renderer (also a raytracer).", url: "/projects/rendr" },
     { title: "UndoDB", description: "A small, no-SQL, in-memory, transaction-based database written in Java.", url: "https://github.com/borisnezlobin/undodb" },
     { title: "Lim", description: "A Mozilla and Chrome RegEx-based time limit extension.", url: "/projects/lim" },
     { title: "ENF", description: "Collecting and analyzing European electrical network frequency data.", url: "/projects/enf" },
