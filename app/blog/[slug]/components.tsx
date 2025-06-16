@@ -25,13 +25,13 @@ const ArticleImageBg = ({ imageUrl }: { imageUrl: string }) => {
     return (
         <div className="absolute top-[3rem] left-0 h-96 bg-transparent w-screen z-0 print:hidden">
             <div className="md:absolute h-full inset-0 bg-transparent">
-                <Image
+                <img
                     alt="Article Image"
                     src={imageUrl}
-                    className="w-full h-full object-cover"
+                    className="w-screen h-96 object-cover z-[1] absolute top-[-4rem]"
                 />
             </div>
-            <div className="hidden transition-all duration-300 md:block md:absolute bg-transparent dark:bg-transparent inset-0 bg-gradient-to-t from-light-background dark:from-dark-background to-transparent" />
+
         </div>
     );
 };
