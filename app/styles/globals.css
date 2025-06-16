@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+@import "./obsidian.css";
+
 :root {
     --info-bg: #d0eefc;
     --question-bg: #c6fada;
@@ -168,6 +170,15 @@ li::marker, ol::marker {
 .edo {
     font-family: "charter";
     font-weight: bold;
+}
+
+blockquote {
+    @apply border-l-4 border-neutral-400 dark:border-neutral-400 pl-4 mb-4 italic;
+
+    p {
+        @apply text-neutral-500 dark:text-neutral-400 text-lg italic;
+        line-height: 2.3rem;
+    }
 }
 
 article {
