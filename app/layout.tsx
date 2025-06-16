@@ -23,7 +23,7 @@ export default function RootLayout({
             </head>
             <body suppressHydrationWarning>
                 <ThemeProvider attribute="class">
-                    <div className="theme-light dark:theme-dark">
+                    <div className="theme-light screen:dark:theme-dark">
                         <div className="w-screen min-w-screen min-h-[100svh] print:min-h-0 bg-light-background dark:bg-dark-background transition-all duration-300">
                             <div className="w-full max-w-6xl mx-auto">
                                 <div className="w-full fixed z-10 top-0 left-0 p-4 print:hidden progressive-blur">

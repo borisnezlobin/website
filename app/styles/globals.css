@@ -514,7 +514,7 @@ script {
   --code-size: var(--font-smaller);
   --code-background: var(--background-primary-alt);
   --code-normal: var(--text-normal);
-  --code-comment: var(--text-faint);
+  --code-comment: var(--text-muted);
   --code-function: var(--color-yellow);
   --code-important: var(--color-orange);
   --code-keyword: var(--color-pink);
@@ -530,6 +530,16 @@ script {
     --code-border-color: #353535;
 }
 
-.token, code, div.el-pre {
+@media print {
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+  a {
+    @apply !text-light-foreground;
+  }
+}
+
+.token *, .token, code, .markdown-rendered code *, .markdown-rendered code, div.el-pre *, div.el-pre {
     @apply duration-300 transition-all;
+    font-family: "Source Code Pro", monospace;
 }

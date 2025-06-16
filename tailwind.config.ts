@@ -53,6 +53,9 @@ const config: Config = {
                     },
                 },
             },
+            screens: {
+                screen: { raw: 'screen' }
+            }
         },
     },
     plugins: [],
