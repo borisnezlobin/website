@@ -1792,14 +1792,15 @@ code[class*="language-"],
 pre[class*="language-"] {
   color: var(--code-normal);
   background: 0 0;
-  overflow-wrap: break-word;
-  white-space: pre-wrap;
-  word-break: normal;
+  /* overflow-wrap: break-word; */
+  white-space: pre;
+  /* word-break: normal; */
   direction: ltr;
   font-family: var(--font-monospace);
   text-align: left;
   word-spacing: normal;
-  line-height: var(--line-height-normal);
+  overflow: scroll;
+  line-height: 1.5rem;
   hyphens: none;
 }
 :not(pre) > code[class*="language-"],
