@@ -22,7 +22,7 @@ body {
     color: rgb(var(--foreground-rgb));
     overflow-x: hidden;
     @apply bg-light-background dark:bg-dark-background;
-    @apply print:bg-white print:dark:bg-white;
+    @apply print:bg-white print:dark:bg-white block;
 }
 
 .emph {
@@ -456,6 +456,7 @@ script {
     --color-purple-rgb: 168, 130, 255;
     --color-purple: #a882ff;
     --color-pink-rgb: 250, 153, 205;
+    --background-primary-alt: #222;
     --color-pink: #fa99cd;
     --color-base-00: #1e1e1e;
     --color-base-05: #212121;
@@ -515,7 +516,7 @@ script {
   --code-background: var(--background-primary-alt);
   --code-normal: var(--text-normal);
   --code-comment: var(--text-muted);
-  --code-function: var(--color-yellow);
+  --code-function: #075080;
   --code-important: var(--color-orange);
   --code-keyword: var(--color-pink);
   --code-operator: var(--color-red);
@@ -528,6 +529,8 @@ script {
 
 .dark .skibidiwrapper {
     --code-border-color: #353535;
+    --code-function: #c2ad69;
+  --code-comment: #767676;
 }
 
 @media print {
@@ -542,4 +545,69 @@ script {
 .token *, .token, code, .markdown-rendered code *, .markdown-rendered code, div.el-pre *, div.el-pre {
     @apply duration-300 transition-all;
     font-family: "Source Code Pro", monospace;
+}
+
+@media print {
+  script, noscript, template, [data-nextjs-script], [data-nextjs-reactroot] {
+    display: none !important;
+  }
+
+  /* Extra protection for injected Next.js hydration blobs */
+  [id^="__NEXT_DATA__"], [id^="__next_f"], [id*="__next"] {
+    display: none !important;
+  }
+
+  /* Hide any rogue divs with serialized content */
+  body > div:empty,
+  body > div:has(script),
+  body > script,
+  body > template {
+    display: none !important;
+    visibility: hidden !important;
+  }
+}
+
+@media print {
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    zoom: 1 !important;
+  }
+
+  main, .print-area {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    overflow: visible !important;
+    box-sizing: border-box;
+  }
+
+  * {
+    box-shadow: none !important;
+    transition: none !important;
+  }
+
+  @page {
+    margin: 0.5in;
+    size: auto;
+  }
+}
+
+@media print {
+  * {
+    all: unset !important;
+    display: block !important;
+    color: black !important;
+    background: white !important;
+  }
+
+  html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+    width: 100% !important;
+    height: auto !important;
+    zoom: 1 !important;
+  }
 }
