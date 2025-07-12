@@ -26,7 +26,7 @@ body {
 }
 
 .emph {
-  font-family: "Source Code Pro", monospace;
+  font-family: "Courier New", Inter;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
@@ -178,177 +178,6 @@ blockquote {
     p {
         @apply text-neutral-500 dark:text-neutral-400 text-lg italic;
         line-height: 2.3rem;
-    }
-}
-
-article {
-    line-height: 1.4rem;
-    width: 100%;
-    position: relative;
-    @apply print:text-base print:dark:text-base;
-
-    * {
-        position: relative;
-        max-width: 100%;
-    }
-
-    h1 {
-        @apply text-2xl md:text-4xl font-bold border-b pb-2 mb-4;
-    }
-
-    h2 {
-        @apply text-xl md:text-3xl font-bold mb-4;
-    }
-
-    h3 {
-        @apply text-lg md:text-2xl font-bold mb-4;
-    }
-
-    h4 {
-        @apply text-lg md:text-xl font-bold mb-4;
-    }
-
-    h5 {
-        @apply text-lg font-bold mb-4;
-    }
-
-    h6 {
-        @apply text-base font-bold mb-4;
-    }
-
-    h1, h2, h3, h4, h5, h6 {
-        @apply mt-8 emph;
-        @media print {
-            page-break-inside: avoid;
-        }
-    }
-
-    p {
-        @apply text-lg mb-4 leading-8 print:text-base;
-        line-height: 2.5rem;
-    }
-
-    ul {
-        @apply list-disc mb-4 ml-4;
-    }
-
-    ol {
-        @apply list-decimal mb-4 ml-4;
-    }
-
-    li {
-        @apply text-lg mb-2;
-        line-height: 2.5rem;
-    }
-
-    li::marker, ol::marker {
-        @apply text-muted dark:text-muted-dark;
-    }
-
-
-    a, .link {
-        @apply underline transition-all duration-300;
-        @apply text-primary dark:text-primary-dark print:dark:text-primary;
-        /* @apply text-[#0b71e7] dark:text-[#4c9bf6];
-        @apply hover:text-[#142a3b] dark:hover:text-sky-600; */
-        @apply font-semibold;
-    }
-
-    blockquote {
-        @apply border-l-4 border-neutral-400 dark:border-neutral-400 pl-4 mb-4 italic;
-
-        p {
-            @apply text-neutral-500 dark:text-neutral-400 text-lg italic;
-            line-height: 2.3rem;
-        }
-    }
-
-    *:not(pre) > code {
-        @apply px-2 py-1 rounded-lg mr-[0.1rem] emph;
-        font-size: 0.875em;
-        @apply bg-[#e7e7e7] dark:bg-[#303030] border border-neutral-300 dark:border-neutral-600;
-        @apply duration-300 transition-all;
-        text-wrap: nowrap;
-        @apply print:bg-[#e7e7e7] print:dark:bg-[#e7e7e7];
-    }
-
-    pre {
-        @apply border border-neutral-300 dark:border-neutral-600 dark:bg-[#303030];
-        @apply p-4 rounded-lg text-sm;
-        background-color: #e7e7e7;
-        overflow-x: auto;
-        transition: all 0.3s ease;
-    }
-
-    img {
-        @apply rounded-lg mx-auto my-4 print:mb-6 transition-all duration-300;
-
-        @media print {
-            page-break-inside: avoid;
-        }
-    }
-
-    hr {
-        @apply h-px border-neutral-300 dark:border-neutral-600 my-8 rounded-lg transition-colors duration-300;
-    }
-
-    .table-container {
-        @apply overflow-x-auto max-w-2xl mx-auto;
-    }
-
-    /* TABLES */
-    table:not(.gist table) {
-        @apply border-collapse min-w-96 w-full rounded-lg p-4 transition-colors duration-300;
-        border-collapse: collapse;
-    }
-    
-    table:not(.gist table) th,
-    table:not(.gist table) td {
-        @apply p-2 transition-colors duration-300 min-w-fit px-4;
-    }
-    
-    table:not(.gist table) th {
-        @apply border border-neutral-300 dark:border-neutral-600;
-    }
-    
-    table:not(.gist table) td {
-        @apply text-sm border border-dotted border-neutral-300 dark:border-neutral-600;
-    }
-    
-    table:not(.gist table) td * {
-        @apply text-sm;
-    }
-    
-    table:not(.gist table) tr.important * {
-        @apply font-semibold bg-[#eeeeee] dark:bg-neutral-800 print:bg-white print:border-solid;
-    }
-
-    /* FOOTNOTES */
-    .footnote {
-        input:checked ~ span,
-        label:focus ~ span {
-            display: block;
-            pointer-events: auto;
-        }
-
-        input:not(:checked) ~ span,
-        label:focus ~ span {
-            display: none;
-        }
-
-        label:focus {
-            outline: none;
-        }
-    }
-
-    /* CODE BLOCKS */
-    pre code, pre code *, pre {
-        @apply print:text-wrap;
-        @apply print:!text-dark-background print:dark:!text-dark-background print:!bg-white print:dark:!bg-white;
-
-        @media print {
-            page-break-inside: avoid;
-        }
     }
 }
 
@@ -544,7 +373,7 @@ script {
 
 .token *, .token, code, .markdown-rendered code *, .markdown-rendered code, div.el-pre *, div.el-pre {
     @apply duration-300 transition-all;
-    font-family: "Source Code Pro", monospace;
+    font-family: Courier New, monospace;
 }
 
 @media print {
