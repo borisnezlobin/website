@@ -588,6 +588,11 @@ body {
   --code-styler-inline-colour-active: var(--code-normal);
   --code-styler-inline-background-colour: var(--code-background);
 }
+
+div.el-pre * {
+  font-weight: 100 !important;
+}
+
 .code-styler.code-styler-style-inline .cm-s-obsidian span.cm-inline-code,
 .code-styler.code-styler-style-inline .markdown-rendered :not(pre) > code:not([class*=blur]),
 .code-styler.code-styler-style-inline .reveal :not(pre) > code:not([class*=blur]),

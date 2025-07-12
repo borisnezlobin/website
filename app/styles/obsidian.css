@@ -819,34 +819,34 @@ iframe {
   font-display: swap;
   src: url("/lib/fonts/535a6cf662596b3bd6a6.woff2");
 }
-@font-face {
-  font-family: "Source Code Pro";
+/* @font-face {
+  font-family: "Courier New";
   font-weight: 400;
   font-style: normal;
   font-display: swap;
   src: url("/lib/fonts/70cc7ff27245e82ad414.ttf");
 }
 @font-face {
-  font-family: "Source Code Pro";
+  font-family: "Courier New";
   font-weight: 400;
   font-style: italic;
   font-display: swap;
   src: url("/lib/fonts/454577c22304619db035.ttf");
 }
 @font-face {
-  font-family: "Source Code Pro";
+  font-family: "Courier New";
   font-weight: 700;
   font-style: normal;
   font-display: swap;
   src: url("/lib/fonts/52ac8f3034507f1d9e53.ttf");
 }
 @font-face {
-  font-family: "Source Code Pro";
+  font-family: "Courier New";
   font-weight: 700;
   font-style: italic;
   font-display: swap;
   src: url("/lib/fonts/05b618077343fbbd92b7.ttf");
-}
+} */
 @font-face {
   font-family: "Flow Circular";
   font-display: swap;
@@ -5086,7 +5086,7 @@ body {
   --font-interface-override: Inter !important;
   --font-text-override: Charter !important;
   --font-print-override: Charter !important;
-  --font-monospace-override: "Fira Code" !important;
+  --font-monospace-override: "Courier New", "Fira Code" !important;
   --font-text-size: 1.125rem !important;
   --indent-size: 4;
 }
