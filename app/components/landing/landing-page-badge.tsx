@@ -1,7 +1,7 @@
 "use client";
 
 import { useIsVisible } from "@/app/utils/use-is-visible";
-import { Separator } from "@/components/separator";
+import { Separator } from "@/app/components/separator";
 import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { useRef } from "react";

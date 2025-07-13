@@ -1,12 +1,14 @@
 import NotFoundPage from "@/app/components/not-found-page";
 import getMetadata from "@/app/lib/metadata";
-import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
+import { ArrowSquareOutIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import GithubStars from "./github-stars";
 import { ProjectLink } from "../project-link";
 import ArticleBody from "@/app/components/article-body";
 import { getProject, getProjects } from "@/app/lib/db-caches";
 import BackToRouteLink from "@/app/components/back-to-route";
+import { Wrapper } from "@/app/notes/[slug]/[section]/skibidiwrapper";
+import { readFileSync } from "fs";
 
 export async function generateStaticParams() {
     const projects = await getProjects();
@@ -42,6 +44,7 @@ export async function generateMetadata({
 async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
     console.log("Rendering project page for slug: " + slug);
     const project = await getProject(slug);
+    const projectBody = readFileSync("mdx/project/" + slug + ".html", "utf-8");
 
     if (!project) {
         return <NotFoundPage title="Project not found" />;
@@ -58,9 +61,9 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
                 </h1>
                 {project.github && (
                     <div className="flex flex-col justify-center items-start md:items-end">
-                        <Link href={project.github} aria-label="View code on Github" target="_blank" className="link flex flex-row items-center justify-center print:text-muted print:dark:text-muted">
+                        <Link href={project.github} aria-label="View code on Github" target="_blank" className="link emph flex flex-row items-center justify-center print:text-muted print:dark:text-muted">
                             Source code on GitHub
-                            <ArrowSquareOut className="ml-2" weight="bold" />
+                            <ArrowSquareOutIcon className="ml-2" weight="bold" />
                         </Link>
                         <GithubStars repository={githubRepo[githubRepo.length - 1]} author={githubRepo[githubRepo.length - 2]} />
                     </div>
@@ -79,7 +82,7 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
             </ul>
             <hr className="mt-2 w-full print:my-4" />
             <div className="flex flex-col gap-2 mt-4 print:m-0 self-center relative w-full max-w-2xl">
-                <ArticleBody body={project.body} />
+                <Wrapper content={projectBody} />
             </div>
         </div>
     );

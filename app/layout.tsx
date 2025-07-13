@@ -4,7 +4,7 @@ import "./styles/globals.css";
 import getMetadata from "./lib/metadata";
 import Footer from "./components/footer";
 import Link from "next/link";
-import SocialLinksBubble from "@/components/social-links-bubble";
+import SocialLinksBubble from "@/app/components/social-links-bubble";
 import { ThemeProvider } from 'next-themes'
 
 export const metadata = getMetadata({});

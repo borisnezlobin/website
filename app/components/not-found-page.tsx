@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
 import { Atom, HouseSimple } from "@phosphor-icons/react/dist/ssr";
-import { SecondaryButton } from "@/components/buttons";
-import SocialLinksBubble from "@/components/social-links-bubble";
-import { Separator } from "@/components/separator";
+import { SecondaryButton } from "@/app/components/buttons";
+import SocialLinksBubble from "@/app/components/social-links-bubble";
+import { Separator } from "@/app/components/separator";
 import { useRouter } from "next/navigation";
 import { Newspaper } from "@phosphor-icons/react";
 
