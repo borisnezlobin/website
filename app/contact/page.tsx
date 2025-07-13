@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { ScrollForMore } from "../components/landing/scroll-for-more";
 import getMetadata from "../lib/metadata";
 import { DiscordLogo, Envelope, GithubLogo, Globe, LinkedinLogo } from "@phosphor-icons/react/dist/ssr";
-import { Separator } from "@/components/separator";
+import { Separator } from "@/app/components/separator";
 
 export const metadata = getMetadata({
     title: "Contact Me",

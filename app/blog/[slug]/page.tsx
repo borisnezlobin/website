@@ -6,7 +6,7 @@ import {
 } from "./components";
 import ShareButton from "./share-button";
 import getMetadata from "@/app/lib/metadata";
-import { LinkButton } from "@/components/buttons";
+import { LinkButton } from "@/app/components/buttons";
 import BlogListItem from "../components/blog-list-item";
 import ArticleBody from "@/app/components/article-body";
 import { getBlog, getSimilarPosts } from "@/app/lib/db-caches";

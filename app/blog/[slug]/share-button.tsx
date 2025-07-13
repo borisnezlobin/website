@@ -1,6 +1,6 @@
 "use client"
 
-import { IconButton } from "@/components/buttons";
+import { IconButton } from "@/app/components/buttons";
 import { Share } from "@phosphor-icons/react";
 import { useEffect, useState } from "react";
 
