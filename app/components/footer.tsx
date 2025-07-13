@@ -1,5 +1,5 @@
-import { Separator } from "@/components/separator";
-import { SocialLinks } from "@/components/social-links";
+import { Separator } from "@/app/components/separator";
+import { SocialLinks } from "@/app/components/social-links";
 import {
     TextAlignCenter,
     Atom,

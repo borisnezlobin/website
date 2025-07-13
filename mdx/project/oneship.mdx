@@ -1,27 +1,24 @@
->A platform for Palo Alto High School that collects data from the school calendar, publications, and athletics websites. With custom uptime reporting, error monitoring, and targeted messaging system, the platform is designed to be a one-stop shop for all things Paly.
-
+>A platform for Palo Alto High School that collects data from the school calendar, publications, and athletics websites. With 8 different data sources, a targeted messaging system, and a custom error reporting system, the platform is designed to be a one-stop shop for all things Paly.
 ## Summary
 
-The OneShip project is a platform for Palo Alto High School that collects data from the school calendar, publications, and athletics websites. It can be accessed at [paly.app](https://paly.app), or via the mobile app (which is currently only available on Android as an APK). I built OneShip to visualize my schedule and to keep track of publications (which are spread across several websites).
+The OneShip project is a platform for Palo Alto High School that collects data from the school calendar, publications, and athletics websites. It can be accessed at [palyoneship.web.app](https://palyoneship.web.app) (no, I don’t have money for a domain), or via the mobile app (which is currently only available on Android as an APK — no, I can’t afford Apple developer licenses).
 
-## Features
-
-- **Custom Uptime Reporting**: OneShip has a custom uptime reporting system that checks the status of the school calendar, publications, and athletics websites every 5 minutes. If any of the websites are down, the system sends an email to the administrators.
-- **Error Monitoring**: OneShip has an error monitoring system that checks for errors on the API or any client every 5 minutes. If any errors are found, the system sends an email to the administrators.
-- **Targeted Messaging System**: OneShip allows administrators to send messages to specific user groups. For example, the administrators can send a message to all students, all 9th and 12th grade students, or all teachers. OneShip also uses a simple heuristic to determine the relevancy of each message (based on its importance, specificity, sender, and recency).
+## Key Features
+- **Custom Error Reporting**: OneShip has a custom uptime reporting system that will automatically report bugs (including a list of all elements that were interacted with) and notify all managers (at the moment, just me). I basically built Sentry for a hobby project, lol.
+- **Targeted Messaging System**: OneShip allows administrators to send messages to specific user groups. For example, the administrators can send a message to all students, all 9th and 12th grade students, or all teachers. OneShip also uses a heuristic to determine the relevancy of each message (based on its importance, specificity, sender, and recency) and order a user’s feed.
+- **Platform Extent**: OneShip is available on web, Android, and iPhone. The mobile apps send notifications before classes, with the arrival of new News articles, and for high-priority messages.
+- **Cool Homepage**: the homepage of the web version (https://palyoneship.web.app) is pretty cool! It represents an electric field 
 
 ## Technologies
-
 OneShip is built with the following technologies:
 
 - Express.js
 - React
 - Firebase, Firestore, and Firebase Authentication
-- Vercel Serverless Functions
+- Vercel Serverless
 - React Native (and Expo)
 - Tailwind CSS
 - duct tape
 
 ## Future Plans
-
-Though the PAUSD is notorious for its lack of transparency, I hope to work with the district to integrate OneShip with the official school calendar, publications, and athletics websites. I also hope to add more features to the platform, and though the list is long, my primary hope is a Schoology integration... but the PAUSD is incredibly difficult to work with. [I've written blogs about this](/blog/search/PAUSD)!
+Due to legal student data protection restrictions, the PAUSD isn’t interested in advertising or using OneShip… and I’m a senior that doesn’t really like his high school, so I’m not developing OneShip beyond its current, highly robust state. If you’re interested in picking up development of it, [reach out to me](/contact)!

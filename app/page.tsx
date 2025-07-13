@@ -1,4 +1,4 @@
-import { LinkButton } from "components/buttons";
+import { LinkButton } from "@/app/components/buttons";
 import Link from "next/link";
 import { ScrollForMore } from "./components/landing/scroll-for-more";
 import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
