@@ -16,7 +16,7 @@ export async function generateStaticParams() {
 
     return notes.flatMap((note) => {
         try {
-            const sections = getNoteSections(readFileSync(getNoteHTMLPath(note.slug), "utf-8"));
+            const sections = getHTMLNoteSections(readFileSync(getNoteHTMLPath(note.slug), "utf-8"));
             const arr = sections.map((section) => ({ params: { slug: note.slug, section: section.slug } }));
             console.log("Generated paths for note", note.title);
             return arr;
@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: { slug: string, sec
         });
     }
 
-    const sections = getNoteSections(readFileSync(getNoteHTMLPath(note.slug), "utf-8"));
+    const sections = getHTMLNoteSections(readFileSync(getNoteHTMLPath(note.slug), "utf-8"));
     const section = sections.find((section) => section.slug === params.section);
 
     if (!section) {
