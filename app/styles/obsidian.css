@@ -670,7 +670,6 @@
   --text-error: var(--color-red);
   --text-warning: var(--color-orange);
   --text-success: var(--color-green);
-  --text-selection: hsla(var(--color-accent-hsl), 0.2);
   --text-highlight-bg-rgb: 255, 208, 0;
   --text-highlight-bg: rgba(var(--text-highlight-bg-rgb), 0.4);
   --text-accent: var(--color-accent);
@@ -6050,13 +6049,15 @@ body.theme-light .excalidraw-svg svg.light {
   width: 100vw;
 }
 
+
+/* ====== TEXT SELECTION ====== */
 body {
   --text-selection: rgba(176, 114, 0, 0.315);
   --caret-color: orange;
 }
 
 :root.dark body {
-    --text-selection: rgba(113, 74, 0, 0.315);
+  --text-selection: rgba(220, 143, 0, 0.5);
 }
 
 :root {
