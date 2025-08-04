@@ -353,6 +353,10 @@ script {
   --code-string: var(--color-green);
   --code-tag: var(--color-red);
   --code-value: var(--color-purple);
+
+  * {
+    list-style-type: decimal;
+  }
 }
 
 .dark .skibidiwrapper {
