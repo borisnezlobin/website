@@ -314,7 +314,6 @@ script {
     --interactive-accent-hover: var(--color-accent-1);
     --background-modifier-box-shadow: rgba(0, 0, 0, 0.3);
     --background-modifier-cover: rgba(10, 10, 10, 0.4);
-    --text-selection: hsla(var(--interactive-accent-hsl), 0.25);
     --input-shadow: inset 0 0.5px 0.5px 0.5px rgba(255, 255, 255, 0.09),
     0 2px 4px 0 rgba(0,0,0,.15),
     0 1px 1.5px 0 rgba(0,0,0,.1),

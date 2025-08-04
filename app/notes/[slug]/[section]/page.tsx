@@ -58,7 +58,7 @@ export async function generateMetadata({ params }: { params: { slug: string, sec
         title: `${section.title}`,
         subtitle: note.title,
         info: "Notes by Boris Nezlobin.",
-        description: `Check out my ${section.title} notes on ${note.title}! ${note.description}. ${sections.length} sections. Made and published by Boris Nezlobin.`,
+        description: `Check out my ${section.title} notes on ${note.title}! ${note.description} ${sections.length} sections. Made and published by Boris Nezlobin.`,
     });
 }
 
