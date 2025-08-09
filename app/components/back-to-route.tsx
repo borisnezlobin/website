@@ -6,7 +6,7 @@ type LinkProps = HTMLProps<HTMLAnchorElement> & { text: string; href: string; };
 
 const BackToRouteLink = (props: LinkProps) => {
     return (
-        <Link className={`link ${props.className ? props.className : ""} print:!hidden`} {...props} title={props.title ? props.title : props.text}>
+        <Link className={`link ${props.className ? props.className : ""} noprint`} {...props} title={props.title ? props.title : props.text}>
             <ArrowLeftIcon /> {props.text}
         </Link>
     );

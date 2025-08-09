@@ -53,14 +53,14 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
     const githubRepo = project ? (project.github ? project.github.split("/") : []) : [];
 
     return (
-        <div className="flex flex-col items-start gap-4 print:gap-0 p-8 md:p-16">
+        <div className="flex flex-col items-start gap-4 print:gap-0 p-8 md:p-16 print:p-0">
             <BackToRouteLink href="/projects" text="Back to Projects" />
             <div className="w-full flex flex-col md:flex-row items-start md:items-center justify-between ">
                 <h1 className="text-3xl font-bold mb-3 md:mb-0 emph">
                     {project.title}
                 </h1>
                 {project.github && (
-                    <div className="flex flex-col justify-center items-start md:items-end">
+                    <div className="flex flex-col justify-center items-start md:items-end print:hidden">
                         <Link href={project.github} aria-label="View code on Github" target="_blank" className="link emph flex flex-row items-center justify-center print:text-muted print:dark:text-muted">
                             Source code on GitHub
                             <ArrowSquareOutIcon className="ml-2" weight="bold" />
@@ -80,7 +80,7 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
                     </li>
                 ))}
             </ul>
-            <hr className="mt-2 w-full print:my-4" />
+            <hr className="my-2 w-full print:my-4" />
             <div className="flex flex-col gap-2 mt-4 print:m-0 self-center relative w-full max-w-2xl">
                 <Wrapper content={projectBody} />
             </div>

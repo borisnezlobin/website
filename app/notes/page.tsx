@@ -19,7 +19,7 @@ export default async function NotesPage() {
     const notes = await getNotes();
 
     return (
-        <div className="min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 md:pt-8 text-light-foreground dark:text-dark-foreground">
+        <div className="pagepad">
             <h1 className="text-3xl font-bold emph">Lecture Notes</h1>
             <p className="mt-4">
                 A collection of notes I&apos;ve taken for various courses. Linear Algebra, AP Physics C, and more.
