@@ -15,7 +15,7 @@ const BlogList = ({
 }) => {
     return (
         <div
-            className="min-h-[100svh] print:min-h-0 w-full p-8 pt-0 text-light-foreground dark:text-dark-foreground"
+            className="pagepad"
             suppressHydrationWarning
         >
             <h1 className="text-3xl emph mt-8 mb-4">{title ? title : "My Blog"}</h1>

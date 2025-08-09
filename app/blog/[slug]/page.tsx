@@ -83,7 +83,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
     return (
         <>
             {params.slug.startsWith("draft") && <DraftBadge />}
-            <div className={`min-h-[100svh] print:min-h-0 z-[1] w-full p-8 print:bg-white print:text-dark-background print:dark:bg-white print:dark:text-dark-background`}>
+            <div className={`pagepad`}>
                 {post.image && <ArticleImageBg imageUrl={post.image} />}
                 <header
                     className={`
