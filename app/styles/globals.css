@@ -429,9 +429,10 @@ script {
 
 @media print {
   * {
-    all: unset !important;
-    display: block !important;
+    /* all: unset !important; */
+    /* display: block !important; */
     color: black !important;
+    max-width: unset !important;
     background: white !important;
   }
 
@@ -441,5 +442,9 @@ script {
     width: 100% !important;
     height: auto !important;
     zoom: 1 !important;
+  }
+
+  script {
+    display: none !important;
   }
 }

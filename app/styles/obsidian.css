@@ -4977,9 +4977,9 @@ h6:hover .collapse-indicator {
   transition: opacity 0.15s ease-in-out;
 }
 @media print {
-  html body > :not(.print) {
+  /* html body > :not(.print) {
     display: unset !important;
-  }
+  } */
   .collapse-indicator {
     display: none !important;
   }
