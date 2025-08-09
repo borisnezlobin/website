@@ -1,5 +1,5 @@
 import { Project} from "@prisma/client";
-import { GithubLogo } from "@phosphor-icons/react/dist/ssr";
+import { GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
 const ProjectListItem = ({ project }: { project: Project }) => {
@@ -26,7 +26,7 @@ const ProjectListItem = ({ project }: { project: Project }) => {
                     rel="noopener noreferrer"
                     className="p-2 hover:bg-light-foreground/20 dark:hover:bg-dark-foreground/20 rounded-lg bg-transparent text-light dark:text-dark absolute top-2 right-2 hidden md:block"
                 >
-                    <GithubLogo className="h-6 w-6 transition-colors duration-300" />
+                    <GithubLogoIcon className="h-6 w-6 transition-colors duration-300" />
                 </Link>
             )}
         </div>
