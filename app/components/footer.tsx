@@ -1,12 +1,12 @@
 import { Separator } from "@/app/components/separator";
 import { SocialLinks } from "@/app/components/social-links";
 import {
-    TextAlignCenter,
-    Atom,
-    House,
-    AddressBook,
-    HighlighterCircle,
-    Newspaper,
+    TextAlignCenterIcon as HighlighterCircleIcon,
+    AtomIcon as Atom,
+    HouseIcon as House,
+    AddressBookIcon as AddressBook,
+    NewspaperIcon as Newspaper,
+    HighlighterCircleIcon as HighlighterCircle,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
@@ -85,7 +85,7 @@ const Footer = () => {
                             <Separator />
                         </span>
                         <span>
-                            <LinkWithIcon title="Notes" href="/notes" Icon={HighlighterCircle}>
+                            <LinkWithIcon title="Notes" href="/notes" Icon={HighlighterCircleIcon}>
                                 Notes
                             </LinkWithIcon>
                         </span>
@@ -106,7 +106,7 @@ const Footer = () => {
                 </p>
             </footer>
 
-            <p aria-hidden className="w-full text-center hidden print:flex gap-4 justify-between items-center print-footer border-t pt-4 border-muted">
+            <p aria-hidden className="w-full text-center hidden print:flex gap-4 justify-between items-center print-footer border-t pt-2 border-muted">
                 <Link href="https://borisn.dev" className="font-bold underline">
                     borisn.dev
                 </Link>

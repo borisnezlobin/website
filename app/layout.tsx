@@ -45,7 +45,7 @@ export default function RootLayout({
                                         </Link>
                                     </div>
                                 </div>
-                                <div className="w-full h-full pt-[3rem] print:pt-0">
+                                <div className="w-full h-full pt-[3rem] print:pt-0 print:pb-4">
                                     {children}
                                 </div>
                                 <Footer />
