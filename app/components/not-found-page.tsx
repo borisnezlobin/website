@@ -1,11 +1,10 @@
 "use client";
 import Link from "next/link";
-import { Atom, HouseSimple } from "@phosphor-icons/react/dist/ssr";
 import { SecondaryButton } from "@/app/components/buttons";
 import SocialLinksBubble from "@/app/components/social-links-bubble";
 import { Separator } from "@/app/components/separator";
 import { useRouter } from "next/navigation";
-import { Newspaper } from "@phosphor-icons/react";
+import { AtomIcon, HouseSimpleIcon, NewspaperIcon } from "@phosphor-icons/react";
 
 const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
     const router = useRouter();
@@ -26,7 +25,7 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
                         aria-label="Home"
                         className="flex flex-row group text-light-foreground dark:text-dark-foreground justify-center items-center"
                     >
-                        <HouseSimple className={"w-6 h-6 " + linkClass} />
+                        <HouseSimpleIcon className={"w-6 h-6 " + linkClass} />
                         <p className={"ml-2 " + linkClass}>Home</p>
                     </Link>
                     <Separator />
@@ -35,7 +34,7 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
                         aria-label="Blog"
                         className="flex flex-row group text-light-foreground dark:text-dark-foreground justify-center items-center"
                     >
-                        <Newspaper className={"w-6 h-6 " + linkClass} />
+                        <NewspaperIcon className={"w-6 h-6 " + linkClass} />
                         <p className={"ml-2 " + linkClass}>Blog</p>
                     </Link>
                     <Separator />
@@ -44,7 +43,7 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
                         aria-label="Projects"
                         className="flex flex-row group text-light-foreground dark:text-dark-foreground justify-center items-center"
                     >
-                        <Atom className={"w-6 h-6 " + linkClass} />
+                        <AtomIcon className={"w-6 h-6 " + linkClass} />
                         <p className={"ml-2 " + linkClass}>Projects</p>
                     </Link>
                 </div>
