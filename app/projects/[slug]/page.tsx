@@ -9,6 +9,7 @@ import { getProject, getProjects } from "@/app/lib/db-caches";
 import BackToRouteLink from "@/app/components/back-to-route";
 import { Wrapper } from "@/app/notes/[slug]/[section]/skibidiwrapper";
 import { readFileSync } from "fs";
+import { getProjectHTMLPath } from "@/app/utils/get-note-mdx-path";
 
 export async function generateStaticParams() {
     const projects = await getProjects();
@@ -44,7 +45,7 @@ export async function generateMetadata({
 async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
     console.log("Rendering project page for slug: " + slug);
     const project = await getProject(slug);
-    const projectBody = readFileSync("mdx/project/" + slug + ".html", "utf-8");
+    const projectBody = readFileSync(getProjectHTMLPath(slug), "utf-8");
 
     if (!project) {
         return <NotFoundPage title="Project not found" />;
