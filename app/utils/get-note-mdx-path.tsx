@@ -12,5 +12,9 @@ const getBlogHTMLPath = (slug: string) => {
     return path.resolve(process.cwd(), path.join("mdx", "blog", slug.replaceAll("draft-", "") + ".html"));
 }
 
+const getProjectHTMLPath = (slug: string) => {
+    return path.resolve(process.cwd(), path.join("mdx", "projects", slug.replaceAll("draft-", "") + ".html"));
+}
+
 export default getNoteMdxPath;
-export { getNoteHTMLPath, getBlogHTMLPath };
+export { getNoteHTMLPath, getBlogHTMLPath, getProjectHTMLPath };
