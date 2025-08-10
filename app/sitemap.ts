@@ -62,6 +62,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         ...noteSections,
     ];
 
+    console.log("Sitemap generated with", sitemap.length, "routes:");
+    console.log(sitemap.map((route) => route ? route.url : ""));
+
     // this actually works (due to filters) and TS knows it so I can't use ts-expect-error, but for some reason vercel builds disagree
     // so ts-ignore it is
     // @ts-ignore
