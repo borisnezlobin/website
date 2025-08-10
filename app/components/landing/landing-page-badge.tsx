@@ -2,7 +2,7 @@
 
 import { useIsVisible } from "@/app/utils/use-is-visible";
 import { Separator } from "@/app/components/separator";
-import { ArrowSquareOut } from "@phosphor-icons/react/dist/ssr";
+import { ArrowSquareOutIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import { useRef } from "react";
 
@@ -19,22 +19,24 @@ const LandingPageBadge = ({
                 ${description ? "p-4" : "px-4 py-2 items-center h-12"}
                 ${index === undefined ? (isVisible ? "translate-y-0" : "translate-y-10") : ""}
                 ${className ? className : "flex-col"}
-                print:gap-2 print:p-2 print:rounded-none print:border-none print:translate-y-0
+                print:gap-1 print:p-2 print:rounded-none print:border-none print:translate-y-0 print:items-start print:text-sm
             `}
             style={{
                 animationDuration: `${index !== undefined ? "1s" : 0}`,
             }}
         >
-            <b className={`text-lg print:flex print:text-lg print:gap-2 print:items-center ${titleClassName} flex items-center justify-center gap-2`}>
-                {title}
-                {url && <ArrowSquareOut className="print:hidden md:hidden" />}
+            <b className={`text-lg print:text-base print:font-bold flex items-center justify-center gap-2 h-full print:gap-1 print:items-center ${titleClassName}`}>
+                <span>{title}</span>
+                {url && <span aria-hidden="true" className="hidden print:inline print:text-xs print:ml-1 font-normal italic">{url}</span>}
             </b>
             {description && <Separator size="medium" className="hidden md:block transition-colors duration-300 print:hidden" />}
-            {description && <p className="transition-colors duration-300">
+            {description && <p className="transition-colors duration-300 print:text-sm print:mt-0 print:mb-0">
+                <span className="hidden print:inline">
+                    {"— "}
+                </span>
                 {description}
             </p>}
-            {url && <ArrowSquareOut className="print:hidden hidden md:block" />}
-            {url && <span aria-hidden="true" className="hidden print:block text-muted">{url}</span>}
+            {url && <ArrowSquareOutIcon className="print:hidden hidden md:block" />}
         </div>
     );
 

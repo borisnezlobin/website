@@ -198,7 +198,7 @@
   --file-header-border: var(--border-width) solid transparent;
   --file-header-justify: center;
   --font-smallest: 0.8em;
-  --font-smaller: 0.875em;
+  --font-smaller: 0.875rem;
   --font-small: 0.933em;
   --font-ui-smaller: 12px;
   --font-ui-small: 13px;
@@ -1597,8 +1597,8 @@ body {
   color: var(--blockquote-color);
   font-style: var(--blockquote-font-style);
   background-color: var(--blockquote-background-color);
-  border-inline-start: var(--blockquote-border-thickness) solid
-    var(--blockquote-border-color);
+  /* border-inline-start: var(--blockquote-border-thickness) solid
+    var(--blockquote-border-color); */
   padding-top: 0;
   padding-bottom: 0;
   padding-inline-start: var(--size-4-6);
@@ -6137,6 +6137,9 @@ pre.code-styler-pre div > [class*="code-styler-line-number"] {
   p,
   span {
     font-size: 0.8125em;
+  }
+  pre, code, code * {
+    font-size: var(--code-size);
   }
   .cm-s-obsidian .HyperMD-header.HyperMD-header-4 {
     padding: 100px 0 10000px 0;
