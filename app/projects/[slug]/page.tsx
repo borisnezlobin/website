@@ -14,6 +14,7 @@ import { getProjectHTMLPath } from "@/app/utils/get-note-mdx-path";
 export async function generateStaticParams() {
     const projects = await getProjects();
 
+    console.log("Generating paths for projects:", projects.map((project) => project.slug));
     return projects.map((project) => ({ params: { slug: project.slug } }));
 }
 
@@ -42,7 +43,7 @@ export async function generateMetadata({
     });
 }
 
-async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
+export default async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
     console.log("Rendering project page for slug: " + slug);
     const project = await getProject(slug);
     const projectBody = readFileSync(getProjectHTMLPath(slug), "utf-8");
@@ -87,6 +88,4 @@ async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
             </div>
         </div>
     );
-}
-
-export default ProjectPage;
+};
