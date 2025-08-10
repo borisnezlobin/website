@@ -2,7 +2,7 @@ import { SearchBar } from "../[slug]/search-bar";
 import Link from "next/link";
 import { Metadata } from "next";
 import getMetadata from "@/app/lib/metadata";
-import { ArrowRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 
 export const metadata: Metadata = getMetadata({
     title: "Search Blog.",
@@ -23,7 +23,7 @@ const SearchPage = () => {
                         aria-label="Go to blog"
                     >
                         Go to blog
-                        <ArrowRight weight="bold" />
+                        <ArrowRightIcon weight="bold" />
                     </Link>
                 </div>
             </div>
