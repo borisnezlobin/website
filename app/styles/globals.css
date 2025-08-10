@@ -186,7 +186,7 @@ li::marker, ol::marker {
 }
 
 blockquote {
-    @apply border-l-4 border-neutral-400 dark:border-neutral-400 pl-4 mb-4 italic;
+    @apply border-l border-primary dark:border-primary-dark pl-4 mb-4 italic;
 
     p {
         @apply text-neutral-500 dark:text-neutral-400 text-lg italic;
@@ -205,11 +205,17 @@ script {
 }
 
 .invert {
-    @apply transition-all duration-300;
+  @apply transition-all duration-300;
 }
 
 .dark .invert {
-    filter: invert(1);
+  filter: invert(1);
+}
+
+@media print {
+  .invert, .dark .invert {
+    filter: none !important;
+  }
 }
 
 .twitter-embed {
@@ -353,6 +359,7 @@ script {
   --code-border-width: 1px;
   --code-border-color: #d8d8d8;
   --code-radius: var(--radius-s);
+  --font-smaller: 0.8125rem;
   --code-size: var(--font-smaller);
   --code-background: var(--background-primary-alt);
   --code-normal: var(--text-normal);
@@ -456,6 +463,9 @@ script {
 }
 
 @media print {
+  .skibidiwrapper {
+    --font-smaller: 0.625rem;
+  }
     h1 {
       font-size: var(--h1-size);
     }
@@ -506,6 +516,11 @@ script {
     page-break-inside: avoid;
     display: block;
     max-width: 100%;
+  }
+
+  pre, .skibidiwrapper pre {
+    padding-top: 0px;
+    padding-bottom: 0px;
   }
 }
 
