@@ -67,6 +67,11 @@ a {
     @apply print:bg-white print:dark:bg-white print:text-dark-background print:dark:text-dark-background;
 }
 
+button, textarea {
+    font-family: "charter";
+    @apply !transition-all !duration-300;
+}
+
 ol {
     list-style-type: decimal;
 }
