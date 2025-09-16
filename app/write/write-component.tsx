@@ -92,8 +92,15 @@ export default function WritePageComponent() {
         <div className="max-w-4xl mx-auto min-h-screen mt-4 p-4 flex flex-col gap-6 relative">
             {!started ? (
                 <>
-                    <h1 className="text-2xl font-bold">All you have to do is write.</h1>
-                    <form onSubmit={handleStart} className="flex flex-col gap-4 min-h-screen">
+                    <h1 className="text-2xl font-bold">Writing, no stopping.</h1>
+                    <p>
+                        Set a time, give yourself a prompt, and write. No distractions and definitely no stopping. Pause for too long and you&apos;ll lose everything ;)<br /><br />
+
+                        If you want to end early, you&apos;ll need to write at least 75 words. You can keep writing once time is up, but you won&apos;t be able to copy your text until the timer ends.<br /><br />
+
+                        Made for when you just don&apos;t know what to say — college essays, creative writing, journaling, or even just to get your thoughts out. Keep writing until the clock hits stop.
+                    </p>
+                    <div className="flex flex-col gap-4 min-h-screen">
                         <label className="flex flex-col gap-1">
                             Prompt (optional):
                             <textarea
@@ -120,8 +127,8 @@ export default function WritePageComponent() {
                             <button type="button" className="px-4 py-2 bg-black/5 dark:bg-white/5 rounded cursor-pointer" onClick={() => setTime(10)}>10 min</button>
                             <button type="button" className="px-4 py-2 bg-black/5 dark:bg-white/5 rounded cursor-pointer" onClick={() => setTime(15)}>15 min</button>
                         </div>
-                        <button type="submit" className="bg-primary dark:bg-primary-dark min-w-64 mx-auto text-white rounded px-4 py-2 font-semibold">Start</button>
-                    </form>
+                        <button onClick={handleStart} className="bg-primary dark:bg-primary-dark min-w-64 mx-auto text-white rounded px-4 py-2 font-semibold">Start</button>
+                    </div>
                 </>
             ) : (
                 <div className="flex flex-col relative h-full">
@@ -136,7 +143,15 @@ export default function WritePageComponent() {
                     <textarea
                         ref={textareaRef}
                         value={text}
-                        onChange={e => setText(e.target.value)}
+                        onChange={e => {
+                            setText(e.target.value);
+                            // // Auto-resize
+                            // const ta = textareaRef.current;
+                            // if (ta) {
+                            //     ta.style.height = "auto";
+                            //     ta.style.height = ta.scrollHeight + "px";
+                            // }
+                        }}
                         onKeyDown={e => {
                             if (!canCopy && !timerStarted && started) {
                                 setTimerStarted(true);
@@ -156,15 +171,16 @@ export default function WritePageComponent() {
                         style={{
                             opacity: canCopy ? 1 : 1 - idleProgress,
                             transition: "color 0.2s, opacity 0.2s",
-                            lineHeight: 2.5
+                            lineHeight: 2.5,
+                            overflow: "hidden"
                         }}
-                        className={`outline-none !text-light-foreground dark:!text-dark-foreground !bg-light-background dark:!bg-dark-background transition-all duration-300 w-full min-h-4/5 p-2 resize-none text-xl caret-primary dark:caret-primary-dark ${canCopy ? "bg-green-50" : "bg-white"}`}
+                        className={`h-[calc(100svh-12rem)] outline-none !text-light-foreground dark:!text-dark-foreground !bg-light-background dark:!bg-dark-background transition-all duration-300 w-full min-h-4/5 p-2 resize-none text-xl caret-primary dark:caret-primary-dark ${canCopy ? "bg-green-50" : "bg-white"}`}
                         placeholder={canCopy ? "Time's up! You can copy and paste your writing." : "Start typing..."}
                         spellCheck={true}
                         autoFocus
                     />
-                    <div className="fixed bottom-4 left-0 w-full flex justify-center items-center">
-                        <div className={`flex flex-col items-center px-3 pt-3 shadow-lg border border-muted dark:border-muted-dark bg-gray-200 dark:bg-gray-700 rounded-full w-[400px] max-w-[90%]`}>
+                    <div className="fixed bottom-4 left-0 w-full flex justify-center items-center !bg-transparent">
+                        <div className={`flex flex-col items-center px-3 pt-3 shadow-lg border border-muted dark:border-muted-dark bg-gray-200 dark:bg-gray-700 rounded-lg w-[400px] max-w-[90%]`}>
                             <div className="flex flex-row items-center justify-between gap-4 w-2/3">
                                 <p className="text-left">
                                     {/* show word count */}
@@ -184,14 +200,21 @@ export default function WritePageComponent() {
                                         Copy
                                     </button>
                                 ) : (
-                                    <button
-                                        className="flex flex-row items-center gap-2 px-3 py-1 rounded-md bg-primary dark:bg-primary-dark text-white transition"
-                                        onClick={() => endSession(false)}
-                                        title="End session early"
-                                    >
-                                        <XIcon />
-                                        End Early
-                                    </button>
+                                    text.split(" ").filter(word => word.length > 0).length >= 75 ? (
+                                        <button
+                                            className="flex flex-row items-center gap-2 px-3 py-1 rounded-md bg-primary dark:bg-primary-dark text-white transition"
+                                            onClick={() => endSession(false)}
+                                            title="End session early"
+                                        >
+                                            <XIcon />
+                                            End Early
+                                        </button>
+                                    ) : (
+                                        <p className="text-sm text-muted dark:text-muted-dark">
+                                            {75 - text.split(" ").filter(word => word.length > 0).length} words left<br />
+                                            before you can finish early
+                                        </p>
+                                    )
                                 )}
                             </div>
 
