@@ -92,9 +92,9 @@ export default function WritePageComponent() {
         <div className="max-w-4xl mx-auto min-h-screen mt-4 p-4 flex flex-col gap-6 relative">
             {!started ? (
                 <>
-                    <h1 className="text-2xl font-bold">Writing, no stopping.</h1>
+                    <h1 className="text-2xl font-bold">Wrisk.</h1>
                     <p>
-                        Set a time, give yourself a prompt, and write. No distractions and definitely no stopping. Pause for too long and you&apos;ll lose everything ;)<br /><br />
+                        Write and don&apos;t stop. Set a time, give yourself a prompt, and go: you get no distractions and <i>definitely</i> no stopping. Pause for too long and you&apos;ll lose everything ;)<br /><br />
 
                         If you want to end early, you&apos;ll need to write at least 75 words. You can keep writing once time is up, but you won&apos;t be able to copy your text until the timer ends.<br /><br />
 
