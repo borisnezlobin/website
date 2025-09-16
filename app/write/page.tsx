@@ -1,6 +1,10 @@
-
 "use client";
+
+import { CheckIcon, CrossIcon, XIcon } from "@phosphor-icons/react";
 import React, { useState, useRef, useEffect } from "react";
+
+const RED = "rgba(204, 42, 38,";
+const DARK_RED = "rgba(233, 100, 87,";
 
 export default function WritePage() {
     const [prompt, setPrompt] = useState("");
@@ -94,7 +98,7 @@ export default function WritePage() {
                             <textarea
                                 value={prompt}
                                 onChange={e => setPrompt(e.target.value)}
-                                className="border rounded p-2 bg-light-background dark:bg-dark-background"
+                                className="border rounded p-2 bg-light-background dark:bg-dark-background duration-300 transition-colors"
                                 placeholder="Enter a prompt..."
                             />
                         </label>
@@ -115,7 +119,7 @@ export default function WritePage() {
                             <button type="button" className="px-4 py-2 bg-black/5 dark:bg-white/5 rounded cursor-pointer" onClick={() => setTime(10)}>10 min</button>
                             <button type="button" className="px-4 py-2 bg-black/5 dark:bg-white/5 rounded cursor-pointer" onClick={() => setTime(15)}>15 min</button>
                         </div>
-                        <button type="submit" className="bg-primary min-w-64 mx-auto text-white rounded px-4 py-2 font-semibold">Start</button>
+                        <button type="submit" className="bg-primary dark:bg-primary-dark min-w-64 mx-auto text-white rounded px-4 py-2 font-semibold">Start</button>
                     </form>
                 </>
             ) : (
@@ -149,10 +153,7 @@ export default function WritePage() {
                         }}
                         disabled={canCopy}
                         style={{
-                            color: canCopy
-                                ? "#166534"
-                                : `rgb(${Math.round(220 + 35 * idleProgress)},${Math.round(220 - 220 * idleProgress)},${Math.round(220 - 220 * idleProgress)})`,
-                            opacity: canCopy ? 1 : 1 - 0.6 * idleProgress,
+                            opacity: canCopy ? 1 : 1 - idleProgress,
                             transition: "color 0.2s, opacity 0.2s"
                         }}
                         className={`outline-none !text-light-foreground dark:!text-dark-foreground !bg-light-background dark:!bg-dark-background transition-all duration-300 w-full min-h-4/5 p-2 resize-none text-xl caret-primary dark:caret-primary-dark ${canCopy ? "bg-green-50" : "bg-white"}`}
@@ -160,14 +161,32 @@ export default function WritePage() {
                         spellCheck={true}
                         autoFocus
                     />
-                    <div className="fixed w-full bottom-2 left-0">
-                        <div className="h-2 bg-gray-200 dark:bg-gray-700 rounded-full mx-4">
-                            {!canCopy && <div className="text-red-500 text-sm">If you stop typing for more than 5 seconds, everything will be deleted.</div>}
-                            {canCopy && <div className="text-green-600 font-semibold">Time&apos;s up! You can now copy and paste your writing.</div>}
+                    <div className="fixed bottom-4 left-0 w-full flex justify-center items-center">
+                        <div className="flex flex-col items-center gap-4 p-3 shadow-lg border border-muted dark:border-muted-dark bg-gray-200 dark:bg-gray-700 rounded-full w-[400px] max-w-[90%]">
+                            <p>
+                                {/* show word count */}
+                                {text.split(" ").filter(word => word.length > 0).length} words
+                            </p>
+                            {/* End button */}
+                            <button
+                                className="flex flex-row items-center gap-2 px-3 py-1 rounded-md bg-primary dark:bg-primary-dark text-white transition"
+                                onClick={() =>
+                                    canCopy ? endSession(true) : endSession(false)
+                                }
+                                title="End session early"
+                            >
+                                <XIcon />
+                                {canCopy ? "Done" : "End Early"}
+                            </button>
+
+                            {/* Track */}
+                            <div className="flex-1 h-1 !bg-muted-dark dark:!bg-muted rounded-full relative">
+                            {/* Slider fill */}
                             <div
-                                className={`h-2 bg-red-500 rounded-full transition-all duration-100`}
-                                style={{ width: `${idleProgress * 100}%` }}
-                            ></div>
+                                className="absolute top-1/2 -translate-y-1/2 h-2 !bg-red-600 rounded-full transition-all duration-150"
+                                style={{ width: `${idleProgress < 0.05 ? 0 : (idleProgress + 0.05) * 100}%` }}
+                            />
+                            </div>
                         </div>
                     </div>
                 </div>
