@@ -1,10 +1,7 @@
 "use client";
 
-import { CheckIcon, CrossIcon, XIcon } from "@phosphor-icons/react";
+import { CopyIcon, XIcon } from "@phosphor-icons/react";
 import React, { useState, useRef, useEffect } from "react";
-
-const RED = "rgba(204, 42, 38,";
-const DARK_RED = "rgba(233, 100, 87,";
 
 export default function WritePage() {
     const [prompt, setPrompt] = useState("");
@@ -32,8 +29,8 @@ export default function WritePage() {
 
     // Idle detection and progress
     useEffect(() => {
-        if (!started || canCopy || !timerStarted) return;
         if (idleTimeout) clearTimeout(idleTimeout);
+        if (!started || canCopy || !timerStarted) return;
         let start = Date.now();
         setIdleProgress(0);
         const interval = setInterval(() => {
@@ -56,6 +53,8 @@ export default function WritePage() {
         setRemaining(0);
         setTimerStarted(false);
         setIdleProgress(0);
+        if (idleTimeout) clearTimeout(idleTimeout);
+        setPrompt("");
         if (failed) {
             setStarted(false);
             setText("");
@@ -69,11 +68,13 @@ export default function WritePage() {
         };
         document.addEventListener("copy", handler);
         document.addEventListener("cut", handler);
-        document.addEventListener("paste", handler);
+
+        // todo: determine whether we need to block paste as well?
+        // document.addEventListener("paste", handler);
         return () => {
             document.removeEventListener("copy", handler);
             document.removeEventListener("cut", handler);
-            document.removeEventListener("paste", handler);
+            // document.removeEventListener("paste", handler);
         };
     }, [canCopy]);
 
@@ -88,7 +89,7 @@ export default function WritePage() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto min-h-screen mt-12 p-4 flex flex-col gap-6 relative">
+        <div className="max-w-4xl mx-auto min-h-screen mt-4 p-4 flex flex-col gap-6 relative">
             {!started ? (
                 <>
                     <h1 className="text-2xl font-bold">All you have to do is write.</h1>
@@ -98,7 +99,7 @@ export default function WritePage() {
                             <textarea
                                 value={prompt}
                                 onChange={e => setPrompt(e.target.value)}
-                                className="border rounded p-2 bg-light-background dark:bg-dark-background duration-300 transition-colors"
+                                className="border border-muted dark:border-muted-dark rounded p-2 bg-light-background dark:bg-dark-background duration-300 transition-colors"
                                 placeholder="Enter a prompt..."
                             />
                         </label>
@@ -106,11 +107,11 @@ export default function WritePage() {
                             Time (minutes):
                             <input
                                 type="number"
-                                min={1}
+                                min={0.1}
                                 max={120}
                                 value={time}
                                 onChange={e => setTime(Number(e.target.value))}
-                                className="border rounded p-2"
+                                className="border rounded p-2 border-muted dark:border-muted-dark"
                             />
                         </label>
                         <div className="flex flex-row justify-center gap-x-4 items-center">
@@ -126,9 +127,10 @@ export default function WritePage() {
                 <div className="flex flex-col relative h-full">
                     {/* {prompt && <div className="p-2 bg-gray-100 rounded text-gray-700">Prompt: {prompt}</div>} */}
                     <div className="font-mono text-lg !text-muted dark:!text-muted-dark mb-1 px-2">
-                        Time left: {Math.floor(remaining/60)}:{(remaining%60).toString().padStart(2,"0")}
+                        {remaining > 0 && <span>{Math.floor(remaining/60)}:{(remaining%60).toString().padStart(2,"0")} left</span>}
+                        <span className="">{remaining === 0 && "Done!"}</span>
                     </div>
-                    <p className="w-full text-xl px-2 mb-4">
+                    <p className="w-full text-lg px-2 mb-4 italic" style={{ lineHeight: 1.8 }}>
                         {prompt}
                     </p>
                     <textarea
@@ -136,7 +138,7 @@ export default function WritePage() {
                         value={text}
                         onChange={e => setText(e.target.value)}
                         onKeyDown={e => {
-                            if (!timerStarted && started) {
+                            if (!canCopy && !timerStarted && started) {
                                 setTimerStarted(true);
                             }
                             if (!canCopy && idleTimeout) {
@@ -151,10 +153,10 @@ export default function WritePage() {
                                 setIdleTimeout(timeout);
                             }
                         }}
-                        disabled={canCopy}
                         style={{
                             opacity: canCopy ? 1 : 1 - idleProgress,
-                            transition: "color 0.2s, opacity 0.2s"
+                            transition: "color 0.2s, opacity 0.2s",
+                            lineHeight: 2.5
                         }}
                         className={`outline-none !text-light-foreground dark:!text-dark-foreground !bg-light-background dark:!bg-dark-background transition-all duration-300 w-full min-h-4/5 p-2 resize-none text-xl caret-primary dark:caret-primary-dark ${canCopy ? "bg-green-50" : "bg-white"}`}
                         placeholder={canCopy ? "Time's up! You can copy and paste your writing." : "Start typing..."}
@@ -162,31 +164,59 @@ export default function WritePage() {
                         autoFocus
                     />
                     <div className="fixed bottom-4 left-0 w-full flex justify-center items-center">
-                        <div className="flex flex-col items-center gap-4 p-3 shadow-lg border border-muted dark:border-muted-dark bg-gray-200 dark:bg-gray-700 rounded-full w-[400px] max-w-[90%]">
-                            <p>
-                                {/* show word count */}
-                                {text.split(" ").filter(word => word.length > 0).length} words
-                            </p>
-                            {/* End button */}
-                            <button
-                                className="flex flex-row items-center gap-2 px-3 py-1 rounded-md bg-primary dark:bg-primary-dark text-white transition"
-                                onClick={() =>
-                                    canCopy ? endSession(true) : endSession(false)
-                                }
-                                title="End session early"
-                            >
-                                <XIcon />
-                                {canCopy ? "Done" : "End Early"}
-                            </button>
+                        <div className={`flex flex-col items-center px-3 pt-3 shadow-lg border border-muted dark:border-muted-dark bg-gray-200 dark:bg-gray-700 rounded-full w-[400px] max-w-[90%]`}>
+                            <div className="flex flex-row items-center justify-between gap-4 w-2/3">
+                                <p className="text-left">
+                                    {/* show word count */}
+                                    {text.split(" ").filter(word => word.length > 0).length} words
+                                </p>
+                                {/* End or Copy button */}
+                                {canCopy ? (
+                                    <button
+                                        className="flex flex-row items-center gap-2 px-3 py-1 rounded-md bg-primary dark:bg-primary-dark text-white transition"
+                                        onClick={() => {
+                                            navigator.clipboard.writeText(text);
+                                            alert("Text copied to clipboard!");
+                                        }}
+                                        title="Copy text"
+                                    >
+                                        <CopyIcon />
+                                        Copy
+                                    </button>
+                                ) : (
+                                    <button
+                                        className="flex flex-row items-center gap-2 px-3 py-1 rounded-md bg-primary dark:bg-primary-dark text-white transition"
+                                        onClick={() => endSession(false)}
+                                        title="End session early"
+                                    >
+                                        <XIcon />
+                                        End Early
+                                    </button>
+                                )}
+                            </div>
 
                             {/* Track */}
-                            <div className="flex-1 h-1 !bg-muted-dark dark:!bg-muted rounded-full relative">
-                            {/* Slider fill */}
-                            <div
-                                className="absolute top-1/2 -translate-y-1/2 h-2 !bg-red-600 rounded-full transition-all duration-150"
-                                style={{ width: `${idleProgress < 0.05 ? 0 : (idleProgress + 0.05) * 100}%` }}
-                            />
-                            </div>
+                            {canCopy ? (
+                                <button
+                                    onClick={() => 
+                                        endSession(true)
+                                    }
+                                    className="h-8 hover:text-primary hover:dark:text-primary-dark hover:underline flex flex-row justify-center items-center gap-1 mr-2"
+                                >
+                                    <XIcon className="text-sm" />
+                                    Exit
+                                </button>
+                            ) : (
+                                <div className="flex flex-row justify-center items-center gap-4 w-2/3 h-8">
+                                    <div className="flex-1 h-0.5 !bg-muted-dark dark:!bg-muted rounded-full relative">
+                                        {/* Slider fill */}
+                                        <div
+                                            className="absolute top-1/2 -translate-y-1/2 h-2 !bg-red-600 transition-all !duration-75"
+                                            style={{ width: `${idleProgress < 0.05 ? 0 : (idleProgress + 0.05) * 100}%` }}
+                                        />
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
