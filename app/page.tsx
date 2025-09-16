@@ -81,7 +81,7 @@ export default function Home() {
             <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4 print:flex-col print:items-start print:m-0 print:gap-1">
                 <p className="dark:text-dark text-left w-full print:mb-1 print:mt-1">
                     ...and counting. I&apos;m a 12th grader at Palo Alto High School writing code for fun (and interning at Lockheed Martin&apos;s Advanced Technology Center!).
-                    Read on to see my skills, or check out <Link className="link underline font-semibold print:underline" href="/blog">my blog</Link>,{" "}
+                    Read on to see my skills, or check out <Link className="link !underline font-semibold print:underline" href="/blog">my blog</Link>,{" "}
                     <Link className="link underline font-semibold print:underline" href="/notes">lecture notes</Link>, or <Link className="link underline font-semibold print:underline" href="/projects">projects I&apos;ve worked on</Link>.<br />
                     <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4 print:hidden">
                         <LinkButton href="/blog" className="">
