@@ -1,4 +1,4 @@
-import "../../../styles/mjx.css"
+import "../../../../styles/mjx.css"
 
 const Wrapper = ({ content }: { content: string }) => {
     return (

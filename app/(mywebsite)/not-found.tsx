@@ -1,6 +1,6 @@
 import { Metadata } from "next";
-import NotFoundPage from "./components/not-found-page";
-import getMetadata from "./lib/metadata";
+import NotFoundPage from "../components/not-found-page";
+import getMetadata from "../lib/metadata";
 
 export const metadata: Metadata = getMetadata({
   title: "404",

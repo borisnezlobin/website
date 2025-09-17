@@ -1,6 +1,6 @@
 import { ReactNode } from "react";
-import { ScrollForMore } from "../components/landing/scroll-for-more";
-import getMetadata from "../lib/metadata";
+import { ScrollForMore } from "../../components/landing/scroll-for-more";
+import getMetadata from "../../lib/metadata";
 import { DiscordLogo, Envelope, GithubLogo, Globe, LinkedinLogo } from "@phosphor-icons/react/dist/ssr";
 import { Separator } from "@/app/components/separator";
 
@@ -17,7 +17,7 @@ const ContactType = ({ title, icon, url, urlTitle }: { title: string, icon: Reac
             <p className="dark:text-dark font-bold md:text-3xl flex gap-2 justify-center items-center">
                 {title}
             </p>
-            <a href={url} title={urlTitle ? urlTitle : title} target="_blank" className="link underline font-semibold emph ml-4">
+            <a href={url} title={urlTitle ? urlTitle : title} target="_blank" className="link pt-1 underline font-semibold emph ml-4">
                 {urlTitle ? urlTitle : url}
             </a>
         </div>
@@ -60,7 +60,7 @@ const CONTACT_TYPES = [
 
 const ContactMePage = () => {
     return (
-        <main className="flex flex-col justify-center items-start mb-12 md:mb-[30vh] p-4 lg:p-0">
+        <main className="print:min-h-[calc(100svh-8rem)] flex flex-col justify-center items-start mb-12 md:mb-[30vh] p-4 lg:p-0">
             <div className="h-[100svh] print:hidden relative top-[-3rem] items-center w-full flex flex-col justify-center p-4 gap-4">
                 <h1 className="text-3xl font-bold dark:text-dark text-center md:text-4xl lg:text-5xl">
                     Want to reach out?

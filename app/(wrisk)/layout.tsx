@@ -1,10 +1,9 @@
-import "./styles/globals.css";
+import "../styles/globals.css";
 // import "./styles/obsidian.css";
 // import "./styles/code-styler.css";
-import getMetadata from "./lib/metadata";
-import Footer from "./components/footer";
+import getMetadata from "../lib/metadata";
+import Footer from "../components/footer";
 import Link from "next/link";
-import SocialLinksBubble from "@/app/components/social-links-bubble";
 import { ThemeProvider } from 'next-themes'
 
 export const metadata = getMetadata({});
@@ -31,15 +30,6 @@ export default function RootLayout({
                                         <Link href={"/"} className="link">
                                             Home.
                                         </Link>
-                                        <Link href={"/blog"} className="link">
-                                            Blog.
-                                        </Link>
-                                        <Link href={"/projects"} className="link">
-                                            Projects.
-                                        </Link>
-                                        <Link href={"/notes"} className="link !hidden md:!block">
-                                            Notes.
-                                        </Link>
                                         <Link href={"/contact"} className="link !hidden md:!block">
                                             Contact.
                                         </Link>
@@ -50,7 +40,6 @@ export default function RootLayout({
                                 </div>
                                 <Footer />
                             </div>
-                            <SocialLinksBubble />
                         </div>
                     </div>
                 </ThemeProvider>

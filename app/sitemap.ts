@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next'
 import { getBlogs, getNotes, getProjects } from './lib/db-caches'
-import { getNoteSections } from './notes/getNoteSections';
+import { getNoteSections } from './(mywebsite)/notes/getNoteSections';
 import getNoteMdxPath, { getNoteHTMLPath } from './utils/get-note-mdx-path';
 import { readFileSync } from 'fs';
  
