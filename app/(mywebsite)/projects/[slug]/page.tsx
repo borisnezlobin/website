@@ -7,7 +7,7 @@ import { ProjectLink } from "../project-link";
 import ArticleBody from "@/app/components/article-body";
 import { getProject, getProjects } from "@/app/lib/db-caches";
 import BackToRouteLink from "@/app/components/back-to-route";
-import { Wrapper } from "@/app/notes/[slug]/[section]/skibidiwrapper";
+import { Wrapper } from "@/app/(mywebsite)/notes/[slug]/[section]/skibidiwrapper";
 import { readFileSync } from "fs";
 import { getProjectHTMLPath } from "@/app/utils/get-note-mdx-path";
 

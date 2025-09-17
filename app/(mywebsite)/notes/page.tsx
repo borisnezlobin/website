@@ -1,6 +1,6 @@
-import getMetadata from "../lib/metadata";
+import getMetadata from "../../lib/metadata";
 import { NotesListItem } from "./notes-list-item";
-import { getNotes } from "../lib/db-caches";
+import { getNotes } from "../../lib/db-caches";
 
 export const metadata = getMetadata({
     title: "Lecture Notes",

@@ -1,11 +1,11 @@
 import { LinkButton } from "@/app/components/buttons";
 import Link from "next/link";
-import { ScrollForMore } from "./components/landing/scroll-for-more";
+import { ScrollForMore } from "../components/landing/scroll-for-more";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
-import { Section } from "./components/landing/section";
-import { LandingPageBadge } from "./components/landing/landing-page-badge";
-import HorizontalScroll from "./components/landing/scroll-horizontal";
-import getMetadata from "./lib/metadata";
+import { Section } from "../components/landing/section";
+import { LandingPageBadge } from "../components/landing/landing-page-badge";
+import HorizontalScroll from "../components/landing/scroll-horizontal";
+import getMetadata from "../lib/metadata";
 import dynamic from "next/dynamic";
 
 export const metadata = getMetadata({
@@ -61,7 +61,7 @@ const contributions = [
 ]
 
 const DynamicAgeNoSSR = dynamic(
-  () => import('./components/landing/age'),
+  () => import('../components/landing/age'),
   { ssr: false }
 )
 

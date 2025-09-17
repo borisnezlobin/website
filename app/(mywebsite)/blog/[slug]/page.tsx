@@ -11,7 +11,7 @@ import BlogListItem from "../components/blog-list-item";
 import ArticleBody from "@/app/components/article-body";
 import { getBlog, getSimilarPosts } from "@/app/lib/db-caches";
 import { DraftBadge } from "@/app/components/draft-badge";
-import { Wrapper } from "@/app/notes/[slug]/[section]/skibidiwrapper";
+import { Wrapper } from "@/app/(mywebsite)/notes/[slug]/[section]/skibidiwrapper";
 import { getBlogHTMLPath } from "@/app/utils/get-note-mdx-path";
 import { readFileSync } from "fs";
 import { formatDateWithOrdinal } from "@/app/utils/format-date";

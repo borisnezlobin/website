@@ -1,7 +1,7 @@
 import { Metadata } from "next";
 import BlogList from "./components/blog-list";
-import getMetadata from "../lib/metadata";
-import { getBlogs } from "../lib/db-caches";
+import getMetadata from "../../lib/metadata";
+import { getBlogs } from "../../lib/db-caches";
 
 export const metadata: Metadata = getMetadata({
     title: "Blog",

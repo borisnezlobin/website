@@ -1,9 +1,9 @@
-import db from "../lib/db";
+import db from "../../lib/db";
 import { Project } from "@prisma/client";
 import ProjectListItem from "./project-list-item";
 import Link from "next/link";
-import getMetadata from "../lib/metadata";
-import { getProjects } from "../lib/db-caches";
+import getMetadata from "../../lib/metadata";
+import { getProjects } from "../../lib/db-caches";
 
 export const metadata = getMetadata({
     title: "Projects.",

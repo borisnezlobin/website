@@ -172,7 +172,7 @@ export default function WritePageComponent() {
                             opacity: canCopy ? 1 : 1 - idleProgress,
                             transition: "color 0.2s, opacity 0.2s",
                             lineHeight: 2.5,
-                            overflow: "hidden"
+                            // overflow: "hidden"
                         }}
                         className={`h-[calc(100svh-12rem)] outline-none !text-light-foreground dark:!text-dark-foreground !bg-light-background dark:!bg-dark-background transition-all duration-300 w-full min-h-4/5 p-2 resize-none text-xl caret-primary dark:caret-primary-dark ${canCopy ? "bg-green-50" : "bg-white"}`}
                         placeholder={canCopy ? "Time's up! You can copy and paste your writing." : "Start typing..."}
@@ -210,9 +210,9 @@ export default function WritePageComponent() {
                                             End Early
                                         </button>
                                     ) : (
-                                        <p className="text-sm text-muted dark:text-muted-dark">
-                                            {75 - text.split(" ").filter(word => word.length > 0).length} words left<br />
-                                            before you can finish early
+                                        <p className="text-xs text-muted dark:text-muted-dark text-center">
+                                            <span className="font-bold text-sm">{75 - text.split(" ").filter(word => word.length > 0).length}</span>
+                                            <br />words left
                                         </p>
                                     )
                                 )}
@@ -235,7 +235,7 @@ export default function WritePageComponent() {
                                         {/* Slider fill */}
                                         <div
                                             className="absolute top-1/2 -translate-y-1/2 h-2 !bg-red-600 transition-all !duration-75"
-                                            style={{ width: `${idleProgress < 0.05 ? 0 : (idleProgress + 0.05) * 100}%` }}
+                                            style={{ width: `${idleProgress < 0.05 ? 0 : (idleProgress + 0.1) * 100}%` }}
                                         />
                                     </div>
                                 </div>
