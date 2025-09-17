@@ -96,9 +96,11 @@ export default function WritePageComponent() {
                     <p>
                         Write and don&apos;t stop. Set a time, give yourself a prompt, and go: you get no distractions and <i>definitely</i> no stopping. Pause for too long and you&apos;ll lose everything ;)<br /><br />
 
-                        If you want to end early, you&apos;ll need to write at least 75 words. You can keep writing once time is up, but you won&apos;t be able to copy your text until the timer ends.<br /><br />
+                        If you want to end early, you&apos;ll need to write at least 75 words.<br /><br />
 
-                        Made for when you just don&apos;t know what to say — college essays, creative writing, journaling, or even just to get your thoughts out. Keep writing until the clock hits stop.
+                        Wrisk is for when you just don&apos;t know what to say — college essays, creative writing, journaling, or, like, whatever people write. Keep writing until the clock hits stop.<br /><br />
+
+                        And one more thing — your clipboard&apos;s disabled :)
                     </p>
                     <div className="flex flex-col gap-4 min-h-screen">
                         <label className="flex flex-col gap-1">
