@@ -1,5 +1,5 @@
 import { Metadata } from "next";
-import getMetadata from "../lib/metadata"
+import getMetadata from "../../lib/metadata"
 import WritePageComponent from "./write-component"
 
 export const metadata: Metadata = getMetadata({
