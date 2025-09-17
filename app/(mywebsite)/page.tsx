@@ -60,10 +60,7 @@ const contributions = [
     { title: "ShadowFinder", description: "CLI Caching", url: "https://github.com/bellingcat/ShadowFinder" }
 ]
 
-const DynamicAgeNoSSR = dynamic(
-  () => import('../components/landing/age'),
-  { ssr: false }
-)
+import AgeNoSSR from "../components/landing/age-client-wrapper";
 
 export default function Home() {
     return (
@@ -76,7 +73,7 @@ export default function Home() {
             </div>
             <ScrollForMore className="print:hidden" />
             <h2 className="text-xl sm:text-3xl sm:text-[2rem] text-left dark:text-dark print:mt-4 print:mb-2">
-                <DynamicAgeNoSSR /> years old
+                <AgeNoSSR /> years old
             </h2>
             <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4 print:flex-col print:items-start print:m-0 print:gap-1">
                 <p className="dark:text-dark text-left w-full print:mb-1 print:mt-1">

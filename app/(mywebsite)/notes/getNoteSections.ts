@@ -10,7 +10,7 @@ const textToSlug = (text: string): string => {
         .toLowerCase();
 };
 
-export const getNoteSections = (mdx: string): NoteSection[] => {
+export const getNoteSections = async (mdx: string): Promise<NoteSection[]> => {
     const sections = mdx.split("\n<hr >\n");
 
     return sections.map((section) => {
@@ -27,7 +27,7 @@ export const getNoteSections = (mdx: string): NoteSection[] => {
     });
 };
 
-export const getHTMLNoteSections = (html: string): NoteSection[] => {
+export const getHTMLNoteSections = async (html: string): Promise<NoteSection[]> => {
     let sectionId = 1;
     const output = html.replace(/<div class="el-h1 heading-wrapper">/g, () => {
         return `<div class="el-h1 heading-wrapper" id="section-heading-${sectionId++}">`;

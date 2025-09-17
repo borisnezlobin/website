@@ -8,8 +8,9 @@ import BackToRouteLink from "@/app/components/back-to-route";
 import getNoteMdxPath, { getNoteHTMLPath } from "@/app/utils/get-note-mdx-path";
 import { getNote, getNotes } from "@/app/lib/db-caches";
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-    const note = await getNote(params.slug);
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const note = await getNote(slug);
 
     if (!note) {
         return getMetadata({
@@ -34,8 +35,9 @@ export async function generateStaticParams() {
     return notes.map((note) => ({ params: { slug: note.slug } }));
 }
 
-export default async function SubjectNotesPage({ params }: { params: { slug: string } }) {
-    const note = await getNote(params.slug);
+export default async function SubjectNotesPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
+    const note = await getNote(slug);
 
     if (!note) {
         return (
@@ -46,7 +48,7 @@ export default async function SubjectNotesPage({ params }: { params: { slug: str
     const configDirectory = getNoteHTMLPath(note.slug);
     console.log(configDirectory);
     const content = readFileSync(configDirectory, "utf-8"); // TODO: make this cached
-    const sections = getHTMLNoteSections(content);
+    const sections = await getHTMLNoteSections(content);
 
     const numWords = content.split(/\s+/).length;
 
