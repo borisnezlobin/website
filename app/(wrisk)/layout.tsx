@@ -6,6 +6,8 @@ import Footer from "../components/footer";
 import Link from "next/link";
 import { ThemeProvider } from 'next-themes'
 import SocialLinksBubble from "../components/social-links-bubble";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 export const metadata = getMetadata({});
 
@@ -45,6 +47,8 @@ export default function RootLayout({
                         </div>
                     </div>
                 </ThemeProvider>
+                <Analytics />
+                <SpeedInsights />
             </body>
         </html>
     );
