@@ -6,7 +6,8 @@ const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
   experimental: {
-    optimizeCss: false
+    optimizeCss: false,
+    globalNotFound: true,
   }
 };
 

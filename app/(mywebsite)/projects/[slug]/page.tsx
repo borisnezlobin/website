@@ -21,9 +21,10 @@ export async function generateStaticParams() {
 export async function generateMetadata({
     params,
 }: {
-    params: { slug: string };
+    params: Promise<{ slug: string }>;
 }) {
-    const proj = await getProject(params.slug);
+    const { slug } = await params;
+    const proj = await getProject(slug);
 
     if (!proj) {
         return getMetadata({
@@ -43,7 +44,8 @@ export async function generateMetadata({
     });
 }
 
-export default async function ProjectPage({ params: { slug } }: { params: { slug: string } }) {
+export default async function ProjectPage({ params }: { params: Promise<{ slug: string }> }) {
+    const { slug } = await params;
     console.log("Rendering project page for slug: " + slug);
     const project = await getProject(slug);
     const projectBody = readFileSync(getProjectHTMLPath(slug), "utf-8");

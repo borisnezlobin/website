@@ -8,13 +8,17 @@ import ShareButton from "./share-button";
 import getMetadata from "@/app/lib/metadata";
 import { LinkButton } from "@/app/components/buttons";
 import BlogListItem from "../components/blog-list-item";
-import ArticleBody from "@/app/components/article-body";
 import { getBlog, getSimilarPosts } from "@/app/lib/db-caches";
 import { DraftBadge } from "@/app/components/draft-badge";
 import { Wrapper } from "@/app/(mywebsite)/notes/[slug]/[section]/skibidiwrapper";
 import { getBlogHTMLPath } from "@/app/utils/get-note-mdx-path";
 import { readFileSync } from "fs";
 import { formatDateWithOrdinal } from "@/app/utils/format-date";
+import { Metadata } from "next";
+
+type BlogPageParams = {
+    slug: string;
+}
 
 export async function generateStaticParams() {
     const posts = await db.article.findMany({
@@ -50,8 +54,9 @@ async function getDataForSlug(slug: string) {
     };
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
-    const post = await getBlog(params.slug);
+export async function generateMetadata({ params }: { params: Promise<BlogPageParams> }): Promise<Metadata> {
+    const { slug } = await params;
+    const post = await getBlog(slug);
 
     if (!post) {
         return getMetadata({
@@ -72,9 +77,12 @@ export async function generateMetadata({ params }: { params: { slug: string } })
 }
 
 //  { post, similarPosts }: InferGetStaticPropsType<typeof getStaticProps>
-export default async function SingleBlogPage({ params }: { params: { slug: string } }) {
-    console.log("Rendering blog post", params.slug);
-    const { post, similarPosts } = await getDataForSlug(params.slug);
+export default async function SingleBlogPage(
+  { params }: { params: Promise<BlogPageParams> }
+) {
+    const { slug } = await params;
+    console.log("Rendering blog post", slug);
+    const { post, similarPosts } = await getDataForSlug(slug);
 
     if (!post) {
         return <NotFoundPage title="Blog post not found" />;
@@ -82,7 +90,7 @@ export default async function SingleBlogPage({ params }: { params: { slug: strin
     
     return (
         <>
-            {params.slug.startsWith("draft") && <DraftBadge />}
+            {slug.startsWith("draft") && <DraftBadge />}
             <div className={`pagepad`}>
                 {post.image && <ArticleImageBg imageUrl={post.image} />}
                 <header
