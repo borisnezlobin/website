@@ -5,6 +5,7 @@ import getMetadata from "../lib/metadata";
 import Footer from "../components/footer";
 import Link from "next/link";
 import { ThemeProvider } from 'next-themes'
+import SocialLinksBubble from "../components/social-links-bubble";
 
 export const metadata = getMetadata({});
 
@@ -40,6 +41,7 @@ export default function RootLayout({
                                 </div>
                                 <Footer />
                             </div>
+                            <SocialLinksBubble themeOnly={true} />
                         </div>
                     </div>
                 </ThemeProvider>
