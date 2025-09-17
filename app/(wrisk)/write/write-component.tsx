@@ -8,6 +8,7 @@ export default function WritePageComponent() {
     const [time, setTime] = useState(5);
     const [started, setStarted] = useState(false);
     const [remaining, setRemaining] = useState(0);
+    const [targetWords, setTargetWords] = useState(75);
     const [text, setText] = useState("");
     const [canCopy, setCanCopy] = useState(false);
     const [idleTimeout, setIdleTimeout] = useState<NodeJS.Timeout | null>(null);
@@ -96,8 +97,6 @@ export default function WritePageComponent() {
                     <p>
                         Write and don&apos;t stop. Set a time, give yourself a prompt, and go: you get no distractions and <i>definitely</i> no stopping. Pause for too long and you&apos;ll lose everything ;)<br /><br />
 
-                        If you want to end early, you&apos;ll need to write at least 75 words.<br /><br />
-
                         Wrisk is for when you just don&apos;t know what to say — college essays, creative writing, journaling, or, like, whatever people write. Keep writing until the clock hits stop.<br /><br />
 
                         And one more thing — your clipboard&apos;s disabled :)
@@ -110,6 +109,17 @@ export default function WritePageComponent() {
                                 onChange={e => setPrompt(e.target.value)}
                                 className="border border-muted dark:border-muted-dark rounded p-2 bg-light-background dark:bg-dark-background duration-300 transition-colors"
                                 placeholder="Enter a prompt..."
+                            />
+                        </label>
+                        <label className="flex flex-col gap-1">
+                            Target word count (minimum 50):
+                            <input
+                                type="number"
+                                min={50}
+                                max={120}
+                                value={targetWords}
+                                onChange={e => setTargetWords(Number(e.target.value))}
+                                className="border rounded p-2 border-muted dark:border-muted-dark"
                             />
                         </label>
                         <label className="flex flex-col gap-1">
@@ -159,7 +169,10 @@ export default function WritePageComponent() {
                                 setTimerStarted(true);
                             }
                             if (!canCopy && idleTimeout) {
-                                clearTimeout(idleTimeout);
+                                const isValidKey = e.key.length === 1 && !e.ctrlKey && !e.metaKey && !e.altKey;
+                                if (isValidKey) {
+                                    clearTimeout(idleTimeout);
+                                }
                             }
                         }}
                         onKeyUp={() => {
@@ -202,7 +215,7 @@ export default function WritePageComponent() {
                                         Copy
                                     </button>
                                 ) : (
-                                    text.split(" ").filter(word => word.length > 0).length >= 75 ? (
+                                    text.split(" ").filter(word => word.length > 0).length >= targetWords ? (
                                         <button
                                             className="flex flex-row items-center gap-2 px-3 py-1 rounded-md bg-primary dark:bg-primary-dark text-white transition"
                                             onClick={() => endSession(false)}
@@ -213,7 +226,7 @@ export default function WritePageComponent() {
                                         </button>
                                     ) : (
                                         <p className="text-xs text-muted dark:text-muted-dark text-center">
-                                            <span className="font-bold text-sm">{75 - text.split(" ").filter(word => word.length > 0).length}</span>
+                                            <span className="font-bold text-sm">{targetWords - text.split(" ").filter(word => word.length > 0).length}</span>
                                             <br />words left
                                         </p>
                                     )
@@ -236,8 +249,8 @@ export default function WritePageComponent() {
                                     <div className="flex-1 h-0.5 !bg-muted-dark dark:!bg-muted rounded-full relative">
                                         {/* Slider fill */}
                                         <div
-                                            className="absolute top-1/2 -translate-y-1/2 h-2 !bg-red-600 transition-all !duration-75"
-                                            style={{ width: `${idleProgress < 0.05 ? 0 : (idleProgress + 0.1) * 100}%` }}
+                                            className="absolute top-1/2 -translate-y-1/2 h-2 !bg-red-600 transition-all !duration-[5ms]"
+                                            style={{ width: `${idleProgress < 0.05 ? 0 : (idleProgress + 0.03) * 100}%` }}
                                         />
                                     </div>
                                 </div>
