@@ -67,6 +67,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         { url: 'https://www.borisn.dev/contact' },
         { url: 'https://www.borisn.dev/projects' },
         { url: 'https://www.borisn.dev/notes' },
+        { url: 'https://www.borisn.dev/wrisk' },
         ...blogRoutes,
         ...projectRoutes,
         ...noteRoutes,
