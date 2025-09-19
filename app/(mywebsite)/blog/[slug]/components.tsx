@@ -8,7 +8,7 @@ const TweetArticleButton = ({ slug }: { slug: string }) => {
             className="cursor-pointer p-2 hover:bg-light-foreground/20 dark:hover:bg-dark-foreground/20 rounded-lg bg-transparent text-light dark:text-dark"
             href={
                 "https://twitter.com/intent/tweet?text=" +
-                encodeURIComponent("Check out this article by @Rand0mLetterz! ") +
+                encodeURIComponent("Check out this article by @b_nezlobin! ") +
                 encodeURIComponent("https://borisn.dev/blog/" + slug)
             }
             aria-label="Tweet this article"
