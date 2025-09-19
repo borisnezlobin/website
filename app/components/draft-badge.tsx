@@ -41,16 +41,16 @@ const DraftBadge = () => {
                     DRAFT
                 </span>
             </div>
-            <div className="absolute print:hidden top-0 z-[5] left-0 w-full pointer-events-none emph bg-transparent dark:bg-transparent !font-extrabold text-primary/10 dark:text-primary-dark/10">
-                <div
-                    className="absolute flex flex-row w-full top-0 left-0 rotate-12 text-5xl bg-transparent dark:bg-transparent pointer-events-none emph font-extrabold text-primary/10 gap-[196px] dark:text-primary-dark/10"
+            <div className="absolute print:hidden top-0 z-[5] left-0 w-full pointer-events-none emph bg-transparent dark:bg-transparent !font-extrabold text-primary">
+                <code
+                    className="absolute flex flex-row w-full top-0 left-0 rotate-12 text-5xl bg-transparent dark:bg-transparent pointer-events-none emph font-extrabold gap-[196px] opacity-30"
                     ref={ref}
                     aria-hidden="true"
                 >
                     <span ref={draftRef}>
                         DRAFT
                     </span>
-                </div>
+                </code>
             </div>
         </>
     );
