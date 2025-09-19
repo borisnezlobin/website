@@ -107,7 +107,7 @@ export default function WritePageComponent() {
                             <textarea
                                 value={prompt}
                                 onChange={e => setPrompt(e.target.value)}
-                                className="border border-muted dark:border-muted-dark rounded p-2 bg-light-background dark:bg-dark-background duration-300 transition-colors"
+                                className="border border-muted dark:border-muted-dark rounded p-2 bg-background"
                                 placeholder="Enter a prompt..."
                             />
                         </label>
@@ -118,7 +118,7 @@ export default function WritePageComponent() {
                                 min={50}
                                 value={targetWords}
                                 onChange={e => setTargetWords(Number(e.target.value))}
-                                className="border rounded p-2 border-muted dark:border-muted-dark"
+                                className="border rounded p-2 border-muted dark:border-muted-dark bg-background"
                             />
                         </label>
                         <label className="flex flex-col gap-1">
@@ -129,7 +129,7 @@ export default function WritePageComponent() {
                                 max={120}
                                 value={time}
                                 onChange={e => setTime(Number(e.target.value))}
-                                className="border rounded p-2 border-muted dark:border-muted-dark"
+                                className="border rounded p-2 border-muted dark:border-muted-dark bg-background"
                             />
                         </label>
                         <div className="flex flex-row justify-center gap-x-4 items-center">
@@ -194,7 +194,7 @@ export default function WritePageComponent() {
                         autoFocus
                     />
                     <div className="fixed bottom-4 left-0 w-full flex justify-center items-center !bg-transparent">
-                        <div className={`flex flex-col items-center px-3 pt-3 shadow-lg border border-muted dark:border-muted-dark bg-gray-200 dark:bg-gray-700 rounded-lg w-[400px] max-w-[90%]`}>
+                        <div className={`flex flex-col items-center px-3 pt-3 shadow-lg border border-muted dark:border-muted-dark bg-background rounded-lg w-[400px] max-w-[90%]`}>
                             <div className="flex flex-row items-center justify-between gap-4 w-2/3">
                                 <p className="text-left">
                                     {/* show word count */}
@@ -249,7 +249,7 @@ export default function WritePageComponent() {
                                         {/* Slider fill */}
                                         <div
                                             className="absolute top-1/2 -translate-y-1/2 h-2 !bg-red-600 transition-all !duration-[5ms]"
-                                            style={{ width: `${idleProgress < 0.05 ? 0 : (idleProgress + 0.03) * 100}%` }}
+                                            style={{ width: `${idleProgress < 0.05 ? 0 : (idleProgress) * 100}%` }}
                                         />
                                     </div>
                                 </div>
