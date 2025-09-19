@@ -97,12 +97,16 @@ ol li:not(:is(.skibidiwrapper ol li, .skibidiwrapper ul li, .markdown-rendered o
 }
 
 blockquote {
-    @apply border-l pl-4 mb-4 italic;
+    @apply border-l pl-4 mt-8 mb-8 italic;
     border-color: var(--primary);
 
     p {
         @apply text-neutral-500 dark:text-neutral-400 text-lg italic;
         line-height: 2.3rem;
+    }
+
+    h1, h2, h3, h4 {
+       @apply text-2xl !italic;
     }
 }
 
