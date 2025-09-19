@@ -55,6 +55,11 @@ body, div:not(.callout), p, span:not(:is(pre span, code span)), h1, h2, h3, h4, 
   color: var(--text-color);
 }
 
+ol li:not(:is(.skibidiwrapper ol li, .skibidiwrapper ul li, .markdown-rendered ol li, .markdown-rendered ul li)) {
+    list-style-type: decimal;
+    @apply text-muted dark:text-muted-dark;
+}
+
 .text-color {
   color: var(--text-color);
 }
@@ -67,7 +72,7 @@ body, div:not(.callout), p, span:not(:is(pre span, code span)), h1, h2, h3, h4, 
     @apply print:text-dark-background print:dark:text-dark-background;
 }
 
-.link:not(:is(article .link)), .link * {
+.link:not(:is(article .link)), .link *, .skibidiwrapper a, .skibidiwrapper a * {
   display: inline-flex;
   flex-direction: row;
   align-items: center;
@@ -80,6 +85,11 @@ body, div:not(.callout), p, span:not(:is(pre span, code span)), h1, h2, h3, h4, 
     color: var(--primary);
     text-decoration: underline;
   }
+}
+
+.skibidiwrapper a, .skibidiwrapper a *, .markdown-rendered .internal-link, .skibidiwrapper .markdown-rendered .internal-link * {
+  color: var(--text-color);
+  font-weight: 500;
 }
 
 .bg-background {
