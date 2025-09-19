@@ -63,11 +63,11 @@ export default async function SubjectNotesPage({ params }: { params: Promise<{ s
             <ol className="pl-8">
                 {sections.map((section, i) => (
                     <div key={section.slug}>
-                        <Link className="link" href={`/notes/${note.slug}/${section.slug}`}>
-                            <li className="mt-4">
+                        <li className="mt-4">
+                            <Link className="link" href={`/notes/${note.slug}/${section.slug}`}>
                                 <span className="text-lg font-bold">{section.title}</span>
-                            </li>
-                        </Link>
+                            </Link>
+                        </li>
                     </div>
                 ))}
             </ol>
