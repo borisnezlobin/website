@@ -91,6 +91,16 @@ export default function Home() {
                     </span>
                 </p>
             </div>
+            <Link href="/write" className="w-full">
+                <section className="w-full hover:scale-105 transition-transform duration-200 mt-12 p-4 py-8 md:p-8 md:py-12 bg-dark-background dark:bg-light-background">
+                    <h1 className="text-2xl font-bold mb-2 text-dark-foreground dark:text-light-foreground">
+                        <span className="text-dark-foreground dark:text-light-foreground md:hidden">Click To </span>Try Wrisk.
+                    </h1>
+                    <p className="text-dark-foreground dark:text-light-foreground">
+                        Write until your time runs out or you hit your word count. You won&apos;t be able to stop. Literally :)
+                    </p>
+                </section>
+            </Link>
             <Section
                 id="1.0"
                 title="Skills"
