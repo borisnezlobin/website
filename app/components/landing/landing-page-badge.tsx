@@ -14,7 +14,7 @@ const LandingPageBadge = ({
 
     const component = (
         <div ref={ref} className={`
-                flex md:flex-row items-start md:items-center justify-center gap-2 rounded-lg border dark:border-neutral-800
+                flex md:flex-row items-start md:items-center justify-center transition-transform duration-300 gap-2 rounded-lg border dark:border-neutral-800
                 ${url ? "cursor-pointer hover:scale-105 print:flex-col" : "print:flex-row print:items-center"}
                 ${description ? "p-4" : "px-4 py-2 items-center h-12"}
                 ${index === undefined ? (isVisible ? "translate-y-0" : "translate-y-10") : ""}
@@ -29,8 +29,8 @@ const LandingPageBadge = ({
                 <span>{title}</span>
                 {url && <span aria-hidden="true" className="hidden print:inline print:text-xs print:ml-1 font-normal italic">{url}</span>}
             </b>
-            {description && <Separator size="medium" className="hidden md:block transition-colors duration-300 print:hidden" />}
-            {description && <p className="transition-colors duration-300 print:text-sm print:mt-0 print:mb-0">
+            {description && <Separator size="medium" className="hidden md:block print:hidden" />}
+            {description && <p className="print:text-sm print:mt-0 print:mb-0">
                 <span className="hidden print:inline">
                     {"— "}
                 </span>

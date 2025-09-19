@@ -19,7 +19,7 @@ const links = [
     {
         icon: XLogo,
         weight: "regular",
-        href: "https://twitter.com/Rand0mLetterz",
+        href: "https://twitter.com/b_nezlobin",
         title: "Incidentally similar to the blackboard bold capital X",
         color: "hover:text-[#1c9cea] dark:hover:text-[#1c9cea]",
     },
@@ -44,10 +44,10 @@ const SocialLinks = () => {
                     title={title}
                     aria-label={title}
                 >
-                <Icon
-                    className={`${defaultIconClass} ${color}`}
-                    weight={weight as IconWeight | undefined}
-                />
+                    <Icon
+                        className={`${defaultIconClass} ${color}`}
+                        weight={weight as IconWeight | undefined}
+                    />
                 </a>
             ))}
         </>

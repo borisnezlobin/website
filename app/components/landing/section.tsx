@@ -4,13 +4,13 @@ const Section = ({
 }: { id: string, title: string, description: string, children: any, className?: string }) => {
     return (
         <div className={`w-full flex flex-col justify-center items-left mt-4 print:m-0 ${className}`}>
-            <h2 className="text-2xl sm:text-3xl mt-12 print:mt-2 font-bold text-left dark:text-dark transition-colors duration-300 emph">
-                <span className="text-primary dark:text-primary-dark">
+            <h2 className="text-2xl sm:text-3xl mt-12 print:mt-2 font-bold text-left dark:text-dark emph">
+                <span className="text-primary">
                     {id}
                 </span>
                 {" "}{title}
             </h2>
-            <p className="mt-4 transition-colors duration-300">
+            <p className="mt-4">
                 {description}
             </p>
             {children}

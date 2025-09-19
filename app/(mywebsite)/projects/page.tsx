@@ -15,7 +15,7 @@ export default async function ProjectsPage() {
   const projects = await getProjects();
 
   return (
-        <main className="pagepad">
+        <main className="pagepad mt-4">
             <h1 className="text-3xl font-bold text-left dark:text-dark emph">Projects</h1>
             <p className="dark:text-dark text-left mt-2">
                 Check out all of the things I&apos;ve worked on!

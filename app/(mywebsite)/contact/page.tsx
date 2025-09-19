@@ -14,7 +14,7 @@ const ContactType = ({ title, icon, url, urlTitle }: { title: string, icon: Reac
     return (
         <div className="flex flex-row flex-wrap gap-2 justify-center items-center w-full">
             <div className="text-xl md:text-4xl">{icon}</div>
-            <p className="dark:text-dark font-bold md:text-3xl flex gap-2 justify-center items-center">
+            <p className="font-bold md:text-3xl flex gap-2 justify-center items-center">
                 {title}
             </p>
             <a href={url} title={urlTitle ? urlTitle : title} target="_blank" className="link pt-1 underline font-semibold emph ml-4">
@@ -62,7 +62,7 @@ const ContactMePage = () => {
     return (
         <main className="print:min-h-[calc(100svh-8rem)] flex flex-col justify-center items-start mb-12 md:mb-[30vh] p-4 lg:p-0">
             <div className="h-[100svh] print:hidden relative top-[-3rem] items-center w-full flex flex-col justify-center p-4 gap-4">
-                <h1 className="text-3xl font-bold dark:text-dark text-center md:text-4xl lg:text-5xl">
+                <h1 className="text-3xl font-bold text-center md:text-4xl lg:text-5xl">
                     Want to reach out?
                 </h1>
                 <p className="text-base md:text-2xl">
