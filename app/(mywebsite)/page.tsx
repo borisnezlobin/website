@@ -67,24 +67,24 @@ export default function Home() {
         <main className="flex flex-col justify-center items-start mb-16 p-4 lg:p-0 print:block print:w-full print:max-w-full print:p-0 print:mb-2 print:pt-2 print:pb-2">
             <div className="h-[100svh] relative top-[-3rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
                 <p className="text-base md:text-2xl emph">Hi, I&apos;m</p>
-                <h1 className="text-3xl font-bold dark:text-dark edo text-center md:text-7xl">
+                <h1 className="text-3xl font-bold edo text-center md:text-7xl">
                     Boris Nezlobin.
                 </h1>
             </div>
             <ScrollForMore className="print:hidden" />
-            <h2 className="text-xl sm:text-3xl sm:text-[2rem] text-left dark:text-dark print:mt-4 print:mb-2">
+            <h2 className="text-xl sm:text-3xl sm:text-[2rem] text-left print:mt-4 print:mb-2">
                 <AgeNoSSR /> years old
             </h2>
             <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4 print:flex-col print:items-start print:m-0 print:gap-1">
-                <p className="dark:text-dark text-left w-full print:mb-1 print:mt-1">
+                <p className="text-left w-full print:mb-1 print:mt-1">
                     ...and counting. I&apos;m a 12th grader at Palo Alto High School writing code for fun (and interning at Lockheed Martin&apos;s Advanced Technology Center!).
                     Read on to see my skills, or check out <Link className="link !underline font-semibold print:underline" href="/blog">my blog</Link>,{" "}
-                    <Link className="link underline font-semibold print:underline" href="/notes">lecture notes</Link>, or <Link className="link underline font-semibold print:underline" href="/projects">projects I&apos;ve worked on</Link>.<br />
+                    <Link className="link underline" href="/notes">lecture notes</Link>, or <Link className="link underline" href="/projects">projects I&apos;ve worked on</Link>.<br />
                     <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4 print:hidden">
                         <LinkButton href="/blog" className="">
                             Check out my blog
                         </LinkButton>
-                        <Link className="hidden md:flex link underline flex-row justify-center font-semibold items-center gap-1" href="/projects">
+                        <Link className="hidden md:flex link underline flex-row justify-center font-semibold items-center gap-1 link" href="/projects">
                             Projects
                             <ArrowRightIcon weight="bold" />
                         </Link>
@@ -98,7 +98,7 @@ export default function Home() {
                 className="print:break-after-page print:mt-0 print:mb-2"
             >
                 <h3 className="font-bold text-xl mt-4 emph print:mt-2 print:mb-0">
-                    <span className="text-primary dark:text-primary-dark">
+                    <span className="text-primary">
                         1.1
                     </span>
                     {" "}Languages
@@ -113,7 +113,7 @@ export default function Home() {
                 </div>
                 <p className="mt-6 text-sm print:mt-1 print:mb-1">* is HTML really a language though?</p>
                 <h3 className="font-bold text-xl mt-4 emph print:mt-3 print:mb-0">
-                    <span className="text-primary dark:text-primary-dark">
+                    <span className="text-primary">
                         1.2
                     </span>
                     {" "}Technologies
@@ -128,7 +128,7 @@ export default function Home() {
                 </div>
 
                 <h3 className="font-bold text-xl mt-8 emph print:mt-3 print:mb-0">
-                    <span className="text-primary dark:text-primary-dark">
+                    <span className="text-primary">
                         1.3
                     </span>
                     {" "}Tools
@@ -149,7 +149,7 @@ export default function Home() {
                 className="print:break-after-page print:mt-2 print:mb-2"
             >
                 <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
-                    <span className="text-primary dark:text-primary-dark">
+                    <span className="text-primary">
                         2.1
                     </span>
                     {" "}Projects
@@ -167,7 +167,7 @@ export default function Home() {
                 </div>
                 
                 <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
-                    <span className="text-primary dark:text-primary-dark">
+                    <span className="text-primary">
                         2.2
                     </span>
                     {" "}Contributions

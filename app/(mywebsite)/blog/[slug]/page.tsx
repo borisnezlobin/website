@@ -95,7 +95,7 @@ export default async function SingleBlogPage(
                 {post.image && <ArticleImageBg imageUrl={post.image} />}
                 <header
                     className={`
-                        gap-3 rounded-lg z-[1] flex flex-col justify-start items-start p-0 duration-300 transition-all
+                        gap-3 rounded-lg z-[1] flex flex-col justify-start items-start p-0 duration-300 transition-colors
                         ${post.image ? "backdrop-blur-none md:backdrop-blur-lg mt-[20rem] md:py-12 md:mt-0 bg-light-background/50 dark:bg-dark-background/50 print:mt-0 md:items-center md:p-4" : "md:p-0 md:mt-8 max-w-2xl mx-auto"}
                     `}
                 >
