@@ -26,10 +26,10 @@ const BlogListItem = ({
         >
             <div className="flex flex-col gap-1 mb-2 print:mb-0 md:flex-row justify-start items-start md:items-center md:gap-3 md:m-0">
                 <h2 className="text-xl flex flex-row justify-start items-center header-link">
-                {post.title}
+                    {post.title}
                 </h2>
             </div>
-            <p aria-hidden className="hidden print:block text-muted dark:text-muted-dark">
+            <p aria-hidden className="hidden print:block !text-muted dark:!text-muted-dark">
                 https://borisn.dev/blog/{post.slug}
             </p>
             <p>{post.description}</p>

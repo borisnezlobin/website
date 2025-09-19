@@ -1,6 +1,6 @@
 import "../styles/globals.css";
-// import "./styles/obsidian.css";
-// import "./styles/code-styler.css";
+import "../styles/obsidian.css";
+import "../styles/code-styler.css";
 import getMetadata from "../lib/metadata";
 import Footer from "../components/footer";
 import Link from "next/link";
