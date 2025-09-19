@@ -112,11 +112,10 @@ export default function WritePageComponent() {
                             />
                         </label>
                         <label className="flex flex-col gap-1">
-                            Target word count (minimum 50):
+                            Target word count:
                             <input
                                 type="number"
                                 min={50}
-                                max={120}
                                 value={targetWords}
                                 onChange={e => setTargetWords(Number(e.target.value))}
                                 className="border rounded p-2 border-muted dark:border-muted-dark"
@@ -189,7 +188,7 @@ export default function WritePageComponent() {
                             lineHeight: 2.5,
                             // overflow: "hidden"
                         }}
-                        className={`h-[calc(100svh-12rem)] outline-none !text-light-foreground dark:!text-dark-foreground !bg-light-background dark:!bg-dark-background transition-all duration-300 w-full min-h-4/5 p-2 resize-none text-xl caret-primary dark:caret-primary-dark ${canCopy ? "bg-green-50" : "bg-white"}`}
+                        className={`h-[calc(100svh-12rem)] outline-none !text-light-foreground dark:!text-dark-foreground !bg-light-background dark:!bg-dark-background transition-colors duration-300 w-full min-h-4/5 p-2 resize-none text-xl caret-primary dark:caret-primary-dark ${canCopy ? "bg-green-50" : "bg-white"}`}
                         placeholder={canCopy ? "Time's up! You can copy and paste your writing." : "Start typing..."}
                         spellCheck={true}
                         autoFocus

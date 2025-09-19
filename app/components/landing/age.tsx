@@ -27,7 +27,7 @@ const Age = () => {
     const age = (timeSince + 0.000000000031689 * msSince).toFixed(15);
     return (
         <>
-            <span className="text-primary dark:text-primary-dark emph">
+            <span className="text-primary emph">
                 {age.split(".")[0]}
             </span>
             <span className="emph">.{age.split(".")[1]}</span>

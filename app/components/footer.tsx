@@ -26,10 +26,10 @@ const LinkWithIcon = ({
             href={href}
             aria-label={title}
             target={href.startsWith("/") ? "_self" : "_blank"}
-            className="flex flex-row justify-start items-center gap-2 group cursor-pointer"
+            className="flex flex-row justify-start items-center gap-2 group cursor-pointer link"
         >
-            <Icon className="w-6 h-6 transition-all duration-300 group-hover:text-primary dark:group-hover:text-primary-dark" />
-            <p className="group-hover:text-primary dark:group-hover:text-primary-dark">
+            <Icon className="w-6 h-6 transition-colors duration-300" />
+            <p className="">
                 {children}
             </p>
         </Link>
@@ -96,7 +96,7 @@ const Footer = () => {
 
                 <section className="pl-8 md:pl-0 md:pr-8">
                     <p className="text-muted dark:text-muted-dark mb-2">Contact Me</p>
-                    <div className="flex flex-row gap-2 justify-start items-start flex-wrap">
+                    <div className="flex flex-row gap-2 justify-start items-start flex-wrap text-color">
                         <SocialLinks />
                     </div>
                 </section>
