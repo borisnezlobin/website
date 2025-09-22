@@ -22,7 +22,7 @@ export default async function ProjectsPage() {
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 mt-8 md:mt-4">
-                {projects.map((project: Project) => (
+                {projects.map((project: Project) => project.slug.indexOf("draft") === -1 ? (
                     <Link
                         key={project.slug}
                         href={"/projects/" + project.slug}
@@ -30,7 +30,7 @@ export default async function ProjectsPage() {
                     >
                         <ProjectListItem project={project} />
                     </Link>
-                ))}
+                ) : null)}
             </div>
         </main>
     );

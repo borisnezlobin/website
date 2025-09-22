@@ -35,7 +35,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         });
     }).filter((note) => note !== null);
 
-    console.log()
     const noteSections = (
         await Promise.all(
             notes.flatMap(async (note) => {
