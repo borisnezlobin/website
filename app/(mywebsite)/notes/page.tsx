@@ -22,13 +22,13 @@ export default async function NotesPage() {
         <div className="pagepad">
             <h1 className="text-3xl font-bold emph">Lecture Notes</h1>
             <p className="mt-4">
-                A collection of notes I&apos;ve taken for various courses. Linear Algebra, AP Physics C, and more.
+                A collection of notes I&apos;ve taken for various courses. Linear Algebra, AP Physics C (to be published), and more.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 mt-8 md:mt-4">
-                {notes.map((note) => (
+                {notes.map((note) => note.slug.indexOf("draft") === -1 ? (
                     <NotesListItem key={note.slug} note={note} />
-                ))}
+                ) : null)}
             </div>
         </div>
     );
