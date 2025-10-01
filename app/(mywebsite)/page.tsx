@@ -69,8 +69,8 @@ export default function Home() {
             <Background />
             <main className="flex flex-col justify-center items-start mb-16 p-4 lg:p-0 print:block print:w-full print:max-w-full print:p-0 print:mb-2 print:pt-2 print:pb-2">
                 <div className="h-[100svh] relative top-[-3rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
-                    <p className="text-base md:text-2xl emph z-10">Hi, I&apos;m</p>
-                    <h1 className="text-3xl font-bold edo z-10 text-center md:text-7xl">
+                    <p className="text-base md:text-2xl emph z-10 backdrop-blur-lg rounded-t-lg px-4 py-1">Hi, I&apos;m</p>
+                    <h1 className="text-3xl font-bold edo z-10 text-center md:text-7xl backdrop-blur-lg rounded-lg px-4 pb-3 py-1">
                         Boris Nezlobin.
                     </h1>
                 </div>
