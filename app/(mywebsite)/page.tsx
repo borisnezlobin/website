@@ -77,9 +77,10 @@ export default function Home() {
             </h2>
             <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4 print:flex-col print:items-start print:m-0 print:gap-1">
                 <p className="text-left w-full print:mb-1 print:mt-1">
-                    ...and counting. I&apos;m a 12th grader at Palo Alto High School writing code for fun (and interning at Lockheed Martin&apos;s Advanced Technology Center!).
-                    Read on to see my skills, or check out <Link className="link !underline font-semibold print:underline" href="/blog">my blog</Link>,{" "}
-                    <Link className="link underline" href="/notes">lecture notes</Link>, or <Link className="link underline" href="/projects">projects I&apos;ve worked on</Link>.<br />
+                    ...and counting. I&apos;m a 12th-grade student at Palo Alto High School writing code for fun. A lot of it. I interned at Lockheed Martin&apos;s Advanced Technology Center and got to solve a lot of cool problems that I&apos;m not allowed to write about.
+                    I love making things. Four years in robotics, three in open-source contribution, and almost a decade of programming experience has given me a lot of time to build a lot of cool things.
+                    Read on to see my skills or check out <Link className="link !underline font-semibold print:underline" href="/blog">my blog</Link>,{" "}
+                    <Link className="link underline" href="/notes">lecture notes</Link>, and <Link className="link underline" href="/projects">projects I&apos;ve worked on</Link>.<br />
                     <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4 print:hidden">
                         <LinkButton href="/blog" className="">
                             Check out my blog

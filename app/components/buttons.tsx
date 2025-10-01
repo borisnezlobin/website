@@ -8,7 +8,7 @@ interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     direction?: "left" | "right" | "none";
 }
 
-const baseClass = "rounded-lg font-semibold px-8 py-2 transition-colors duration-300 transform focus:ring-2 shadow-lg dark:shadow-primary/10 transition hover:-translate-y-0.5 active:translate-y-0.5";
+const baseClass = "rounded-lg font-semibold px-8 py-2 transition-transform duration-300 transform focus:ring-2 shadow-lg dark:shadow-primary/10 transition hover:-translate-y-0.5 active:translate-y-0.5";
 
 const PrimaryButton: React.FC<ButtonProps> = ({ children, ...props }) => {
     return (
