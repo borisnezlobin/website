@@ -10,10 +10,13 @@ const INT_TO_CHAR = {
     4: 'O',
 };
 
+const TRAIL_LENGTH = 4;
+const RADIUS_SCALE = 3;
+
 const Background = () => {
     const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
     const [charSize, setCharSize] = useState({ width: 0, height: 0 });
-    const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
+    const [trail, setTrail] = useState<{ x: number; y: number; t: number }[]>([]);
 
     useEffect(() => {
         const updateScreenSize = () => {
@@ -33,20 +36,28 @@ const Background = () => {
             document.body.appendChild(span);
 
             const rect = span.getBoundingClientRect();
-            setCharSize({
-                width: rect.width,
-                height: rect.height,
-            });
+            setCharSize({ width: rect.width, height: rect.height });
 
             document.body.removeChild(span);
         };
 
-        const updateMousePosition = (event: MouseEvent) => {
-            setMousePosition({
-                x: event.clientX,
-                y: event.clientY + window.scrollY,
-            });
-        };
+        const updateMousePosition = (() => {
+            let lastCall = 0;
+            return (event: MouseEvent) => {
+                const now = Date.now();
+                if (now - lastCall < 30) return;
+                lastCall = now;
+                const pos = {
+                    x: event.clientX,
+                    y: event.clientY + window.scrollY,
+                    t: Date.now(),
+                };
+                setTrail(prev => {
+                    const updated = [...prev, pos].slice(-TRAIL_LENGTH);
+                    return updated;
+                });
+            };
+        })();
 
         updateScreenSize();
         calculateCharSize();
@@ -60,24 +71,18 @@ const Background = () => {
         };
     }, []);
 
-    const rerenderKey = `${screenSize.width}x${screenSize.height}-${charSize.width}x${charSize.height}-${(mousePosition.y > screenSize.height) ? 0 : mousePosition.x}x${Math.min(mousePosition.y, screenSize.height)}`;
-
-    // number of character that fit on a line
     const charsPerLine = Math.floor(screenSize.width / charSize.width) + 1;
-    // number of lines that fit on the screen
     const linesPerScreen = Math.floor(screenSize.height / charSize.height);
-
-    // Calculate the character position based on mouse coordinates
-    const charX = Math.min(Math.floor(mousePosition.x / charSize.width), charsPerLine - 1);
-    const charY = Math.min(Math.floor(mousePosition.y / charSize.height), linesPerScreen - 1);
+    const pos = trail.length > 0 ? trail[0] : { x: 0, y: 0, t: 0 };
+    const charX = Math.min(Math.floor(pos.x / charSize.width), charsPerLine - 1);
+    const charY = Math.min(Math.floor(pos.y / charSize.height), linesPerScreen - 1);
 
     return (
         <div>
-            {/* write "." characters for each in charsPerLine and linesPerScreen */}
             <pre
                 style={{
                     lineHeight: '1em',
-                    fontFamily: '"Courier New" !important, monospace !important',
+                    fontFamily: '"Courier New", monospace',
                     fontSize: '16px',
                     margin: 0,
                     position: 'absolute',
@@ -85,7 +90,6 @@ const Background = () => {
                     top: 0,
                     left: 0,
                 }}
-                key={rerenderKey}
             >
                 {Array.from({ length: linesPerScreen }).map((_, lineIndex) => (
                     <div key={lineIndex} style={{ height: `${charSize.height}px` }}>
@@ -94,7 +98,7 @@ const Background = () => {
                                 (charIndex - charX) ** 2 +
                                     ((lineIndex - charY) * (charSize.height / charSize.width)) ** 2
                             );
-                            const RADIUS_SCALE = 3;
+
                             let intensity = Math.max(0, 4 - Math.floor(distance / RADIUS_SCALE));
                             // add or subtract 1 to intensity randomly to add some noise
                             const noise =
@@ -103,14 +107,52 @@ const Background = () => {
                                     : Math.random() < 0.5
                                     ? -1
                                     : 1;
+                            // const noise = 0;
                             intensity = Math.max(0, Math.min(4, intensity + noise));
-                            const char = INT_TO_CHAR[intensity as keyof typeof INT_TO_CHAR];
+                            let char = '·';
+
+                             if (distance < 4 * RADIUS_SCALE) {
+                                if (4 * RADIUS_SCALE < distance + 0.5) {
+                                    const slope = (lineIndex - charY) / ((charIndex - charX) || 1) * (charSize.height / charSize.width);
+
+                                    // find character perpendicular to the slope
+                                    if (Math.abs(slope) < 0.3) {
+                                        char = "|";
+                                    } else if (Math.abs(slope) < 0.6) {
+                                        char = slope > 0 ? "\\" : "/";
+                                    } else if (Math.abs(slope) < 1.5) {
+                                        char = slope > 0 ? "/" : "\\";
+                                    } else {
+                                        char = "—";
+                                    }
+                                } else {
+                                    if (charX === charIndex && lineIndex === charY) {
+                                        char = '@';
+                                    } else {
+                                        char = INT_TO_CHAR[intensity as keyof typeof INT_TO_CHAR];
+                                    }
+                                }
+                            } else {
+                                // check if current grid cell is near any trail point
+                                for (let i = trail.length - 1; i >= 0; i--) {
+                                    const p = trail[i];
+                                    const charX = Math.floor(p.x / charSize.width);
+                                    const charY = Math.floor(p.y / charSize.height);
+
+                                    if (charIndex === charX && lineIndex === charY) {
+                                        const age = (trail.length - i - 1) / trail.length * 4;
+                                        char = age === 0 ? '@' : INT_TO_CHAR[Math.max(0, 4 - age) as keyof typeof INT_TO_CHAR];
+                                        break;
+                                    }
+                                }
+                            }
+
                             return (
                                 <span
                                     key={charIndex}
-                                    className='emph text-muted-dark dark:text-muted'
+                                    className={`emph text-muted-dark dark:text-muted ${char === '@' ? 'text-primary dark:text-primary' : ''} ${(Math.random() < 0.5 && distance < 2 * RADIUS_SCALE) ? 'text-primary dark:text-primary' : ''}`}
                                 >
-                                    {(charIndex === charX && lineIndex === charY) ? char : char}
+                                    {char}
                                 </span>
                             );
                         })}
