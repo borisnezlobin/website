@@ -43,14 +43,24 @@ export default async function ProjectsPage() {
                     </Link>
                 ) : null)}
             </div>
-            <div className="w-full flex justify-start flex-col items-start mt-8">
-                <b className="w-full text-left mb-4">
+            <div className="w-full flex justify-start flex-col items-start mt-8 gap-y-8">
+                <b className="w-full text-left">
                     and other cool stuff:
                 </b>
                 <SmallProjectListItem
                     link="https://x.com/b_nezlobin/status/1973213855754092749"
-                    linkText="modelling differential rotation in solar active regions 600x faster than SunPy"
-                    description="polynomial approximation from historical data of solar active regions that's more accurate and a lot faster than SunPy!"
+                    linkText="600x faster than SunPy"
+                    description="polynomial approximation of solar differential rotation in active regions from historical data that's more accurate and a lot faster than SunPy!"
+                />
+                <SmallProjectListItem
+                    link="https://github.com/borisnezlobin/pomodoro"
+                    linkText="YAPA — Yet Another Pomodoro App"
+                    description="Free-to-use Electron-based Pomodoro app with a beautiful UI and Discord RPC. So your friends know you're working hard."
+                />
+                <SmallProjectListItem
+                    link="https://github.com/borisnezlobin/undodb"
+                    linkText="UndoDB"
+                    description="A small, no-SQL, in-memory, transaction-based database written in Java."
                 />
             </div>
         </main>

@@ -22,7 +22,6 @@ const badgeQuotes = [
     "Consider this a deep quote.",
     "@b_nezlobin on Twitter.",
     ":)",
-    "Rise to the occasion.",
     "1% better every day.",
     "Staying hydrated, ish.",
     "Breakfast ∉ Necessity."
