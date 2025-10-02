@@ -66,13 +66,21 @@ import Background from "../components/landing/background";
 export default function Home() {
     return (
         <>
-            <Background />
+            <div className="hidden md:block">
+                <Background />
+            </div>
             <main className="flex flex-col justify-center items-start mb-16 p-4 lg:p-0 print:block print:w-full print:max-w-full print:p-0 print:mb-2 print:pt-2 print:pb-2">
                 <div className="h-[100svh] relative top-[-3rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
-                    <p className="text-base md:text-2xl emph z-10 backdrop-blur-lg rounded-t-lg px-4 py-1">Hi, I&apos;m</p>
-                    <h1 className="text-3xl font-bold edo z-10 text-center md:text-7xl backdrop-blur-lg rounded-lg px-4 pb-3 py-1">
+                    <p className="md:hidden text-base md:text-2xl emph z-10 bg-light-background dark:bg-dark-background rounded-t-lg px-4 py-1">Hi, I&apos;m</p>
+                    <h1 className="md:hidden text-3xl font-bold edo z-10 text-center md:text-7xl bg-light-background dark:bg-dark-background rounded-lg px-4 pb-3 py-1">
                         Boris Nezlobin.
                     </h1>
+                    <h1 className="hidden md:block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold edo z-10 text-center print:text-5xl print:mt-0 print:mb-1">
+                        I&apos;m Boris.
+                    </h1>
+                    <p className="hidden md:block emph z-10 text-center text-2xl sm:text-3xl bg-light-background dark:bg-dark-background border border-muted dark:border-muted-dark rounded-lg px-4 py-1 print:text-xl print:mt-0 print:mb-2">
+                        And I like code.
+                    </p>
                 </div>
                 <ScrollForMore className="print:hidden" />
                 <h2 className="text-xl sm:text-3xl sm:text-[2rem] text-left print:mt-4 print:mb-2">
