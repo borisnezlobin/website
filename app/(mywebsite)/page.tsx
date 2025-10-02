@@ -79,7 +79,7 @@ export default function Home() {
                         I&apos;m Boris.
                     </h1>
                     <p className="hidden md:block emph z-10 text-center text-2xl sm:text-3xl bg-light-background dark:bg-dark-background border border-muted dark:border-muted-dark rounded-lg px-4 py-1 print:text-xl print:mt-0 print:mb-2">
-                        And I like code.
+                        I love programming.
                     </p>
                 </div>
                 <ScrollForMore className="print:hidden" />
