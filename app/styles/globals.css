@@ -191,7 +191,7 @@ script {
 }
 
 .pagepad {
-  @apply min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 md:pt-8 print:p-0 text-light-foreground dark:text-dark-foreground;
+  @apply min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 print:p-0 text-light-foreground dark:text-dark-foreground;
 }
 
 .dark .skibidiwrapper {

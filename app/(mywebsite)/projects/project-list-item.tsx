@@ -4,7 +4,7 @@ import Link from "next/link";
 
 const ProjectListItem = ({ project }: { project: Project }) => {
     return (
-        <div className="md:border overflow-clip border-neutral-300 dark:border-neutral-600 hover:border-neutral-500 hover:dark:border-neutral-400 relative group cursor-pointer w-full md:h-48 md:p-4 rounded-lg tranition-all hover:shadow-lg hover:-translate-y-px">
+        <div className="md:border overflow-clip border-neutral-300 dark:border-neutral-600 hover:border-neutral-500 hover:dark:border-neutral-400 relative group cursor-pointer w-full md:h-48 md:p-4 rounded-lg tranition-transform duration-300 hover:shadow-lg hover:-translate-y-px">
             <h2 className="text-xl flex flex-row header-link justify-start items-center">
                 {project.title}
             </h2>

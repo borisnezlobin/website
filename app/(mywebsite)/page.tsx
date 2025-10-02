@@ -1,32 +1,36 @@
 import { LinkButton } from "@/app/components/buttons";
 import Link from "next/link";
 import { ScrollForMore } from "../components/landing/scroll-for-more";
-import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon, AtomIcon, BalloonIcon, EnvelopeIcon, GitBranchIcon, OpenAiLogoIcon, ShippingContainerIcon, SlackLogoIcon, TriangleIcon } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "../components/landing/section";
 import { LandingPageBadge } from "../components/landing/landing-page-badge";
 import HorizontalScroll from "../components/landing/scroll-horizontal";
 import getMetadata from "../lib/metadata";
-import dynamic from "next/dynamic";
+import AgeNoSSR from "../components/landing/age-client-wrapper";
+import Background from "../components/landing/background";
+import { HiImBoris } from "../components/landing/hi-im-boris";
+import { CoffeeIcon, FileCppIcon, FilePyIcon } from "@phosphor-icons/react/dist/ssr";
+import { CSSIcon, JavaScriptIcon, TypeScriptIcon, UnityIcon } from "../components/lucide-imports";
 
 export const metadata = getMetadata({
     info: "Hi, I'm",
 });
 
 const languages = [
-    { title: "TypeScript" },
-    { title: "Java" },
-    { title: "C++" },
-    { title: "Python" },
+    { title: "TypeScript", icon: <TypeScriptIcon /> },
+    { title: "Java", icon: <CoffeeIcon /> },
+    { title: "Python", icon: <FilePyIcon /> },
+    { title: "C++", icon: <FileCppIcon /> },
+    { title: "HTML/CSS*", icon: <CSSIcon /> },
+    { title: "JavaScript", icon: <JavaScriptIcon /> },
     { title: "C#" },
     { title: "Rust" },
-    { title: "JavaScript" },
-    { title: "HTML/CSS*" },
 ]
 
 const tech = [
-    { title: "React" },
-    { title: "React Native"},
-    { title: "NextJS" },
+    { title: "React", icon: <AtomIcon /> },
+    { title: "React Native", icon: <AtomIcon /> },
+    { title: "NextJS", icon: <TriangleIcon weight="fill" /> },
     { title: "TailwindCSS" },
     { title: "Prisma + Postgres" },
     { title: "ElectronJS" },
@@ -34,23 +38,22 @@ const tech = [
 ];
 
 const tools = [
-    { title: "Unity", description: "Game Engine" },
-    { title: "Git", description: "" },
+    { title: "Jira / Slack", description: "Robotics Software Lead, '24-26", icon: <SlackLogoIcon /> },
+    { title: "Email", description: "Love using this.", icon: <EnvelopeIcon /> },
+    { title: "Unity", description: "Game Engine", icon: <UnityIcon /> },
+    { title: "Git", description: "", icon: <GitBranchIcon /> },
+    { title: "Docker", description: "", icon: <ShippingContainerIcon /> },
     { title: "Postman", description: "" },
-    { title: "Docker", description: "" },
-    { title: "Jira / Slack", description: "Kuriosity Robotics Software Lead, '24-25" },
-    { title: "Email", description: "love using this" }
+    { title: "ChatGPT", icon: <OpenAiLogoIcon /> }
 ]
 
 const projects = [
+    { title: "ENF", description: "Developing the methodology for the only up-to-date European electrical network frequency data. Featured by Hack Club.", url: "/projects/enf" },
+    { title: "The C.H.", description: "A VS Code extension that lets you style todos, fixmes, ideas, hacks—anything, really—in your code.", url: "https://marketplace.visualstudio.com/items?itemName=randomletters.the-comment-highlighter" },
     { title: "OneShip", description: "A full-stack web and mobile application built for my school.", url: "/projects/oneship" },
-    { title: "The C.H.", description: "A VS Code extension that lets you style todos, fixmes, ideas, hacks — anything, really — in your code.", url: "https://marketplace.visualstudio.com/items?itemName=randomletters.the-comment-highlighter" },
-    { title: "ENF", description: "Developing the methodology for the only up-to-date European electrical network frequency data.", url: "/projects/enf" },
-    { title: "rendr", description: "A 3D renderer written in C, for fun (also a raytracer).", url: "/projects/rendr" },
-    { title: "UndoDB", description: "A small, no-SQL, in-memory, transaction-based database written in Java.", url: "https://github.com/borisnezlobin/undodb" },
-    { title: "Lim", description: "A Mozilla, RegEx-based website usage and limit extension.", url: "/projects/lim" },
-    { title: "Portfolio", description: "My very own website :) Designed and built from the ground up by me.", url: "/projects/portfolio" },
-    { title: "YAPA", description: "Yet Another (Electron) Pomodoro App (with nice UI). It has Discord RPC!", url: "https://github.com/borisnezlobin/pomodoro" },
+    { title: "Lim", description: "Track your website usage and set daily limits. Delayed delete means you can't impulsively get around limits ;)", url: "/projects/lim" },
+    { title: "rendr", description: "A 3D renderer and raytracer, both written in C, for my CS Capstone class.", url: "/projects/rendr" },
+    { title: "Portfolio", description: "My corner of the internet. Mine.", url: "/projects/portfolio" },
 ];
 
 const contributions = [
@@ -60,17 +63,13 @@ const contributions = [
     { title: "ShadowFinder", description: "CLI Caching", url: "https://github.com/bellingcat/ShadowFinder" }
 ]
 
-import AgeNoSSR from "../components/landing/age-client-wrapper";
-import Background from "../components/landing/background";
-import { HiImBoris } from "../components/landing/hi-im-boris";
-
 export default function Home() {
     return (
         <>
             <div className="hidden md:block">
                 <Background />
             </div>
-            <main className="flex flex-col justify-center items-start mb-16 p-4 lg:p-0 print:block print:w-full print:max-w-full print:p-0 print:mb-2 print:pt-2 print:pb-2">
+            <main className="pagepad flex flex-col justify-center items-start mb-16 print:block print:w-full print:max-w-full print:p-0 print:mb-2 print:pt-2 print:pb-2">
                 <HiImBoris />
                 <ScrollForMore className="print:hidden" />
                 <h2 className="text-xl sm:text-3xl sm:text-[2rem] text-left print:mt-4 print:mb-2">
@@ -78,8 +77,8 @@ export default function Home() {
                 </h2>
                 <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4 print:flex-col print:items-start print:m-0 print:gap-1">
                     <p className="text-left w-full print:mb-1 print:mt-1">
-                        ...and counting. I&apos;m a 12th-grade student at Palo Alto High School writing code for fun. A lot of it. I interned at Lockheed Martin&apos;s Advanced Technology Center and got to solve a lot of cool problems that I&apos;m not allowed to write about.
-                        I love making things. Four years in robotics, three in open-source contribution, and almost a decade of programming experience has given me a lot of time to build a lot of cool things.
+                        ...and counting. I&apos;m a 12th-grade student at Palo Alto High School writing code for fun—a lot of it. I interned at Lockheed Martin&apos;s Advanced Technology Center, where I got to solve a lot of cool problems, and I love using em dashes.
+                        I also love making things. Four years in robotics, three in open-source contribution, and almost a decade of programming experience have lead me to build a lot of cool things.
                         Read on to see my skills or check out <Link className="link !underline font-semibold print:underline" href="/blog">my blog</Link>,{" "}
                         <Link className="link underline" href="/notes">lecture notes</Link>, and <Link className="link underline" href="/projects">projects I&apos;ve worked on</Link>.<br />
                         <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4 print:hidden">
@@ -114,12 +113,13 @@ export default function Home() {
                         <span className="text-primary">
                             1.1
                         </span>
-                        {" "}Languages
+                        {" "}Languages ({languages.length} of them)
                     </h3>
                     <div className="w-full flex flex-wrap flex-row gap-4 print:gap-1 print:items-start print:flex-row print:w-full mt-4 print:mt-0">
                         {languages.map((e, i) => <LandingPageBadge
                                 title={e.title}
                                 description=""
+                                icon={e.icon}
                                 key={`language ${i}`}
                             />
                         )}
@@ -135,6 +135,7 @@ export default function Home() {
                         {tech.map((e, i) => <LandingPageBadge
                                 description=""
                                 title={e.title}
+                                icon={e.icon}
                                 key={`tech ${i}`}
                             />
                         )}
@@ -148,9 +149,10 @@ export default function Home() {
                     </h3>
                     <div className="w-full flex flex-wrap items-center flex-row gap-4 print:gap-1 print:items-start print:flex-row print:w-full mt-4 print:mt-0">
                         {tools.map((e, i) => <LandingPageBadge
-                            title={e.title}
-                            description={e.description}
-                            key={`tools ${i}`}
+                                title={e.title}
+                                description={e.description || ""}
+                                icon={e.icon}
+                                key={`tools ${i}`}
                             />
                         )}
                     </div>
@@ -158,12 +160,46 @@ export default function Home() {
                 <Section
                     id="2.0"
                     title="My Work"
-                    description="My favorite projects. Most of them have writeups!"
+                    description="Or, “What would happen if we gave a bored teenager Wi-Fi and a computer?”"
                     className="print:break-after-page print:mt-2 print:mb-2"
                 >
                     <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
                         <span className="text-primary">
                             2.1
+                        </span>
+                        {" "}Experience
+                    </h3>
+                    <div className="w-full flex flex-wrap flex-row print:flex-col print:w-full gap-4 print:gap-1 mt-4 print:mt-1 pr-4">
+                        <div className="relative w-full">
+                            <p className="text-lg text-muted dark:text-muted-dark"><b>Software Lead</b>, Heron Robotics (2025-2026), Kuriosity Robotics (2024-2025)</p>
+                            <p className="ml-2 flex flex-row gap-1 items-center" style={{ lineHeight: "2rem" }}>
+                                Qualified to the world championship in 2025. Planning to win in 2026. <BalloonIcon />
+                            </p>
+                        </div>
+                        <div className="relative w-full">
+                            <p className="text-lg text-muted dark:text-muted-dark"><b>Chief Executive Officer & Founder</b>, Sendcraft</p>
+                            <p className="ml-2" style={{ lineHeight: "2rem" }}>
+                                I want business cards like Mark Zuckerberg in <i>The Social Network</i>.
+                            </p>
+                        </div>
+                        <div className="relative w-full">
+                            <p className="text-lg text-muted dark:text-muted-dark"><b>Software Engineering Intern</b>, Lockheed Martin Advanced Technology Center</p>
+                            <p className="ml-2" style={{ lineHeight: "2rem" }}>
+                                <ul className="ml-8 list-disc">
+                                    <li>tracked solar features with OpenCV; reconstructed magnetic flux from computer-tracked polarity inversion lines, which cause solar flares.</li>
+                                    <li>discovered memory leaks in C code and matplotlib, benchmarked solutions when applicable (it turns out that Numpy is faster than parallelized, single-instruction C code!).</li>
+                                    <li>documented eight projects.</li>
+                                    <li>delivered movie visualization tools for scientists to analyze solar data.</li>
+                                </ul>
+
+                                Also, I developed a memory-mapping approach for reading CSVs with monotonically indexed entries that works about 980x faster than Pandas. And I did all that on a
+                                2017 iMac with 8GB of RAM (<Link href="/blog/macports-with-proxy" className="underline">also the proxy was slow and I didn&apos;t have homebrew</Link>).
+                            </p>
+                        </div>
+                    </div>
+                    <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
+                        <span className="text-primary">
+                            2.2
                         </span>
                         {" "}Projects
                     </h3>
@@ -181,7 +217,7 @@ export default function Home() {
                     
                     <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
                         <span className="text-primary">
-                            2.2
+                            2.3
                         </span>
                         {" "}Contributions
                     </h3>
