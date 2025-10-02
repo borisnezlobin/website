@@ -65,8 +65,8 @@ const ContactMePage = () => {
                 <h1 className="text-3xl font-bold text-center md:text-4xl lg:text-5xl">
                     Want to reach out?
                 </h1>
-                <p className="text-base md:text-2xl">
-                    I (mostly) don&apos;t bite :)
+                <p className="text-base md:text-2xl emph">
+                    I mostly don&apos;t bite :)
                 </p>
             </div>
             <ScrollForMore />
