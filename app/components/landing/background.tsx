@@ -1,22 +1,16 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
 
-const INT_TO_CHAR = {
-    0: '·',
-    1: '•',
-    2: 'o',
-    3: '0',
-    4: 'O',
-};
-
-const TRAIL_LENGTH = 4;
-const RADIUS_SCALE = 3;
+const WORDS = ['programmer', 'student', 'designer', 'redhead', 'gamer', 'researcher', 'writer', 'nerd'];
+const TEXT_SIZE = '3rem';
 
 const Background = () => {
     const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
     const [charSize, setCharSize] = useState({ width: 0, height: 0 });
-    const [trail, setTrail] = useState<{ x: number; y: number; t: number }[]>([]);
+
+    const [wordIndex, setWordIndex] = useState(0);
+    const [lines, setLines] = useState<string[]>([]);
 
     useEffect(() => {
         const updateScreenSize = () => {
@@ -29,7 +23,7 @@ const Background = () => {
         const calculateCharSize = () => {
             const span = document.createElement('span');
             span.style.fontFamily = 'Courier New, monospace';
-            span.style.fontSize = '16px';
+            span.style.fontSize = TEXT_SIZE;
             span.style.position = 'absolute';
             span.style.visibility = 'hidden';
             span.textContent = 'M';
@@ -41,124 +35,63 @@ const Background = () => {
             document.body.removeChild(span);
         };
 
-        const updateMousePosition = (() => {
-            let lastCall = 0;
-            return (event: MouseEvent) => {
-                const now = Date.now();
-                if (now - lastCall < 30) return;
-                lastCall = now;
-                const pos = {
-                    x: event.clientX,
-                    y: event.clientY + window.scrollY,
-                    t: Date.now(),
-                };
-                setTrail(prev => {
-                    const updated = [...prev, pos].slice(-TRAIL_LENGTH);
-                    return updated;
-                });
-            };
-        })();
+        const updateWordIndex = () => {
+            setWordIndex((prevIndex) => (prevIndex + 1) % WORDS.length);
+        };
 
-        updateScreenSize();
+        const wordInterval = setInterval(updateWordIndex, 2000);
+
         calculateCharSize();
+        updateScreenSize();
 
         window.addEventListener('resize', updateScreenSize);
-        window.addEventListener('mousemove', updateMousePosition);
 
         return () => {
+            clearInterval(wordInterval);
             window.removeEventListener('resize', updateScreenSize);
-            window.removeEventListener('mousemove', updateMousePosition);
         };
     }, []);
 
     const charsPerLine = Math.floor(screenSize.width / charSize.width) + 1;
-    const linesPerScreen = Math.floor(screenSize.height / charSize.height);
-    const pos = trail.length > 0 ? trail[0] : { x: 0, y: 0, t: 0 };
-    const charX = Math.min(Math.floor(pos.x / charSize.width), charsPerLine - 1);
-    const charY = Math.min(Math.floor(pos.y / charSize.height), linesPerScreen - 1);
+    const linesPerScreen = Math.floor(screenSize.height / charSize.height) - 2;
+
+    useEffect(() => {
+        if (charSize.width === 0 || charSize.height === 0) return;
+        // const linesPerScreen = Math.floor(screenSize.height / charSize.height);
+        const tempLines: string[] = [];
+
+        for (let lineIndex = 0; lineIndex < linesPerScreen; lineIndex++) {
+            let line = '';
+            let wdidx = lineIndex % WORDS.length;
+            for (let charIndex = 0; charIndex < charsPerLine; charIndex++) {
+                line += WORDS[wdidx] + ' ';
+                charIndex += WORDS[wdidx].length; // account for word length (but not the space)
+                wdidx += Math.floor(Math.random() * 4) - 1 + WORDS.length;
+                wdidx %= WORDS.length;
+            }
+            tempLines.push(line);
+        }
+        setLines(tempLines);
+        console.log({ lines: tempLines, charsPerLine, linesPerScreen })
+    }, [screenSize, charSize, charsPerLine, linesPerScreen]);
+
+
+    const htmlLines = lines.map((line, index) => {
+        line = line.replace(new RegExp(WORDS[wordIndex], 'g'), `<span class="text-primary dark:text-primary-dark emph !transition-colors !duration-300">${WORDS[wordIndex]}</span>`);
+        return line;
+    });
 
     return (
-        <div>
-            <pre
-                style={{
-                    lineHeight: '1em',
-                    fontFamily: '"Courier New", monospace',
-                    fontSize: '16px',
-                    margin: 0,
-                    position: 'absolute',
-                    zIndex: 0,
-                    top: 0,
-                    left: 0,
-                }}
-            >
-                {Array.from({ length: linesPerScreen }).map((_, lineIndex) => (
-                    <div key={lineIndex} style={{ height: `${charSize.height}px` }}>
-                        {Array.from({ length: charsPerLine }).map((_, charIndex) => {
-                            const distance = Math.sqrt(
-                                (charIndex - charX) ** 2 +
-                                    ((lineIndex - charY) * (charSize.height / charSize.width)) ** 2
-                            );
-
-                            let intensity = Math.max(0, 4 - Math.floor(distance / RADIUS_SCALE));
-                            // add or subtract 1 to intensity randomly to add some noise
-                            const noise =
-                                distance > 4 * RADIUS_SCALE
-                                    ? 0
-                                    : Math.random() < 0.5
-                                    ? -1
-                                    : 1;
-                            // const noise = 0;
-                            intensity = Math.max(0, Math.min(4, intensity + noise));
-                            let char = '·';
-
-                             if (distance < 4 * RADIUS_SCALE) {
-                                if (4 * RADIUS_SCALE < distance + 0.5) {
-                                    const slope = (lineIndex - charY) / ((charIndex - charX) || 1) * (charSize.height / charSize.width);
-
-                                    // find character perpendicular to the slope
-                                    if (Math.abs(slope) < 0.3) {
-                                        char = "|";
-                                    } else if (Math.abs(slope) < 0.6) {
-                                        char = slope > 0 ? "\\" : "/";
-                                    } else if (Math.abs(slope) < 1.5) {
-                                        char = slope > 0 ? "/" : "\\";
-                                    } else {
-                                        char = "—";
-                                    }
-                                } else {
-                                    if (charX === charIndex && lineIndex === charY) {
-                                        char = '@';
-                                    } else {
-                                        char = INT_TO_CHAR[intensity as keyof typeof INT_TO_CHAR];
-                                    }
-                                }
-                            } else {
-                                // check if current grid cell is near any trail point
-                                for (let i = trail.length - 1; i >= 0; i--) {
-                                    const p = trail[i];
-                                    const charX = Math.floor(p.x / charSize.width);
-                                    const charY = Math.floor(p.y / charSize.height);
-
-                                    if (charIndex === charX && lineIndex === charY) {
-                                        const age = (trail.length - i - 1) / trail.length * 4;
-                                        char = age === 0 ? '@' : INT_TO_CHAR[Math.max(0, 4 - age) as keyof typeof INT_TO_CHAR];
-                                        break;
-                                    }
-                                }
-                            }
-
-                            return (
-                                <span
-                                    key={charIndex}
-                                    className={`emph text-muted-dark dark:text-muted ${char === '@' ? 'text-primary dark:text-primary' : ''} ${(Math.random() < 0.5 && distance < 2 * RADIUS_SCALE) ? 'text-primary dark:text-primary' : ''}`}
-                                >
-                                    {char}
-                                </span>
-                            );
-                        })}
-                    </div>
-                ))}
-            </pre>
+        <div className='absolute w-full h-[100svh] top-0 left-0 text-muted dark:text-muted-dark print:hidden flex-row justify-center items-center pointer-events-none select-none z-0'>
+            {htmlLines.map((line, lineIndex) => (
+                <div key={lineIndex} style={{ height: charSize.height }} className="w-full flex justify-center">
+                    <pre
+                        className="m-0 p-0 leading-none text-muted-dark dark:text-muted !transition-colors !duration-300"
+                        style={{ fontFamily: 'Courier New, monospace', fontSize: TEXT_SIZE, lineHeight: TEXT_SIZE }}
+                        dangerouslySetInnerHTML={{ __html: line }}
+                    />
+                </div>
+            ))}
         </div>
     );
 };
