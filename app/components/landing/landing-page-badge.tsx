@@ -7,8 +7,8 @@ import Link from "next/link";
 import { useRef } from "react";
 
 const LandingPageBadge = ({
-    title, description, url, className, titleClassName = "", index = undefined
-}: { title: string, description: string, url?: string, className?: string, titleClassName?: string, index?: number }) => {
+    title, description, url, className, titleClassName = "", index = undefined, icon
+}: { title: string, description: string, url?: string, className?: string, titleClassName?: string, index?: number, icon?: React.ReactNode }) => {
     const ref = useRef<HTMLDivElement>(null);
     const isVisible = useIsVisible(ref);
 
@@ -26,6 +26,7 @@ const LandingPageBadge = ({
             }}
         >
             <b className={`text-lg print:text-base print:font-bold flex items-center justify-center gap-2 h-full print:gap-1 print:items-center ${titleClassName}`}>
+                {icon}
                 <span>{title}</span>
                 {url && <span aria-hidden="true" className="hidden print:inline print:text-xs print:ml-1 font-normal italic">{url}</span>}
             </b>
