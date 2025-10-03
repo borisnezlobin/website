@@ -15,16 +15,16 @@ const badgeQuotes = [
     "Ex-intern.",
     "I would drop the “The.”",
     "Vibecoding 👎",
+    "Chief Executive Officer",
     "3x robotics Worlds qualifier.",
     "I don't use Arch, btw.",
     "If you're an MIT AO, hi :)",
-    "Be philosophical about it!",
-    "Consider this a deep quote.",
+    "Get philosophical with it!",
     "@b_nezlobin on Twitter.",
     ":)",
     "1% better every day.",
     "Staying hydrated, ish.",
-    "Breakfast ∉ Necessity."
+    "Breakfast's not a necessity."
 ]
 
 const FADE_DURATION = 400; // ms
@@ -46,13 +46,14 @@ const HiImBoris = () => {
     }, []);
 
     return (
-        <div className="h-[100svh] relative top-[-3rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
+        <div className="h-[100svh] relative top-[-6rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
             <p className="md:hidden text-base md:text-2xl emph z-10 bg-light-background dark:bg-dark-background rounded-t-lg px-4 py-1">Hi, I&apos;m</p>
             <h1 className="md:hidden text-3xl font-bold edo z-10 text-center md:text-7xl bg-light-background dark:bg-dark-background rounded-lg px-4 pb-3 py-1">
                 Boris Nezlobin.
             </h1>
             <h1 className="hidden md:block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold edo z-10 text-center print:text-5xl print:mt-0 print:mb-1">
-                I&apos;m Boris.
+                <span className="text-muted dark:text-muted dark text-4xl">I&apos;m</span>
+                Boris.
             </h1>
             <div
                 className={`hidden relative w-96 md:block print:hidden z-10 shadow-lg bg-light-background dark:bg-dark-background border border-muted dark:border-muted-dark rounded-lg px-4 py-1 print:text-xl print:mt-0 print:mb-2`}
