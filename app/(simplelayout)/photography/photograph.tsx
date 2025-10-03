@@ -37,7 +37,11 @@ const PhotographItem = ({ photo }: { photo: Photograph }) => {
                 <h2 className="text-dark-foreground dark:text-dark-foreground emph">
                     {photo.title}
                 </h2>
-                <form action={() => liked ? null : likePhoto(photo.id)}>
+                <form action={async (formData: FormData) => {
+                    if (!liked) {
+                        await likePhoto(photo.id);
+                    }
+                }}>
                     <button type="submit" onClick={handleLike} className="opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-row text-lg cursor-pointer justify-center items-center gap-1 text-dark-foreground dark:text-dark-foreground">
                         <HeartIcon className={liked ? "text-primary dark:text-primary-dark" : ""} weight={liked ? "fill" : "light"} />
                         {photo.likes + (liked ? 1 : 0)}
