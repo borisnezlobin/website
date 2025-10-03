@@ -28,8 +28,8 @@ export default function RootLayout({
                 <Theme>
                     <div className="w-screen min-w-screen min-h-[100svh] print:min-h-0 bg-background">
                         <div className="w-full max-w-6xl mx-auto">
-                            <div className="w-full fixed z-20 top-0 left-0 p-4 print:hidden bg-background">
-                                <div className="flex flex-row justify-around md:justify-start md:pl-6 md:gap-24 w-full md:w-2/3 items-center bg-light-background dark:bg-dark-background">
+                            <div className="w-full fixed z-20 top-0 left-0 px-4 print:hidden bg-background h-12">
+                                <div className="flex flex-row justify-around h-full md:justify-start md:pl-6 md:gap-24 w-full md:w-2/3 items-center bg-light-background dark:bg-dark-background">
                                     <Link href={"/"} className="link">
                                         Home.
                                     </Link>

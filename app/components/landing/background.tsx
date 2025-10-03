@@ -5,6 +5,62 @@ import { useEffect, useState } from "react";
 const WORDS = ['programmer', 'student', 'designer', 'redhead', 'researcher', 'writer', 'nerd'];
 const TEXT_SIZE = '1.5rem';
 
+
+const TRAPEZOID_HEIGHT = 0.5;
+const TRAPEZOID_BASE_LENGTH = 0.4;
+const LINE_SLOPE_WEIGHT = 0.6;
+const INVERT_SPACE = true;
+
+// const nonAlphabeticChars = Array.from({ length: 94 }, (_, i) => String.fromCharCode(33 + i))
+//         .filter((char) => !/[a-zA-Z]/.test(char));
+
+// const randomCharacter = () => {
+//     return nonAlphabeticChars[Math.floor(Math.random() * nonAlphabeticChars.length)];
+// };
+
+const randomCharacter = () => {
+    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    return letters[Math.floor(Math.random() * letters.length)];
+};
+
+const fillString = (length: number) => {
+    let result = '';
+    let wdidx = Math.floor(Math.random() * WORDS.length);
+    let prevWdidx = -1;
+
+    let pad = Math.floor(Math.random() * 4) + 1;
+    if (length > 4) {
+        for (let i = 0; i < pad; i++) {
+            result += randomCharacter();
+        }
+    }
+
+    for (let i = pad; i < length; i++) {
+        if (i + WORDS[wdidx].length >= length) {
+            for (let j = i; j < length; j++) {
+                result += randomCharacter();
+            }
+            break;
+        } else {
+            while (wdidx === prevWdidx) {
+                wdidx = Math.floor(Math.random() * WORDS.length);
+            }
+
+            result += WORDS[wdidx];
+            prevWdidx = wdidx;
+
+            const numRandomChars = Math.min(Math.floor(Math.random() * 4) + 1, length - i - WORDS[wdidx].length);
+            for (let j = 0; j < numRandomChars; j++) {
+                result += randomCharacter();
+            }
+            i += WORDS[wdidx].length + numRandomChars - 1; // i forgor why the -1 is there lmao
+            wdidx += Math.floor(Math.random() * 4) - 1 + WORDS.length;
+            wdidx %= WORDS.length;
+        }
+    }
+    return result;
+};
+
 const Background = () => {
     const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
     const [charSize, setCharSize] = useState({ width: 0, height: 0 });
@@ -59,48 +115,67 @@ const Background = () => {
         if (charSize.width === 0 || charSize.height === 0) return;
         // const linesPerScreen = Math.floor(screenSize.height / charSize.height);
         const tempLines: string[] = [];
-        const numLines = linesPerScreen / 2;
+
+        const numLines = linesPerScreen * TRAPEZOID_HEIGHT;
+        const emptyLines = Math.floor((linesPerScreen - numLines) / 2);
+        
+        if (INVERT_SPACE) {
+            for (let i = 0; i < emptyLines; i++) {
+                tempLines.push(fillString(charsPerLine));
+            }
+        }
 
         for (let lineIndex = 0; lineIndex < numLines; lineIndex++) {
             let line = '';
             let wdidx = lineIndex % WORDS.length;
-            const numChars = (numLines / 2 - Math.abs(lineIndex - numLines / 2)) / numLines * charsPerLine + charsPerLine * 0.1;
-            for (let charIndex = 0; charIndex < numChars; charIndex++) {
-                line += WORDS[wdidx] + ' ';
-                charIndex += WORDS[wdidx].length; // account for word length (but not the space)
-                wdidx += Math.floor(Math.random() * 4) - 1 + WORDS.length;
-                wdidx %= WORDS.length;
+            // const numChars = (numLines / 2 - Math.abs(lineIndex - numLines / 2)) / numLines * charsPerLine + charsPerLine * 0.1;
+            const numCharsInMiddle = (charsPerLine * TRAPEZOID_BASE_LENGTH)
+                            + ((numLines / 2 - Math.abs(lineIndex - numLines / 2)) / numLines * charsPerLine) * LINE_SLOPE_WEIGHT;
+            
+            if (INVERT_SPACE) {
+                const chars = Math.floor((charsPerLine - numCharsInMiddle) / 2);
+                line = fillString(chars) + ' '.repeat(numCharsInMiddle) + fillString(chars);
+            } else {
+                const spaces = Math.floor((charsPerLine - numCharsInMiddle) / 2);
+                line = ' '.repeat(spaces) + fillString(numCharsInMiddle) + ' '.repeat(spaces);
             }
             tempLines.push(line);
         }
+
+        if (INVERT_SPACE) {
+            for (let i = 0; i < emptyLines - 1; i++) {
+                tempLines.push(fillString(charsPerLine));
+            }
+            tempLines.push(fillString(charsPerLine * 3 / 8) + ' '.repeat(charsPerLine / 4) + fillString(charsPerLine * 3 / 8));
+            tempLines.push(fillString(charsPerLine / 4) + ' '.repeat(charsPerLine / 2) + fillString(charsPerLine / 4));
+        }
+
         setLines(tempLines);
     }, [screenSize, charSize, charsPerLine, linesPerScreen]);
 
 
     const htmlLines = lines.map((line, index) => {
-        const parts = line.split(/\s+/).filter(Boolean);
+        const regex = new RegExp(`(${WORDS.join("|")})`, "g");
+        const tokens = line.split(regex).filter(Boolean);
         return (
-            <div
+            <pre
                 key={index}
                 style={{ fontFamily: 'Courier New, monospace', fontSize: TEXT_SIZE }}
-                className="w-full justify-center items-center m-0 p-0 text-center leading-none !text-[#C5C5C5] dark:!text-[#3C3C3C] transition-colors duration-300"
+                className={`w-full ${INVERT_SPACE ? 'justify-start' : 'justify-center'} items-center m-0 p-0 text-center leading-none !text-[#C5C5C5] dark:!text-[#3C3C3C]`}
             >
-                {parts.map((word, i) => {
+                {tokens.map((word, i) => {
                     const active = word === WORDS[wordIndex];
+                    const color = active ? (word === 'redhead' ? "text-primary dark:text-primary-dark" : "text-light-foreground dark:text-dark-foreground") : "!text-[#C5C5C5] dark:!text-[#3C3C3C]";
                     return (
                         <span
                             key={i}
-                            className={`${
-                            active
-                                ? "text-primary dark:text-primary-dark"
-                                : "!text-[#C5C5C5] dark:!text-[#3C3C3C]"
-                            } transition-colors duration-300 emph`}
+                            className={`${color} !transition-colors !duration-1000 emph`}
                         >
-                            {word + " "}
+                            {word}
                         </span>
                     );
                 })}
-            </div>
+            </pre>
         );
     });
 

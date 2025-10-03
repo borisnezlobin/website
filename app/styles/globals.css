@@ -33,12 +33,31 @@ body {
 }
 
 @font-face {
-    font-family: "charter";
-    src:
-        url("/charter_regular.woff2") format("woff2"),
-        url("/charter_bold.woff2") format("woff2"),
-        url("/chart_bold_italic.woff2") format("woff2"),
-        url("/charter_italic.woff2") format("woff2");
+  font-family: "charter";
+  src: url("/charter_regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "charter";
+  src: url("/charter_italic.woff2") format("woff2");
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: "charter";
+  src: url("/charter_bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "charter";
+  src: url("/charter_bold_italic.woff2") format("woff2");
+  font-weight: 700;
+  font-style: italic;
 }
 
 svg, path {
