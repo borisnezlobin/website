@@ -48,3 +48,27 @@ model Project {
   @@index([createdAt], map: "project_created_at")
   @@index([title], map: "projects_title")
 }
+
+model Photograph {
+  id        String   @id @default(cuid())
+  title     String
+  image     String
+  likes     Int      @default(0)
+  photoTags PhotographTag[] @relation("PhotographToPhotographTag")
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@index([createdAt], map: "photographs_created_at")
+  @@index([title], map: "photographs_title")
+}
+
+model PhotographTag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  photos    Photograph[] @relation("PhotographToPhotographTag")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now())
+
+  @@index([name], map: "photograph_tags_name")
+}
