@@ -172,7 +172,7 @@ export default function Home() {
                     <div className="w-full flex flex-wrap flex-row print:flex-col print:w-full gap-4 print:gap-1 mt-4 print:mt-1 pr-4">
                         <div className="relative w-full">
                             <p className="text-lg text-muted dark:text-muted-dark"><b>Software Lead</b>, Heron Robotics (2025-2026), Kuriosity Robotics (2024-2025)</p>
-                            <p className="ml-2 flex flex-row gap-1 items-center" style={{ lineHeight: "2rem" }}>
+                            <p className="ml-2 flex flex-row gap-1 flex-wrap items-center" style={{ lineHeight: "2rem" }}>
                                 Qualified to the world championship in 2025. Planning to win in 2026. <BalloonIcon />
                             </p>
                         </div>
@@ -186,7 +186,7 @@ export default function Home() {
                             <p className="text-lg text-muted dark:text-muted-dark"><b>Software Engineering Intern</b>, Lockheed Martin Advanced Technology Center</p>
                             <p className="ml-2" style={{ lineHeight: "2rem" }}>
                                 <ul className="ml-8 list-disc">
-                                    <li>tracked solar features with OpenCV; reconstructed magnetic flux from computer-tracked polarity inversion lines, which cause solar flares.</li>
+                                    <li>tracked solar features with OpenCV; reconstructed magnetic flux from detected polarity inversion lines (which cause solar flares).</li>
                                     <li>discovered memory leaks in C code and matplotlib, benchmarked solutions when applicable (it turns out that Numpy is faster than parallelized, single-instruction C code!).</li>
                                     <li>documented eight projects.</li>
                                     <li>delivered movie visualization tools for scientists to analyze solar data.</li>
