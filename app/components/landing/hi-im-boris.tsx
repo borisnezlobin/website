@@ -4,17 +4,13 @@ import { useEffect, useState, useRef } from "react";
 
 const badgeQuotes = [
     "I code.",
-    "I listen to Jay-Z.",
     "I love programming.",
     "I build cool things.",
     "I solve problems.",
     "I learn new things.",
     "I write stuff.",
-    "I'm CEO, btw.",
-    "CEO of Sendcraft.",
-    "Ex-intern.",
-    "I would drop the “The.”",
-    "Vibecoding 👎",
+    "High school student",
+    "Drop the “The.”",
     "Chief Executive Officer",
     "3x robotics Worlds qualifier.",
     "I don't use Arch, btw.",
@@ -24,7 +20,9 @@ const badgeQuotes = [
     ":)",
     "1% better every day.",
     "Staying hydrated, ish.",
-    "Breakfast's not a necessity."
+    "Breakfast's not a necessity.",
+    "Outlier?",
+    "Boyfriend!!"
 ]
 
 const FADE_DURATION = 400; // ms

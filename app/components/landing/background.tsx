@@ -19,7 +19,8 @@ const INVERT_SPACE = true;
 // };
 
 const randomCharacter = () => {
-    const letters = 'abcdefghijklmnopqrstuvwxyz';
+    // const letters = 'abcdefghijklmnopqrstuvwxyz';
+    const letters = ' - · +  ';
     return letters[Math.floor(Math.random() * letters.length)];
 };
 
