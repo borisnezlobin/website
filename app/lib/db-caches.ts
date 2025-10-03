@@ -25,6 +25,21 @@ const getBlogsWithoutCache = async () => {
 
 const getBlogs = wrapWithCache(getBlogsWithoutCache);
 
+const getPhotographsWithoutCache = async () => {
+    return await db.photograph.findMany({
+        orderBy: { createdAt: "desc" },
+        where: {
+            slug: {
+                not: {
+                    startsWith: "draft",
+                },
+            }
+        }
+    });
+}
+
+const getPhotographs = wrapWithCache(getPhotographsWithoutCache);
+
 const getBlogWithoutCache = async (slug: string) => {
     return db.article.findUnique({
         where: { slug },
@@ -95,4 +110,5 @@ export {
     getNote,
     getProjects,
     getProject,
+    getPhotographs
 };

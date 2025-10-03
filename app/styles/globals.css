@@ -449,3 +449,35 @@ script {
     --pdf-thumbnail-shadow: 0 0 0 1px var(--background-modifier-border);
   }
 }
+
+@layer components {
+  .fade-out-container {
+    --mask-start: 100%;
+  }
+
+  .dark .fade-out-container {
+    --mask-start: 80%;
+  }
+
+  .fade-out-bottom {
+      position: relative;
+      /* Mask the container to fade the text to transparent at the bottom */
+      -webkit-mask-image: linear-gradient(to bottom, black var(--mask-start), transparent 100%);
+      mask-image: linear-gradient(to bottom, black var(--mask-start), transparent 100%);
+  }
+
+  .fade-out-bottom::after {
+      content: '';
+      position: absolute;
+      inset: 0; /* Cover the entire container */
+      pointer-events: none; /* Allow interaction with the content underneath */
+      
+      /* Apply a blur to the content behind this pseudo-element */
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+
+      /* Mask this pseudo-element so the blur effect fades in from top to bottom */
+      -webkit-mask-image: linear-gradient(to bottom, transparent 70%, black 95%);
+      mask-image: linear-gradient(to bottom, transparent 70%, black 95%);
+  }
+}
