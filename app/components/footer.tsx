@@ -7,6 +7,7 @@ import {
     AddressBookIcon as AddressBook,
     NewspaperIcon as Newspaper,
     HighlighterCircleIcon as HighlighterCircle,
+    CameraIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 
@@ -87,6 +88,14 @@ const Footer = () => {
                         <span>
                             <LinkWithIcon title="Notes" href="/notes" Icon={HighlighterCircleIcon}>
                                 Notes
+                            </LinkWithIcon>
+                        </span>
+                        <span>
+                            <Separator />
+                        </span>
+                        <span>
+                            <LinkWithIcon title="Photography" href="/photography" Icon={CameraIcon}>
+                                Photography
                             </LinkWithIcon>
                         </span>
                     </div>
