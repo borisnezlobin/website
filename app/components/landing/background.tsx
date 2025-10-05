@@ -1,15 +1,8 @@
 'use client';
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
-const WORDS = ['programmer', 'student', 'designer', 'redhead', 'researcher', 'writer', 'nerd'];
 const TEXT_SIZE = '1.5rem';
-
-
-const TRAPEZOID_HEIGHT = 0.5;
-const TRAPEZOID_BASE_LENGTH = 0.4;
-const LINE_SLOPE_WEIGHT = 0.6;
-const INVERT_SPACE = true;
 
 // const nonAlphabeticChars = Array.from({ length: 94 }, (_, i) => String.fromCharCode(33 + i))
 //         .filter((char) => !/[a-zA-Z]/.test(char));
@@ -18,51 +11,25 @@ const INVERT_SPACE = true;
 //     return nonAlphabeticChars[Math.floor(Math.random() * nonAlphabeticChars.length)];
 // };
 
-const randomCharacter = () => {
-    // const letters = 'abcdefghijklmnopqrstuvwxyz';
-    const letters = ' - · +  ';
-    return letters[Math.floor(Math.random() * letters.length)];
-};
-
-const fillString = (length: number) => {
-    let result = '';
-    let wdidx = Math.floor(Math.random() * WORDS.length);
-    let prevWdidx = -1;
-
-    let pad = Math.floor(Math.random() * 4) + 1;
-    if (length > 4) {
-        for (let i = 0; i < pad; i++) {
-            result += randomCharacter();
-        }
-    }
-
-    for (let i = pad; i < length; i++) {
-        if (i + WORDS[wdidx].length >= length) {
-            for (let j = i; j < length; j++) {
-                result += randomCharacter();
-            }
-            break;
-        } else {
-            while (wdidx === prevWdidx) {
-                wdidx = Math.floor(Math.random() * WORDS.length);
-            }
-
-            result += WORDS[wdidx];
-            prevWdidx = wdidx;
-
-            const numRandomChars = Math.min(Math.floor(Math.random() * 4) + 1, length - i - WORDS[wdidx].length);
-            for (let j = 0; j < numRandomChars; j++) {
-                result += randomCharacter();
-            }
-            i += WORDS[wdidx].length + numRandomChars - 1; // i forgor why the -1 is there lmao
-            wdidx += Math.floor(Math.random() * 4) - 1 + WORDS.length;
-            wdidx %= WORDS.length;
-        }
-    }
-    return result;
-};
-
-const Background = () => {
+const Background = ({
+    words,
+    trapezoidHeight = 0.5,
+    trapezoidBaseLength = 0.4,
+    lineSlopeWeight = 0.6,
+    charsBetweenWords = 4,
+}: {
+    words: string[],
+    trapezoidHeight?: number,
+    trapezoidBaseLength?: number,
+    lineSlopeWeight?: number,
+    charsBetweenWords?: number
+}) => {
+    const WORDS = words;
+    const TRAPEZOID_HEIGHT = trapezoidHeight;
+    const TRAPEZOID_BASE_LENGTH = trapezoidBaseLength;
+    const LINE_SLOPE_WEIGHT = lineSlopeWeight;
+    const INVERT_SPACE = true;
+    const CHARS_BETWEEN_WORDS = charsBetweenWords;
     const [screenSize, setScreenSize] = useState({ width: 0, height: 0 });
     const [charSize, setCharSize] = useState({ width: 0, height: 0 });
 
@@ -107,7 +74,51 @@ const Background = () => {
             clearInterval(wordInterval);
             window.removeEventListener('resize', updateScreenSize);
         };
-    }, []);
+    }, [WORDS.length]);
+
+    const randomCharacter = () => {
+        // const letters = 'abcdefghijklmnopqrstuvwxyz';
+        const letters = ' - · +  ';
+        return letters[Math.floor(Math.random() * letters.length)];
+    };
+
+    const fillString = useCallback((length: number) => {
+        let result = '';
+        let wdidx = Math.floor(Math.random() * WORDS.length);
+        let prevWdidx = -1;
+
+        let pad = Math.floor(Math.random() * 4) + 1;
+        if (length > 4) {
+            for (let i = 0; i < pad; i++) {
+                result += randomCharacter();
+            }
+        }
+
+        for (let i = pad; i < length; i++) {
+            if (i + WORDS[wdidx].length >= length) {
+                for (let j = i; j < length; j++) {
+                    result += randomCharacter();
+                }
+                break;
+            } else {
+                while (wdidx === prevWdidx) {
+                    wdidx = Math.floor(Math.random() * WORDS.length);
+                }
+
+                result += WORDS[wdidx];
+                prevWdidx = wdidx;
+
+                const numRandomChars = Math.min(Math.floor(Math.random() * CHARS_BETWEEN_WORDS) + 1, length - i - WORDS[wdidx].length);
+                for (let j = 0; j < numRandomChars; j++) {
+                    result += randomCharacter();
+                }
+                i += WORDS[wdidx].length + numRandomChars - 1; // i forgor why the -1 is there lmao
+                wdidx += Math.floor(Math.random() * 4) - 1 + WORDS.length;
+                wdidx %= WORDS.length;
+            }
+        }
+        return result;
+    }, [WORDS, CHARS_BETWEEN_WORDS]);
 
     const charsPerLine = Math.floor(screenSize.width / charSize.width) + 1;
     const linesPerScreen = Math.floor(screenSize.height / charSize.height) - 2;
@@ -152,7 +163,7 @@ const Background = () => {
         }
 
         setLines(tempLines);
-    }, [screenSize, charSize, charsPerLine, linesPerScreen]);
+    }, [screenSize, charSize, charsPerLine, linesPerScreen, WORDS, fillString, TRAPEZOID_HEIGHT, INVERT_SPACE, TRAPEZOID_BASE_LENGTH, LINE_SLOPE_WEIGHT]);
 
 
     const htmlLines = lines.map((line, index) => {
@@ -166,11 +177,11 @@ const Background = () => {
             >
                 {tokens.map((word, i) => {
                     const active = word === WORDS[wordIndex];
-                    const color = active ? (word === 'redhead' ? "text-primary dark:text-primary-dark" : "text-light-foreground dark:text-dark-foreground") : "!text-[#C5C5C5] dark:!text-[#3C3C3C]";
+                    const color = active ? (word === 'redhead' ? "text-primary dark:text-primary-dark" : "text-black dark:text-dark-foreground") : "!text-[#C5C5C5] dark:!text-[#3C3C3C]";
                     return (
                         <span
                             key={i}
-                            className={`${color} !transition-colors !duration-1000 emph`}
+                            className={`${color} ${active ? "" : ""} !transition-colors !duration-1000 emph`}
                         >
                             {word}
                         </span>
