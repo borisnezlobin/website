@@ -48,11 +48,12 @@ export default async function ProjectPage({ params }: { params: Promise<{ slug: 
     const { slug } = await params;
     console.log("Rendering project page for slug: " + slug);
     const project = await getProject(slug);
-    const projectBody = readFileSync(getProjectHTMLPath(slug), "utf-8");
 
     if (!project) {
         return <NotFoundPage title="Project not found" />;
     }
+
+    const projectBody = readFileSync(getProjectHTMLPath(slug), "utf-8");
 
     const githubRepo = project ? (project.github ? project.github.split("/") : []) : [];
 
