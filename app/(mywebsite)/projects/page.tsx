@@ -45,17 +45,17 @@ export default async function ProjectsPage() {
                     charsBetweenWords={6}
                 />
             </div>
-            <main className="pagepad">
-                <div className="h-[100svh] relative top-[-6rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
+            <main className="pagepad !p-3">
+                <div className="md:h-[100svh] relative md:top-[-6rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
                     <h1 className="text-3xl font-bold text-left dark:text-dark emph">Projects</h1>
                     <p className="dark:text-dark text-left mt-2">
                         What happens when you give me a computer and Wi-Fi?
                     </p>
                 </div>
 
-                <ScrollForMore text="Scroll to find out" />
+                <ScrollForMore className="hidden md:block" text="Scroll to find out" />
 
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-4 mt-8 md:mt-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-4 mt-8 md:mt-4">
                     {projects.map((project: Project) => project.slug.indexOf("draft") === -1 ? (
                         <Link
                             key={project.slug}
@@ -68,11 +68,11 @@ export default async function ProjectsPage() {
                 </div>
 
                 <div className="w-full relative mt-8">
-                    <div className="max-w-xl w-full mx-auto rounded-full shadow-red-700 dark:shadow-primary shadow-xl h-4" />
+                    <div className="max-w-xl w-4/5 md:w-full mx-auto rounded-full shadow-red-700 dark:shadow-primary shadow-xl h-4" />
                     <div className="absolute -top-4 w-full max-w-7xl z-10 rounded-sm bg-light-background dark:bg-dark-background h-8 border-b !border-[#ddd] dark:!border-[#444]" />
                 </div>
 
-                <div className="w-full flex justify-start mx-auto flex-col items-start mt-8 gap-y-8 max-w-4xl">
+                <div className="w-full flex justify-start mx-auto flex-col items-start mt-8 gap-y-8 max-w-4xl px-4 md:p-0 mb-24">
                     <p className="w-full text-center italic text-muted dark:text-muted-dark">
                         ~ And other Boris Nezlobin productions ~
                     </p>
