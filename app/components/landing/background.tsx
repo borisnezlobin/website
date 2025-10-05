@@ -121,7 +121,7 @@ const Background = ({
     }, [WORDS, CHARS_BETWEEN_WORDS]);
 
     const charsPerLine = Math.floor(screenSize.width / charSize.width) + 1;
-    const linesPerScreen = Math.floor(screenSize.height / charSize.height) - 2;
+    const linesPerScreen = Math.floor(screenSize.height / charSize.height) - 3;
 
     useEffect(() => {
         if (charSize.width === 0 || charSize.height === 0) return;
@@ -155,7 +155,7 @@ const Background = ({
         }
 
         if (INVERT_SPACE) {
-            for (let i = 0; i < emptyLines - 1; i++) {
+            for (let i = 0; i < emptyLines; i++) {
                 tempLines.push(fillString(charsPerLine));
             }
             tempLines.push(fillString(charsPerLine * 3 / 8) + ' '.repeat(charsPerLine / 4) + fillString(charsPerLine * 3 / 8));
@@ -177,7 +177,7 @@ const Background = ({
             >
                 {tokens.map((word, i) => {
                     const active = word === WORDS[wordIndex];
-                    const color = active ? (word === 'redhead' ? "text-primary dark:text-primary-dark" : "text-black dark:text-dark-foreground") : "!text-[#C5C5C5] dark:!text-[#3C3C3C]";
+                    const color = active ? (word === 'redhead' ? "text-primary dark:text-primary-dark" : "text-black dark:text-white") : "!text-[#D5D5D5] dark:!text-[#3C3C3C]";
                     return (
                         <span
                             key={i}
@@ -192,7 +192,7 @@ const Background = ({
     });
 
     return (
-        <div className='absolute w-full h-[100svh] top-0 left-0 text-slate-200 dark:text-slate-800 print:hidden flex flex-col justify-center items-center pointer-events-none select-none z-0'>
+        <div className={`absolute w-full h-[100svh] left-0 text-slate-200 dark:text-slate-800 print:hidden flex flex-col ${!INVERT_SPACE ? 'justify-center items-center' : 'justify-start items-start'} pointer-events-none select-none z-0`}>
             {htmlLines.map((e) => e)}
         </div>
     );
