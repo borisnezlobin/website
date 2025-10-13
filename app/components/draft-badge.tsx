@@ -43,7 +43,7 @@ const DraftBadge = () => {
             </div>
             <div className="absolute print:hidden top-0 z-[5] left-0 w-full pointer-events-none emph bg-transparent dark:bg-transparent !font-extrabold text-primary">
                 <code
-                    className="absolute flex flex-row w-full top-0 left-0 rotate-12 text-5xl bg-transparent dark:bg-transparent pointer-events-none emph font-extrabold gap-[196px] opacity-30"
+                    className="absolute flex flex-row w-full top-0 left-0 rotate-12 text-5xl bg-transparent dark:bg-transparent pointer-events-none emph font-extrabold gap-[196px] opacity-15"
                     ref={ref}
                     aria-hidden="true"
                 >
