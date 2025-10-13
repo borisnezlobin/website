@@ -18,8 +18,8 @@ pnpm-lock.yaml
 
 /app/blog/*/a.mdx
 /app/html/blog/**
-/html/blog/**
-/html/blog/*
+html/blog/**
+html/blog/*
 # production
 /build
 
