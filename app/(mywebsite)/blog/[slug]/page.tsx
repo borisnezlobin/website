@@ -45,7 +45,13 @@ async function getDataForSlug(slug: string) {
 
     // set post.body to be the content of the HTML file
     const path = getBlogHTMLPath(slug);
-    const content = readFileSync(path, 'utf-8');
+    let content = "";
+    if (blogPost.remoteURL) {
+        content = await (await fetch(blogPost.remoteURL)).text();
+        console.log("Fetched remote content for blog post", slug);
+    } else {
+        content = readFileSync(path, 'utf-8');
+    }
     blogPost.body = content;
 
     return {
