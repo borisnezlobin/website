@@ -14,6 +14,7 @@ model Article {
   description String
   body        String
   image       String?
+  remoteURL   String?
   slug        String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
