@@ -80,16 +80,16 @@ export default function Home() {
                 </h2>
                 <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4 print:flex-col print:items-start print:m-0 print:gap-1">
                     <p className="text-left w-full print:mb-1 print:mt-1">
-                        ...and counting. I&apos;m a 12th-grade student at Palo Alto High School writing code for fun—a lot of it. I interned at Lockheed Martin&apos;s Advanced Technology Center, where I got to solve a lot of cool problems, and I love using em dashes.
-                        I also love making things. Four years in robotics, three in open-source contribution, and almost a decade of programming experience have lead me to build a lot of cool things.
+                        ...and counting! I&apos;m a 12th-grade student at Palo Alto High School writing code for fun—a lot of it. I interned at Lockheed Martin&apos;s Advanced Technology Center, where I got to solve a lot of cool problems, and I love using em dashes.
+                        I also love making things. Four years in robotics, three in open-source contribution, and almost a decade of programming experience have led me to build a lot of cool things.<br /><br />
                         Read on to see my skills or check out <Link className="link !underline font-semibold print:underline" href="/blog">my blog</Link>,{" "}
                         <Link className="link underline" href="/notes">lecture notes</Link>, and <Link className="link underline" href="/projects">projects I&apos;ve worked on</Link>.<br />
                         <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4 print:hidden">
                             <LinkButton href="/blog" className="">
-                                Check out my blog
+                                Read my blog
                             </LinkButton>
-                            <Link className="hidden md:flex link underline flex-row justify-center font-semibold items-center gap-1 link" href="/projects">
-                                Projects
+                            <Link className="link hidden md:flex link underline flex-row justify-center font-semibold items-center" href="/projects">
+                                <p>Projects</p>
                                 <ArrowRightIcon weight="bold" />
                             </Link>
                         </span>
@@ -99,7 +99,7 @@ export default function Home() {
                     <section className="relative w-full group hover:scale-100 transition-transform duration-200 mt-12 p-4 py-8 md:p-8 md:py-12 bg-dark-background dark:bg-light-background">
                         <div className="group-hover:scale-x-125 z-[-1] group-hover:scale-y-105 !transition-transform !duration-200 absolute top-0 left-0 w-full h-full bg-dark-background dark:bg-light-background" />
                         <h1 className="text-2xl font-bold mb-2 text-dark-foreground dark:text-light-foreground">
-                            <span className="text-dark-foreground dark:text-light-foreground md:hidden">Click To </span>Try Wrisk.
+                            <span className="text-dark-foreground dark:text-light-foreground md:hidden">Tap To </span>Try Wrisk.
                         </h1>
                         <p className="text-dark-foreground dark:text-light-foreground">
                             Write until your time runs out or you hit your word count. You won&apos;t be able to stop. Literally :)
@@ -174,29 +174,42 @@ export default function Home() {
                     </h3>
                     <div className="w-full flex flex-wrap flex-row print:flex-col print:w-full gap-4 print:gap-1 mt-4 print:mt-1 pr-4">
                         <div className="relative w-full">
-                            <p className="text-lg text-muted dark:text-muted-dark"><b>Software Lead</b>, Heron Robotics (2025-2026), Kuriosity Robotics (2024-2025)</p>
-                            <p className="ml-2 flex flex-row gap-1 flex-wrap items-center" style={{ lineHeight: "2rem" }}>
-                                Qualified to the world championship in 2025. Planning to win in 2026. <BalloonIcon />
+                            <div className="text-lg">
+                                <b>Software Lead</b><br />
+                                <p className="ml-4 italic text-sm text-muted dark:text-muted-dark">Heron Robotics (2025-26), Kuriosity Robotics (2024-25)</p>
+                            </div>
+                            <p className="ml-4 flex flex-row gap-1 flex-wrap items-center" style={{ lineHeight: "2rem" }}>
+                                Lead robot driver for the past three years; qualified to the World Championship in 2023, 2024, and 2025. Trying to win in 2026 :)
                             </p>
                         </div>
                         <div className="relative w-full">
-                            <p className="text-lg text-muted dark:text-muted-dark"><b>Chief Executive Officer & Founder</b>, Sendcraft</p>
-                            <p className="ml-2" style={{ lineHeight: "2rem" }}>
+                            <div className="text-lg">
+                                <b>Chief Executive Officer & Founder</b><br />
+                                <p className="ml-4 italic text-sm text-muted dark:text-muted-dark">Sendcraft (sendcraft.app)</p>
+                            </div>
+                            <p className="ml-4" style={{ lineHeight: "2rem" }}>
                                 I want business cards like Mark Zuckerberg in <i>The Social Network</i>.
                             </p>
                         </div>
                         <div className="relative w-full">
-                            <p className="text-lg text-muted dark:text-muted-dark"><b>Software Engineering Intern</b>, Lockheed Martin Advanced Technology Center</p>
-                            <p className="ml-2" style={{ lineHeight: "2rem" }}>
+                            <div className="text-lg">
+                                <b>Software Engineering Intern</b><br />
+                                <p className="ml-4 italic text-sm text-muted dark:text-muted-dark">
+                                    Lockheed Martin, Solar & Astrophysics Laboratory
+                                </p>
+                            </div>
+                            <p className="ml-4" style={{ lineHeight: "2rem" }}>
+                                This was fun! I worked on solar data analysis, processing, and visualization in Python for solar physicists. Notably, I:
                                 <ul className="ml-8 list-disc">
                                     <li>tracked solar features with OpenCV; reconstructed magnetic flux from detected polarity inversion lines (which cause solar flares).</li>
-                                    <li>discovered memory leaks in C code and matplotlib, benchmarked solutions when applicable (it turns out that Numpy is faster than parallelized, single-instruction C code!).</li>
+                                    <li>discovered memory leaks in C code and matplotlib, benchmarked solutions when applicable (it turns out that Numpy is faster than bare-minimum C code!).</li>
                                     <li>documented eight projects.</li>
                                     <li>delivered movie visualization tools for scientists to analyze solar data.</li>
                                 </ul>
 
-                                Also, I developed a memory-mapping approach for reading CSVs with monotonically indexed entries that works about 980x faster than Pandas. And I did all that on a
-                                2017 iMac with 8GB of RAM (<Link href="/blog/macports-with-proxy" className="underline">also the proxy was slow and I didn&apos;t have homebrew</Link>).
+                                Also, I developed a memory-mapping approach for reading CSVs with monotonically indexed entries that works about 980x faster than Pandas. And I worked there given only a
+                                2017 iMac with 8GB of RAM to process terabytes of data 
+                                <span className="inline-flex flex-wrap">(<Link href="/blog/macports-with-proxy" className="underline link !inline">also, the proxy was slow and I couldn&apos;t install any packages</Link>).</span>
                             </p>
                         </div>
                     </div>
@@ -240,7 +253,6 @@ export default function Home() {
                             />
                         )}
                     </HorizontalScroll>
-                    {/* For print, show contributions in a simple list */}
                     <ul className="hidden print:block print:pl-4 print:mb-2 print:mt-1">
                         {contributions.map((e, i) =>
                             <li key={`contribution-print-${i}`}> 

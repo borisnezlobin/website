@@ -11,16 +11,12 @@ const badgeQuotes = [
     "I write stuff.",
     "Drop the “The.”",
     "Chief Executive Officer",
-    "3x robotics Worlds qualifier.",
-    "If you're an MIT AO, hi :)",
     "Get philosophical with it!",
     "@b_nezlobin on Twitter.",
-    ":)",
     "1% better every day.",
     "Staying hydrated, ish.",
     "Are you gonna finish that?",
     "Outlier?",
-    "Boyfriend!!"
 ]
 
 const FADE_DURATION = 400; // ms

@@ -33,7 +33,7 @@ export default function RootLayout({
                                     <Link href={"/"} className="link">
                                         Home.
                                     </Link>
-                                    <Link href={"/blog"} className="link">
+                                    <Link href={"/blog"} className="link !hidden md:!block">
                                         Blog.
                                     </Link>
                                     <Link href={"/projects"} className="link">
@@ -42,7 +42,7 @@ export default function RootLayout({
                                     <Link href={"/notes"} className="link !hidden md:!block">
                                         Notes.
                                     </Link>
-                                    <Link href={"/contact"} className="link !hidden md:!block">
+                                    <Link href={"/contact"} className="link">
                                         Contact.
                                     </Link>
                                 </div>

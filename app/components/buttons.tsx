@@ -21,7 +21,7 @@ const PrimaryButton: React.FC<ButtonProps> = ({ children, ...props }) => {
 
 const SecondaryButton: React.FC<ButtonProps> = ({ children, ...props }) => {
     return (
-        <button {...props} className={`${props.className} ${baseClass} bg-transparent text-light dark:shadow-none dark:text-dark border border-muted dark:border-muted-dark`}>
+        <button {...props} className={`${baseClass} bg-transparent text-light dark:shadow-none dark:text-dark border border-muted dark:border-muted-dark ${props.className}`}>
             {children}
         </button>
     );
@@ -31,7 +31,7 @@ const LinkButton: React.FC<LinkProps> = ({ children, direction = "right", classN
     if(!props["aria-label"]) props["aria-label"] = "Link to " + (props.title ? props.title : props.href);
     return (
         <Link href="/" {...props}>
-            <SecondaryButton className={className}>
+            <SecondaryButton className={`flex flex-row justify-center items-center ${className}`}>
                 {direction == "left" && <ArrowLeft className="inline-block mr-2" />}
                 {children}
                 {direction == "right" && <ArrowRight className="inline-block ml-2" />}
