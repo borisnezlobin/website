@@ -25,9 +25,9 @@ const LandingPageBadge = ({
                 animationDuration: `${index !== undefined ? "1s !important" : 0}`,
             }}
         >
-            <b className={`text-lg print:text-base print:font-bold flex items-center justify-center gap-2 h-full print:gap-1 print:items-center ${titleClassName}`}>
+            <b className={`text-lg print:text-base print:font-bold flex items-center gap-2 h-full print:gap-1 print:items-center ${titleClassName ? titleClassName : "justify-center"}`}>
                 {icon}
-                <span>{title}</span>
+                <p>{title}</p>
                 {url && <span aria-hidden="true" className="hidden print:inline print:text-xs print:ml-1 font-normal italic">{url}</span>}
             </b>
             {description && <Separator size="medium" className="hidden md:block print:hidden" />}
