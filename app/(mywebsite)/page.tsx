@@ -11,20 +11,44 @@ import Background from "../components/landing/background";
 import { HiImBoris } from "../components/landing/hi-im-boris";
 import { CoffeeIcon, FileCppIcon, FilePyIcon } from "@phosphor-icons/react/dist/ssr";
 import { CSSIcon, JavaScriptIcon, TypeScriptIcon, UnityIcon } from "../components/lucide-imports";
+import { listToString } from "../utils/list-to-string";
 
 export const metadata = getMetadata({
     info: "Hi, I'm",
 });
 
 const languages = [
-    { title: "TypeScript", icon: <TypeScriptIcon /> },
-    { title: "Java", icon: <CoffeeIcon /> },
-    { title: "Python", icon: <FilePyIcon /> },
-    { title: "C++", icon: <FileCppIcon /> },
-    { title: "HTML/CSS*", icon: <CSSIcon /> },
-    { title: "JavaScript", icon: <JavaScriptIcon /> },
-    { title: "C#" },
-    { title: "Rust" },
+    {
+        title: "TypeScript",
+        icon: TypeScriptIcon,
+        technologies: ["NextJS", "React", "Firebase", "TailwindCSS"],
+        knowHowToDo: ["Web Development", "Full-Stack Development"]
+    }, {
+        title: "Java",
+        icon: CoffeeIcon,
+        technologies: ["Gradle"],
+        knowHowToDo: ["FTC Robotics", "Reflections", "Annotations", "Networking"]
+    }, {
+        title: "Python",
+        icon: FilePyIcon,
+        technologies: ["NumPy", "Pandas", "Matplotlib", "OpenCV", "Multiprocessing"],
+        knowHowToDo: ["Data Analysis", "Data Visualization", "Computer Vision", "Performance Optimization"]
+    }, {
+        title: "C and C++",
+        icon: FileCppIcon,
+        technologies: ["OpenMP", "OpenGL", "SDL2"],
+        knowHowToDo: ["Parallel Programming", "3D Rendering", "Raytracing"]
+    }, {
+        title: "CSS/HTML",
+        icon: CSSIcon,
+        technologies: ["CSS", "NativeWind", "TailwindCSS"],
+        knowHowToDo: ["Making cool effects", "Designing websites", "Making websites"]
+    }, {
+        title: "JavaScript",
+        icon: JavaScriptIcon,
+        technologies: ["React Native", "ElectronJS", "ExpressJS", "NodeJS"],
+        knowHowToDo: ["Backend Development", "Desktop Applications"]
+    }
 ]
 
 const tech = [
@@ -41,10 +65,12 @@ const tools = [
     { title: "Jira / Slack", description: "Robotics Software Lead, '24-26", icon: <SlackLogoIcon /> },
     { title: "Email", description: "Love using this.", icon: <EnvelopeIcon /> },
     { title: "Unity", description: "Game Engine", icon: <UnityIcon /> },
+    { title: "C#", icon: <UnityIcon />, description: "3 years of game development" },
     { title: "Git", description: "", icon: <GitBranchIcon /> },
     { title: "Docker", description: "", icon: <ShippingContainerIcon /> },
     { title: "Postman", description: "" },
-    { title: "ChatGPT", icon: <OpenAiLogoIcon /> }
+    { title: "ChatGPT", icon: <OpenAiLogoIcon /> },
+    { title: "Rust" },
 ]
 
 const projects = [
@@ -108,67 +134,13 @@ export default function Home() {
                 </Link>
                 <Section
                     id="1.0"
-                    title="Skills"
-                    description="Check out what I know! I'm always learning new things."
-                    className="print:break-after-page print:mt-0 print:mb-2"
-                >
-                    <h3 className="font-bold text-xl mt-4 emph print:mt-2 print:mb-0">
-                        <span className="text-primary">
-                            1.1
-                        </span>
-                        {" "}Languages ({languages.length} of them)
-                    </h3>
-                    <div className="w-full flex flex-wrap flex-row gap-4 print:gap-1 print:items-start print:flex-row print:w-full mt-4 print:mt-0">
-                        {languages.map((e, i) => <LandingPageBadge
-                                title={e.title}
-                                description=""
-                                icon={e.icon}
-                                key={`language ${i}`}
-                            />
-                        )}
-                    </div>
-                    <p className="mt-6 text-sm print:mt-1 print:mb-1">* is HTML really a language though?</p>
-                    <h3 className="font-bold text-xl mt-4 emph print:mt-3 print:mb-0">
-                        <span className="text-primary">
-                            1.2
-                        </span>
-                        {" "}Technologies
-                    </h3>
-                    <div className="w-full flex flex-wrap flex-row gap-4 print:gap-1 print:items-start print:flex-row print:w-full mt-4 print:mt-0">
-                        {tech.map((e, i) => <LandingPageBadge
-                                description=""
-                                title={e.title}
-                                icon={e.icon}
-                                key={`tech ${i}`}
-                            />
-                        )}
-                    </div>
-
-                    <h3 className="font-bold text-xl mt-8 emph print:mt-3 print:mb-0">
-                        <span className="text-primary">
-                            1.3
-                        </span>
-                        {" "}Tools
-                    </h3>
-                    <div className="w-full flex flex-wrap items-center flex-row gap-4 print:gap-1 print:items-start print:flex-row print:w-full mt-4 print:mt-0">
-                        {tools.map((e, i) => <LandingPageBadge
-                                title={e.title}
-                                description={e.description || ""}
-                                icon={e.icon}
-                                key={`tools ${i}`}
-                            />
-                        )}
-                    </div>
-                </Section>
-                <Section
-                    id="2.0"
                     title="My Work"
                     description="Or, “What would happen if we gave a bored teenager Wi-Fi and a computer?”"
                     className="print:break-after-page print:mt-2 print:mb-2"
                 >
                     <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
                         <span className="text-primary">
-                            2.1
+                            1.1
                         </span>
                         {" "}Experience
                     </h3>
@@ -215,7 +187,7 @@ export default function Home() {
                     </div>
                     <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
                         <span className="text-primary">
-                            2.2
+                            1.2
                         </span>
                         {" "}Projects
                     </h3>
@@ -233,7 +205,7 @@ export default function Home() {
                     
                     <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
                         <span className="text-primary">
-                            2.3
+                            1.3
                         </span>
                         {" "}Contributions
                     </h3>
@@ -266,6 +238,88 @@ export default function Home() {
                     </ul>
                     </div>
                 </Section>
+                <Section
+                    id="2.0"
+                    title="Skills"
+                    description="I know lots of stuff. Some didn't make the list."
+                    className="print:break-after-page print:mt-0 print:mb-2"
+                >
+                    <div className="flex flex-row items-center">
+                        <div className="w-full mt-6 grid grid-cols-1 md:grid-cols-2 gap-6 print:gap-2">
+                            {languages.map((lang, i) => {
+                                const Icon = lang.icon;
+                                return (
+                                    <div
+                                        key={`language-${i}`}
+                                        className="relative flex flex-col md:flex-col items-start md:gap-2 rounded-lg border dark:border-neutral-800 p-4 transition-all duration-300"
+                                    >
+                                        <div className="absolute top-4 right-4 opacity-30">
+                                            <Icon weight="fill" />
+                                        </div>
+                                        <div className="flex flex-row items-center gap-3 mb-3">
+                                            <h2 className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
+                                                {lang.title}
+                                            </h2>
+                                        </div>
+
+                                        {lang.knowHowToDo && (
+                                            <div className="mb-3">
+                                                <b className="block text-sm font-bold text-neutral-700 dark:text-neutral-200 mb-1">
+                                                    I’ve used {lang.title} for
+                                                </b>
+                                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-sm text-neutral-500 dark:text-neutral-400 italic">
+                                                    {lang.knowHowToDo.map((item, idx) => (
+                                                        <li key={`use-${idx}`}>• {item}</li>
+                                                    ))}
+                                                </ul>
+                                            </div>
+                                        )}
+
+                                        {lang.technologies && (
+                                            <div className="flex flex-col gap-1">
+                                                <b className="text-neutral-800 dark:text-neutral-100 font-semibold">
+                                                    Technologies
+                                                </b>
+                                                <div className="flex flex-wrap gap-x-2 gap-y-1 italic">
+                                                    {lang.technologies.map((tech, idx) => (
+                                                        <span
+                                                            key={`tech-${idx}`}
+                                                            className="px-2 py-[2px] text-sm rounded-md bg-neutral-100 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-700"
+                                                        >
+                                                            {tech}
+                                                        </span>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        )}
+                                    </div>
+                                )
+                            })}
+                        </div>
+                    </div>
+                    <p className="mt-6 text-sm print:mt-1 print:mb-1">Also, some more stuff I thought worth mentioning:</p>
+                    <div className="w-full flex flex-wrap items-center flex-row gap-4 print:gap-1 print:items-start print:flex-row print:w-full mt-4 print:mt-0">
+                        {tools.map((e, i) => <LandingPageBadge
+                                title={e.title}
+                                description={e.description || ""}
+                                icon={e.icon}
+                                key={`tools ${i}`}
+                            />
+                        )}
+                    </div>
+                </Section>
+                <div className="w-full relative mt-8">
+                    <div className="max-w-xl w-4/5 md:w-full mx-auto rounded-full shadow-red-700 dark:shadow-primary shadow-xl h-4" />
+                    <div className="absolute -top-4 w-full max-w-7xl z-10 rounded-sm bg-light-background dark:bg-dark-background h-8 border-b !border-[#ddd] dark:!border-[#444]" />
+                </div>
+                <div className="w-full flex flex-col items-center justify-center mt-8 print:mt-2">
+                    <p className="text-center italic text-muted dark:text-muted-dark">
+                        You got to here. Might as well say hi!
+                    </p>
+                    <a href="/contact" className="link underline font-semibold mt-4 print:mt-1">
+                        Contact Me
+                    </a>
+                </div>
             </main>
         </>
     );
