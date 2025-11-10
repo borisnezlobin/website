@@ -40,6 +40,17 @@ body {
 }
 
 @font-face {
+  font-family: "vectra";
+  src: url("/antro_vectra.otf") format("opentype");
+  font-weight: 400;
+  font-style: normal;
+}
+
+.vectra {
+  font-family: "vectra", sans-serif;
+}
+
+@font-face {
   font-family: "charter";
   src: url("/charter_italic.woff2") format("woff2");
   font-weight: 400;

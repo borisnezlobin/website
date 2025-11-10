@@ -11,7 +11,6 @@ const badgeQuotes = [
     "I write stuff.",
     "Drop the “The.”",
     "Chief Executive Officer",
-    "Get philosophical with it!",
     "@b_nezlobin on Twitter.",
     "1% better every day.",
     "Staying hydrated, ish.",
@@ -39,13 +38,15 @@ const HiImBoris = () => {
 
     return (
         <div className="h-[100svh] relative top-[-6rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
-            <p className="md:hidden text-base md:text-2xl emph z-10 bg-light-background dark:bg-dark-background rounded-t-lg px-4 py-1">Hi, I&apos;m</p>
-            <h1 className="md:hidden text-3xl font-bold edo z-10 text-center md:text-7xl bg-light-background dark:bg-dark-background rounded-lg px-4 pb-3 py-1">
-                Boris Nezlobin.
+            <p className="md:hidden text-base md:text-2xl relative left-4 emph z-10 bg-light-background dark:bg-dark-background rounded-t-lg px-4 py-1">Hi, I&apos;m</p>
+            <h1 className="md:hidden text-8xl relative right-4 bottom-4 font-bold edo z-10 text-center md:text-7xl bg-transparent dark:bg-transparent rounded-lg px-4 pb-3 py-1 vectra">
+                Boris.
             </h1>
             <h1 className="hidden md:block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold edo z-10 text-center print:text-5xl print:mt-0 print:mb-1">
-                <span className="text-muted dark:text-muted dark text-4xl">I&apos;m</span>
-                Boris.
+                <span className="text-muted dark:text-muted dark font-normal text-4xl">I&apos;m</span>
+                <span className="vectra">
+                    Boris.
+                </span>
             </h1>
             <div
                 className={`hidden relative w-96 md:block print:hidden z-10 shadow-lg bg-light-background dark:bg-dark-background border border-muted dark:border-muted-dark rounded-lg px-4 py-1 print:text-xl print:mt-0 print:mb-2`}
@@ -57,7 +58,8 @@ const HiImBoris = () => {
                         opacity: fadeState === 'in' ? 1 : 0,
                         transition: `opacity ${FADE_DURATION}ms cubic-bezier(.4,0,.2,1)`,
                         whiteSpace: "nowrap",
-                        display: "inline-block"
+                        display: "inline-block",
+                        // fontFamily: "vectra",
                     }}
                 >
                     {badgeQuotes[quoteIndex]}
