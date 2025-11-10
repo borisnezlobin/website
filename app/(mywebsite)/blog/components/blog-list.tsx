@@ -10,7 +10,7 @@ const BlogList = ({
     query = "",
 }: {
     articles: Article[];
-    title: string;
+    title?: string;
     query?: string;
 }) => {
     return (
@@ -18,7 +18,14 @@ const BlogList = ({
             className="pagepad"
             suppressHydrationWarning
         >
-            <h1 className="text-3xl emph mt-8 mb-4">{title ? title : "My Blog"}</h1>
+            {title ?
+                <h1 className={`text-3xl mt-8 mb-4`}>{title}</h1>
+            : (
+                <h1 className={`text-3xl mt-8 mb-12 font-normal`}>
+                    My&nbsp;
+                    <span className="text-5xl vectra">Writing.</span>
+                </h1>
+            )}
             <SearchBar query={query}>
                 <p className="text-muted dark:text-muted-dark print:mb-4">
                 {query && (
@@ -33,7 +40,7 @@ const BlogList = ({
                     <span className="text-muted dark:text-muted-dark">{" • "}</span>
                     </>
                 )}
-                Showing {articles.length} post{articles.length == 1 ? " " : "s "}
+                Showing {articles.length} article{articles.length == 1 ? " " : "s "}
                 </p>
             </SearchBar>
             <RandomQuote />

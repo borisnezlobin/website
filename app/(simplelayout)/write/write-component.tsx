@@ -93,7 +93,7 @@ export default function WritePageComponent() {
         <div className="max-w-4xl mx-auto min-h-screen mt-4 p-4 flex flex-col gap-6 relative">
             {!started ? (
                 <>
-                    <h1 className="text-2xl font-bold">Wrisk.</h1>
+                    <h1 className="text-4xl md:text-6xl font-bold vectra">Wrisk.</h1>
                     <p>
                         Write and don&apos;t stop. Set a time, give yourself a prompt, and go: you get no distractions and <i>definitely</i> no stopping. Pause for too long and you&apos;ll lose everything ;)<br /><br />
 
