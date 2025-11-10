@@ -12,6 +12,7 @@ import { HiImBoris } from "../components/landing/hi-im-boris";
 import { CoffeeIcon, FileCppIcon, FilePyIcon } from "@phosphor-icons/react/dist/ssr";
 import { CSSIcon, JavaScriptIcon, TypeScriptIcon, UnityIcon } from "../components/lucide-imports";
 import { listToString } from "../utils/list-to-string";
+import { NowPlaying } from "../components/landing/now-playing";
 
 export const metadata = getMetadata({
     info: "Hi, I'm",
@@ -50,16 +51,6 @@ const languages = [
         knowHowToDo: ["Backend Development", "Desktop Applications"]
     }
 ]
-
-const tech = [
-    { title: "React", icon: <AtomIcon /> },
-    { title: "React Native", icon: <AtomIcon /> },
-    { title: "NextJS", icon: <TriangleIcon weight="fill" /> },
-    { title: "TailwindCSS" },
-    { title: "Prisma + Postgres" },
-    { title: "ElectronJS" },
-    { title: "ExpressJS" },
-];
 
 const tools = [
     { title: "Jira / Slack", description: "Robotics Software Lead, '24-26", icon: <SlackLogoIcon /> },
@@ -121,6 +112,9 @@ export default function Home() {
                         </span>
                     </p>
                 </div>
+
+                <NowPlaying />
+
                 <Link href="/write" className="w-full relative">
                     <section className="relative w-full group hover:scale-100 transition-transform duration-200 mt-12 p-4 py-8 md:p-8 md:py-12 bg-dark-background dark:bg-light-background">
                         <div className="group-hover:scale-x-125 z-[-1] group-hover:scale-y-105 !transition-transform !duration-200 absolute top-0 left-0 w-full h-full bg-dark-background dark:bg-light-background" />
