@@ -68,7 +68,7 @@ const Footer = () => {
                     <p className="pl-8 md:pl-0 text-muted dark:text-muted-dark mb-2">
                         My Work
                     </p>
-                    <div className="pl-8 md:pl-0 flex flex-row gap-2 justify-start items-start flex-wrap">
+                    <div className="pl-8 md:pl-0 flex flex-row gap-2 gap-y-4 justify-start items-start flex-wrap">
                         <span>
                             <LinkWithIcon title="Projects" href="/projects" Icon={Atom}>
                                 Projects
@@ -79,7 +79,7 @@ const Footer = () => {
                         </span>
                         <span>
                             <LinkWithIcon title="Blog" href="/blog" Icon={Newspaper}>
-                                Blog
+                                Writing
                             </LinkWithIcon>
                         </span>
                         <span>
@@ -90,14 +90,14 @@ const Footer = () => {
                                 Notes
                             </LinkWithIcon>
                         </span>
-                        <span>
+                        {/* <span>
                             <Separator />
-                        </span>
-                        <span>
+                        </span> */}
+                        {/* <span>
                             <LinkWithIcon title="Photography" href="/photography" Icon={CameraIcon}>
                                 Photography
                             </LinkWithIcon>
-                        </span>
+                        </span> */}
                     </div>
                 </section>
 
@@ -113,6 +113,10 @@ const Footer = () => {
                 <p className="w-full text-muted dark:text-muted-dark text-center mt-8">
                     Copyright Boris Nezlobin 2024. All rights reserved.
                 </p>
+
+                <p className="w-full">
+                    <span className="vectra">Boris Nezlobin.</span>
+                </p>
             </footer>
 
             <p aria-hidden className="w-full text-center hidden print:flex gap-4 justify-between items-center print-footer border-t pt-2 border-muted">
@@ -123,6 +127,7 @@ const Footer = () => {
                     Copyright Boris Nezlobin 2024. All rights reserved.
                 </span>
             </p>
+
         </>
     );
 };
