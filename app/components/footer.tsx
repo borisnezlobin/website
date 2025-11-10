@@ -114,7 +114,7 @@ const Footer = () => {
                     Copyright Boris Nezlobin 2024. All rights reserved.
                 </p>
 
-                <p className="w-full">
+                <p className="w-full pl-8">
                     <span className="vectra">Boris Nezlobin.</span>
                 </p>
             </footer>
