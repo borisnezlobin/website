@@ -112,12 +112,9 @@ const ContactMePage = () => {
             <ScrollForMore />
             <div className="w-full max-w-6xl mx-auto">
                 <div className="text-center mb-12 print:mb-6">
-                    <h2 className="text-2xl md:text-3xl font-bold mb-4 text-light dark:text-dark">
-                        Let&apos;s Connect
-                    </h2>
-                    <p className="text-lg text-muted dark:text-muted-dark max-w-2xl mx-auto">
-                        Whether you want to collaborate on a project, ask a question, or just say hi, 
-                        I&apos;d love to hear from you.
+                    <p className="text-muted dark:text-muted-dark max-w-2xl mx-auto">
+                        Whether you want to collaborate on a project, ask a question, or say hi, 
+                        I&apos;m looking forward to hearing from you!
                     </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">

@@ -34,7 +34,7 @@ export default function RootLayout({
                                         Home.
                                     </Link>
                                     <Link href={"/blog"} className="link !hidden md:!block">
-                                        Blog.
+                                        Writing.
                                     </Link>
                                     <Link href={"/projects"} className="link">
                                         Projects.

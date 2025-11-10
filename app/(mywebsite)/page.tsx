@@ -102,7 +102,7 @@ export default function Home() {
                 <HiImBoris />
                 <ScrollForMore className="print:hidden" />
                 <h2 className="text-xl sm:text-3xl sm:text-[2rem] text-left print:mt-4 print:mb-2">
-                    <AgeNoSSR /> years old
+                    <AgeNoSSR /> <span className="vectra">years old</span>
                 </h2>
                 <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4 print:flex-col print:items-start print:m-0 print:gap-1">
                     <p className="text-left w-full print:mb-1 print:mt-1">
@@ -125,7 +125,7 @@ export default function Home() {
                     <section className="relative w-full group hover:scale-100 transition-transform duration-200 mt-12 p-4 py-8 md:p-8 md:py-12 bg-dark-background dark:bg-light-background">
                         <div className="group-hover:scale-x-125 z-[-1] group-hover:scale-y-105 !transition-transform !duration-200 absolute top-0 left-0 w-full h-full bg-dark-background dark:bg-light-background" />
                         <h1 className="text-2xl font-bold mb-2 text-dark-foreground dark:text-light-foreground">
-                            <span className="text-dark-foreground dark:text-light-foreground md:hidden">Tap To </span>Try Wrisk.
+                            <span className="text-dark-foreground dark:text-light-foreground md:hidden">Tap To </span>Try <span className="vectra text-dark-foreground dark:text-light-foreground">Wrisk.</span>
                         </h1>
                         <p className="text-dark-foreground dark:text-light-foreground">
                             Write until your time runs out or you hit your word count. You won&apos;t be able to stop. Literally :)
@@ -251,7 +251,7 @@ export default function Home() {
                                 return (
                                     <div
                                         key={`language-${i}`}
-                                        className="relative flex flex-col md:flex-col items-start md:gap-2 rounded-lg border dark:border-neutral-800 p-4 transition-all duration-300"
+                                        className="relative flex flex-col md:flex-col items-start md:gap-2 rounded-lg border dark:border-neutral-800 p-4"
                                     >
                                         <div className="absolute top-4 right-4 opacity-30">
                                             <Icon weight="fill" />
@@ -284,7 +284,7 @@ export default function Home() {
                                                     {lang.technologies.map((tech, idx) => (
                                                         <span
                                                             key={`tech-${idx}`}
-                                                            className="px-2 py-[2px] text-sm rounded-md bg-neutral-100 dark:bg-neutral-900 text-neutral-700 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-700"
+                                                            className="px-2 py-[2px] text-sm rounded-md text-neutral-700 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-700"
                                                         >
                                                             {tech}
                                                         </span>
@@ -314,7 +314,7 @@ export default function Home() {
                 </div>
                 <div className="w-full flex flex-col items-center justify-center mt-8 print:mt-2">
                     <p className="text-center italic text-muted dark:text-muted-dark">
-                        You got to here. Might as well say hi!
+                        You got to here and that&apos;s about it for now. Say hi!
                     </p>
                     <a href="/contact" className="link underline font-semibold mt-4 print:mt-1">
                         Contact Me
