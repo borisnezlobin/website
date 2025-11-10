@@ -23,7 +23,31 @@ const FADE_DURATION = 400; // ms
 const HiImBoris = () => {
     const [quoteIndex, setQuoteIndex] = useState(0);
     const [fadeState, setFadeState] = useState<'in' | 'out'>('in');
+    const [displayedText, setDisplayedText] = useState("");
+    const [isTyping, setIsTyping] = useState(false);
     const quoteRef = useRef<HTMLParagraphElement>(null);
+
+    const currentQuote = badgeQuotes[quoteIndex];
+
+    // for typing
+    useEffect(() => {
+        if (fadeState === 'in') {
+            setIsTyping(true);
+            setDisplayedText("");
+            let i = 0;
+            const typingInterval = setInterval(() => {
+                if (i < currentQuote.length) {
+                    setDisplayedText(currentQuote.slice(0, i + 1));
+                    i++;
+                } else {
+                    setIsTyping(false);
+                    clearInterval(typingInterval);
+                }
+            }, 50); // 50ms per character
+
+            return () => clearInterval(typingInterval);
+        }
+    }, [currentQuote, fadeState]);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -49,7 +73,7 @@ const HiImBoris = () => {
                 </span>
             </h1>
             <div
-                className={`hidden relative w-96 md:block print:hidden z-10 shadow-lg bg-light-background dark:bg-dark-background border border-muted dark:border-muted-dark rounded-lg px-4 py-1 print:text-xl print:mt-0 print:mb-2`}
+                className={`hidden relative w-96 md:block print:hidden z-10 px-4 py-1 print:text-xl print:mt-0 print:mb-2`}
             >
                 <p
                     ref={quoteRef}
@@ -62,8 +86,18 @@ const HiImBoris = () => {
                         // fontFamily: "vectra",
                     }}
                 >
-                    {badgeQuotes[quoteIndex]}
+                    {displayedText}
+                    <span 
+                        className={`inline-block w-0.5 h-5 bg-current ml-1 ${isTyping || fadeState === 'in' ? 'animate-pulse' : 'animate-ping'}`}
+                        style={{ animation: isTyping ? 'none' : 'blink 1s infinite' }}
+                    />
                 </p>
+                <style jsx>{`
+                    @keyframes blink {
+                        0%, 50% { opacity: 1; }
+                        51%, 100% { opacity: 0; }
+                    }
+                `}</style>
             </div>
         </div>
     );
