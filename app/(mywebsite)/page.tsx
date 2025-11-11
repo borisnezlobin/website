@@ -96,7 +96,7 @@ export default function Home() {
                     <AgeNoSSR /> <span className="vectra">years old</span>
                 </h2>
                 <div className="w-full flex flex-col md:flex-row justify-center items-center mt-4 print:flex-col print:items-start print:m-0 print:gap-1">
-                    <p className="text-left w-full print:mb-1 print:mt-1">
+                    <div className="text-left w-full print:mb-1 print:mt-1">
                         ...and counting! I&apos;m a 12th-grade student at Palo Alto High School writing code for fun—a lot of it. I interned at Lockheed Martin&apos;s Advanced Technology Center, where I got to solve a lot of cool problems, and I love using em dashes.
                         I also love making things. Four years in robotics, three in open-source contribution, and almost a decade of programming experience have led me to build a lot of cool things.<br /><br />
                         Read on to see my skills or check out <Link className="link !underline font-semibold print:underline" href="/blog">my blog</Link>,{" "}
@@ -110,12 +110,10 @@ export default function Home() {
                                 <ArrowRightIcon weight="bold" />
                             </Link>
                         </span>
-                    </p>
+                    </div>
                 </div>
 
-                <NowPlaying />
-
-                <Link href="/write" className="w-full relative">
+                <Link href="/write" className="print:hidden w-full relative">
                     <section className="relative w-full group hover:scale-100 transition-transform duration-200 mt-12 p-4 py-8 md:p-8 md:py-12 bg-dark-background dark:bg-light-background">
                         <div className="group-hover:scale-x-125 z-[-1] group-hover:scale-y-105 !transition-transform !duration-200 absolute top-0 left-0 w-full h-full bg-dark-background dark:bg-light-background" />
                         <h1 className="text-2xl font-bold mb-2 text-dark-foreground dark:text-light-foreground">
@@ -164,7 +162,7 @@ export default function Home() {
                                     Lockheed Martin, Solar & Astrophysics Laboratory
                                 </p>
                             </div>
-                            <p className="ml-4" style={{ lineHeight: "2rem" }}>
+                            <div className="ml-4" style={{ lineHeight: "2rem" }}>
                                 This was fun! I worked on solar data analysis, processing, and visualization in Python for solar physicists. Notably, I:
                                 <ul className="ml-8 list-disc">
                                     <li>tracked solar features with OpenCV; reconstructed magnetic flux from detected polarity inversion lines (which cause solar flares).</li>
@@ -176,7 +174,7 @@ export default function Home() {
                                 Also, I developed a memory-mapping approach for reading CSVs with monotonically indexed entries that works about 980x faster than Pandas. And I worked there given only a
                                 2017 iMac with 8GB of RAM to process terabytes of data 
                                 <span className="inline-flex flex-wrap">(<Link href="/blog/macports-with-proxy" className="underline link !inline">also, the proxy was slow and I couldn&apos;t install any packages</Link>).</span>
-                            </p>
+                            </div>
                         </div>
                     </div>
                     <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
@@ -314,6 +312,8 @@ export default function Home() {
                         Contact Me
                     </a>
                 </div>
+
+                <NowPlaying />
             </main>
         </>
     );
