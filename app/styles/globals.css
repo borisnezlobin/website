@@ -102,8 +102,11 @@ ol li:not(:is(.skibidiwrapper ol li, .skibidiwrapper ul li, .markdown-rendered o
     @apply print:text-dark-background print:dark:text-dark-background;
 }
 
-.link:not(:is(article .link)), .link *, .skibidiwrapper a, .skibidiwrapper a * {
+.link {
   display: inline-flex;
+}
+
+.link:not(:is(article .link)), .link *, .skibidiwrapper a, .skibidiwrapper a * {
   flex-direction: row;
   align-items: center;
   justify-content: center;
@@ -141,7 +144,7 @@ blockquote {
     border-color: var(--primary);
 
     p {
-        @apply text-neutral-500 dark:text-neutral-400 text-lg italic;
+        @apply text-neutral-500 dark:text-neutral-400 text-lg italic print:text-base;
         line-height: 2.3rem;
     }
 
@@ -315,6 +318,7 @@ script {
 @media print {
   .skibidiwrapper {
     --font-smaller: 0.625rem;
+    --p-spacing: 16px;
   }
     h1 {
       font-size: var(--h1-size);
@@ -362,10 +366,14 @@ script {
 
 
   img, .skibidiwrapper img {
+    display: table;
     break-inside: avoid;
     page-break-inside: avoid;
-    display: block;
-    max-width: 100%;
+    break-before: auto;
+    break-after: auto;
+    width: auto;
+    max-width: 50vw !important;
+    margin-right: auto;
   }
 
   pre, .skibidiwrapper pre {

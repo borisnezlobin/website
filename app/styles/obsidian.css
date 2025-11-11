@@ -702,6 +702,7 @@
     --h4-size: 1.1em;
     --h5-size: 1em;
     --h6-size: 0.9em;
+    --p-size: 200px;
   }
 }
 
@@ -1610,6 +1611,13 @@ body {
 .markdown-rendered blockquote > :last-child {
   margin-bottom: 0;
 }
+
+@media print {
+  .markdown-rendered blockquote {
+    font-size: 0.7rem;
+  }
+}
+
 .callout {
   --callout-color: var(--callout-default);
   --callout-icon: lucide-pencil;
@@ -6131,12 +6139,6 @@ pre.code-styler-pre div > [class*="code-styler-line-number"] {
     --header-inner-vertical-padding: 0px;
     --line-number-gutter-padding: 4px;
     --line-number-gutter-min-width: 20px;
-  }
-  .cm-inline-code,
-  li,
-  p,
-  span {
-    font-size: 0.8125em;
   }
   pre, code, code * {
     font-size: var(--code-size);
