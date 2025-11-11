@@ -117,6 +117,16 @@ ol li:not(:is(.skibidiwrapper ol li, .skibidiwrapper ul li, .markdown-rendered o
   }
 }
 
+.inlinelink {
+  color: var(--text-color);
+  font-weight: 500;
+  text-decoration: underline;
+
+  &:hover, &:hover * {
+    color: var(--primary);
+  }
+}
+
 .skibidiwrapper a, .skibidiwrapper a *, .markdown-rendered .internal-link, .skibidiwrapper .markdown-rendered .internal-link * {
   color: var(--text-color);
   font-weight: 500;
