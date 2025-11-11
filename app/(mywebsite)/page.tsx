@@ -48,7 +48,7 @@ const languages = [
         title: "JavaScript",
         icon: JavaScriptIcon,
         technologies: ["React Native", "ElectronJS", "ExpressJS", "NodeJS"],
-        knowHowToDo: ["Backend Development", "Desktop Applications"]
+        knowHowToDo: ["Backend Development", "Desktop Applications", "Mobile Apps"]
     }
 ]
 
@@ -65,12 +65,10 @@ const tools = [
 ]
 
 const projects = [
-    { title: "ENF", description: "Developing the methodology for the only up-to-date European electrical network frequency data. Featured by Hack Club.", url: "/projects/enf" },
-    { title: "The C.H.", description: "A VS Code extension that lets you style todos, fixmes, ideas, hacks—anything, really—in your code.", url: "https://marketplace.visualstudio.com/items?itemName=randomletters.the-comment-highlighter" },
-    { title: "OneShip", description: "A full-stack web and mobile application built for my school.", url: "/projects/oneship" },
+    { title: "ENF", description: "The only free and up-to-date European electrical network frequency data. Featured by Hack Club.", url: "/projects/enf" },
+    { title: "The C.H.", description: "A VS Code extension that lets you style code comments. Highlight todos, fixmes, ideas—anything, really—in your code.", url: "https://marketplace.visualstudio.com/items?itemName=randomletters.the-comment-highlighter" },
     { title: "Lim", description: "Track your website usage and set daily limits. Delayed delete means you can't impulsively get around limits ;)", url: "/projects/lim" },
     { title: "rendr", description: "A 3D renderer and raytracer, both written in C, for my CS Capstone class.", url: "/projects/rendr" },
-    { title: "Portfolio", description: "My corner of the internet. Mine.", url: "/projects/portfolio" },
 ];
 
 const contributions = [
@@ -194,6 +192,9 @@ export default function Home() {
                             />
                         )}
                     </div>
+                    <p className="mt-4">
+                        And, like, eight more on <Link href="/projects" className="link underline">my cool projects page</Link>!
+                    </p>
                     
                     <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
                         <span className="text-primary">
@@ -243,9 +244,9 @@ export default function Home() {
                                 return (
                                     <div
                                         key={`language-${i}`}
-                                        className="relative flex flex-col md:flex-col items-start md:gap-2 rounded-lg border dark:border-neutral-800 p-4"
+                                        className="relative flex flex-col md:flex-col items-start rounded-lg border dark:border-neutral-800 p-4"
                                     >
-                                        <div className="absolute top-4 right-4 opacity-30">
+                                        <div className="absolute top-4 right-4 opacity-70">
                                             <Icon weight="fill" />
                                         </div>
                                         <div className="flex flex-row items-center gap-3 mb-3">
@@ -254,36 +255,34 @@ export default function Home() {
                                             </h2>
                                         </div>
 
-                                        {lang.knowHowToDo && (
-                                            <div className="mb-3">
-                                                <b className="block text-sm font-bold text-neutral-700 dark:text-neutral-200 mb-1">
-                                                    I’ve used {lang.title} for
-                                                </b>
-                                                <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-sm text-neutral-500 dark:text-neutral-400 italic">
-                                                    {lang.knowHowToDo.map((item, idx) => (
-                                                        <li key={`use-${idx}`}>• {item}</li>
-                                                    ))}
-                                                </ul>
-                                            </div>
-                                        )}
-
-                                        {lang.technologies && (
-                                            <div className="flex flex-col gap-1">
-                                                <b className="text-neutral-800 dark:text-neutral-100 font-semibold">
-                                                    Technologies
-                                                </b>
-                                                <div className="flex flex-wrap gap-x-2 gap-y-1 italic">
-                                                    {lang.technologies.map((tech, idx) => (
-                                                        <span
-                                                            key={`tech-${idx}`}
-                                                            className="px-2 py-[2px] text-sm rounded-md text-neutral-700 dark:text-neutral-300 border border-neutral-300 dark:border-neutral-700"
-                                                        >
-                                                            {tech}
-                                                        </span>
-                                                    ))}
+                                        <div className="w-full flex flex-row gap-4">
+                                            {lang.knowHowToDo && (
+                                                <div className="mb-3">
+                                                    <b className="block text-sm font-bold text-muted dark:text-muted-dark mb-1">
+                                                        I’ve used {lang.title} for
+                                                    </b>
+                                                    <ul className="grid grid-cols-1 sm:grid-cols-2 gap-x-6 gap-y-1 text-sm text-neutral-500 dark:text-neutral-400 italic">
+                                                        {lang.knowHowToDo.map((item, idx) => (
+                                                            <li key={`use-${idx}`}>• {item}</li>
+                                                        ))}
+                                                    </ul>
                                                 </div>
-                                            </div>
-                                        )}
+                                            )}
+                                            {lang.technologies && (
+                                                <div className="flex flex-col gap-1 flex-1">
+                                                    <div className="flex flex-col items-end gap-1 italic">
+                                                        {lang.technologies.map((tech, idx) => (
+                                                            <span
+                                                                key={`tech-${idx}`}
+                                                                className="px-2 py-[2px] text-sm rounded-md text-muted dark:text-muted-dark border border-neutral-300 dark:border-neutral-700"
+                                                            >
+                                                                {tech}
+                                                            </span>
+                                                        ))}
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                 )
                             })}

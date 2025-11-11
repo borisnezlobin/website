@@ -37,15 +37,15 @@ export const NowPlaying = () => {
     return (
         <div className="print:hidden relative w-full flex flex-col h-[20rem] items-center justify-end mb-3 mt-8 space-y-4 z-20 print:items-start print:m-0 print:space-y-2">
             <div className="h-full flex items-end justify-center pb-4">
-                <div className="flex w-96 flex-row items-center gap-4 rounded-md bg-light-background/70 dark:bg-dark-background/70 backdrop-blur-md border border-muted-dark/40 dark:border-muted/40 shadow-lg">
+                <div className="flex w-96 flex-row items-center rounded-md bg-light-background/70 dark:bg-dark-background/70 backdrop-blur-md border border-muted-dark/40 dark:border-muted/40 shadow-lg">
                     <img
                         src={song.albumImageUrl}
                         alt={`${song.album} album cover`}
                         className="w-1/4 rounded-l-md shadow-md"
                     />
-                    <div className="px-4 py-4 flex flex-col items-start">
+                    <div className="px-2 pl-4 py-4 w-3/4 min-w-0 flex flex-col items-start">
                         <Link
-                            className="font-semibold link hover:underline"
+                            className="font-semibold link hover:underline w-full !block overflow-hidden text-ellipsis whitespace-nowrap"
                             href={song.songUrl}
                             target="_blank"
                             rel="noopener noreferrer"
