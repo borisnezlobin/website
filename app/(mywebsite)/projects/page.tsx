@@ -47,7 +47,7 @@ export default async function ProjectsPage() {
             </div>
             <main className="pagepad !p-3">
                 <div className="md:h-[100svh] relative md:top-[-6rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
-                    <h1 className="text-3xl font-bold text-left dark:text-dark emph">Projects</h1>
+                    <h1 className="text-3xl font-bold text-left dark:text-dark vectra">Projects</h1>
                     <p className="dark:text-dark text-left mt-2">
                         What happens when you give me a computer and Wi-Fi?
                     </p>
@@ -78,7 +78,7 @@ export default async function ProjectsPage() {
                     </p>
                     <SmallProjectListItem
                         link="https://x.com/b_nezlobin/status/1973213855754092749"
-                        linkText="Let's go 600x faster than SunPy"
+                        linkText="600x faster than SunPy: A day's work"
                         icon={<XLogoIcon />}
                         description="When the libraries are too slow, make polynomials. Empirically modelling solar differential rotation more accurately and a whole lot faster than SunPy."
                     />
