@@ -97,8 +97,8 @@ export default function Home() {
                     <div className="text-left w-full print:mb-1 print:mt-1">
                         ...and counting! I&apos;m a 12th-grade student at Palo Alto High School writing code for fun—a lot of it. I interned at Lockheed Martin&apos;s Advanced Technology Center, where I got to solve a lot of cool problems, and I love using em dashes.
                         I also love making things. Four years in robotics, three in open-source contribution, and almost a decade of programming experience have led me to build a lot of cool things.<br /><br />
-                        Read on to see my skills or check out <Link className="link !underline font-semibold print:underline" href="/blog">my blog</Link>,{" "}
-                        <Link className="link underline" href="/notes">lecture notes</Link>, and <Link className="link underline" href="/projects">projects I&apos;ve worked on</Link>.<br />
+                        Read on to see my skills or check out <Link className="inlinelink" href="/blog">my blog</Link>,{" "}
+                        <Link className="inlinelink" href="/notes">lecture notes</Link>, and <Link className="inlinelink" href="/projects">projects I&apos;ve worked on</Link>.<br />
                         <span className="w-full flex flex-row justify-start items-center h-full gap-8 mt-4 print:hidden">
                             <LinkButton href="/blog" className="">
                                 Read my blog
@@ -128,7 +128,7 @@ export default function Home() {
                     description="Or, “What would happen if we gave a bored teenager Wi-Fi and a computer?”"
                     className="print:break-after-page print:mt-2 print:mb-2"
                 >
-                    <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
+                    <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1 sticky top-20 bg-light-background dark:bg-dark-background z-10">
                         <span className="text-primary">
                             1.1
                         </span>
@@ -175,7 +175,7 @@ export default function Home() {
                             </div>
                         </div>
                     </div>
-                    <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
+                    <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1 sticky top-20 bg-light-background dark:bg-dark-background z-10">
                         <span className="text-primary">
                             1.2
                         </span>
@@ -195,8 +195,8 @@ export default function Home() {
                     <p className="mt-4">
                         And, like, eight more on <Link href="/projects" className="link underline">my cool projects page</Link>!
                     </p>
-                    
-                    <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1">
+
+                    <h3 className="font-bold text-xl mt-8 emph print:mt-2 print:mb-1 sticky top-20 bg-light-background dark:bg-dark-background z-10">
                         <span className="text-primary">
                             1.3
                         </span>
@@ -300,7 +300,7 @@ export default function Home() {
                     </div>
                 </Section>
                 <div className="w-full relative mt-8">
-                    <div className="max-w-xl w-4/5 md:w-full mx-auto rounded-full shadow-red-700 dark:shadow-primary shadow-xl h-4" />
+                    <div className="hidden md:block max-w-xl w-4/5 md:w-full mx-auto rounded-full shadow-red-700 dark:shadow-primary shadow-xl h-4" />
                     <div className="absolute -top-4 w-full max-w-7xl z-10 rounded-sm bg-light-background dark:bg-dark-background h-8 border-b !border-[#ddd] dark:!border-[#444]" />
                 </div>
                 <div className="w-full flex flex-col items-center justify-center mt-8 print:mt-2">
