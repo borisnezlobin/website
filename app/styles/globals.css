@@ -131,8 +131,8 @@ ol li:not(:is(.skibidiwrapper ol li, .skibidiwrapper ul li, .markdown-rendered o
 }
 
 .skibidiwrapper a, .skibidiwrapper a *, .markdown-rendered .internal-link, .skibidiwrapper .markdown-rendered .internal-link * {
-  color: var(--text-color);
-  font-weight: 500;
+  @apply font-bold text-muted dark:text-muted-dark;
+  text-decoration: underline;
 }
 
 .bg-background {
