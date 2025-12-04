@@ -23,12 +23,12 @@ const TweetArticleButton = ({ slug }: { slug: string }) => {
 
 const ArticleImageBg = ({ imageUrl }: { imageUrl: string }) => {
     return (
-        <div className="absolute top-[3rem] left-0 h-96 bg-transparent w-screen z-0 print:hidden">
-            <div className="md:absolute h-full inset-0 bg-transparent">
+        <div className="absolute top-[3rem] left-0 h-screen bg-transparent w-screen z-0 print:hidden">
+            <div className="md:absolute h-screen inset-0 bg-transparent">
                 <img
                     alt="Article Image"
                     src={imageUrl}
-                    className="w-screen h-96 object-cover z-[1] absolute top-[-4rem]"
+                    className="w-screen h-screen object-cover z-[1] absolute -top-12"
                 />
             </div>
 
