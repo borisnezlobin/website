@@ -118,7 +118,7 @@ const RandomQuote: React.FC = () => {
     const [index, setIndex] = useState(random);
     
     return (
-        <center className="w-full my-12 md:mb-24 print:hidden">
+        <center className="w-full print:hidden">
             <p>
                 {quotes[index].text}
                 <br />
@@ -126,12 +126,12 @@ const RandomQuote: React.FC = () => {
                     {quotes[index].source}
                 </span>
             </p>
-            <p onClick={() => setIndex(getRandomIndex)} className="group link mt-4 cursor-pointer font-semibold justify-center">
+            {/* <p onClick={() => setIndex(getRandomIndex)} className="group link mt-4 cursor-pointer font-semibold justify-center">
                 <DiceFiveIcon className="group-hover:rotate-[35deg] transition-transform duration-300 text-xl group-active:scale-125" />
                 <span>
                     Get another quote
                 </span>
-            </p>
+            </p> */}
         </center>
     )
 };
