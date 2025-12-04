@@ -9,6 +9,7 @@ import SocialLinksBubble from "@/app/components/social-links-bubble";
 import { Analytics } from "@vercel/analytics/react";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import { Theme } from "../components/theme";
+import TopBar from "../components/topbar";
 
 export const metadata = getMetadata({});
 
@@ -28,25 +29,7 @@ export default function RootLayout({
                 <Theme>
                     <div className="w-screen min-w-screen min-h-[100svh] print:min-h-0 bg-background">
                         <div className="w-full max-w-6xl mx-auto">
-                            <div className="w-full fixed z-20 top-0 left-0 px-4 print:hidden bg-background h-12">
-                                <div className="flex flex-row justify-around h-full md:justify-start md:pl-6 md:gap-24 w-full md:w-2/3 items-center bg-light-background dark:bg-dark-background">
-                                    <Link href={"/"} className="link">
-                                        Home.
-                                    </Link>
-                                    <Link href={"/blog"} className="link !hidden md:!block">
-                                        Writing.
-                                    </Link>
-                                    <Link href={"/projects"} className="link">
-                                        Projects.
-                                    </Link>
-                                    <Link href={"/notes"} className="link !hidden md:!block">
-                                        Notes.
-                                    </Link>
-                                    <Link href={"/contact"} className="link">
-                                        Contact.
-                                    </Link>
-                                </div>
-                            </div>
+                            <TopBar />
                             <div className="w-full h-full pt-[3rem] print:pt-0 print:pb-4">
                                 {children}
                             </div>
