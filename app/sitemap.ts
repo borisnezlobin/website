@@ -7,7 +7,7 @@ import { readFileSync } from 'fs';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const blogs = await getBlogs();
     const blogRoutes = blogs.map((blog) => {
-        if (blog.slug.startsWith("draft")) {
+        if (blog.slug.includes("draft-")) {
             return null;
         } else return ({
             url: `https://www.borisn.dev/blog/${blog.slug}`,
@@ -17,7 +17,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const projects = await getProjects();
     const projectRoutes = projects.map((project) => {
-        if (project.slug.startsWith("draft")) {
+        if (project.slug.includes("draft-")) {
             return null;
         } else return ({
             url: `https://www.borisn.dev/projects/${project.slug}`,
@@ -27,7 +27,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const notes = await getNotes();
     const noteRoutes = notes.map((note) => {
-        if (note.slug.startsWith("draft")) {
+        if (note.slug.includes("draft-")) {
             return null;
         } else return ({
             url: `https://www.borisn.dev/notes/${note.slug}`,
@@ -46,7 +46,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
             return sections
                 .map((section) => {
-                if (section.slug.startsWith("draft") || note.slug.startsWith("draft")) {
+                if (section.slug.includes("draft-") || note.slug.includes("draft-")) {
                     return null;
                 }
                 return {

@@ -12,7 +12,7 @@ const BlogListItem = ({
     post: Article;
     inGrid: boolean;
 }) => {
-    const isPersonal = post.slug.startsWith("personal-");
+    const isPersonal = post.slug.includes("personal-");
 
     return (
         <div
