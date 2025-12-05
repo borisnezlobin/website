@@ -87,7 +87,7 @@ const SectionPage = async ({ params }: { params: Promise<{ slug: string, section
     }
 
     let sect = sections[sectionIndex];
-    const isDraft = note.slug.startsWith("draft-") || sect.slug.startsWith("draft-");
+    const isDraft = note.slug.includes("draft-") || sect.slug.includes("draft-");
 
     return (
         <>

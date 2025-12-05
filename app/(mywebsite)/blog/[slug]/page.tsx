@@ -98,7 +98,7 @@ export default async function SingleBlogPage(
     
     return (
         <>
-            {slug.startsWith("draft") && <DraftBadge />}
+            {slug.includes("draft-") && <DraftBadge />}
             <div className={`pagepad`}>
                 {post.image && <ArticleImageBg imageUrl={post.image} />}
                 
