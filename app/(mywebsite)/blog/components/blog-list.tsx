@@ -115,8 +115,8 @@ const BlogList = ({
                 )}
             </div>
             {articles.map((post) => {
-                if (post.slug.startsWith("draft-")) return null;
-                const isPersonal = post.slug.startsWith("personal-");
+                if (post.slug.includes("draft-")) return null;
+                const isPersonal = post.slug.includes("personal-");
                 if (isPersonal && !showPersonalArticles) return null;
                 return (
                     <BlogListItem post={post} inGrid={false} key={post.id} />
