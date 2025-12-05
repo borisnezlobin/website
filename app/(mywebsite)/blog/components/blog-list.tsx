@@ -34,7 +34,7 @@ const BlogList = ({
                 </h1>
             )}
             <RandomQuote />
-            <SearchBar query={query}>
+            {/* <SearchBar query={query}>
                 <p className="text-muted dark:text-muted-dark print:mb-4">
                 {query && (
                     <>
@@ -50,8 +50,8 @@ const BlogList = ({
                 )}
                 Showing {articles.length} article{articles.length == 1 ? " " : "s "}
                 </p>
-            </SearchBar>
-            <div className="mb-4 w-full flex justify-end print:hidden">
+            </SearchBar> */}
+            <div className="mb-4 w-full flex justify-start print:hidden">
                 <label className="inline-flex items-center cursor-pointer group">
                     <div className="relative">
                         <input
