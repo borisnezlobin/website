@@ -83,7 +83,7 @@ const quotes = [
         text: "All the words are gonna bleed from me and I will sing no more.",
         source: "Seven Nation Army, The White Stripes"
     }, {
-        text: "The issue with quotes, though, is attribution innacuracy.",
+        text: "The issue with quotes, though, is attribution inaccuracy.",
         source: "John F. Kennedy"
     }, {
         text: "Em dashes (—) are not indicative of AI usage; many human writers know the option+shift+hyphen shortcut.",
