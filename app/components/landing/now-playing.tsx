@@ -131,12 +131,12 @@ export const NowPlaying = () => {
         adjustedSecondary[2] += BRIGHTNESS_SHIFT;
         adjustedSecondary = boostSaturation(adjustedSecondary, SATURATION_BOOST);
     }
-    
 
     return (
-        <div className="print:hidden relative w-full flex flex-col h-[20rem] items-center justify-end mb-3 mt-8 space-y-4 z-20 print:items-start print:m-0 print:space-y-2">
+        <div className="relative w-full flex flex-col h-[20rem] items-center justify-end my-20 space-y-4 z-20 print:hidden print:m-0 print:space-y-2">
+            <div className="absolute h-[150%] translate-y-1/4 w-screen bg-dark-background -z-10" />
             <div className="h-full flex items-end justify-center pb-4">
-                <div className="flex w-96 flex-row items-center rounded-md bg-light-background/70 dark:bg-dark-background/70 backdrop-blur-md border border-muted-dark/40 dark:border-muted/40 shadow-lg">
+                <div className="flex w-96 flex-row items-center rounded-md bg-dark-background/70 backdrop-blur-md border border-muted/40 shadow-lg">
                     <img
                         src={song.albumImageUrl}
                         alt={`${song.album} album cover`}
@@ -144,14 +144,14 @@ export const NowPlaying = () => {
                     />
                     <div className="px-2 pl-4 py-4 w-3/4 min-w-0 flex flex-col items-start">
                         <Link
-                            className="font-semibold link hover:underline w-full !block overflow-hidden text-ellipsis whitespace-nowrap"
+                            className="font-semibold link hover:underline w-full !block overflow-hidden text-ellipsis whitespace-nowrap !text-dark-foreground"
                             href={song.songUrl}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
                             {song.title}
                         </Link>
-                        <span className="text-sm text-muted dark:text-muted-dark">
+                        <span className="text-sm text-muted-dark">
                             {song.artist}
                         </span>
                     </div>
@@ -184,9 +184,9 @@ export const NowPlaying = () => {
                 />
                 <Equalizer primary={adjustedDominant} />
             </div>
-            <div className="w-full absolute bottom-[-2rem] flex justify-center z-[-1]">
-                <p>
-                    Listening to this right now!
+            <div className="w-full absolute bottom-[-3rem] flex justify-center z-[-1]">
+                <p className="text-dark-foreground">
+                    Listening right now!
                 </p>
             </div>
 
@@ -256,13 +256,13 @@ const Equalizer = ({ rows = 12, frameDelay = 150, primary, background }: { rows?
         const draw = () => {
             ctx.clearRect(0, 0, width, height);
             let backColor = background;
-            let frontColor = primary ?? (theme === "dark" ? [233, 100, 87] : [204, 42, 38]);
+            let frontColor = primary ?? [233, 100, 87];
 
-            if (theme === "light") {
-                frontColor = boostSaturation(frontColor, 0.3);
-            }
+            // if (theme === "light") {
+            //     frontColor = boostSaturation(frontColor, 0.3);
+            // }
             if (!backColor) {
-                backColor = (theme === "dark") ? [28, 28, 28] : [245, 245, 245];
+                backColor = [28, 28, 28];
             }
             levels.forEach((level, ci) => {
                 for (let ri = 0; ri < level; ri++) {
