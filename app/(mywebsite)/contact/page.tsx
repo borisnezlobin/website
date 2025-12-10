@@ -100,7 +100,7 @@ const professionalismGradient = (level: number) => {
 const ContactMePage = () => {
     const sortedContactTypes = CONTACT_TYPES.sort((a, b) => b.professionalism - a.professionalism);
     return (
-        <main className="print:min-h-[calc(100svh-8rem)] flex flex-col justify-center items-start mb-12 md:mb-[30vh] p-4 lg:p-0">
+        <main className="print:min-h-[calc(100svh-8rem)] flex flex-col justify-center items-start mb-12 md:mb-[30vh] p-4 lg:p-0 select-text">
             <div className="h-[100svh] print:hidden relative top-[-3rem] items-center w-full flex flex-col justify-center p-4 gap-4">
                 <h1 className="text-3xl font-bold text-center md:text-4xl lg:text-5xl">
                     Want to reach out?
