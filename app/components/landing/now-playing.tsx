@@ -25,6 +25,7 @@ export const NowPlaying = () => {
     } | null>(null);
     const [dominantColor, setDominantColor] = useState<number[] | null>(null);
     const [secondaryColor, setSecondaryColor] = useState<number[] | null>(null);
+    const theme = useTheme().theme;
 
     useEffect(() => {
         const fetchNowPlaying = async () => {
@@ -50,10 +51,10 @@ export const NowPlaying = () => {
                         if (r > 220 && g > 220 && b > 220) continue;
 
                         // "move" the color away from the dark/light extremes
-                        const shift = 60;
-                        r = Math.min(255, Math.max(0, r + (r < 128 ? shift : -shift)));
-                        g = Math.min(255, Math.max(0, g + (g < 128 ? shift : -shift)));
-                        b = Math.min(255, Math.max(0, b + (b < 128 ? shift : -shift)));
+                        // const shift = 60;
+                        // r = Math.min(255, Math.max(0, r + (r < 128 ? shift : -shift)));
+                        // g = Math.min(255, Math.max(0, g + (g < 128 ? shift : -shift)));
+                        // b = Math.min(255, Math.max(0, b + (b < 128 ? shift : -shift)));
 
                         const key = Math.floor(r / HISTOGRAM_SCALE) + "," + Math.floor(g / HISTOGRAM_SCALE) + "," + Math.floor(b / HISTOGRAM_SCALE);
                         if (histogram[key]) {
@@ -80,15 +81,13 @@ export const NowPlaying = () => {
                     // distance is at most HISTOGRAM_SCALE ^ 3; however, histogram frequency is at most  width * height / downsampleFactor
                     const maxFrequency = (imgData.width * imgData.height) / downsampleFactor;
                     const maxDistance = Math.sqrt(Math.pow(255 / HISTOGRAM_SCALE, 3));
-                    distances = distances.filter(a => histogram[a.key] > 300).filter(a => a.distance > 50); // album covers are 640x640
+                    distances = distances.filter(a => histogram[a.key] > 150).filter(a => a.distance > 50); // album covers are 640x640
                     
                     distances.sort((a, b) => {
                         const distanceWeight = 0.5;
                         const scoreA = (histogram[a.key] / maxFrequency) + (a.distance / maxDistance) * distanceWeight;
                         const scoreB = (histogram[b.key] / maxFrequency) + (b.distance / maxDistance) * distanceWeight;
 
-                        console.log(`Color ${a.key}: frequency ${histogram[a.key]}, distance ${a.distance}, score ${scoreA}`);
-                        console.log(`Color ${b.key}: frequency ${histogram[b.key]}, distance ${b.distance}, score ${scoreB}`);
                         return scoreB - scoreA;
                     });
                     const sortedByDistance = distances.map(d => d.key);
@@ -113,6 +112,26 @@ export const NowPlaying = () => {
     if (!song || !song.isPlaying) {
         return null;
     }
+
+    let adjustedDominant = dominantColor ? [...dominantColor] : [204, 42, 38];
+    const BRIGHTNESS_THRESHOLD = 150;
+    const BRIGHTNESS_SHIFT = 30;
+    const SATURATION_BOOST = 0.0;
+    if (theme == 'light' && adjustedDominant[0] < BRIGHTNESS_THRESHOLD && adjustedDominant[1] < BRIGHTNESS_THRESHOLD && adjustedDominant[2] < BRIGHTNESS_THRESHOLD) {
+        adjustedDominant[0] += BRIGHTNESS_SHIFT;
+        adjustedDominant[1] += BRIGHTNESS_SHIFT;
+        adjustedDominant[2] += BRIGHTNESS_SHIFT;
+        adjustedDominant = boostSaturation(adjustedDominant, SATURATION_BOOST);
+    }
+
+    let adjustedSecondary = secondaryColor ? [...secondaryColor] : [204, 42, 38];
+    if (theme == 'light' && adjustedSecondary[0] < BRIGHTNESS_THRESHOLD && adjustedSecondary[1] < BRIGHTNESS_THRESHOLD && adjustedSecondary[2] < BRIGHTNESS_THRESHOLD) {
+        adjustedSecondary[0] += BRIGHTNESS_SHIFT;
+        adjustedSecondary[1] += BRIGHTNESS_SHIFT;
+        adjustedSecondary[2] += BRIGHTNESS_SHIFT;
+        adjustedSecondary = boostSaturation(adjustedSecondary, SATURATION_BOOST);
+    }
+    
 
     return (
         <div className="print:hidden relative w-full flex flex-col h-[20rem] items-center justify-end mb-3 mt-8 space-y-4 z-20 print:items-start print:m-0 print:space-y-2">
@@ -140,22 +159,30 @@ export const NowPlaying = () => {
             </div>
             <div className="w-full absolute h-[20rem] overflow-hidden left-0 bottom-0 flex justify-center z-[-1]">
                 <div
-                    className="w-1/2 h-1/2 blur-3xl absolute scale-y-50 top-1/2 -translate-x-8 -translate-y-4 opacity-60 animate-float animate-pulse"
-                    style={{ backgroundColor: `rgb(${dominantColor ? dominantColor.join(',') : '204,42,38'})` }}
+                    className="w-2/3 h-1/2 blur-3xl absolute scale-y-50 top-1/2 -translate-x-8 -translate-y-4 opacity-60 animate-float animate-pulse"
+                    style={{
+                        backgroundColor: `rgb(${adjustedDominant.join(',')})`
+                    }}
                 />
                 <div
-                    className="w-1/3 h-1/2 blur-3xl absolute top-1/2 scale-y-50 translate-x-8 translate-y-16 opacity-40 animate-float-reverse animate-pulse"
-                    style={{ backgroundColor: `rgb(${secondaryColor ? secondaryColor.join(',') : '204,42,38'})` }}
+                    className="w-1/2 h-1/2 blur-3xl absolute top-1/2 scale-y-50 translate-x-8 translate-y-16 opacity-40 animate-float-reverse animate-pulse"
+                    style={{
+                        backgroundColor: `rgb(${adjustedSecondary.join(',')})`
+                    }}
                 />
                 <div
                     className="w-1/3 h-1/2 blur-3xl absolute scale-y-50 top-1/2 translate-x-12 translate-y-4 opacity-60 animate-float animate-pulse"
-                    style={{ backgroundColor: `rgb(${dominantColor ? dominantColor.join(',') : '204,42,38'})` }}
+                    style={{
+                        backgroundColor: `rgb(${adjustedDominant.join(',')})`
+                    }}
                 />
                 <div
                     className="w-1/3 h-1/2 blur-3xl absolute top-1/2 scale-y-50 -translate-x-8 -translate-y-6 opacity-40 animate-float-reverse animate-pulse"
-                    style={{ backgroundColor: `rgb(${secondaryColor ? secondaryColor.join(',') : '204,42,38'})` }}
+                    style={{
+                        backgroundColor: `rgb(${adjustedSecondary.join(',')})`
+                    }}
                 />
-                <Equalizer primary={dominantColor} />
+                <Equalizer primary={adjustedDominant} />
             </div>
             <div className="w-full absolute bottom-[-2rem] flex justify-center z-[-1]">
                 <p>
