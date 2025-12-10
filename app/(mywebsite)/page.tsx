@@ -137,11 +137,14 @@ export default function Home() {
                     <div className="w-full flex flex-wrap flex-row print:flex-col print:w-full gap-4 print:gap-1 mt-4 print:mt-1 pr-4">
                         <div className="relative w-full">
                             <div className="text-lg">
-                                <b>Software Lead</b><br />
-                                <p className="ml-4 italic text-sm text-muted dark:text-muted-dark">Heron Robotics (2025-26), Kuriosity Robotics (2024-25)</p>
+                                <b>Team Captain</b><br />
+                                <p className="ml-4 italic text-sm text-muted dark:text-muted-dark">Heron Robotics (2025-26), Software Lead at Kuriosity Robotics (2024-25)</p>
                             </div>
                             <p className="ml-4 flex flex-row gap-1 flex-wrap items-center" style={{ lineHeight: "2rem" }}>
-                                Lead robot driver for the past three years; qualified to the World Championship in 2023, 2024, and 2025. Trying to win in 2026 :)
+                                Lead robot driver in 2023-2025, now Drive Coach (doing in-match strategy); qualified to the World Championship in 2023, 2024, and 2025. Trying to win in 2026!
+                                <br />I manage finances, logistics, and lead the
+                                software subteam to write what is, in my opinion, some of the most innovative code the competition has ever seen. I&apos;m
+                                lucky to work with the people I do; at the end of the year, we&apos;re going to publish a lot of writeups on our approaches and decisions that I think will be very interesting!
                             </p>
                         </div>
                         <div className="relative w-full">
@@ -150,7 +153,7 @@ export default function Home() {
                                 <p className="ml-4 italic text-sm text-muted dark:text-muted-dark">Sendcraft (sendcraft.app)</p>
                             </div>
                             <p className="ml-4" style={{ lineHeight: "2rem" }}>
-                                I want business cards like Mark Zuckerberg in <i>The Social Network</i>.
+                                I want business cards like Mark Zuckerberg in <i>The Social Network</i>. No idea what I&apos;m doing.
                             </p>
                         </div>
                         <div className="relative w-full">
@@ -169,9 +172,9 @@ export default function Home() {
                                     <li>delivered movie visualization tools for scientists to analyze solar data.</li>
                                 </ul>
 
-                                Also, I developed a memory-mapping approach for reading CSVs with monotonically indexed entries that works about 980x faster than Pandas. And I worked there given only a
+                                Also, I developed a binary search memory-mapping approach for reading CSVs with monotonically indexed entries that works about 980x faster than Pandas. And I worked there given only a
                                 2017 iMac with 8GB of RAM to process terabytes of data&nbsp;
-                                <span className="inline-flex flex-wrap ml-1">(<Link href="/blog/macports-with-proxy" className="underline link !inline">also, the proxy was slow and I couldn&apos;t install any packages</Link>).</span>
+                                <span className="inline-flex flex-wrap break-all">(<Link href="/blog/macports-with-proxy" className="underline link !inline break-all">also, the proxy was slow and I couldn&apos;t install any packages</Link>).</span>
                             </div>
                         </div>
                     </div>

@@ -173,7 +173,7 @@ const Background = ({
             <pre
                 key={index}
                 style={{ fontFamily: 'Courier New, monospace', fontSize: TEXT_SIZE }}
-                className={`w-full ${INVERT_SPACE ? 'justify-start' : 'justify-center'} items-center m-0 p-0 text-center leading-none !text-[#C5C5C5] dark:!text-[#3C3C3C]`}
+                className={`w-full ${INVERT_SPACE ? 'justify-start' : 'justify-center'} items-center m-0 p-0 text-center leading-none !text-[#C5C5C5] dark:!text-[#3C3C3C] select-none`}
             >
                 {tokens.map((word, i) => {
                     const active = word === WORDS[wordIndex];
