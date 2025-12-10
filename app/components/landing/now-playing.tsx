@@ -64,12 +64,6 @@ export const NowPlaying = () => {
                         if (r < 40 && g < 40 && b < 40) continue;
                         if (r > 220 && g > 220 && b > 220) continue;
 
-                        // "move" the color away from the dark/light extremes
-                        // const shift = 60;
-                        // r = Math.min(255, Math.max(0, r + (r < 128 ? shift : -shift)));
-                        // g = Math.min(255, Math.max(0, g + (g < 128 ? shift : -shift)));
-                        // b = Math.min(255, Math.max(0, b + (b < 128 ? shift : -shift)));
-
                         const key = Math.floor(r / HISTOGRAM_SCALE) + "," + Math.floor(g / HISTOGRAM_SCALE) + "," + Math.floor(b / HISTOGRAM_SCALE);
                         if (histogram[key]) {
                             histogram[key] += 1;
@@ -132,22 +126,21 @@ export const NowPlaying = () => {
 
     let adjustedDominant = dominantColor ? [...dominantColor] : [204, 0, 0];
     let adjustedSecondary = secondaryColor ? [...secondaryColor] : [204, 0, 0];
-
-    console.log("Dominant Color:", adjustedDominant);
-    console.log("Secondary Color:", adjustedSecondary);
-
-    const minBrightness = 40;
     adjustedDominant = brightenIfNecessary(adjustedDominant);
     adjustedSecondary = brightenIfNecessary(adjustedSecondary);
 
-    console.log("adjusted Dominant Color:", adjustedDominant);
-    console.log("adjusted Secondary Color:", adjustedSecondary);
 
     return (
         <div className="relative w-full flex flex-col h-[20rem] items-center justify-end my-20 space-y-4 z-20 print:hidden print:m-0 print:space-y-2">
             <div className="absolute h-[150%] translate-y-1/4 w-screen bg-dark-background -z-10" />
             <div className="h-full flex items-end justify-center pb-4">
-                <div className="flex w-96 flex-row items-center rounded-md bg-dark-background/70 backdrop-blur-md border border-muted/40 shadow-lg">
+                <div
+                    className="flex w-96 flex-row items-center rounded-md bg-dark-background/70 backdrop-blur-md shadow-lg animate-pulse-border"
+                    style={{
+                        border: `1px solid rgba(${adjustedSecondary[0] * 1.2}, ${adjustedSecondary[1] * 1.2}, ${adjustedSecondary[2] * 1.2}, 1.0)`,
+                        animation: `pulse-border 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`
+                    }}
+                >
                     <img
                         src={song.albumImageUrl}
                         alt={`${song.album} album cover`}
@@ -167,28 +160,41 @@ export const NowPlaying = () => {
                         </span>
                     </div>
                 </div>
+                <style jsx>{`
+                    @keyframes pulse-border {
+                        0% {
+                            border-color: rgba(${adjustedSecondary[0] * 1.2}, ${adjustedSecondary[1] * 1.2}, ${adjustedSecondary[2] * 1.2}, 0.5);
+                        }
+                        50% {
+                            border-color: rgba(${adjustedSecondary[0]}, ${adjustedSecondary[1]}, ${adjustedSecondary[2]}, 1.0);
+                        }
+                        100% {
+                            border-color: rgba(${adjustedSecondary[0] * 1.2}, ${adjustedSecondary[1] * 1.2}, ${adjustedSecondary[2] * 1.2}, 0.5);
+                        }
+                    }
+                `}</style>
             </div>
             <div className="w-full absolute h-[20rem] overflow-hidden left-0 bottom-0 flex justify-center z-[-1]">
                 <div
-                    className="w-2/3 h-1/2 blur-3xl absolute scale-y-50 top-1/2 -translate-x-8 -translate-y-4 opacity-60 animate-float animate-pulse"
+                    className="w-2/3 h-2/3 absolute scale-y-50 top-1/2 translate-y-4 opacity-50 blur-2xl animate-pulse"
                     style={{
                         backgroundColor: `rgb(${adjustedDominant.join(',')})`
                     }}
                 />
                 <div
-                    className="w-1/2 h-1/2 blur-3xl absolute top-1/2 scale-y-50 translate-x-8 translate-y-16 opacity-40 animate-float-reverse animate-pulse"
+                    className="w-1/2 h-1/2 absolute top-1/2 scale-y-50 translate-x-8 translate-y-16 scale-75 opacity-30 rounded-full blur-3xl animate-pulse"
                     style={{
                         backgroundColor: `rgb(${adjustedSecondary.join(',')})`
                     }}
                 />
                 <div
-                    className="w-1/3 h-1/2 blur-3xl absolute scale-y-50 top-1/2 translate-x-12 translate-y-4 opacity-60 animate-float animate-pulse"
+                    className="w-1/3 h-2/3 absolute scale-y-50 top-1/2 -translate-y-14 opacity-50 blur-2xl rounded-full animate-pulse"
                     style={{
                         backgroundColor: `rgb(${adjustedDominant.join(',')})`
                     }}
                 />
                 <div
-                    className="w-1/3 h-1/2 blur-3xl absolute top-1/2 scale-y-50 -translate-x-8 -translate-y-6 opacity-40 animate-float-reverse animate-pulse"
+                    className="w-1/3 h-1/2 absolute top-1/2 scale-y-50 -translate-x-12 translate-y-0 scale-75 opacity-30 blur-3xl animate-pulse"
                     style={{
                         backgroundColor: `rgb(${adjustedSecondary.join(',')})`
                     }}
@@ -200,34 +206,6 @@ export const NowPlaying = () => {
                     Listening right now!
                 </p>
             </div>
-
-            <style jsx>{`
-                @keyframes float {
-                    0%, 100% {
-                        transform: translateY(0) translateX(0);
-                    }
-                    50% {
-                        transform: translateY(-10px) translateX(10px);
-                    }
-                }
-
-                @keyframes float-reverse {
-                    0%, 100% {
-                        transform: translateY(0) translateX(0);
-                    }
-                    50% {
-                        transform: translateY(10px) translateX(-10px);
-                    }
-                }
-
-                .animate-float {
-                    animation: float 5s ease-in-out infinite;
-                }
-
-                .animate-float-reverse {
-                    animation: float-reverse 5s ease-in-out infinite;
-                }
-            `}</style>
         </div>
     );
 };
@@ -268,9 +246,6 @@ const Equalizer = ({ rows = 12, frameDelay = 150, primary, background }: { rows?
             let backColor = background;
             let frontColor = primary ?? [233, 100, 87];
 
-            // if (theme === "light") {
-            //     frontColor = boostSaturation(frontColor, 0.3);
-            // }
             if (!backColor) {
                 backColor = [28, 28, 28];
             }
@@ -332,56 +307,4 @@ const Equalizer = ({ rows = 12, frameDelay = 150, primary, background }: { rows?
     }, [rows, primary, frameDelay]);
 
     return <canvas ref={canvasRef} className="w-full h-full" />;
-};
-
-// skibidi chatgpt saturdation-boosting code below
-const clamp = (v: number, min: number, max: number) =>
-    Math.min(max, Math.max(min, v));
-
-// r,g,b: 0–255 → [h, s, l] with s,l in 0–1
-const rgbToHsl = (r: number, g: number, b: number): [number, number, number] => {
-    r /= 255; g /= 255; b /= 255;
-    const max = Math.max(r, g, b), min = Math.min(r, g, b);
-    let h = 0, s = 0;
-    const l = (max + min) / 2;
-    const d = max - min;
-
-    if (d !== 0) {
-        s = d / (1 - Math.abs(2 * l - 1));
-        switch (max) {
-            case r: h = ((g - b) / d) % 6; break;
-            case g: h = (b - r) / d + 2; break;
-            case b: h = (r - g) / d + 4; break;
-        }
-        h *= 60;
-        if (h < 0) h += 360;
-    }
-    return [h, s, l];
-};
-
-// h: 0–360, s,l: 0–1 → [r,g,b] 0–255
-const hslToRgb = (h: number, s: number, l: number): [number, number, number] => {
-    const c = (1 - Math.abs(2 * l - 1)) * s;
-    const x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-    const m = l - c / 2;
-
-    let r = 0, g = 0, b = 0;
-    if (h < 60) [r, g, b] = [c, x, 0];
-    else if (h < 120) [r, g, b] = [x, c, 0];
-    else if (h < 180) [r, g, b] = [0, c, x];
-    else if (h < 240) [r, g, b] = [0, x, c];
-    else if (h < 300) [r, g, b] = [x, 0, c];
-    else [r, g, b] = [c, 0, x];
-
-    return [
-        Math.round((r + m) * 255),
-        Math.round((g + m) * 255),
-        Math.round((b + m) * 255),
-    ];
-};
-
-const boostSaturation = (rgb: number[], amount = 0.25): number[] => {
-    const [h, s, l] = rgbToHsl(rgb[0], rgb[1], rgb[2]);
-    const boostedS = clamp(s + amount, 0, 1);
-    return hslToRgb(h, boostedS, l);
 };
