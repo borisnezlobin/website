@@ -170,8 +170,8 @@ export default function Home() {
                                 </ul>
 
                                 Also, I developed a memory-mapping approach for reading CSVs with monotonically indexed entries that works about 980x faster than Pandas. And I worked there given only a
-                                2017 iMac with 8GB of RAM to process terabytes of data 
-                                <span className="inline-flex flex-wrap">(<Link href="/blog/macports-with-proxy" className="underline link !inline">also, the proxy was slow and I couldn&apos;t install any packages</Link>).</span>
+                                2017 iMac with 8GB of RAM to process terabytes of data&nbsp;
+                                <span className="inline-flex flex-wrap ml-1">(<Link href="/blog/macports-with-proxy" className="underline link !inline">also, the proxy was slow and I couldn&apos;t install any packages</Link>).</span>
                             </div>
                         </div>
                     </div>
