@@ -14,6 +14,21 @@ function keyToRGB(key: string) {
     return [(parseInt(r) * HISTOGRAM_SCALE), (parseInt(g) * HISTOGRAM_SCALE), (parseInt(b) * HISTOGRAM_SCALE)];
 }
 
+function brightenIfNecessary(color: number[]): number[] {
+    const brightness = (color[0] + color[1] + color[2]) / 3;
+    const MIN_BRIGHTNESS = 50;
+    if (brightness >= MIN_BRIGHTNESS) {
+        return color;
+    }
+    const increase = MIN_BRIGHTNESS - brightness;
+    console.log("Increasing brightness by", increase, "for color", color, "whose brightness is", brightness);
+    if (color[0] < 75 && color[1] < 75 && color[2] < 75) {
+        return color.map(c => Math.min(255, (c / brightness) * MIN_BRIGHTNESS));
+    }
+
+    return color;
+}
+
 export const NowPlaying = () => {
     const [song, setSong] = useState<{
         title: string;
@@ -25,7 +40,6 @@ export const NowPlaying = () => {
     } | null>(null);
     const [dominantColor, setDominantColor] = useState<number[] | null>(null);
     const [secondaryColor, setSecondaryColor] = useState<number[] | null>(null);
-    const theme = useTheme().theme;
 
     useEffect(() => {
         const fetchNowPlaying = async () => {
@@ -81,10 +95,13 @@ export const NowPlaying = () => {
                     // distance is at most HISTOGRAM_SCALE ^ 3; however, histogram frequency is at most  width * height / downsampleFactor
                     const maxFrequency = (imgData.width * imgData.height) / downsampleFactor;
                     const maxDistance = Math.sqrt(Math.pow(255 / HISTOGRAM_SCALE, 3));
-                    distances = distances.filter(a => histogram[a.key] > 150).filter(a => a.distance > 50); // album covers are 640x640
+                    const MIN_FREQUENCY_FOR_SECONDARY_COLOR = 409; // pixels
+                    distances = distances
+                        .filter(a => histogram[a.key] > MIN_FREQUENCY_FOR_SECONDARY_COLOR) // album covers are 640x640 = 409,600 pixels; so this is about 0.1% of pixels
+                        .filter(a => a.distance > 50); // ensure secondary color is somewhat different
                     
                     distances.sort((a, b) => {
-                        const distanceWeight = 0.5;
+                        const distanceWeight = 4.5;
                         const scoreA = (histogram[a.key] / maxFrequency) + (a.distance / maxDistance) * distanceWeight;
                         const scoreB = (histogram[b.key] / maxFrequency) + (b.distance / maxDistance) * distanceWeight;
 
@@ -93,7 +110,7 @@ export const NowPlaying = () => {
                     const sortedByDistance = distances.map(d => d.key);
 
                     if (distances.length === 0) {
-                        setSecondaryColor(dominant);
+                        setSecondaryColor(dominant.map(c => c * HISTOGRAM_SCALE));
                         return;
                     }
                     const secondary = keyToRGB(sortedByDistance[0]);
@@ -113,24 +130,18 @@ export const NowPlaying = () => {
         return null;
     }
 
-    let adjustedDominant = dominantColor ? [...dominantColor] : [204, 42, 38];
-    const BRIGHTNESS_THRESHOLD = 150;
-    const BRIGHTNESS_SHIFT = 30;
-    const SATURATION_BOOST = 0.0;
-    if (theme == 'light' && adjustedDominant[0] < BRIGHTNESS_THRESHOLD && adjustedDominant[1] < BRIGHTNESS_THRESHOLD && adjustedDominant[2] < BRIGHTNESS_THRESHOLD) {
-        adjustedDominant[0] += BRIGHTNESS_SHIFT;
-        adjustedDominant[1] += BRIGHTNESS_SHIFT;
-        adjustedDominant[2] += BRIGHTNESS_SHIFT;
-        adjustedDominant = boostSaturation(adjustedDominant, SATURATION_BOOST);
-    }
+    let adjustedDominant = dominantColor ? [...dominantColor] : [204, 0, 0];
+    let adjustedSecondary = secondaryColor ? [...secondaryColor] : [204, 0, 0];
 
-    let adjustedSecondary = secondaryColor ? [...secondaryColor] : [204, 42, 38];
-    if (theme == 'light' && adjustedSecondary[0] < BRIGHTNESS_THRESHOLD && adjustedSecondary[1] < BRIGHTNESS_THRESHOLD && adjustedSecondary[2] < BRIGHTNESS_THRESHOLD) {
-        adjustedSecondary[0] += BRIGHTNESS_SHIFT;
-        adjustedSecondary[1] += BRIGHTNESS_SHIFT;
-        adjustedSecondary[2] += BRIGHTNESS_SHIFT;
-        adjustedSecondary = boostSaturation(adjustedSecondary, SATURATION_BOOST);
-    }
+    console.log("Dominant Color:", adjustedDominant);
+    console.log("Secondary Color:", adjustedSecondary);
+
+    const minBrightness = 40;
+    adjustedDominant = brightenIfNecessary(adjustedDominant);
+    adjustedSecondary = brightenIfNecessary(adjustedSecondary);
+
+    console.log("adjusted Dominant Color:", adjustedDominant);
+    console.log("adjusted Secondary Color:", adjustedSecondary);
 
     return (
         <div className="relative w-full flex flex-col h-[20rem] items-center justify-end my-20 space-y-4 z-20 print:hidden print:m-0 print:space-y-2">
@@ -223,7 +234,6 @@ export const NowPlaying = () => {
 
 const Equalizer = ({ rows = 12, frameDelay = 150, primary, background }: { rows?: number; frameDelay?: number, primary?: number[] | null, background?: number[] | null }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const { theme } = useTheme();
 
     useEffect(() => {
         const canvas = canvasRef.current;
@@ -319,7 +329,7 @@ const Equalizer = ({ rows = 12, frameDelay = 150, primary, background }: { rows?
             cancelAnimationFrame(animationFrameId);
             window.removeEventListener("resize", handleResize);
         };
-    }, [rows, theme, frameDelay]);
+    }, [rows, primary, frameDelay]);
 
     return <canvas ref={canvasRef} className="w-full h-full" />;
 };
