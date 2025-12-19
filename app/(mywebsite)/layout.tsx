@@ -27,10 +27,10 @@ export default function RootLayout({
             </head>
             <body suppressHydrationWarning>
                 <Theme>
-                    <div className="w-screen min-w-screen min-h-[100svh] print:min-h-0 bg-background">
-                        <div className="w-full max-w-6xl mx-auto">
+                    <div className="w-screen min-w-screen min-h-[100svh] print:min-h-0 ">
+                        <div className="">
                             <TopBar />
-                            <div className="w-full h-full pt-[3rem] print:pt-0 print:pb-4">
+                            <div className="w-full h-full bg-light-background dark:bg-dark-background pt-[3rem] print:pt-0 print:pb-4">
                                 {children}
                             </div>
                             <Footer />

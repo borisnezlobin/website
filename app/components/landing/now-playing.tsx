@@ -129,16 +129,18 @@ export const NowPlaying = () => {
     adjustedDominant = brightenIfNecessary(adjustedDominant);
     adjustedSecondary = brightenIfNecessary(adjustedSecondary);
 
+    const backgroundColor = [28 + (adjustedDominant[0] / 2), 28 + (adjustedDominant[1] / 2), 28 + (adjustedDominant[2] / 2)];
 
     return (
         <div className="relative w-full flex flex-col h-[20rem] items-center justify-end my-20 space-y-4 z-20 print:hidden print:m-0 print:space-y-2">
             <div className="absolute h-[150%] translate-y-1/4 w-screen bg-dark-background -z-10" />
             <div className="h-full flex items-end justify-center pb-4">
                 <div
-                    className="flex w-96 flex-row items-center rounded-md bg-dark-background/70 backdrop-blur-md shadow-lg animate-pulse-border"
+                    className="flex w-96 flex-row items-center rounded-md backdrop-blur-md shadow-lg animate-pulse-border"
                     style={{
                         border: `1px solid rgba(${adjustedSecondary[0] * 1.2}, ${adjustedSecondary[1] * 1.2}, ${adjustedSecondary[2] * 1.2}, 1.0)`,
-                        animation: `pulse-border 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`
+                        animation: `pulse-border 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
+                        backgroundColor: `rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]}, 0.6)`,
                     }}
                 >
                     <img
@@ -251,7 +253,7 @@ const Equalizer = ({ rows = 12, frameDelay = 150, primary, background }: { rows?
             }
             levels.forEach((level, ci) => {
                 for (let ri = 0; ri < level; ri++) {
-                    const gradientValue = 0.2 + (0.8 * ri) / rows;
+                    const gradientValue = 0.05 + (0.8 * ri) / rows;
                     const color = `rgb(${Math.floor(
                         backColor[0] * (1 - gradientValue) + frontColor[0] * gradientValue
                     )}, ${Math.floor(

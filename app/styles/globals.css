@@ -234,7 +234,7 @@ script {
 }
 
 .pagepad {
-  @apply min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full p-8 print:p-0 text-light-foreground dark:text-dark-foreground;
+  @apply min-h-[100svh] print:min-h-0 dark:bg-dark-background z-[1] w-full max-w-6xl mx-auto p-8 print:p-0 text-light-foreground dark:text-dark-foreground;
    user-select: text !important;
   -webkit-user-select: text !important;
   -moz-user-select: text !important;
@@ -252,6 +252,7 @@ script {
   --code-border-color: #353535;
   --code-function: #c2ad69;
   --code-comment: #767676;
+  letter-spacing: 0.018em;
 }
 
 .skibidiwrapper img {
