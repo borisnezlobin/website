@@ -85,9 +85,6 @@ const quotes = [
     }, {
         text: "The issue with quotes, though, is attribution inaccuracy.",
         source: "John F. Kennedy"
-    }, {
-        text: "Em dashes (—) are not indicative of AI usage; many human writers know the option+shift+hyphen shortcut.",
-        source: "Me"
     }
 ];
 

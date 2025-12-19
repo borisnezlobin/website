@@ -103,30 +103,26 @@ export default async function SingleBlogPage(
                 {post.image && <ArticleImageBg imageUrl={post.image} />}
                 
                 <div className={`flex flex-col ${post.image && "min-h-screen relative -top-20"}`}>
-                    {post.image && <div className="flex-grow"></div>}
+                    {post.image && <div className="flex-grow-[0.9]"></div>}
                     <header
                         className={`
                             gap-3 z-[1] flex flex-col justify-start items-center p-0
-                            ${post.image ? "rounded-t-lg backdrop-blur-lg bg-light-background/50 dark:bg-dark-background/50 print:mt-0 md:items-center p-4 md:px-8" : "md:p-0 max-w-2xl mx-auto"}
+                            ${post.image ? "rounded shadow bg-light-background dark:bg-dark-background print:mt-0 md:items-center p-4 md:p-8" : "mt-8 md:p-0 max-w-2xl mx-auto"}
                         `}
                     >
-                        <h1 className={`text-[1.75rem] font-bold md:font-normal md:text-4xl bg-transparent dark:bg-transparent w-full mt-4 text-center text-[#191919] dark:text-[#fafafa] print:dark:text-[#101010]`}>
+                        <h1 className={`text-[1.75rem] font-bold md:font-normal md:text-2xl bg-transparent dark:bg-transparent w-full text-center print:text-left text-[#191919] dark:text-[#fafafa] print:dark:text-[#101010]`}>
                             {post.title}
                         </h1>
                         <p className={`bg-transparent dark:bg-transparent print:text-left ${!post.image ? "text-left mt-8" : "text-center"}`}>
                             {post.description}
                         </p>
-                        {post.image && (
-                            <div className="flex flex-row w-full justify-center items-center mt-4 print:hidden gap-2">
-                                <CaretDoubleDownIcon className="dark:text-muted-dark" />
-                                <p className="dark:text-muted-dark">Read below</p>
-                                <CaretDoubleDownIcon className="dark:text-muted-dark" />
-                            </div>
-                        )}
+                        <p className="hidden print:block mt-4 italic !text-muted">
+                            By Boris Nezlobin
+                        </p>
                     </header>
                 </div>
                 <div
-                    className={`z-[1] w-full justify-center items-center relative mt-2 mb-8 p-0 md:p-8 rounded-lg bg-background ${!post.image ? "md:pt-0" : "md:pt-0"}`}
+                    className={`z-[1] w-full justify-center items-center relative mb-8 p-0 md:p-8 rounded-lg bg-background ${!post.image ? "mt-2 md:pt-0" : "md:pt-0"}`}
                 >
                     <div
                         className={`z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 ${!post.image && "md:pt-8"} rounded-lg bg-background`}
