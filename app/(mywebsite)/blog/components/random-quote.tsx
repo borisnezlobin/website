@@ -10,7 +10,7 @@ const quotes = [
         source: "Aaron Burr, Hamilton",
     },
     {
-        text: "I'll write my way out... write everything down far as I can see.",
+        text: "I’ll write my way out... write everything down far as I can see.",
         source: "Alexander Hamilton, Hamilton",
     },
     {
@@ -26,7 +26,7 @@ const quotes = [
         source: "E.L. Doctrow",
     },
     {
-        text: "Write me off and I'd love to read it.",
+        text: "Write me off and I’d love to read it.",
         source: "Wake Up, Imagine Dragons",
     },
     {
@@ -42,7 +42,7 @@ const quotes = [
         source: "Malcolm Gladwell, Outliers",
     },
     {
-        text: "It's harder to give away fish than it is to catch them.",
+        text: "It’s harder to give away fish than it is to catch them.",
         source: "The Winter of Our Discontent"
     },
     {
@@ -50,11 +50,11 @@ const quotes = [
         source: "The Winter of Our Discontent"
     },
     {
-        text: "And confidence is a stain they can't wipe off.",
+        text: "And confidence is a stain they can’t wipe off.",
         source: "Drop the World, Lil Wayne"
     },
     {
-        text: "I'm not a businessman; I'm a business, man.",
+        text: "I’m not a businessman; I’m a business, man.",
         source: "Jay-Z"
     },
     {
@@ -66,18 +66,18 @@ const quotes = [
         source: "Malcolm Gladwell, David and Goliath"
     },
     {
-        text: "'Til all my sleeves are stained red from all the truth that I've said.",
+        text: "’Til all my sleeves are stained red from all the truth that I’ve said.",
         source: "Secrets, One Republic"
     },
     {
-        text: "There's no mountain I can't climb, no tower too high, no plane I can't learn how to fly.",
-        source: "My Dad's Gone Crazy, Eminem"
+        text: "There’s no mountain I can’t climb, no tower too high, no plane I can’t learn how to fly.",
+        source: "My Dad’s Gone Crazy, Eminem"
     },
     {
-        text: "I'm going to hell. Who's coming with me?",
-        source: "My Dad's Gone Crazy, Eminem"
+        text: "I’m going to hell. Who’s coming with me?",
+        source: "My Dad’s Gone Crazy, Eminem"
     }, {
-        text: "I'm going to Wichita.",
+        text: "I’m going to Wichita.",
         source: "Seven Nation Army, The White Stripes"
     }, {
         text: "All the words are gonna bleed from me and I will sing no more.",

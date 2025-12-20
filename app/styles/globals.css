@@ -83,6 +83,7 @@ body, div:not(.callout), p, span:not(:is(pre span, code span)), h1, h2, h3, h4, 
   /* transition-duration: 300ms; */
   transition-timing-function: ease-in-out;
   color: var(--text-color);
+  letter-spacing: 0.013em;
 }
 
 ol li:not(:is(.skibidiwrapper ol li, .skibidiwrapper ul li, .markdown-rendered ol li, .markdown-rendered ul li)) {
@@ -252,7 +253,6 @@ script {
   --code-border-color: #353535;
   --code-function: #c2ad69;
   --code-comment: #767676;
-  letter-spacing: 0.018em;
 }
 
 .skibidiwrapper img {
