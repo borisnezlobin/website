@@ -74,8 +74,8 @@ const CONTACT_TYPES = [
     {
         title: "Website",
         icon: <Globe />,
-        urlTitle: "borisn.dev",
-        url: "https://borisn.dev",
+        urlTitle: "borisnezlobin.com",
+        url: "https://borisnezlobin.com",
         // description: "You're already here! But here's the link anyway",
         professionalism: 0.8
     },

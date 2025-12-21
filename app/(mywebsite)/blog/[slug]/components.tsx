@@ -9,7 +9,7 @@ const TweetArticleButton = ({ slug }: { slug: string }) => {
             href={
                 "https://twitter.com/intent/tweet?text=" +
                 encodeURIComponent("Check out this article by @b_nezlobin! ") +
-                encodeURIComponent("https://borisn.dev/blog/" + slug)
+                encodeURIComponent("https://borisnezlobin.com/blog/" + slug)
             }
             aria-label="Tweet this article"
             title="Tweet this article"
