@@ -40,7 +40,7 @@ const BlogListItem = ({
                     )}
                 </div>
                 <p aria-hidden className="hidden print:block !text-muted dark:!text-muted-dark">
-                    https://borisn.dev/blog/{post.slug}
+                    https://borisnezlobin.com/blog/{post.slug}
                 </p>
                 <p>{post.description}</p>
                 <ArticleDate

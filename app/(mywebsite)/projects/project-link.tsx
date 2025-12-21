@@ -4,7 +4,7 @@ import Link from "next/link";
 const ProjectLink = ({ link }: { link: string }) => {
     const host = link.split("/")[2].split(".")[0];
 
-    if(link.includes("borisn.dev") || link.includes("bnezlobin")) {
+    if(link.includes("borisnezlobin.com") || link.includes("bnezlobin")) {
         return (
             <div className="print:flex flex-row items-center justify-between gap-4">
                 <p className="text-base font-bold">

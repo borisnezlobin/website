@@ -10,7 +10,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         if (blog.slug.includes("draft-")) {
             return null;
         } else return ({
-            url: `https://www.borisn.dev/blog/${blog.slug}`,
+            url: `https://www.borisnezlobin.com/blog/${blog.slug}`,
             lastModified: blog.updatedAt,
         });
     }).filter((blog) => blog !== null);
@@ -20,7 +20,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         if (project.slug.includes("draft-")) {
             return null;
         } else return ({
-            url: `https://www.borisn.dev/projects/${project.slug}`,
+            url: `https://www.borisnezlobin.com/projects/${project.slug}`,
             lastModified: project.updatedAt,
         });
     }).filter((project) => project !== null);
@@ -30,7 +30,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         if (note.slug.includes("draft-")) {
             return null;
         } else return ({
-            url: `https://www.borisn.dev/notes/${note.slug}`,
+            url: `https://www.borisnezlobin.com/notes/${note.slug}`,
             lastModified: note.updatedAt,
         });
     }).filter((note) => note !== null);
@@ -50,7 +50,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
                     return null;
                 }
                 return {
-                    url: `https://www.borisn.dev/notes/${note.slug}/${section.slug}`,
+                    url: `https://www.borisnezlobin.com/notes/${note.slug}/${section.slug}`,
                     lastModified: note.updatedAt,
                 };
                 })
@@ -61,12 +61,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
 
     const sitemap = [
-        { url: 'https://www.borisn.dev/' },
-        { url: 'https://www.borisn.dev/blog' },
-        { url: 'https://www.borisn.dev/contact' },
-        { url: 'https://www.borisn.dev/projects' },
-        { url: 'https://www.borisn.dev/notes' },
-        { url: 'https://www.borisn.dev/wrisk' },
+        { url: 'https://www.borisnezlobin.com/' },
+        { url: 'https://www.borisnezlobin.com/blog' },
+        { url: 'https://www.borisnezlobin.com/contact' },
+        { url: 'https://www.borisnezlobin.com/projects' },
+        { url: 'https://www.borisnezlobin.com/notes' },
+        { url: 'https://www.borisnezlobin.com/wrisk' },
         ...blogRoutes,
         ...projectRoutes,
         ...noteRoutes,
