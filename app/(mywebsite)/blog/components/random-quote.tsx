@@ -85,6 +85,18 @@ const quotes = [
     }, {
         text: "The issue with quotes, though, is attribution inaccuracy.",
         source: "John F. Kennedy"
+    }, {
+        text: "You met me at a very strange time in my life.",
+        source: "Fight Club"
+    }, {
+        text: "The ships hung in the sky in much the same way that bricks don’t.",
+        source: "The Hitchhiker's Guide to the Galaxy"
+    }, {
+        text: "In the beginning the Universe was created. This has made a lot of people very angry and been widely regarded as a bad move.",
+        source: "The Hitchhiker's Guide to the Galaxy"
+    }, {
+        text: "He gestured Arthur toward a chair which looked as if it had been made out of the rib cage of a stegosaurus. “It was made out of the rib cage of a stegosaurus,” explained the old man...",
+        source: "The Hitchhiker's Guide to the Galaxy"
     }
 ];
 
@@ -100,7 +112,7 @@ const RandomQuote: React.FC = () => {
                 <p
                     className="text-dark dark:text-light relative w-full font-semibold leading-tight text-center max-w-3xl overflow-hidden text-ellipsis"
                     style={{
-                        fontSize: "clamp(0.5rem, 5vw, 1.5rem)",
+                        fontSize: "clamp(0.25rem, 3vw, 1.5rem)",
                         lineHeight: "1.2",
                         overflowWrap: "break-word",
                         wordWrap: "break-word",
