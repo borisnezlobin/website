@@ -448,8 +448,8 @@
   --pill-padding-y: 0.25em;
   --pill-radius: 2em;
   --pill-weight: inherit;
-  --p-spacing: 1rem;
-  --p-spacing-empty: 0rem;
+  --p-spacing: 2rem;
+  --p-spacing-empty: 2rem;
   --pdf-background: var(--background-primary);
   --pdf-page-background: var(--background-primary);
   --pdf-shadow: 0 0 0 1px rgba(0, 0, 0, 0.05), 0 2px 8px rgba(0, 0, 0, 0.1);
