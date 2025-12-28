@@ -40,7 +40,7 @@ const LinkWithIcon = ({
 const Footer = () => {
     return (
         <>
-            <footer className="print:hidden w-full mt-4 flex flex-wrap md:pl-8 pb-24 justify-start items-center py-12 border-t gap-8 border-muted dark:border-muted-dark">
+            <footer className="print:hidden max-w-6xl mx-auto mt-4 flex flex-wrap md:pl-8 pb-24 justify-start items-center py-12 border-t gap-8 border-muted dark:border-muted-dark">
                 <section>
                     <p className="pl-8 md:pl-0 text-muted dark:text-muted-dark mb-2">
                         About Me
