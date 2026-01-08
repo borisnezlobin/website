@@ -26,12 +26,13 @@ const AVOIDANCE_WEIGHT = 15.0;
 const ALIGNMENT_WEIGHT = 1.0;
 const COHESION_WEIGHT = 0.05;
 
-const WALL_MARGIN = 100;
-const VERTICAL_WALL_MARGIN = 200;
-const WALL_FORCE = 1000;
+const WALL_MARGIN = 500;
+const VERTICAL_WALL_MARGIN = 500;
+const WALL_FORCE = 300;
 
 const MAX_SPEED = 400;
 const DESIRED_SPEED = 300;
+const SPEED_VARIANCE = 10; // (as a percentage)
 const MAX_FORCE = 50;
 
 const BoidCanvas = () => {
@@ -124,7 +125,7 @@ function relativeAngle(aPos: { x: number; y: number }, aVel: { x: number; y: num
     return Math.acos(cosTheta); // in radians
 }
 
-function quadratic(val: number) {
+function wallScale(val: number) {
     return val * val;
 }
 
@@ -134,6 +135,7 @@ class Boid {
     vx: number;
     vy: number;
     id: number;
+    preferredSpeed: number;
 
     gridX: number;
     gridY: number;
@@ -147,6 +149,7 @@ class Boid {
 
         this.gridX = 0;
         this.gridY = 0;
+        this.preferredSpeed = DESIRED_SPEED * (1 + (Math.random() - 0.5) * SPEED_VARIANCE / 100);
         this.setGridPosition();
     }
 
@@ -168,21 +171,20 @@ class Boid {
 
         if (this.x < WALL_MARGIN) {
             // steeringWalls.x += (WALL_MARGIN - this.x) / WALL_MARGIN;
-            steeringWalls.x += quadratic(Math.min(1, (WALL_MARGIN - this.x) / WALL_MARGIN));
+            steeringWalls.x += wallScale(Math.min(1, (WALL_MARGIN - this.x) / WALL_MARGIN));
         }
         if (this.x > gridWidth - WALL_MARGIN) {
             // steeringWalls.x -= (this.x - (gridWidth - WALL_MARGIN)) / WALL_MARGIN;
-            steeringWalls.x -= quadratic(Math.min(1, (this.x - (gridWidth - WALL_MARGIN)) / WALL_MARGIN));
+            steeringWalls.x -= wallScale(Math.min(1, (this.x - (gridWidth - WALL_MARGIN)) / WALL_MARGIN));
         }
         if (this.y < VERTICAL_WALL_MARGIN) {
-            // steeringWalls.y += (WALL_MARGIN - this.y) / WALL_MARGIN;
-            steeringWalls.y += quadratic(Math.min(1, (VERTICAL_WALL_MARGIN - this.y) / VERTICAL_WALL_MARGIN));
+            // steeringWalls.y += (VERTICAL_WALL_MARGIN - this.y) / VERTICAL_WALL_MARGIN;
+            steeringWalls.y += wallScale(Math.min(1, (VERTICAL_WALL_MARGIN - this.y) / VERTICAL_WALL_MARGIN));
         }
         if (this.y > gridHeight - VERTICAL_WALL_MARGIN) {
-            // steeringWalls.y -= (this.y - (gridHeight - WALL_MARGIN)) / WALL_MARGIN;
-            steeringWalls.y -= quadratic(Math.min(1, (this.y - (gridHeight - VERTICAL_WALL_MARGIN)) / VERTICAL_WALL_MARGIN));
+            // steeringWalls.y -= (this.y - (gridHeight - VERTICAL_WALL_MARGIN)) / VERTICAL_WALL_MARGIN;
+            steeringWalls.y -= wallScale(Math.min(1, (this.y - (gridHeight - VERTICAL_WALL_MARGIN)) / VERTICAL_WALL_MARGIN));
         }
-
 
 
         for (let i = -1; i <= 1; i++) {
@@ -200,8 +202,11 @@ class Boid {
                             steeringAlign.x += other.vx;
                             steeringAlign.y += other.vy;
 
-                            steeringCohesion.x += other.x;
-                            steeringCohesion.y += other.y;
+                            const cohesionWeight = (PERCEPTION_RADIUS - d) / PERCEPTION_RADIUS;
+
+                            steeringCohesion.x += other.x * cohesionWeight;
+                            steeringCohesion.y += other.y * cohesionWeight;
+
 
                             // steeringSeparation.x += (this.x - other.x) * weight;
                             // steeringSeparation.y += (this.y - other.y) * weight;
@@ -254,7 +259,7 @@ class Boid {
 
         const speed = Math.hypot(this.vx, this.vy);
 
-        const speedError = DESIRED_SPEED - speed;
+        const speedError = this.preferredSpeed - speed;
         this.vx += (this.vx / speed) * speedError * 0.05;
         this.vy += (this.vy / speed) * speedError * 0.05;
 
