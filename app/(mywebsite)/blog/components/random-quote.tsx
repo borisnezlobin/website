@@ -97,6 +97,9 @@ const quotes = [
     }, {
         text: "He gestured Arthur toward a chair which looked as if it had been made out of the rib cage of a stegosaurus. “It was made out of the rib cage of a stegosaurus,” explained the old man...",
         source: "The Hitchhiker's Guide to the Galaxy"
+    }, {
+        text: "Close your eyes and let the word paint a thousand pictures.",
+        source: "Kanye West"
     }
 ];
 
