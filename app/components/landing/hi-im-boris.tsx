@@ -10,7 +10,6 @@ const badgeQuotes = [
     "I learn new things.",
     "I write stuff.",
     "Drop the “The.”",
-    "Chief Executive Officer",
     "@b_nezlobin on Twitter.",
     "1% better every day.",
     "Staying hydrated, ish.",

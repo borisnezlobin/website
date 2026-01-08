@@ -13,6 +13,7 @@ import { CoffeeIcon, FileCppIcon, FilePyIcon } from "@phosphor-icons/react/dist/
 import { CSSIcon, JavaScriptIcon, TypeScriptIcon, UnityIcon } from "../components/lucide-imports";
 import { listToString } from "../utils/list-to-string";
 import { NowPlaying } from "../components/landing/now-playing";
+import { BoidCanvas } from "../components/landing/boid-canvas";
 
 export const metadata = getMetadata({
     info: "Hi, I'm",
@@ -82,10 +83,11 @@ export default function Home() {
     return (
         <>
             <div className="hidden md:block">
-                <Background
+                {/* <Background
                     words={['programmer', 'student', 'designer', 'redhead', 'researcher', 'writer', 'nerd']}
                     charsBetweenWords={6}
-                />
+                /> */}
+                <BoidCanvas />
             </div>
             <main className="pagepad flex flex-col justify-center items-start mb-16 print:block print:w-full print:max-w-full print:p-0 print:mb-2 print:pt-2 print:pb-2">
                 <HiImBoris />
