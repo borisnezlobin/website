@@ -11,20 +11,20 @@ type BoidGridType = {
 }
 
 
-const NUM_BOIDS = 100;
+const NUM_BOIDS = 200;
 const BOID_SIZE = 7;
 const BOID_GRID_CELL_SIZE = 200;
 
-const PERCEPTION_RADIUS = 100;
-const AVOIDANCE_RADIUS = 50;
+const PERCEPTION_RADIUS = 20;
+const AVOIDANCE_RADIUS = 20;
 
 // const AVOIDANCE_WEIGHT = 1.0; // works: 0.000005;
 // const ALIGNMENT_WEIGHT = -0.1; // works: -0.01;
 // const COHESION_WEIGHT = -0.0002; // -0.0001;
 
-const AVOIDANCE_WEIGHT = 0.2; // 50.0;
-const ALIGNMENT_WEIGHT = -0.1; // 5.0
-const COHESION_WEIGHT = -0.05; // -1.0
+const AVOIDANCE_WEIGHT = 40.0; // 50.0;
+const ALIGNMENT_WEIGHT = -5.0; // 5.0
+const COHESION_WEIGHT = -5.0; // -1.0
 
 const MAX_SPEED = 200;
 const MAX_FORCE = 50;
@@ -42,7 +42,7 @@ const BoidCanvas = () => {
     const initBoids = (width: number, height: number) => {
         boids.current = [];
         for (let i = 0; i < NUM_BOIDS; i++) {
-            const boid = new Boid((Math.random() - 0.5) * width / 3 + width / 2, height, i);
+            const boid = new Boid((Math.random() - 0.5) * width / 3 + width / 2, height / 2 + (Math.random() - 0.5) * height / 3, i);
             boids.current.push(boid);
         }
 
@@ -154,7 +154,6 @@ class Boid {
 
         const gridX = Math.floor(this.x / BOID_GRID_CELL_SIZE);
         const gridY = Math.floor(this.y / BOID_GRID_CELL_SIZE);
-        const velocityAddition = { x: 0, y: 0 };
 
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
@@ -188,11 +187,10 @@ class Boid {
 
                                 const dx = this.x - other.x;
                                 const dy = this.y - other.y;
-                                // const invD = 1 / d;
-                                const vMag = Math.hypot(this.vx, this.vy);
+                                const invD = 1 / d;
 
-                                steeringSeparation.x += dx * vMag * strength;
-                                steeringSeparation.y += dy * vMag * strength;
+                                steeringSeparation.x += dx * strength;
+                                steeringSeparation.y += dy * strength;
                             }
 
                             totalCount++;
