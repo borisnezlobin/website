@@ -46,6 +46,12 @@ export const NowPlaying = () => {
             try {
                 const res = await fetch('/api/spotify');
                 const data = await res.json();
+
+                if (!data || !data.albumImageUrl) {
+                    setSong(null);
+                    return;
+                }
+
                 setSong(data);
 
                 if (data && data.albumImageUrl) {
