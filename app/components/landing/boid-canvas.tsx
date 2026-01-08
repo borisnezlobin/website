@@ -11,18 +11,23 @@ type BoidGridType = {
 }
 
 
-const NUM_BOIDS = 200;
+const NUM_BOIDS = 100;
 const BOID_SIZE = 7;
 const BOID_GRID_CELL_SIZE = 200;
 
 const PERCEPTION_RADIUS = 100;
 const AVOIDANCE_RADIUS = 50;
 
-const AVOIDANCE_WEIGHT = 1.0; // works: 0.000005;
-const ALIGNMENT_WEIGHT = -0.1; // works: -0.01;
-const COHESION_WEIGHT = -0.0002; // -0.0001;
+// const AVOIDANCE_WEIGHT = 1.0; // works: 0.000005;
+// const ALIGNMENT_WEIGHT = -0.1; // works: -0.01;
+// const COHESION_WEIGHT = -0.0002; // -0.0001;
+
+const AVOIDANCE_WEIGHT = 0.2; // 50.0;
+const ALIGNMENT_WEIGHT = -0.1; // 5.0
+const COHESION_WEIGHT = -0.05; // -1.0
 
 const MAX_SPEED = 200;
+const MAX_FORCE = 50;
 
 const BoidCanvas = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -37,7 +42,7 @@ const BoidCanvas = () => {
     const initBoids = (width: number, height: number) => {
         boids.current = [];
         for (let i = 0; i < NUM_BOIDS; i++) {
-            const boid = new Boid(Math.random() * width, Math.random() * height, i);
+            const boid = new Boid((Math.random() - 0.5) * width / 3 + width / 2, height, i);
             boids.current.push(boid);
         }
 
@@ -102,10 +107,14 @@ function dot(a: { x: number; y: number }, b: { x: number; y: number }) {
     return a.x * b.x + a.y * b.y;
 }
 
+function mag(v: { x: number; y: number }) {
+    return Math.sqrt(v.x * v.x + v.y * v.y);
+}
+
 function relativeAngle(aPos: { x: number; y: number }, aVel: { x: number; y: number }, bPos: { x: number; y: number }) {
     const toB = { x: bPos.x - aPos.x, y: bPos.y - aPos.y };
-    const aVelMag = Math.sqrt(aVel.x * aVel.x + aVel.y * aVel.y);
-    const toBMag = Math.sqrt(toB.x * toB.x + toB.y * toB.y);
+    const aVelMag = mag(aVel);
+    const toBMag = mag(toB);
     const cosTheta = dot(aVel, toB) / (aVelMag * toBMag);
     return Math.acos(cosTheta); // in radians
 }
@@ -138,10 +147,6 @@ class Boid {
     }
 
     update(boidGrid: BoidGridType, gridWidth: number, gridHeight: number, dt: number) {
-        // this.x += this.vx;
-        // this.y += this.vy;
-        const maxForce = 0.05;
-
         let steeringAlign = { x: 0, y: 0 };
         let steeringCohesion = { x: 0, y: 0 };
         let steeringSeparation = { x: 0, y: 0 };
@@ -166,6 +171,12 @@ class Boid {
                             steeringAlign.x += (this.vx - other.vx) * weight;
                             steeringAlign.y += (this.vy - other.vy) * weight;
 
+                            const mag = Math.hypot(steeringAlign.x, steeringAlign.y);
+                            if (mag > MAX_FORCE) {
+                                steeringAlign.x = (steeringAlign.x / mag) * MAX_FORCE;
+                                steeringAlign.y = (steeringAlign.y / mag) * MAX_FORCE;
+                            }
+
                             steeringCohesion.x += (this.x - other.x) * weight;
                             steeringCohesion.y += (this.y - other.y) * weight;
 
@@ -177,10 +188,11 @@ class Boid {
 
                                 const dx = this.x - other.x;
                                 const dy = this.y - other.y;
-                                const invD = 1 / d;
+                                // const invD = 1 / d;
+                                const vMag = Math.hypot(this.vx, this.vy);
 
-                                steeringSeparation.x += dx * invD * strength;
-                                steeringSeparation.y += dy * invD * strength;
+                                steeringSeparation.x += dx * vMag * strength;
+                                steeringSeparation.y += dy * vMag * strength;
                             }
 
                             totalCount++;
