@@ -1,19 +1,17 @@
 import { LinkButton } from "@/app/components/buttons";
 import Link from "next/link";
 import { ScrollForMore } from "../components/landing/scroll-for-more";
-import { ArrowRightIcon, AtomIcon, BalloonIcon, EnvelopeIcon, GitBranchIcon, OpenAiLogoIcon, ShippingContainerIcon, SlackLogoIcon, TriangleIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon, EnvelopeIcon, GitBranchIcon, OpenAiLogoIcon, ShippingContainerIcon, SlackLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import { Section } from "../components/landing/section";
 import { LandingPageBadge } from "../components/landing/landing-page-badge";
 import HorizontalScroll from "../components/landing/scroll-horizontal";
 import getMetadata from "../lib/metadata";
 import AgeNoSSR from "../components/landing/age-client-wrapper";
-import Background from "../components/landing/background";
 import { HiImBoris } from "../components/landing/hi-im-boris";
 import { CoffeeIcon, FileCppIcon, FilePyIcon } from "@phosphor-icons/react/dist/ssr";
 import { CSSIcon, JavaScriptIcon, TypeScriptIcon, UnityIcon } from "../components/lucide-imports";
-import { listToString } from "../utils/list-to-string";
 import { NowPlaying } from "../components/landing/now-playing";
-import { BoidCanvas } from "../components/landing/boid-canvas";
+import BoidBackground from "../components/landing/boids-client-wrapper";
 
 export const metadata = getMetadata({
     info: "Hi, I'm",
@@ -87,7 +85,7 @@ export default function Home() {
                     words={['programmer', 'student', 'designer', 'redhead', 'researcher', 'writer', 'nerd']}
                     charsBetweenWords={6}
                 /> */}
-                <BoidCanvas />
+                <BoidBackground />
             </div>
             <main className="pagepad flex flex-col justify-center items-start mb-16 print:block print:w-full print:max-w-full print:p-0 print:mb-2 print:pt-2 print:pb-2">
                 <HiImBoris />
