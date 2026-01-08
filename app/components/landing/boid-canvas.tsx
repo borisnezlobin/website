@@ -16,15 +16,13 @@ const BOID_SIZE = 7;
 const BOID_GRID_CELL_SIZE = 200;
 
 const PERCEPTION_RADIUS = 200;
+const SOFT_REPULSION_RADIUS = 80;
 const AVOIDANCE_RADIUS = 20;
-
-// const AVOIDANCE_WEIGHT = 1.0; // works: 0.000005;
-// const ALIGNMENT_WEIGHT = -0.1; // works: -0.01;
-// const COHESION_WEIGHT = -0.0002; // -0.0001;
 
 const AVOIDANCE_WEIGHT = 15.0;
 const ALIGNMENT_WEIGHT = 1.0;
 const COHESION_WEIGHT = 0.05;
+const SOFT_REPULSION_WEIGHT = 0.00;
 
 const WALL_MARGIN = 500;
 const VERTICAL_WALL_MARGIN = 500;
@@ -33,7 +31,7 @@ const WALL_FORCE = 300;
 const MAX_SPEED = 400;
 const DESIRED_SPEED = 300;
 const SPEED_VARIANCE = 10; // (as a percentage)
-const MAX_FORCE = 50;
+const NOISE = 5;
 
 const BoidCanvas = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -203,9 +201,17 @@ class Boid {
                             steeringAlign.y += other.vy;
 
                             const cohesionWeight = (PERCEPTION_RADIUS - d) / PERCEPTION_RADIUS;
+                            const speed = Math.hypot(this.vx, this.vy);
 
-                            steeringCohesion.x += other.x * cohesionWeight;
-                            steeringCohesion.y += other.y * cohesionWeight;
+                            const toOther = { x: other.x - this.x, y: other.y - this.y };
+                            const forward = { x: this.vx / speed, y: this.vy / speed };
+
+                            const forwardness = dot(toOther, forward);
+                            if (forwardness > 0) {
+                                steeringCohesion.x += toOther.x * 0.5;
+                                steeringCohesion.y += toOther.y * 0.5;
+                            }
+
 
 
                             // steeringSeparation.x += (this.x - other.x) * weight;
@@ -220,6 +226,12 @@ class Boid {
 
                                 steeringSeparation.x += dx * strength;
                                 steeringSeparation.y += dy * strength;
+                            } else if (d < SOFT_REPULSION_RADIUS && d > AVOIDANCE_RADIUS) {
+                                const strength = (SOFT_REPULSION_RADIUS - d) / SOFT_REPULSION_RADIUS;
+                                const dx = this.x - other.x;
+                                const dy = this.y - other.y;
+                                steeringSeparation.x += dx * strength * SOFT_REPULSION_WEIGHT;
+                                steeringSeparation.y += dy * strength * SOFT_REPULSION_WEIGHT;
                             }
 
                             totalCount++;
@@ -244,17 +256,23 @@ class Boid {
         }
 
 
-
         this.vx += steeringSeparation.x * AVOIDANCE_WEIGHT * dt;
         this.vy += steeringSeparation.y * AVOIDANCE_WEIGHT * dt;
-        this.vx += steeringAlign.x * ALIGNMENT_WEIGHT * dt;
-        this.vy += steeringAlign.y * ALIGNMENT_WEIGHT * dt;
+        const alignFactor = Math.min(1, 5 / (totalCount + 0.1));
+        this.vx += steeringAlign.x * ALIGNMENT_WEIGHT * alignFactor * dt;
+        this.vy += steeringAlign.y * ALIGNMENT_WEIGHT * alignFactor * dt;
+
 
         this.vx += steeringCohesion.x * COHESION_WEIGHT * dt;
         this.vy += steeringCohesion.y * COHESION_WEIGHT * dt;
 
         this.vx += steeringWalls.x * WALL_FORCE * dt;
         this.vy += steeringWalls.y * WALL_FORCE * dt;
+
+        // now we inject (noise)
+        this.vx += (Math.random() - 0.5) * NOISE * dt;
+        this.vy += (Math.random() - 0.5) * NOISE * dt;
+
 
 
         const speed = Math.hypot(this.vx, this.vy);
