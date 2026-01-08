@@ -15,18 +15,19 @@ const NUM_BOIDS = 200;
 const BOID_SIZE = 7;
 const BOID_GRID_CELL_SIZE = 200;
 
-const PERCEPTION_RADIUS = 20;
+const PERCEPTION_RADIUS = 200;
 const AVOIDANCE_RADIUS = 20;
 
 // const AVOIDANCE_WEIGHT = 1.0; // works: 0.000005;
 // const ALIGNMENT_WEIGHT = -0.1; // works: -0.01;
 // const COHESION_WEIGHT = -0.0002; // -0.0001;
 
-const AVOIDANCE_WEIGHT = 40.0; // 50.0;
-const ALIGNMENT_WEIGHT = -5.0; // 5.0
-const COHESION_WEIGHT = -5.0; // -1.0
+const AVOIDANCE_WEIGHT = 1.5;
+const ALIGNMENT_WEIGHT = 1.0;
+const COHESION_WEIGHT = 0.05;
 
-const MAX_SPEED = 200;
+const MAX_SPEED = 400;
+const DESIRED_SPEED = 150;
 const MAX_FORCE = 50;
 
 const BoidCanvas = () => {
@@ -167,17 +168,11 @@ class Boid {
                                 continue;
                             }
                             const weight = (PERCEPTION_RADIUS / d);
-                            steeringAlign.x += (this.vx - other.vx) * weight;
-                            steeringAlign.y += (this.vy - other.vy) * weight;
+                            steeringAlign.x += other.vx;
+                            steeringAlign.y += other.vy;
 
-                            const mag = Math.hypot(steeringAlign.x, steeringAlign.y);
-                            if (mag > MAX_FORCE) {
-                                steeringAlign.x = (steeringAlign.x / mag) * MAX_FORCE;
-                                steeringAlign.y = (steeringAlign.y / mag) * MAX_FORCE;
-                            }
-
-                            steeringCohesion.x += (this.x - other.x) * weight;
-                            steeringCohesion.y += (this.y - other.y) * weight;
+                            steeringCohesion.x += other.x;
+                            steeringCohesion.y += other.y;
 
                             // steeringSeparation.x += (this.x - other.x) * weight;
                             // steeringSeparation.y += (this.y - other.y) * weight;
@@ -200,6 +195,22 @@ class Boid {
             }
         }
 
+        if (totalCount > 0) {
+            steeringAlign.x /= totalCount;
+            steeringAlign.y /= totalCount;
+
+            steeringAlign.x -= this.vx;
+            steeringAlign.y -= this.vy;
+
+            steeringCohesion.x /= totalCount;
+            steeringCohesion.y /= totalCount;
+
+            steeringCohesion.x -= this.x;
+            steeringCohesion.y -= this.y;
+        }
+
+
+
         this.vx += steeringSeparation.x * AVOIDANCE_WEIGHT * dt;
         this.vy += steeringSeparation.y * AVOIDANCE_WEIGHT * dt;
         this.vx += steeringAlign.x * ALIGNMENT_WEIGHT * dt;
@@ -208,7 +219,12 @@ class Boid {
         this.vx += steeringCohesion.x * COHESION_WEIGHT * dt;
         this.vy += steeringCohesion.y * COHESION_WEIGHT * dt;
 
-        const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+        const speed = Math.hypot(this.vx, this.vy);
+
+        const speedError = DESIRED_SPEED - speed;
+        this.vx += (this.vx / speed) * speedError * 0.05;
+        this.vy += (this.vy / speed) * speedError * 0.05;
+
         if (speed > MAX_SPEED) {
             this.vx = (this.vx / speed) * MAX_SPEED;
             this.vy = (this.vy / speed) * MAX_SPEED;
