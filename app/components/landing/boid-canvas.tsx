@@ -338,4 +338,4 @@ class Boid {
     }
 }
 
-export { BoidCanvas };
+export default BoidCanvas;
