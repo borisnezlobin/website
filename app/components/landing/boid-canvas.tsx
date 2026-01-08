@@ -42,6 +42,9 @@ const BoidCanvas = () => {
     
     const animationFrameId = useRef<number>();
     const lastTimestamp = useRef<number>(0);
+    const isInViewRef = useRef<boolean>(false);
+    const isPageVisibleRef = useRef<boolean>(true);
+    const hasFocusRef = useRef<boolean>(true);
     
     const initBoids = (width: number, height: number) => {
         boids.current = [];
@@ -56,6 +59,11 @@ const BoidCanvas = () => {
     };
 
     const animate = (timestamp: number) => {
+        // If we shouldn't run, stop scheduling frames
+        if (!isInViewRef.current || !isPageVisibleRef.current || !hasFocusRef.current) {
+            animationFrameId.current = undefined;
+            return;
+        }
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -90,13 +98,74 @@ const BoidCanvas = () => {
         canvas.height = windowSize.height;
 
         initBoids(canvas.width, canvas.height);
-        animationFrameId.current = requestAnimationFrame(animate);
 
-        return () => {
-            if (animationFrameId.current) {
-                cancelAnimationFrame(animationFrameId.current);
+        const maybeStart = () => {
+            const shouldRun = isInViewRef.current && isPageVisibleRef.current && hasFocusRef.current;
+            if (shouldRun && animationFrameId.current == null) {
+                lastTimestamp.current = 0; // reset dt to avoid large jump
+                animationFrameId.current = requestAnimationFrame(animate);
             }
         };
+
+        const stop = () => {
+            if (animationFrameId.current != null) {
+                cancelAnimationFrame(animationFrameId.current);
+                animationFrameId.current = undefined;
+            }
+        };
+
+        // IntersectionObserver to detect visibility in viewport
+        const observer = new IntersectionObserver(
+            (entries) => {
+                const entry = entries[0];
+                isInViewRef.current = !!entry?.isIntersecting;
+                if (isInViewRef.current) {
+                    maybeStart();
+                } else {
+                    stop();
+                }
+            },
+            { root: null, threshold: 0.05 }
+        );
+        observer.observe(canvas);
+
+        // Page visibility and focus/blur
+        const onVisibility = () => {
+            isPageVisibleRef.current = !document.hidden;
+            if (isPageVisibleRef.current) {
+                maybeStart();
+            } else {
+                stop();
+            }
+        };
+        const onFocus = () => {
+            hasFocusRef.current = true;
+            maybeStart();
+        };
+        const onBlur = () => {
+            hasFocusRef.current = false;
+            stop();
+        };
+        document.addEventListener('visibilitychange', onVisibility);
+        window.addEventListener('focus', onFocus);
+        window.addEventListener('blur', onBlur);
+
+        // Start if eligible
+        isPageVisibleRef.current = !document.hidden;
+        hasFocusRef.current = document.hasFocus();
+        // isInViewRef will be updated after first observer callback; attempt start anyway
+        maybeStart();
+
+        // Cleanup
+        return () => {
+            stop();
+            observer.disconnect();
+            document.removeEventListener('visibilitychange', onVisibility);
+            window.removeEventListener('focus', onFocus);
+            window.removeEventListener('blur', onBlur);
+        };
+
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [windowSize.width, windowSize.height, theme.theme]);
 
     return (
