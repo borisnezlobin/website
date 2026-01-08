@@ -13,14 +13,16 @@ type BoidGridType = {
 
 const NUM_BOIDS = 200;
 const BOID_SIZE = 7;
-const BOID_GRID_CELL_SIZE = 300;
+const BOID_GRID_CELL_SIZE = 200;
 
-const PERCEPTION_RADIUS = 200;
+const PERCEPTION_RADIUS = 100;
 const AVOIDANCE_RADIUS = 50;
 
 const AVOIDANCE_WEIGHT = 1.0; // works: 0.000005;
-const ALIGNMENT_WEIGHT = 1.0; // works: -0.01;
-const COHESION_WEIGHT = 0.1;
+const ALIGNMENT_WEIGHT = -0.1; // works: -0.01;
+const COHESION_WEIGHT = -0.0002; // -0.0001;
+
+const MAX_SPEED = 200;
 
 const BoidCanvas = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -40,7 +42,8 @@ const BoidCanvas = () => {
         }
 
         boidGrid.current = {};
-        boids.current.forEach(boid => boid.update(boidGrid.current!, width, height));
+        // Initialize grid population without advancing simulation
+        boids.current.forEach(boid => boid.update(boidGrid.current!, width, height, 0));
     };
 
     const animate = (timestamp: number) => {
@@ -56,13 +59,14 @@ const BoidCanvas = () => {
             initBoids(width, height);
         }
 
-        const delta = timestamp - lastTimestamp.current;
+        const deltaMs = lastTimestamp.current ? (timestamp - lastTimestamp.current) : 16.67;
+        const dt = Math.min(deltaMs, 100) / 1000; // seconds, clamped
         lastTimestamp.current = timestamp;
 
         ctx.clearRect(0, 0, width, height);
 
         boids.current.forEach(boid => {
-            boid.update(boidGrid.current!, width, height);
+            boid.update(boidGrid.current!, width, height, dt);
             boid.draw(ctx, theme.theme === 'dark', boidGrid.current);
         });
 
@@ -98,6 +102,14 @@ function dot(a: { x: number; y: number }, b: { x: number; y: number }) {
     return a.x * b.x + a.y * b.y;
 }
 
+function relativeAngle(aPos: { x: number; y: number }, aVel: { x: number; y: number }, bPos: { x: number; y: number }) {
+    const toB = { x: bPos.x - aPos.x, y: bPos.y - aPos.y };
+    const aVelMag = Math.sqrt(aVel.x * aVel.x + aVel.y * aVel.y);
+    const toBMag = Math.sqrt(toB.x * toB.x + toB.y * toB.y);
+    const cosTheta = dot(aVel, toB) / (aVelMag * toBMag);
+    return Math.acos(cosTheta); // in radians
+}
+
 class Boid {
     x: number;
     y: number
@@ -111,8 +123,8 @@ class Boid {
     constructor(x: number, y: number, id: number) {
         this.x = x;
         this.y = y;
-        this.vx = (Math.random() - 0.5) * 1;
-        this.vy = (Math.random() - 0.75) * 2;
+        this.vx = (Math.random() - 0.5) * MAX_SPEED;
+        this.vy = (Math.random() - 0.75) * MAX_SPEED;
         this.id = id;
 
         this.gridX = 0;
@@ -125,18 +137,80 @@ class Boid {
         this.gridY = Math.floor(this.y / BOID_GRID_CELL_SIZE);
     }
 
-    update(boidGrid: BoidGridType, gridWidth: number, gridHeight: number) {
-        this.x += this.vx;
-        this.y += this.vy;
+    update(boidGrid: BoidGridType, gridWidth: number, gridHeight: number, dt: number) {
+        // this.x += this.vx;
+        // this.y += this.vy;
+        const maxForce = 0.05;
 
-        // Wrap around edges
+        let steeringAlign = { x: 0, y: 0 };
+        let steeringCohesion = { x: 0, y: 0 };
+        let steeringSeparation = { x: 0, y: 0 };
+        let totalCount = 0;
+
+        const gridX = Math.floor(this.x / BOID_GRID_CELL_SIZE);
+        const gridY = Math.floor(this.y / BOID_GRID_CELL_SIZE);
+        const velocityAddition = { x: 0, y: 0 };
+
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+                const neighborCellX = gridX + i;
+                const neighborCellY = gridY + j;
+                if (boidGrid[neighborCellX] && boidGrid[neighborCellX][neighborCellY]) {
+                    for (const other of boidGrid[neighborCellX][neighborCellY]) {
+                        const d = Math.hypot(this.x - other.x, this.y - other.y);
+                        if (other !== this && d < PERCEPTION_RADIUS) {
+                            if (relativeAngle({ x: this.x, y: this.y }, { x: this.vx, y: this.vy }, { x: other.x, y: other.y }) > 3 * Math.PI / 4) {
+                                continue;
+                            }
+                            const weight = (PERCEPTION_RADIUS / d);
+                            steeringAlign.x += (this.vx - other.vx) * weight;
+                            steeringAlign.y += (this.vy - other.vy) * weight;
+
+                            steeringCohesion.x += (this.x - other.x) * weight;
+                            steeringCohesion.y += (this.y - other.y) * weight;
+
+                            // steeringSeparation.x += (this.x - other.x) * weight;
+                            // steeringSeparation.y += (this.y - other.y) * weight;
+
+                            if (d < AVOIDANCE_RADIUS && d > 0) {
+                                const strength = (AVOIDANCE_RADIUS - d) / AVOIDANCE_RADIUS;
+
+                                const dx = this.x - other.x;
+                                const dy = this.y - other.y;
+                                const invD = 1 / d;
+
+                                steeringSeparation.x += dx * invD * strength;
+                                steeringSeparation.y += dy * invD * strength;
+                            }
+
+                            totalCount++;
+                        }
+                    }
+                }
+            }
+        }
+
+        this.vx += steeringSeparation.x * AVOIDANCE_WEIGHT * dt;
+        this.vy += steeringSeparation.y * AVOIDANCE_WEIGHT * dt;
+        this.vx += steeringAlign.x * ALIGNMENT_WEIGHT * dt;
+        this.vy += steeringAlign.y * ALIGNMENT_WEIGHT * dt;
+
+        this.vx += steeringCohesion.x * COHESION_WEIGHT * dt;
+        this.vy += steeringCohesion.y * COHESION_WEIGHT * dt;
+
+        const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
+        if (speed > MAX_SPEED) {
+            this.vx = (this.vx / speed) * MAX_SPEED;
+            this.vy = (this.vy / speed) * MAX_SPEED;
+        }
+
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
+
         if (this.x < 0) this.x += gridWidth;
         if (this.x > gridWidth) this.x -= gridWidth;
         if (this.y < 0) this.y += gridHeight;
         if (this.y > gridHeight) this.y -= gridHeight;
-
-        const gridX = Math.floor(this.x / BOID_GRID_CELL_SIZE);
-        const gridY = Math.floor(this.y / BOID_GRID_CELL_SIZE);
 
         for (const key in boidGrid) {
             for (const subKey in boidGrid[key]) {
@@ -161,75 +235,6 @@ class Boid {
         }
         const color = isDarkMode ? '#E96457' : '#CC2A26';
 
-        // temporary
-        const maxSpeed = 2;
-        const maxForce = 0.05;
-
-        let steeringAlign = { x: 0, y: 0 };
-        let steeringCohesion = { x: 0, y: 0 };
-        let steeringSeparation = { x: 0, y: 0 };
-        let totalCount = 0;
-
-        const gridX = Math.floor(this.x / BOID_GRID_CELL_SIZE);
-        const gridY = Math.floor(this.y / BOID_GRID_CELL_SIZE);
-        const velocityAddition = { x: 0, y: 0 };
-
-        for (let i = -1; i <= 1; i++) {
-            for (let j = -1; j <= 1; j++) {
-                const neighborCellX = gridX + i;
-                const neighborCellY = gridY + j;
-                if (boidGrid[neighborCellX] && boidGrid[neighborCellX][neighborCellY]) {
-                    for (const other of boidGrid[neighborCellX][neighborCellY]) {
-                        const d = Math.hypot(this.x - other.x, this.y - other.y);
-                        if (other !== this && d < PERCEPTION_RADIUS) {
-                            const weight = (PERCEPTION_RADIUS / d);
-                            steeringAlign.x += (this.vx - other.vx) * weight;
-                            steeringAlign.y += (this.vy - other.vy) * weight;
-
-                            steeringCohesion.x += (this.x - other.x) * weight;
-                            steeringCohesion.y += (this.y - other.y) * weight;
-
-                            // steeringSeparation.x += (this.x - other.x) * weight;
-                            // steeringSeparation.y += (this.y - other.y) * weight;
-
-                            if (d < AVOIDANCE_RADIUS) {
-                                // check if the other boid is in front of this one
-                                if (dot({ x: other.x - this.x, y: other.y - this.y }, { x: this.vx, y: this.vy }) > 0.4) {
-                                    const avoidanceWeight = (AVOIDANCE_RADIUS / d);
-                                    velocityAddition.x += (this.x - other.x) * avoidanceWeight;
-                                    velocityAddition.y += (this.y - other.y) * avoidanceWeight;
-
-                                    steeringSeparation.x += (this.x - other.x) * avoidanceWeight;
-                                    steeringSeparation.y += (this.y - other.y) * avoidanceWeight;
-                                }
-                            }
-
-                            totalCount++;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (this.id == 3) {
-            // this.x += velocityAddition.x * AVOIDANCE_WEIGHT;
-            // this.y += velocityAddition.y * AVOIDANCE_WEIGHT;
-            // this.vx += steeringAlign.x * ALIGNMENT_WEIGHT;
-            // this.vy += steeringAlign.y * ALIGNMENT_WEIGHT;
-
-            // this.vx += steeringCohesion.x * COHESION_WEIGHT;
-            // this.vy += steeringCohesion.y * COHESION_WEIGHT;
-
-            // this.vx += steeringSeparation.x * AVOIDANCE_WEIGHT;
-            // this.vy += steeringSeparation.y * AVOIDANCE_WEIGHT;
-        }
-
-        // Limit speed
-        const speed = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
-        if (speed > maxSpeed) {
-            this.vx = (this.vx / speed) * maxSpeed;
-            this.vy = (this.vy / speed) * maxSpeed;
-        }
 
         // draw triangle
         ctx.fillStyle = color;
@@ -248,58 +253,6 @@ class Boid {
         ctx.lineTo(this.x - BOID_SIZE * tempVx - BOID_SIZE * orthogonalVx / 2, this.y - BOID_SIZE * tempVy - BOID_SIZE * orthogonalVy / 2);
         ctx.closePath();
         ctx.fill();
-
-        if (this.id == 3) {
-            // draw the perception radius, steeringAlign, steeringCohesion, steeringSeparation for debugging
-            ctx.strokeStyle = 'rgba(0, 255, 0, 0.2)';
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, PERCEPTION_RADIUS, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.stroke();
-
-            ctx.strokeStyle = 'blue';
-            ctx.beginPath();
-            ctx.moveTo(this.x, this.y);
-            ctx.lineTo(this.x + steeringAlign.x * ALIGNMENT_WEIGHT, this.y + steeringAlign.y * ALIGNMENT_WEIGHT);
-            ctx.closePath();
-            ctx.stroke();
-
-            ctx.strokeStyle = 'purple';
-            ctx.beginPath();
-            ctx.moveTo(this.x, this.y);
-            ctx.lineTo(this.x + steeringCohesion.x * COHESION_WEIGHT, this.y + steeringCohesion.y * COHESION_WEIGHT);
-            ctx.closePath();
-            ctx.stroke();
-
-            ctx.strokeStyle = 'red';
-            ctx.beginPath();
-            ctx.moveTo(this.x, this.y);
-            ctx.lineTo(this.x + steeringSeparation.x * AVOIDANCE_WEIGHT, this.y + steeringSeparation.y * AVOIDANCE_WEIGHT);
-            ctx.closePath();
-            ctx.stroke();
-
-            // draw the full grid based on canvas dimensions
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-            const cols = Math.ceil(ctx.canvas.width / BOID_GRID_CELL_SIZE);
-            const rows = Math.ceil(ctx.canvas.height / BOID_GRID_CELL_SIZE);
-            for (let c = 0; c < cols; c++) {
-                for (let r = 0; r < rows; r++) {
-                    const cellX = c * BOID_GRID_CELL_SIZE;
-                    const cellY = r * BOID_GRID_CELL_SIZE;
-                    ctx.strokeRect(cellX, cellY, BOID_GRID_CELL_SIZE, BOID_GRID_CELL_SIZE);
-                }
-            }
-
-            // optionally highlight populated cells
-            ctx.strokeStyle = 'rgba(255, 255, 0, 0.3)';
-            for (const key in boidGrid) {
-                for (const subKey in boidGrid[key]) {
-                    const cellX = Number(key) * BOID_GRID_CELL_SIZE;
-                    const cellY = Number(subKey) * BOID_GRID_CELL_SIZE;
-                    ctx.strokeRect(cellX, cellY, BOID_GRID_CELL_SIZE, BOID_GRID_CELL_SIZE);
-                }
-            }
-        }
     }
 }
 
