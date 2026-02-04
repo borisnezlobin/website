@@ -1,6 +1,6 @@
 "use client";
 
-import { Article } from "@prisma/client";
+import { Article } from "@/prisma/awooga/client";
 import { SearchBar } from "../[slug]/search-bar";
 import Link from "next/link";
 import BlogListItem from "./blog-list-item";

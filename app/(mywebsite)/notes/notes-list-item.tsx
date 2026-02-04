@@ -1,4 +1,4 @@
-import { Note } from "@prisma/client";
+import { Note } from "@/prisma/awooga/client";
 import Link from "next/link";
 
 export const NotesListItem = ({ note }: { note: Note }) => {
