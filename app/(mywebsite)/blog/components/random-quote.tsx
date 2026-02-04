@@ -100,6 +100,9 @@ const quotes = [
     }, {
         text: "Close your eyes and let the word paint a thousand pictures.",
         source: "Kanye West"
+    }, {
+        text: "I'm a product, you're a product. The end of the world is a product.",
+        source: "Fallout"
     }
 ];
 
