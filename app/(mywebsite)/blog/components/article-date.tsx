@@ -1,5 +1,6 @@
 import { formatDateWithOrdinal } from "@/app/utils/format-date";
-import { Article } from "@prisma/client";
+import { Article } from "@/prisma/awooga/client";
+
 
 const ArticleDate = ({ article, className, containerClass }: { article: Article, className?: string, containerClass?: string }) => {
     return (

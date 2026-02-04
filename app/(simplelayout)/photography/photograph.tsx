@@ -1,9 +1,9 @@
 "use client";
 
 import { HeartIcon } from "@phosphor-icons/react";
-import { Photograph } from "@prisma/client";
 import { useState } from "react";
 import { likePhoto } from "./like-photo";
+import { Photograph } from "@/prisma/awooga/client";
 
 const PhotographItem = ({ photo }: { photo: Photograph }) => {
     const [liked, setLiked] = useState(false);

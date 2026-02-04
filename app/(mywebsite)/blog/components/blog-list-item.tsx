@@ -1,6 +1,6 @@
 "use client";
 
-import { Article } from "@prisma/client";
+import { Article } from "@/prisma/awooga/client";
 import Link from "next/link";
 import { ArticleDate } from "./article-date";
 import { WarningIcon } from "@phosphor-icons/react";
