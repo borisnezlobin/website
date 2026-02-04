@@ -46,3 +46,5 @@ next-env.d.ts
 # db or whatever
 /postgres-data
 pnpm-lock.yaml
+prisma/awooga/**
+prisma/generated/**

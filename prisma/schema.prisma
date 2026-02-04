@@ -1,11 +1,12 @@
 generator client {
-  provider = "prisma-client-js"
+  provider = "prisma-client"
+  output   = "./awooga"
 }
 
 datasource db {
   provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  // url       = env("PROD_POSTGRES_PRISMA_URL")
+  // directUrl = env("PROD_POSTGRES_URL_NON_POOLING")
 }
 
 model Article {
@@ -14,10 +15,10 @@ model Article {
   description String
   body        String
   image       String?
-  remoteURL   String?
   slug        String   @unique
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
+  remoteURL   String?
 
   @@index([title], map: "articles_title")
   @@index([createdAt], map: "created_at")
@@ -51,25 +52,25 @@ model Project {
 }
 
 model Photograph {
-  id        String   @id @default(cuid())
+  id        String          @id @default(cuid())
   title     String
   image     String
-  likes     Int      @default(0)
+  likes     Int             @default(0)
+  slug      String          @unique
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @default(now())
   photoTags PhotographTag[] @relation("PhotographToPhotographTag")
-  slug      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
 
   @@index([createdAt], map: "photographs_created_at")
   @@index([title], map: "photographs_title")
 }
 
 model PhotographTag {
-  id        String   @id @default(cuid())
-  name      String   @unique
+  id        String       @id @default(cuid())
+  name      String       @unique
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @default(now())
   photos    Photograph[] @relation("PhotographToPhotographTag")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
 
   @@index([name], map: "photograph_tags_name")
 }

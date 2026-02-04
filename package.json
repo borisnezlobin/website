@@ -15,7 +15,8 @@
     "@mdx-js/react": "^3.0.1",
     "@next/mdx": "^14.2.5",
     "@phosphor-icons/react": "^2.1.8",
-    "@prisma/client": "5.7.0",
+    "@prisma/adapter-pg": "^7.3.0",
+    "@prisma/client": "^7.0.0",
     "@types/mdx": "^2.0.13",
     "@vercel/analytics": "^1.1.1",
     "@vercel/og": "^0.5.20",
@@ -42,7 +43,7 @@
     "eslint": "^8.54.0",
     "eslint-config-next": "14.0.3",
     "postcss": "^8.4.31",
-    "prisma": "5.7.0",
+    "prisma": "^7.3.0",
     "tailwindcss": "^3.3.5",
     "typescript": "^5.3.2"
   }

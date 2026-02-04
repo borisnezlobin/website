@@ -1,5 +1,10 @@
-import { PrismaClient } from "@prisma/client";
+import { PrismaClient } from "@/prisma/awooga/client";
+import { PrismaPg } from '@prisma/adapter-pg';
 
-const db = new PrismaClient();
 
-export default db;
+const adapter = new PrismaPg({ 
+  connectionString: process.env.POSTGRES_PRISMA_URL 
+});
+const prisma = new PrismaClient({ adapter });
+
+export default prisma;
