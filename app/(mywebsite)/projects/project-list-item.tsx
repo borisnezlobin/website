@@ -1,4 +1,4 @@
-import { Project} from "@prisma/client";
+import { Project } from "@/prisma/awooga/client";
 import { GithubLogoIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 

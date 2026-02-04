@@ -1,4 +1,4 @@
-import { Project } from "@prisma/client";
+import { Project } from "@/prisma/awooga/client";
 import ProjectListItem from "./project-list-item";
 import Link from "next/link";
 import getMetadata from "../../lib/metadata";
