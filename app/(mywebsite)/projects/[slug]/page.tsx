@@ -12,6 +12,7 @@ import { readFileSync } from "fs";
 import { getProjectHTMLPath } from "@/app/utils/get-note-mdx-path";
 
 export async function generateStaticParams() {
+    if (!process.env.POSTGRES_URL_NON_POOLING) return [];
     const projects = await getProjects();
 
     console.log("Generating paths for projects:", projects.map((project) => project.slug));
