@@ -12,6 +12,7 @@ import { getNote, getNotes } from "@/app/lib/db-caches";
 import { Wrapper } from "./skibidiwrapper";
 
 export async function generateStaticParams() {
+    if (!process.env.POSTGRES_URL_NON_POOLING) return [];
     const notes = await getNotes();
 
     return notes.flatMap(async (note) => {

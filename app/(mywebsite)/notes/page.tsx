@@ -9,6 +9,7 @@ export const metadata = getMetadata({
 });
 
 export const generateStaticParams = async () => {
+    if (!process.env.POSTGRES_URL_NON_POOLING) return [];
     const slugs = await getNotes();
 
     console.log("Generating paths for notes:", slugs);
