@@ -19,6 +19,7 @@
     "@prisma/client": "^7.0.0",
     "@types/mdx": "^2.0.13",
     "@vercel/analytics": "^1.1.1",
+    "@vercel/blob": "^2.1.0",
     "@vercel/og": "^0.5.20",
     "@vercel/speed-insights": "^1.0.1",
     "image-pixels": "^2.2.2",

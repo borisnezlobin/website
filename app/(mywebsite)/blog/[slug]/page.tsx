@@ -23,6 +23,12 @@ type BlogPageParams = {
 }
 
 export async function generateStaticParams() {
+    // Skip static generation if database isn't available (e.g., during Vercel builds)
+    if (!process.env.POSTGRES_URL_NON_POOLING) {
+        console.log("Database not available, skipping static params generation");
+        return [];
+    }
+
     const posts = await db.article.findMany({
         select: { slug: true },
     });
@@ -49,6 +55,7 @@ async function getDataForSlug(slug: string) {
     const path = getBlogHTMLPath(slug);
     let content = "";
     if (blogPost.remoteURL) {
+        console.log("Blog post has remote URL, fetching content from", blogPost.remoteURL);
         content = await (await fetch(blogPost.remoteURL)).text();
         console.log("Fetched remote content for blog post", slug);
     } else {

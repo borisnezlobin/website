@@ -30,6 +30,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 }
 
 export async function generateStaticParams() {
+    if (!process.env.POSTGRES_URL_NON_POOLING) return [];
     const notes = await getNotes();
 
     return notes.map((note) => ({ params: { slug: note.slug } }));
