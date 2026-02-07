@@ -4,6 +4,8 @@ import { useRef } from "react";
 import { FlagIcon, GameControllerIcon, UsersThreeIcon, WaveformIcon } from "@phosphor-icons/react/dist/ssr";
 import { useIsVisible } from "@/app/utils/use-is-visible";
 import { SectionLabel } from "./section-label";
+import Link from "next/link";
+import { Separator } from "../../separator";
 
 const facts = [
     {
@@ -33,51 +35,63 @@ export function RoboticistSection() {
     const isVisible = useIsVisible(ref);
 
     return (
-        <section className="min-h-[100svh] flex flex-col justify-center print:hidden">
+        <section className="landing-section">
             <div
                 ref={ref}
-                className={`max-w-6xl mx-auto px-8 w-full flex flex-col md:flex-row gap-8 md:gap-12 transition-all duration-700 ${
+                className={`max-w-6xl relative mx-auto px-8 w-full flex flex-col md:flex-row gap-8 md:gap-12 transition-all duration-700 ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
             >
-                <SectionLabel label="Roboticist" />
-
                 <div className="flex-1 flex flex-col gap-10">
-                    <div className="flex flex-col items-start">
-                        <span className="vectra text-[8rem] md:text-[10rem] leading-none text-primary">
-                            3x
-                        </span>
-                        <div className="flex flex-col gap-1 mt-2">
-                            <span className="text-xl md:text-2xl font-semibold">
-                                World Championship Qualifier
+                    <div className="flex flex-row items-end gap-12">
+                        <div className="flex flex-col items-start">
+                            <span className="vectra text-[8rem] md:text-[10rem] leading-none text-primary">
+                                3x
                             </span>
-                            <span className="text-muted dark:text-muted-dark emph">
-                                &apos;23 &middot; &apos;24 &middot; &apos;25
+                            <div className="flex flex-col gap-1 mt-2">
+                                <span className="text-xl md:text-2xl font-semibold">
+                                    World Championship Qualifier
+                                </span>
+                                <span className="text-muted dark:text-muted-dark emph">
+                                    &apos;23 &middot; &apos;24 &middot; &apos;25
+                                </span>
+                            </div>
+                        </div>
+                        <div className="flex flex-row items-start gap-2">
+                            <span className="text-muted dark:text-muted-dark">
+                                Top
+                            </span>
+                            <span className="vectra text-[2rem] leading-none text-primary">
+                                12
+                            </span>
+                            <span className="text-muted dark:text-muted-dark">
+                                in the world (2022)
                             </span>
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {facts.map((fact) => {
-                            const Icon = fact.icon;
-                            return (
-                                <div
-                                    key={fact.title}
-                                    className="flex items-start gap-4 p-5 rounded-lg border border-neutral-200 dark:border-neutral-800"
-                                >
-                                    <Icon size={24} weight="duotone" className="text-primary flex-shrink-0 mt-0.5" />
-                                    <div>
-                                        <h3 className="font-semibold">{fact.title}</h3>
-                                        <p className="text-muted dark:text-muted-dark text-sm mt-1">
-                                            {fact.description}
-                                        </p>
-                                    </div>
-                                </div>
-                            );
-                        })}
+                    <div className="flex flex-row items-start gap-2">
+                        <div className="flex flex-row gap-4">
+                            <p>
+                                Team Captain
+                            </p>
+                            <Link href="https://heronrobotics.vercel.app/" className="italic text-muted dark:text-muted-dark hover:underline hover:text-primary dark:hover:text-primary-dark">
+                                Heron Robotics (25-26)
+                            </Link>
+                        </div>
+                        <Separator />
+                        <div className="flex flex-row gap-4">
+                            <p>
+                                Software Lead + Robot Driver
+                            </p>
+                            <Link href="https://kuriosityrobotics.com/" className="italic text-muted dark:text-muted-dark hover:underline hover:text-primary dark:hover:text-primary-dark">
+                                Kuriosity Robotics (22-25)
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
+            <SectionLabel label="Roboticist" />
         </section>
     );
 }

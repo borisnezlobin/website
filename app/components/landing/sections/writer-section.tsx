@@ -24,15 +24,13 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
     const isVisible = useIsVisible(ref);
 
     return (
-        <section className="min-h-[100svh] flex flex-col justify-center print:hidden">
+        <section className="landing-section">
             <div
                 ref={ref}
                 className={`max-w-6xl mx-auto px-8 w-full flex flex-col md:flex-row gap-8 md:gap-12 transition-all duration-700 ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
             >
-                <SectionLabel label="Writer" />
-
                 <div className="flex-1 flex flex-col gap-12">
                     <blockquote className="border-l-2 border-primary pl-6 py-2">
                         <p className="vectra text-2xl md:text-3xl leading-relaxed">
@@ -86,6 +84,7 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
                     </Link>
                 </div>
             </div>
+            <SectionLabel label="Writer" />
         </section>
     );
 }
