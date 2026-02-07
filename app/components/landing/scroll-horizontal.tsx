@@ -17,7 +17,7 @@ const HorizontalScroll = ({ children, className = "" }: HorizontalScrollProps) =
                 <div className="h-max py-4 flex flex-row print:flex-col motion-reduce:flex-wrap print:flex-wrap justify-start gap-4 items-center scroller-inner">
                     {children}
                     {elements.map((e, i) => {
-                        return cloneElement(e, { key: i, "aria-hidden": "true" });
+                        return cloneElement(e, { key: i });
                     })}
                 </div>
             </div>
