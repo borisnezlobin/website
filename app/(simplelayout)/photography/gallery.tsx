@@ -52,8 +52,8 @@ export default function Gallery({ photos }: GalleryProps) {
         gl={{ antialias: true, alpha: false }}
         dpr={[1, 1.5]}
       >
-        <color attach="background" args={[theme == "dark" ? "#1c1c1c" : "#F5F5F5"]} />
-        <fog attach="fog" args={[theme == "dark" ? "#1c1c1c" : "#F5F5F5", 5, 15]} />
+        <color attach="background" args={[theme == "dark" ? "#1A1714" : "#F5F5F5"]} />
+        <fog attach="fog" args={[theme == "dark" ? "#1A1714" : "#F5F5F5", 5, 15]} />
         <Suspense fallback={null}>
           <ScrollControls pages={scrollPages} damping={0.2}>
             <GalleryScene photos={photos} onFocusChange={setFocusedIndex} />
