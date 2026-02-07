@@ -15,6 +15,9 @@ import {
 export function TechIconsRow() {
     return (
         <div className="w-full flex justify-center py-16 print:hidden">
+            <p className="italic text-muted dark:text-muted-dark">
+                A short list of things I know:
+            </p>
             <div className="flex flex-wrap justify-center items-center gap-8 max-w-2xl px-8">
                 <IconWrap title="TypeScript"><TypeScriptIcon /></IconWrap>
                 <IconWrap title="JavaScript"><JavaScriptIcon /></IconWrap>
@@ -23,8 +26,7 @@ export function TechIconsRow() {
                 <IconWrap title="CSS"><CSSIcon /></IconWrap>
                 <IconWrap title="Java"><CoffeeIcon size={24} weight="fill" /></IconWrap>
                 <IconWrap title="Unity / C#"><UnityIcon /></IconWrap>
-                <IconWrap title="Git"><GitBranchIcon size={24} weight="bold" /></IconWrap>
-                <IconWrap title="Docker"><ShippingContainerIcon size={24} weight="bold" /></IconWrap>
+                <IconWrap title="Git"><GitBranchIcon size={24} /></IconWrap>
             </div>
         </div>
     );

@@ -53,7 +53,7 @@ export function RoboticistSection() {
                                     World Championship Qualifier
                                 </span>
                                 <span className="text-muted dark:text-muted-dark emph">
-                                    &apos;23 &middot; &apos;24 &middot; &apos;25
+                                    ’23 &middot; ’24 &middot; ’25
                                 </span>
                             </div>
                         </div>
@@ -65,7 +65,7 @@ export function RoboticistSection() {
                                 12
                             </span>
                             <span className="text-muted dark:text-muted-dark">
-                                in the world (2022)
+                                in the world (’23)
                             </span>
                         </div>
                     </div>
@@ -76,7 +76,7 @@ export function RoboticistSection() {
                                 Team Captain
                             </p>
                             <Link href="https://heronrobotics.vercel.app/" className="italic text-muted dark:text-muted-dark hover:underline hover:text-primary dark:hover:text-primary-dark">
-                                Heron Robotics (25-26)
+                                Heron Robotics (’25-26)
                             </Link>
                         </div>
                         <Separator />
@@ -85,7 +85,7 @@ export function RoboticistSection() {
                                 Software Lead + Robot Driver
                             </p>
                             <Link href="https://kuriosityrobotics.com/" className="italic text-muted dark:text-muted-dark hover:underline hover:text-primary dark:hover:text-primary-dark">
-                                Kuriosity Robotics (22-25)
+                                Kuriosity Robotics (’22-25)
                             </Link>
                         </div>
                     </div>
