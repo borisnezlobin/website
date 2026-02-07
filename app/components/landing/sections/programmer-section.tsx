@@ -47,15 +47,13 @@ export function ProgrammerSection() {
     const isVisible = useIsVisible(ref);
 
     return (
-        <section className="min-h-[100svh] flex flex-col justify-center print:hidden">
+        <section className="landing-section">
             <div
                 ref={ref}
                 className={`max-w-6xl mx-auto px-8 w-full flex flex-col md:flex-row gap-8 md:gap-12 transition-all duration-700 ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
             >
-                <SectionLabel label="Programmer" />
-
                 <div className="flex-1 flex flex-col gap-10">
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         {projects.map((project) => (
@@ -121,6 +119,7 @@ export function ProgrammerSection() {
                     </div>
                 </div>
             </div>
+            <SectionLabel label="Programmer" />
         </section>
     );
 }
