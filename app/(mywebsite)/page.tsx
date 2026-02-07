@@ -28,7 +28,7 @@ export default async function Home() {
             <div className="hidden md:block">
                 <BoidBackground />
             </div>
-            <main className="flex flex-col items-start print:block print:w-full print:max-w-full print:p-0 print:mb-2 print:pt-2 print:pb-2 mb-24">
+            <main className="select-text flex flex-col items-start print:block print:w-full print:max-w-full print:p-0 print:mb-2 print:pt-2 print:pb-2 mb-24">
                 <div className="max-w-6xl mx-auto px-8 w-full">
                     <HiImBoris />
                     <ScrollForMore className="print:hidden" />
