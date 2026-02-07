@@ -5,6 +5,7 @@ import { ScrollControls } from "@react-three/drei";
 import { Suspense, useState, useCallback } from "react";
 import GalleryScene from "./gallery-scene";
 import PhotoInfoOverlay from "./photo-info-overlay";
+import { useTheme } from "next-themes";
 
 export type PhotoData = {
   id: string;
@@ -21,6 +22,7 @@ type GalleryProps = {
 };
 
 export default function Gallery({ photos }: GalleryProps) {
+  const { theme } = useTheme();
   const [focusedIndex, setFocusedIndex] = useState<number>(-1);
   const [likes, setLikes] = useState<Record<string, number>>(() => {
     const map: Record<string, number> = {};
@@ -50,8 +52,8 @@ export default function Gallery({ photos }: GalleryProps) {
         gl={{ antialias: true, alpha: false }}
         dpr={[1, 1.5]}
       >
-        <color attach="background" args={["#0a0a0a"]} />
-        <fog attach="fog" args={["#0a0a0a", 10, 50]} />
+        <color attach="background" args={[theme == "dark" ? "#1c1c1c" : "#F5F5F5"]} />
+        <fog attach="fog" args={[theme == "dark" ? "#1c1c1c" : "#F5F5F5", 10, 50]} />
         <Suspense fallback={null}>
           <ScrollControls pages={scrollPages} damping={0.2}>
             <GalleryScene photos={photos} onFocusChange={setFocusedIndex} />

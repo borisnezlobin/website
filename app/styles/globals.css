@@ -403,6 +403,7 @@ script {
 @layer theme {
   :root {
     --text-color: #3C3C3C;
+    --text-muted-color: #707070;
     --background: #f5f5f5;
     --primary: #cc2a26;
     --github-color: #333333;
@@ -412,6 +413,7 @@ script {
 
   .dark {
     --text-color: #D0D0D0;
+    --text-muted-color: #949494;
     --background: #1c1c1c;
     --primary: #e96457;
     --github-color: #fafafa;

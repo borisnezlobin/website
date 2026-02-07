@@ -1,9 +1,10 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { Heart } from "@phosphor-icons/react";
+import { HeartIcon } from "@phosphor-icons/react";
 import { likePhoto } from "./like-photo";
 import type { PhotoData } from "./gallery";
+import { Separator } from "@/app/components/separator";
 
 type Props = {
   photo: PhotoData | null;
@@ -49,33 +50,28 @@ export default function PhotoInfoOverlay({ photo, likeCount, onLikeUpdate }: Pro
 
   return (
     <div
-      className={`fixed bottom-8 left-4 right-4 md:right-auto md:left-8 md:bottom-8 md:max-w-sm z-10
+      className={`fixed bottom-8 left-4 right-4 w-full z-10 flex flex-row items-center justify-center
         transition-all duration-500 pointer-events-none
         ${photo && visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
     >
       {photo && (
-        <div className="bg-black/50 backdrop-blur-xl rounded-xl p-5 text-white border border-white/10">
-          <div className="flex items-start justify-between gap-4">
-            <div className="min-w-0 flex-1">
-              <h2 className="text-lg font-semibold leading-tight">{photo.title}</h2>
-              {photo.description && (
-                <p className="text-white/60 mt-1.5 text-sm leading-relaxed">{photo.description}</p>
-              )}
-              <p className="text-white/40 mt-2 text-xs">{formatDate(photo.createdAt)}</p>
-            </div>
-            <button
-              onClick={handleLike}
-              className={`pointer-events-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full text-sm transition-all
-                ${isLiked
-                  ? "bg-red-500/20 text-red-400"
-                  : "bg-white/10 text-white/70 hover:bg-white/20 hover:text-white"
-                }`}
-            >
-              <Heart size={16} weight={isLiked ? "fill" : "regular"} />
-              <span>{likeCount}</span>
-            </button>
+        <button
+          onClick={handleLike}
+          className={`pointer-events-auto flex items-center gap-1.5 px-6 py-1.5 rounded-full text-lg transition-all shadow-xl backdrop-blur-md
+            ${isLiked
+              ? "bg-red-500/20 text-red-800! dark:text-red-400!"
+              : "bg-dark-background/10 dark:bg-light-background/10 hover:bg-dark-background/20 dark:hover:bg-light-background/20 hover:text-white"
+            }`}
+        >
+          <div className="flex justify-center items-center gap-1.5">
+            <span>{likeCount}</span>
+            <HeartIcon size={16} weight={isLiked ? "fill" : "regular"} />
           </div>
-        </div>
+          <Separator className="h-4" />
+          <span className="!text-sm">
+            Like this photo
+          </span>
+        </button>
       )}
     </div>
   );
