@@ -4,7 +4,6 @@ import { ArrowSquareOutIcon } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
 import GithubStars from "./github-stars";
 import { ProjectLink } from "../project-link";
-import ArticleBody from "@/app/components/article-body";
 import { getProject, getProjects } from "@/app/lib/db-caches";
 import BackToRouteLink from "@/app/components/back-to-route";
 import { Wrapper } from "@/app/(mywebsite)/notes/[slug]/[section]/skibidiwrapper";
