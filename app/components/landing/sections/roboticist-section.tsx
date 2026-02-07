@@ -43,9 +43,9 @@ export function RoboticistSection() {
                 }`}
             >
                 <div className="flex-1 flex flex-col gap-10">
-                    <div className="flex flex-row items-end gap-12">
+                    <div className="flex flex-col md:flex-row md:items-end gap-4 md:gap-12">
                         <div className="flex flex-col items-start">
-                            <span className="vectra text-[8rem] md:text-[10rem] leading-none text-primary">
+                            <span className="vectra text-[5rem] md:text-[10rem] leading-none text-primary">
                                 3x
                             </span>
                             <div className="flex flex-col gap-1 mt-2">
@@ -53,7 +53,7 @@ export function RoboticistSection() {
                                     World Championship Qualifier
                                 </span>
                                 <span className="text-muted dark:text-muted-dark emph">
-                                    ’23 &middot; ’24 &middot; ’25
+                                    &apos;23 &middot; &apos;24 &middot; &apos;25
                                 </span>
                             </div>
                         </div>
@@ -65,27 +65,27 @@ export function RoboticistSection() {
                                 12
                             </span>
                             <span className="text-muted dark:text-muted-dark">
-                                in the world (’23)
+                                in the world (&apos;23)
                             </span>
                         </div>
                     </div>
 
-                    <div className="flex flex-row items-start gap-2">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-2">
                         <div className="flex flex-row gap-4">
                             <p>
                                 Team Captain
                             </p>
                             <Link href="https://heronrobotics.vercel.app/" className="italic text-muted dark:text-muted-dark hover:underline hover:text-primary dark:hover:text-primary-dark">
-                                Heron Robotics (’25-26)
+                                Heron Robotics (&apos;25-26)
                             </Link>
                         </div>
-                        <Separator />
+                        <Separator className="hidden sm:flex" />
                         <div className="flex flex-row gap-4">
                             <p>
                                 Software Lead + Robot Driver
                             </p>
                             <Link href="https://kuriosityrobotics.com/" className="italic text-muted dark:text-muted-dark hover:underline hover:text-primary dark:hover:text-primary-dark">
-                                Kuriosity Robotics (’22-25)
+                                Kuriosity Robotics (&apos;22-25)
                             </Link>
                         </div>
                     </div>

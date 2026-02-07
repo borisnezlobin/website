@@ -3,7 +3,6 @@ import {
     FileCppIcon,
     CoffeeIcon,
     GitBranchIcon,
-    ShippingContainerIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import {
     TypeScriptIcon,
@@ -14,11 +13,11 @@ import {
 
 export function TechIconsRow() {
     return (
-        <div className="w-full flex justify-center py-16 print:hidden">
-            <p className="italic text-muted dark:text-muted-dark">
+        <div className="w-full flex flex-col items-center gap-4 py-16 px-8 print:hidden">
+            <p className="italic text-muted dark:text-muted-dark text-sm">
                 A short list of things I know:
             </p>
-            <div className="flex flex-wrap justify-center items-center gap-8 max-w-2xl px-8">
+            <div className="flex flex-wrap justify-center items-center gap-6 sm:gap-8 max-w-2xl">
                 <IconWrap title="TypeScript"><TypeScriptIcon /></IconWrap>
                 <IconWrap title="JavaScript"><JavaScriptIcon /></IconWrap>
                 <IconWrap title="Python"><FilePyIcon size={24} weight="fill" /></IconWrap>
