@@ -110,7 +110,7 @@ export default function GalleryScene({ photos, onFocusChange }: Props) {
     <>
       <KeyboardNavigator photoCount={photos.length} />
       <group ref={groupRef}>
-        <ambientLight intensity={0.4} />
+        <ambientLight intensity={4.0} />
         <pointLight position={[0, 2, 5]} intensity={50.0} color="#ffffff" />
         {photos.map((photo, i) => {
           const xSpread = 6;

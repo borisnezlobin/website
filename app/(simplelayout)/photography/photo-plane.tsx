@@ -106,26 +106,28 @@ export default function PhotoPlane({ photo, position, rotation }: Props) {
 
       <Text
         ref={titleRef}
-        position={[textX, 0.6, 0.01]}
-        fontSize={0.28}
+        position={[textX, 0.0, 0.01]}
+        fontSize={0.5}
         maxWidth={3.5}
         anchorX={textAnchor}
-        anchorY="bottom"
+        anchorY="middle"
         color={headerColor}
-        fontWeight="bold"
+        fontWeight={900}
+        font="/antro_vectra.otf"
       >
         {photo.title}
         <meshBasicMaterial transparent opacity={0} />
       </Text>
-
+{/* 
       {photo.description && (
         <Text
           ref={descRef}
           position={[textX, 0.35, 0.01]}
-          fontSize={0.16}
+          fontSize={0.12}
           maxWidth={3.5}
           anchorX={textAnchor}
           anchorY="top"
+          font="/Charter Regular.ttf"
           color={descColor}
           lineHeight={1.4}
         >
@@ -138,13 +140,14 @@ export default function PhotoPlane({ photo, position, rotation }: Props) {
         ref={dateRef}
         position={[textX, photo.description ? -0.3 : 0.3, 0.01]}
         fontSize={0.12}
+        font="/Charter Regular.ttf"
         anchorX={textAnchor}
         anchorY="top"
         color={descColor}
       >
         {formatDate(photo.createdAt)}
         <meshBasicMaterial transparent opacity={0} />
-      </Text>
+      </Text> */}
     </group>
   );
 }
