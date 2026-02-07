@@ -53,7 +53,7 @@ export default function Gallery({ photos }: GalleryProps) {
         dpr={[1, 1.5]}
       >
         <color attach="background" args={[theme == "dark" ? "#1c1c1c" : "#F5F5F5"]} />
-        <fog attach="fog" args={[theme == "dark" ? "#1c1c1c" : "#F5F5F5", 10, 50]} />
+        <fog attach="fog" args={[theme == "dark" ? "#1c1c1c" : "#F5F5F5", 5, 15]} />
         <Suspense fallback={null}>
           <ScrollControls pages={scrollPages} damping={0.2}>
             <GalleryScene photos={photos} onFocusChange={setFocusedIndex} />
