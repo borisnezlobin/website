@@ -1,9 +1,11 @@
 "use client";
 
-import { useRef, Suspense } from "react";
-import { useFrame, useLoader } from "@react-three/fiber";
+import { useRef, useState, useEffect } from "react";
+import { useFrame } from "@react-three/fiber";
+import { Text } from "@react-three/drei";
 import * as THREE from "three";
 import type { PhotoData } from "./gallery";
+import { useTheme } from "next-themes";
 
 type Props = {
   photo: PhotoData;
@@ -11,47 +13,138 @@ type Props = {
   rotation: [number, number, number];
 };
 
-function LoadedPhotoPlane({ photo, position, rotation }: Props) {
-  const meshRef = useRef<THREE.Mesh>(null);
-  const materialRef = useRef<THREE.MeshStandardMaterial>(null);
-  const worldPosVec = useRef(new THREE.Vector3());
-
-  const texture = useLoader(THREE.TextureLoader, photo.image);
-  texture.colorSpace = THREE.SRGBColorSpace;
-
-  const aspect = texture.image
-    ? texture.image.width / texture.image.height
-    : 1.5;
-
-  useFrame(() => {
-    if (!meshRef.current || !materialRef.current) return;
-    meshRef.current.getWorldPosition(worldPosVec.current);
-    const dist = Math.abs(worldPosVec.current.z);
-    materialRef.current.opacity = THREE.MathUtils.clamp(1 - dist / 20, 0, 1);
-  });
-
-  const height = 3;
-  const width = height * aspect;
-
-  return (
-    <mesh ref={meshRef} position={position} rotation={rotation}>
-      <planeGeometry args={[width, height]} />
-      <meshStandardMaterial
-        ref={materialRef}
-        map={texture}
-        transparent
-        opacity={1}
-        side={THREE.FrontSide}
-        toneMapped={false}
-      />
-    </mesh>
-  );
+function formatDate(dateStr: string): string {
+  const d = new Date(dateStr);
+  const day = d.getDate();
+  const month = d.toLocaleString("default", { month: "long" });
+  const year = d.getFullYear();
+  const suffixes = ["th", "st", "nd", "rd"];
+  const suffix = day >= 11 && day <= 13 ? "th" : suffixes[day % 10] || "th";
+  return `${month} ${day}${suffix}, ${year}`;
 }
 
-export default function PhotoPlane(props: Props) {
+export default function PhotoPlane({ photo, position, rotation }: Props) {
+  const groupRef = useRef<THREE.Group>(null);
+  const materialRef = useRef<THREE.MeshStandardMaterial>(null);
+  const titleRef = useRef<THREE.Mesh>(null);
+  const descRef = useRef<THREE.Mesh>(null);
+  const dateRef = useRef<THREE.Mesh>(null);
+  const worldPosVec = useRef(new THREE.Vector3());
+  const [dims, setDims] = useState<[number, number]>([3 * 1.5, 3]);
+  const [photoWidth, setPhotoWidth] = useState(3 * 1.5);
+
+  const { theme } = useTheme();
+
+  const textOnLeft = position[0] > 0;
+  const textX = textOnLeft ? -(photoWidth / 2 + 0.4) : photoWidth / 2 + 0.4;
+  const textAnchor = textOnLeft ? "right" : "left";
+
+  useEffect(() => {
+    const mat = materialRef.current;
+    const img = new Image();
+    img.crossOrigin = "anonymous";
+    img.onload = () => {
+      const tex = new THREE.Texture(img);
+      tex.colorSpace = THREE.SRGBColorSpace;
+      tex.minFilter = THREE.LinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      tex.needsUpdate = true;
+
+      if (mat) {
+        mat.map = tex;
+        mat.needsUpdate = true;
+      }
+
+      const aspect = img.naturalWidth / img.naturalHeight;
+      const w = 3 * aspect;
+      setDims([w, 3]);
+      setPhotoWidth(w);
+    };
+    img.src = photo.image;
+
+    return () => {
+      if (mat?.map) {
+        mat.map.dispose();
+      }
+    };
+  }, [photo.image]);
+
+  useFrame(() => {
+    if (!groupRef.current) return;
+    groupRef.current.getWorldPosition(worldPosVec.current);
+    const dist = Math.abs(worldPosVec.current.z);
+
+    const photoOpacity = THREE.MathUtils.clamp(1 - dist / 20, 0, 1);
+    if (materialRef.current) {
+      materialRef.current.opacity = photoOpacity;
+    }
+
+    const textOpacity = THREE.MathUtils.clamp(1 - dist / 4, 0, 1);
+    const textMeshes = [titleRef.current, descRef.current, dateRef.current];
+    for (const mesh of textMeshes) {
+      if (mesh) {
+        (mesh.material as THREE.MeshBasicMaterial).opacity = textOpacity;
+      }
+    }
+  });
+
+  const headerColor = theme === "dark" ? "#D0D0D0" : "#3C3C3C";
+  const descColor = theme === "dark" ? "#949494" : "#707070";
+
   return (
-    <Suspense fallback={null}>
-      <LoadedPhotoPlane {...props} />
-    </Suspense>
+    <group ref={groupRef} position={position} rotation={rotation}>
+      <mesh>
+        <planeGeometry args={dims} />
+        <meshStandardMaterial
+          ref={materialRef}
+          transparent
+          opacity={1}
+          side={THREE.FrontSide}
+          toneMapped={false}
+        />
+      </mesh>
+
+      <Text
+        ref={titleRef}
+        position={[textX, 0.6, 0.01]}
+        fontSize={0.28}
+        maxWidth={3.5}
+        anchorX={textAnchor}
+        anchorY="bottom"
+        color={headerColor}
+        fontWeight="bold"
+      >
+        {photo.title}
+        <meshBasicMaterial transparent opacity={0} />
+      </Text>
+
+      {photo.description && (
+        <Text
+          ref={descRef}
+          position={[textX, 0.35, 0.01]}
+          fontSize={0.16}
+          maxWidth={3.5}
+          anchorX={textAnchor}
+          anchorY="top"
+          color={descColor}
+          lineHeight={1.4}
+        >
+          {photo.description}
+          <meshBasicMaterial transparent opacity={0} />
+        </Text>
+      )}
+
+      <Text
+        ref={dateRef}
+        position={[textX, photo.description ? -0.3 : 0.3, 0.01]}
+        fontSize={0.12}
+        anchorX={textAnchor}
+        anchorY="top"
+        color={descColor}
+      >
+        {formatDate(photo.createdAt)}
+        <meshBasicMaterial transparent opacity={0} />
+      </Text>
+    </group>
   );
 }
