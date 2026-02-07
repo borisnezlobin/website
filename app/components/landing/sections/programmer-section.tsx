@@ -101,9 +101,9 @@ export function ProgrammerSection() {
                                 href={project.url}
                                 target={project.url.startsWith("http") ? "_blank" : undefined}
                                 rel={project.url.startsWith("http") ? "noopener noreferrer" : undefined}
-                                className="group flex flex-row items-baseline gap-4 py-3 border-b border-neutral-200 dark:border-neutral-800 first:border-t"
+                                className="group flex flex-row items-center gap-4 py-3 border-b border-neutral-200 dark:border-neutral-800 first:border-t"
                             >
-                                <span className="font-semibold group-hover:text-primary transition-colors duration-200">
+                                <span className="font-semibold group-hover:text-primary transition-colors duration-200 w-32">
                                     {project.title}
                                 </span>
                                 <span className="text-muted dark:text-muted-dark text-sm flex-1 min-w-0 truncate">
