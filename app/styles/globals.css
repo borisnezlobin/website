@@ -526,7 +526,7 @@ script {
 }
 
 .landing-section {
-  border-top-width: 1px;
-  border-bottom-width: 1px;
+  /* border-top-width: 1px;
+  border-bottom-width: 1px; */
   @apply flex flex-col items-center justify-center min-h-[100svh] print:hidden relative w-full border-muted dark:border-muted-dark;
 }
