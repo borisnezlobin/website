@@ -90,14 +90,14 @@ const Footer = () => {
                                 Notes
                             </LinkWithIcon>
                         </span>
-                        {/* <span>
+                        <span>
                             <Separator />
-                        </span> */}
-                        {/* <span>
+                        </span>
+                        <span>
                             <LinkWithIcon title="Photography" href="/photography" Icon={CameraIcon}>
                                 Photography
                             </LinkWithIcon>
-                        </span> */}
+                        </span>
                     </div>
                 </section>
 

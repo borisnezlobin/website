@@ -19,18 +19,13 @@ const config: Config = {
             },
             colors: {
                 primary:  "var(--primary)",
-                // primary: {
-                //     DEFAULT: "#cc2a26",
-                //     dark: "#e96457",
-                //     "light-bg": "#f99d8c",
-                // },
                 muted: {
                     DEFAULT: "#707070",
                     dark: "#949494",
                 },
                 dark: {
                     DEFAULT: "#d0d0d0",
-                    background: "#1c1c1c",
+                    background: "#1a1714",
                     foreground: "#d0d0d0",
                 },
                 light: {
