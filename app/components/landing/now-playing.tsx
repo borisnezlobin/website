@@ -52,6 +52,12 @@ export const NowPlaying = () => {
                     return;
                 }
 
+                // cough cough. not that I would ever...
+                if (data.title.includes("Shake That") || data.title.includes("In Paris")) {
+                    setSong(null);
+                    return;
+                }
+
                 setSong(data);
 
                 if (data && data.albumImageUrl) {

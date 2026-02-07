@@ -103,6 +103,15 @@ const quotes = [
     }, {
         text: "I'm a product, you're a product. The end of the world is a product.",
         source: "Fallout"
+    }, {
+        text: "What's the difference between me and you?",
+        source: "Dr. Dre"
+    }, {
+        text: "Nowadays, everybody talks like they got something to say, but nothing comes out when they move their lips, just a bunch of gibberish.",
+        source: "Forgot About Dre, Dr. Dre"
+    }, {
+        text: "We ain't ever getting older.",
+        source: "Closer, The Chainsmokers"
     }
 ];
 
