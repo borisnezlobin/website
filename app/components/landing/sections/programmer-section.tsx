@@ -2,35 +2,30 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { ArrowSquareOutIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon, ArrowSquareOutIcon } from "@phosphor-icons/react/dist/ssr";
 import { useIsVisible } from "@/app/utils/use-is-visible";
 import { SectionLabel } from "./section-label";
 import HorizontalScroll from "../scroll-horizontal";
 import { LandingPageBadge } from "../landing-page-badge";
+import { Separator } from "../../separator";
 
-const projects = [
+const currentProjects = [
     {
+        title: "The JYV",
+        url: "https://thejyv.com",
+        description: "A website I built end-to-end (with admin dashboard!) for The Journal For Youth Voice.",
+    }, {
         title: "ENF",
-        description: "Free European electrical network frequency data.",
-        badge: "Featured by Hack Club",
         url: "/projects/enf",
+        description: "The only free, up-to-date European electrical network frequency data.",
+        badge: "Featured by Hack Club!",
     },
-    {
-        title: "rendr",
-        description: "3D renderer and raytracer in C.",
-        badge: "CS Capstone",
-        url: "/projects/rendr",
-    },
-    {
-        title: "The C.H.",
-        description: "Style code comments in VS Code.",
-        url: "https://marketplace.visualstudio.com/items?itemName=randomletters.the-comment-highlighter",
-    },
-    {
-        title: "Lim",
-        description: "Track website usage. Set daily limits.",
-        url: "/projects/lim",
-    },
+];
+
+const pastProjects = [
+    { title: "rendr", description: "3D renderer + raytracer in C", url: "/projects/rendr" },
+    { title: "The C.H.", description: "Style code comments in VS Code", url: "https://marketplace.visualstudio.com/items?itemName=randomletters.the-comment-highlighter" },
+    { title: "Lim", description: "Track website usage, set daily limits", url: "/projects/lim" },
 ];
 
 const contributions = [
@@ -40,32 +35,48 @@ const contributions = [
     { title: "ShadowFinder", description: "CLI Caching", url: "https://github.com/bellingcat/ShadowFinder" },
 ];
 
-const lockheedChips = ["Solar data analysis", "OpenCV", "980x faster CSV reads"];
+const lockheedChips = ["Solar data analysis", "OpenCV", "Data Science", "*980x faster CSV reads"];
 
 export function ProgrammerSection() {
     const ref = useRef<HTMLDivElement>(null);
     const isVisible = useIsVisible(ref);
 
     return (
-        <section className="landing-section">
+        <section className="landing-section !min-h-0 pt-24 md:pt-32">
             <div
                 ref={ref}
                 className={`max-w-6xl mx-auto px-8 w-full flex flex-col md:flex-row gap-8 md:gap-12 transition-all duration-700 ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
             >
-                <div className="flex-1 flex flex-col gap-10">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                        {projects.map((project) => (
-                            <Link
-                                key={project.title}
-                                href={project.url}
-                                target={project.url.startsWith("http") ? "_blank" : undefined}
-                                rel={project.url.startsWith("http") ? "noopener noreferrer" : undefined}
-                                className="group flex flex-col gap-3 p-5 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:scale-[1.02] transition-transform duration-200"
-                            >
-                                <div className="flex items-center gap-3">
-                                    <h3 className="font-semibold text-lg">{project.title}</h3>
+                <div className="flex-1 flex flex-col gap-16">
+                    <div className="flex flex-col gap-8">
+                        <div className="flex flex-col items-start">
+                            <span className="vectra text-5xl md:text-7xl leading-tight">
+                                Building things.
+                            </span>
+                            <p className="text-muted dark:text-muted-dark mt-3 max-w-2xl">
+                                I’m a programmer (in case that wasn’t obvious). I build things for fun, often, and focus on building things that are useful to other people.
+                            </p>
+                        </div>
+
+                        <div className="flex flex-col gap-6">
+                            {currentProjects.map((project) => (
+                                <Link
+                                    key={project.title}
+                                    href={project.url}
+                                    target={project.url.startsWith("http") ? "_blank" : undefined}
+                                    rel={project.url.startsWith("http") ? "noopener noreferrer" : undefined}
+                                    className="group flex flex-col md:flex-row md:items-center gap-2 md:gap-6"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <span className="font-bold text-xl group-hover:text-primary transition-colors duration-200">
+                                            {project.title}
+                                        </span>
+                                    </div>
+                                    <span className="text-muted dark:text-muted-dark text-sm md:text-base">
+                                        {project.description}
+                                    </span>
                                     {project.badge && (
                                         <span className="text-xs px-2 py-0.5 rounded-full bg-primary/10 text-primary font-medium">
                                             {project.badge}
@@ -73,37 +84,71 @@ export function ProgrammerSection() {
                                     )}
                                     <ArrowSquareOutIcon
                                         size={16}
-                                        className="ml-auto text-muted dark:text-muted-dark opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+                                        className="hidden md:block ml-auto text-muted dark:text-muted-dark opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0"
                                     />
-                                </div>
-                                <p className="text-muted dark:text-muted-dark text-sm">
-                                    {project.description}
-                                </p>
-                            </Link>
-                        ))}
-                    </div>
-
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 p-5 rounded-lg border border-neutral-200 dark:border-neutral-800">
-                        <div className="flex-shrink-0">
-                            <span className="font-bold text-lg">Lockheed Martin</span>
-                            <p className="text-muted dark:text-muted-dark text-xs">Software Engineering Intern</p>
-                        </div>
-                        <div className="flex flex-wrap gap-2">
-                            {lockheedChips.map((chip) => (
-                                <span
-                                    key={chip}
-                                    className="text-xs px-3 py-1 rounded-full border border-neutral-300 dark:border-neutral-700 text-muted dark:text-muted-dark"
-                                >
-                                    {chip}
-                                </span>
+                                </Link>
                             ))}
                         </div>
                     </div>
 
+                    <div className="flex flex-col gap-0">
+                        <p className="emph text-sm tracking-wider text-muted dark:text-muted-dark uppercase mb-4">
+                            Past Projects
+                        </p>
+                        {pastProjects.map((project) => (
+                            <Link
+                                key={project.title}
+                                href={project.url}
+                                target={project.url.startsWith("http") ? "_blank" : undefined}
+                                rel={project.url.startsWith("http") ? "noopener noreferrer" : undefined}
+                                className="group flex flex-row items-baseline gap-4 py-3 border-b border-neutral-200 dark:border-neutral-800 first:border-t"
+                            >
+                                <span className="font-semibold group-hover:text-primary transition-colors duration-200">
+                                    {project.title}
+                                </span>
+                                <span className="text-muted dark:text-muted-dark text-sm flex-1 min-w-0 truncate">
+                                    {project.description}
+                                </span>
+                                <ArrowRightIcon
+                                    weight="bold"
+                                    size={14}
+                                    className="text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex-shrink-0"
+                                />
+                            </Link>
+                        ))}
+                        <Link href="/projects" className="mt-4 text-sm text-primary font-semibold hover:underline flex items-center gap-2">
+                            All projects <ArrowRightIcon weight="bold" size={14} />
+                        </Link>
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                        <p className="emph text-sm tracking-wider text-muted dark:text-muted-dark uppercase mb-2">
+                            Industry
+                        </p>
+                        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                            <span className="font-bold text-lg">Lockheed Martin</span>
+                            <Separator />
+                            <div className="flex flex-wrap gap-2">
+                                {lockheedChips.map((chip) => (
+                                    <span
+                                        key={chip}
+                                        className={`text-xs px-3 py-1 rounded-full border ${chip.startsWith("*") ? "border-primary dark:border-primary-dark text-primary dark:text-primary-dark" : "border-neutral-300 dark:border-neutral-700 text-muted dark:text-muted-dark"}`}
+                                    >
+                                        {chip.startsWith("*") ? (
+                                            <em>{chip.slice(1)}</em>
+                                        ) : (
+                                            chip
+                                        )}
+                                    </span>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+
                     <div className="flex flex-col gap-3">
-                        <h3 className="emph text-sm tracking-wider text-muted dark:text-muted-dark uppercase">
+                        <p className="emph text-sm tracking-wider text-muted dark:text-muted-dark uppercase">
                             Open Source
-                        </h3>
+                        </p>
                         <HorizontalScroll>
                             {contributions.map((c, i) => (
                                 <LandingPageBadge

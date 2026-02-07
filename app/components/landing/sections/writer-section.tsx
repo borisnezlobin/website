@@ -2,21 +2,16 @@
 
 import { useRef } from "react";
 import Link from "next/link";
-import { ArrowRightIcon, PenNibIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { useIsVisible } from "@/app/utils/use-is-visible";
 import { SectionLabel } from "./section-label";
+import { Separator } from "../../separator";
 
 type ArticlePreview = {
     title: string;
     description: string;
     slug: string;
     createdAt: Date;
-};
-
-const curatedDescriptions: Record<string, string> = {
-    "macports-with-proxy": "Getting MacPorts to cooperate behind a corporate proxy at Lockheed Martin.",
-    "kalman-filters": "An intuitive derivation of the Kalman filter, from first principles.",
-    "react-server-components": "Why React Server Components matter, and how to think about them.",
 };
 
 export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
@@ -31,57 +26,49 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
             >
-                <div className="flex-1 flex flex-col gap-12">
-                    <blockquote className="border-l-2 border-primary pl-6 py-2">
-                        <p className="vectra text-2xl md:text-3xl leading-relaxed">
-                            I think the best way to learn something is to write about it—badly at first, then less badly, then well enough that someone else can learn from it too.
+                <div className="flex-1 flex flex-col gap-10">
+                    <div className="flex flex-col items-start">
+                        <span className="vectra text-6xl md:text-8xl leading-none">
+                            I write things.
+                        </span>
+                        <p className="text-muted dark:text-muted-dark mt-4 max-w-lg">
+                            Sometimes I try to change the world—I helped reinstate multivariable calculus at my school with my writing!—and sometimes I
+                            write about the Technical Challenges of being a programmer.
                         </p>
-                    </blockquote>
+                    </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                        {articles.slice(0, 3).map((article) => (
+                    <div className="flex flex-col gap-0">
+                        {articles.slice(0, 3).map((article, i) => (
                             <Link
                                 key={article.slug}
                                 href={`/blog/${article.slug}`}
-                                className="group flex flex-col gap-3 p-5 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:border-primary dark:hover:border-primary transition-colors duration-200"
+                                className="group flex flex-row items-baseline gap-4 py-4 border-b border-neutral-200 dark:border-neutral-800 first:border-t"
                             >
-                                <h3 className="font-semibold text-lg group-hover:text-primary transition-colors duration-200">
-                                    {article.title}
-                                </h3>
-                                <p className="text-muted dark:text-muted-dark text-sm leading-relaxed">
-                                    {curatedDescriptions[article.slug] || article.description || ""}
-                                </p>
-                                <span className="mt-auto flex items-center gap-1 text-sm text-primary font-medium opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                    Read <ArrowRightIcon weight="bold" size={14} />
+                                <span className="emph text-muted dark:text-muted-dark text-sm tabular-nums">
+                                    {String(i + 1).padStart(2, "0")}
                                 </span>
+                                <span className="font-semibold text-lg group-hover:text-primary transition-colors duration-200 flex-1 min-w-0 truncate">
+                                    {article.title}
+                                </span>
+                                <ArrowRightIcon
+                                    weight="bold"
+                                    size={14}
+                                    className="text-primary opacity-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-200 flex-shrink-0"
+                                />
                             </Link>
                         ))}
                     </div>
 
-                    <Link href="/write" className="block w-full">
-                        <div className="relative w-full group p-6 md:p-8 rounded-lg bg-dark-background dark:bg-light-background transition-transform duration-200 hover:scale-[1.01]">
-                            <div className="flex flex-col md:flex-row md:items-center gap-4">
-                                <PenNibIcon
-                                    size={32}
-                                    weight="duotone"
-                                    className="text-dark-foreground dark:text-light-foreground"
-                                />
-                                <div className="flex-1">
-                                    <h3 className="vectra text-xl text-dark-foreground dark:text-light-foreground">
-                                        Try Wrisk.
-                                    </h3>
-                                    <p className="text-dark-foreground/70 dark:text-light-foreground/70 text-sm mt-1">
-                                        Write until your time runs out or you hit your word count. You won&apos;t be able to stop.
-                                    </p>
-                                </div>
-                                <ArrowRightIcon
-                                    size={20}
-                                    weight="bold"
-                                    className="text-dark-foreground dark:text-light-foreground hidden md:block group-hover:translate-x-1 transition-transform duration-200"
-                                />
-                            </div>
-                        </div>
-                    </Link>
+                    <div className="flex flex-row items-center gap-4">
+                        <Link href="/blog" className="text-primary font-semibold hover:underline flex items-center gap-2">
+                            All articles <ArrowRightIcon weight="bold" size={14} />
+                        </Link>
+                        <Separator />
+                        <Link href="/write" className="text-muted dark:text-muted-dark hover:text-primary transition-colors duration-200 flex items-center gap-2">
+                            Wrisk, the free tool I made to help me write faster
+                            <ArrowRightIcon weight="bold" size={14} />
+                        </Link>
+                    </div>
                 </div>
             </div>
             <SectionLabel label="Writer" />

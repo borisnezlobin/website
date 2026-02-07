@@ -112,6 +112,9 @@ const quotes = [
     }, {
         text: "We ain't ever getting older.",
         source: "Closer, The Chainsmokers"
+    }, {
+        text: "Straight from the page of your favorite author...",
+        source: "Flashing Lights, Ye"
     }
 ];
 
