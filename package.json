@@ -11,9 +11,6 @@
     "seed": "node -r dotenv/config ./scripts/seed.js"
   },
   "dependencies": {
-    "@mdx-js/loader": "^3.0.1",
-    "@mdx-js/react": "^3.0.1",
-    "@next/mdx": "^14.2.5",
     "@phosphor-icons/react": "^2.1.8",
     "@prisma/adapter-pg": "^7.3.0",
     "@prisma/client": "^7.0.0",
@@ -30,8 +27,8 @@
     "next-themes": "0.3.0",
     "node-html-parser": "^7.0.1",
     "prismjs": "^1.29.0",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-latex-next": "^3.0.0",
     "react-tweet": "^3.2.1",
     "remark": "^15.0.1",
