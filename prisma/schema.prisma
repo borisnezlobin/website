@@ -52,9 +52,10 @@ model Project {
 }
 
 model Photograph {
-  id        String          @id @default(cuid())
-  title     String
-  image     String
+  id          String          @id @default(cuid())
+  title       String
+  description String          @default("")
+  image       String
   likes     Int             @default(0)
   slug      String          @unique
   createdAt DateTime        @default(now())
