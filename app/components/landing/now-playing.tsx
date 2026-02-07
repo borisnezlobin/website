@@ -136,6 +136,12 @@ export const NowPlaying = () => {
     adjustedSecondary = brightenIfNecessary(adjustedSecondary);
 
     const backgroundColor = [28 + (adjustedDominant[0] / 2), 28 + (adjustedDominant[1] / 2), 28 + (adjustedDominant[2] / 2)];
+    const textBackgroundColor = [...backgroundColor]
+    if ((textBackgroundColor[0] + textBackgroundColor[1] + textBackgroundColor[2]) / 3 > 100) {
+        textBackgroundColor[0] = Math.max(0, textBackgroundColor[0] - 50);
+        textBackgroundColor[1] = Math.max(0, textBackgroundColor[1] - 50);
+        textBackgroundColor[2] = Math.max(0, textBackgroundColor[2] - 50);
+    }
 
     return (
         <div className="relative w-full flex flex-col h-[20rem] items-center justify-end my-20 space-y-4 z-20 print:hidden print:m-0 print:space-y-2">
@@ -146,7 +152,7 @@ export const NowPlaying = () => {
                     style={{
                         border: `1px solid rgba(${adjustedSecondary[0] * 1.2}, ${adjustedSecondary[1] * 1.2}, ${adjustedSecondary[2] * 1.2}, 1.0)`,
                         animation: `pulse-border 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
-                        backgroundColor: `rgba(${backgroundColor[0]}, ${backgroundColor[1]}, ${backgroundColor[2]}, 0.6)`,
+                        backgroundColor: `rgba(${textBackgroundColor[0]}, ${textBackgroundColor[1]}, ${textBackgroundColor[2]}, 0.5)`,
                     }}
                 >
                     <img
