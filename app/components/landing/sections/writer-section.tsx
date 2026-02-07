@@ -28,7 +28,7 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
             >
                 <div className="flex-1 flex flex-col gap-10">
                     <div className="flex flex-col items-start">
-                        <span className="vectra text-6xl md:text-8xl leading-none">
+                        <span className="vectra text-5xl md:text-8xl leading-none">
                             I write things.
                         </span>
                         <p className="text-muted dark:text-muted-dark mt-4 max-w-lg">
@@ -59,14 +59,14 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
                         ))}
                     </div>
 
-                    <div className="flex flex-row items-center gap-4">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
                         <Link href="/blog" className="text-primary font-semibold hover:underline flex items-center gap-2">
                             All articles <ArrowRightIcon weight="bold" size={14} />
                         </Link>
-                        <Separator />
-                        <Link href="/write" className="text-muted dark:text-muted-dark hover:text-primary transition-colors duration-200 flex items-center gap-2">
+                        <Separator className="hidden sm:flex" />
+                        <Link href="/write" className="text-muted dark:text-muted-dark hover:text-primary transition-colors duration-200 flex items-center gap-2 text-sm sm:text-base">
                             Wrisk, the free tool I made to help me write faster
-                            <ArrowRightIcon weight="bold" size={14} />
+                            <ArrowRightIcon weight="bold" size={14} className="flex-shrink-0" />
                         </Link>
                     </div>
                 </div>

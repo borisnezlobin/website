@@ -883,7 +883,6 @@ iframe {
   background-color: var(--text-highlight-bg) !important;
 }
 body {
-  user-select: none;
   caret-color: var(--caret-color);
 }
 body [contenteditable=""],

@@ -127,7 +127,8 @@ export function ProgrammerSection() {
                         </p>
                         <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                             <span className="font-bold text-lg">Lockheed Martin</span>
-                            <Separator />
+                            <Separator className="block md:hidden" vertical />
+                            <Separator className="hidden md:block" />
                             <div className="flex flex-wrap gap-2">
                                 {lockheedChips.map((chip) => (
                                     <span
