@@ -35,12 +35,12 @@ const NOISE = 5;
 
 const BoidCanvas = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
-    const boidGrid = useRef<BoidGridType>();
+    const boidGrid = useRef<BoidGridType>({});
     const boids = useRef<Boid[]>([]);
     const theme = useTheme();
     const windowSize = useWindowSize();
     
-    const animationFrameId = useRef<number>();
+    const animationFrameId = useRef<number>(undefined);
     const lastTimestamp = useRef<number>(0);
     const isInViewRef = useRef<boolean>(false);
     const isPageVisibleRef = useRef<boolean>(true);
