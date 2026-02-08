@@ -27,7 +27,7 @@ const getBlogs = wrapWithCache(getBlogsWithoutCache);
 
 const getPhotographsWithoutCache = async () => {
     return await db.photograph.findMany({
-        orderBy: { createdAt: "desc" },
+        orderBy: { likes: "desc" },
         where: {
             slug: {
                 not: {
