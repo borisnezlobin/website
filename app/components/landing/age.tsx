@@ -1,12 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useIsVisible } from "@/app/utils/use-is-visible";
+import { useEffect, useRef, useState } from "react";
 
 const PRECISION = Math.pow(10, 5);
 
 const Age = () => {
     var isClient = window !== undefined;
-
+    const ref = useRef<HTMLDivElement>(null);
+    const isVisible = useIsVisible(ref);
 
     const timeSince =
         (Date.now() - new Date(2008, 8, 20, 2).valueOf()) /
@@ -15,19 +17,19 @@ const Age = () => {
     const [msSince, setMsSince] = useState(0);
 
     useEffect(() => {
-        if (isClient) {
+        if (isClient && isVisible) {
             const interval = setInterval(() => {
                 setMsSince(Date.now() - msStart);
             }, 40);
 
             return () => clearInterval(interval);
         }
-    }, [isClient, msStart]);
+    }, [isClient, isVisible, msStart]);
 
     const age = (timeSince + 0.000000000031689 * msSince).toFixed(15);
     return (
         <>
-            <span className="text-primary emph">
+            <span className="text-primary emph" ref={ref}>
                 {age.split(".")[0]}
             </span>
             <span className="emph">.{age.split(".")[1]}</span>
