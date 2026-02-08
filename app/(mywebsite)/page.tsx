@@ -35,15 +35,15 @@ export default async function Home() {
                     <h2 className="text-xl sm:text-3xl sm:text-[2rem] text-left print:mt-4 print:mb-2">
                         <AgeNoSSR /> <span className="vectra">years old</span>
                     </h2>
-                    <p className="max-w-3xl">
+                    <p className="max-w-3xl text-muted dark:text-muted-dark">
                         ...and counting. I&apos;m a senior in high school. I occupy myself with things I find interesting, which means I&apos;m usually writing, programming, or building robots.
                     </p>
                 </div>
 
-                <WriterSection articles={previewArticles} />
-                <RoboticistSection />
                 <ProgrammerSection />
                 <TechIconsRow />
+                <RoboticistSection />
+                <WriterSection articles={previewArticles} />
                 <NowPlaying />
             </main>
         </>

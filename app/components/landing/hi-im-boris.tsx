@@ -14,7 +14,7 @@ const badgeQuotes = [
     "1% better every day.",
     "Staying hydrated, ish.",
     "Are you gonna finish that?",
-    "Outlier?",
+    "/photography!",
 ]
 
 const FADE_DURATION = 400; // ms
