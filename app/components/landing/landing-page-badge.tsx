@@ -31,7 +31,7 @@ const LandingPageBadge = ({
                 {url && <span aria-hidden="true" className="hidden print:inline print:text-xs print:ml-1 font-normal italic">{url}</span>}
             </b>
             {description && <Separator size="medium" className="hidden md:block print:hidden" />}
-            {description && <p className="print:text-sm print:mt-0 print:mb-0">
+            {description && <p className="print:text-sm print:mt-0 print:mb-0 text-muted dark:text-muted-dark">
                 <span className="hidden print:inline">
                     {"— "}
                 </span>
