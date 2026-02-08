@@ -17,12 +17,14 @@ const Background = ({
     trapezoidBaseLength = 0.4,
     lineSlopeWeight = 0.6,
     charsBetweenWords = 4,
+    className = "",
 }: {
     words: string[],
     trapezoidHeight?: number,
     trapezoidBaseLength?: number,
     lineSlopeWeight?: number,
     charsBetweenWords?: number
+    className?: string,
 }) => {
     const WORDS = words;
     const TRAPEZOID_HEIGHT = trapezoidHeight;
@@ -192,7 +194,7 @@ const Background = ({
     });
 
     return (
-        <div className={`absolute w-full h-[100svh] left-0 text-slate-200 dark:text-slate-800 print:hidden flex flex-col ${!INVERT_SPACE ? 'justify-center items-center' : 'justify-start items-start'} pointer-events-none select-none z-0`}>
+        <div className={`absolute w-full h-[100svh] left-0 text-slate-200 dark:text-slate-800 print:hidden flex flex-col ${!INVERT_SPACE ? 'justify-center items-center' : 'justify-start items-start'} pointer-events-none select-none z-0 ${className}`}>
             {htmlLines.map((e) => e)}
         </div>
     );

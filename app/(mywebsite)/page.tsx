@@ -8,19 +8,25 @@ import { WriterSection } from "../components/landing/sections/writer-section";
 import { RoboticistSection } from "../components/landing/sections/roboticist-section";
 import { ProgrammerSection } from "../components/landing/sections/programmer-section";
 import { TechIconsRow } from "../components/landing/sections/tech-icons-row";
-import { getBlogs } from "../lib/db-caches";
+import { getBlogs, getPhotographs } from "../lib/db-caches";
+import { ArtistSection } from "../components/landing/sections/artist-section";
 
 export const metadata = getMetadata({
     info: "Hi, I'm",
 });
 
 export default async function Home() {
-    const articles = await getBlogs();
+    const [articles, photographs] = await Promise.all([getBlogs(), getPhotographs()]);
     const previewArticles = articles.filter(e => !e.slug.includes("draft-") && !e.slug.includes("personal-")).slice(0, 3).map((a) => ({
         title: a.title,
         description: a.description ?? "",
         slug: a.slug,
         createdAt: a.createdAt,
+    }));
+    const previewPhotos = photographs.slice(0, 8).map((p) => ({
+        title: p.title,
+        image: p.image,
+        slug: p.slug,
     }));
 
     return (
@@ -44,6 +50,7 @@ export default async function Home() {
                 <TechIconsRow />
                 <RoboticistSection />
                 <WriterSection articles={previewArticles} />
+                <ArtistSection photos={previewPhotos} />
                 <NowPlaying />
             </main>
         </>
