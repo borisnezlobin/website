@@ -19,6 +19,7 @@ model Article {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @default(now())
   remoteURL   String?
+  views       Int      @default(0)
 
   @@index([title], map: "articles_title")
   @@index([createdAt], map: "created_at")

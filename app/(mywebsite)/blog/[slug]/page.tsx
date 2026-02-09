@@ -17,6 +17,8 @@ import { formatDateWithOrdinal } from "@/app/utils/format-date";
 import { Metadata } from "next";
 import { ScrollForMore } from "@/app/components/landing/scroll-for-more";
 import { CaretDoubleDownIcon } from "@phosphor-icons/react/dist/ssr";
+import { ViewCounter } from "./view-counter";
+import BackToRouteLink from "@/app/components/back-to-route";
 
 type BlogPageParams = {
     slug: string;
@@ -108,6 +110,9 @@ export default async function SingleBlogPage(
             {slug.includes("draft-") && <DraftBadge />}
             <div className={`pagepad`}>
                 {post.image && <ArticleImageBg imageUrl={post.image} />}
+                <div className="absolute top-16 left-8">
+                    <BackToRouteLink href="/blog" className="gap-2 flex flex-row items-center justify-center hover:underline hover:text-primary dark:hover:text-primary-dark" text="All articles" />
+                </div>
                 
                 <div className={`flex flex-col ${post.image && "min-h-screen relative -top-20"}`}>
                     {post.image && <div className="flex-grow-[0.9]"></div>}
@@ -134,11 +139,13 @@ export default async function SingleBlogPage(
                     <div
                         className={`z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 ${!post.image && "md:pt-8"} rounded-lg bg-background`}
                     >
-                        <span className="text-muted dark:text-muted-dark font-normal">
-                            Published {formatDateWithOrdinal(new Date(post.createdAt))}&nbsp;&nbsp;
+                        <span className="text-muted dark:text-muted-dark font-normal flex items-center gap-3 flex-wrap">
+                            <span className="text-muted dark:text-muted-dark italic">
+                                Published {formatDateWithOrdinal(new Date(post.createdAt))}
+                            </span>
+                            <ViewCounter slug={post.slug} />
                         </span>
                         <Wrapper content={post.body} />
-                        {/* <ArticleBody body={post.body} /> */}
                     </div>
                 </div>
                 {post && (

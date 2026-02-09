@@ -16,10 +16,9 @@ const quotes = [
     {
         text: "I love deadlines. I love the whooshing sound they make as they go by.",
         source: "Douglas Adams, The Salmon Of Doubt",
-    },
-    {
-        text: "You never have to change anything you got up in the middle of the night to write.",
-        source: "Saul Bellow",
+    }, {
+        text: "’Til the roof comes off, ’til the lights go out, ’till my legs give out, can’t shut my mouth.",
+        source: "Till I Collapse, Eminem",
     },
     {
         text: "Writing is just a socially acceptable form of schizophrenia.",

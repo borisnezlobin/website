@@ -1,10 +1,11 @@
 "use client";
 
-import { useState } from "react";
-import { HeartIcon } from "@phosphor-icons/react";
+import { useState, useTransition } from "react";
+import { HeartIcon, SpinnerGapIcon } from "@phosphor-icons/react";
 import { PrintCard, getPrintTransform } from "@/app/components/landing/print-card";
 import type { PrintCardPhoto } from "@/app/components/landing/print-card";
 import { likePhoto } from "./like-photo";
+import { loadMorePhotos } from "./load-more-photos";
 
 type PhotoWithLikes = PrintCardPhoto & {
     id: string;
@@ -12,19 +13,43 @@ type PhotoWithLikes = PrintCardPhoto & {
     likes: number;
 };
 
-export default function MobileGallery({ photos }: { photos: PhotoWithLikes[] }) {
+export default function MobileGallery({
+    initialPhotos,
+    totalCount,
+    pageSize,
+}: {
+    initialPhotos: PhotoWithLikes[];
+    totalCount: number;
+    pageSize: number;
+}) {
+    const [photos, setPhotos] = useState<PhotoWithLikes[]>(initialPhotos);
     const [likes, setLikes] = useState<Record<string, number>>(() => {
         const map: Record<string, number> = {};
-        photos.forEach((p) => (map[p.id] = p.likes));
+        initialPhotos.forEach((p) => (map[p.id] = p.likes));
         return map;
     });
     const [likedPhotos, setLikedPhotos] = useState<Set<string>>(new Set());
+    const [isPending, startTransition] = useTransition();
+
+    const hasMore = photos.length < totalCount;
 
     async function handleLike(photoId: string) {
         if (likedPhotos.has(photoId)) return;
         setLikedPhotos((prev) => new Set(prev).add(photoId));
         setLikes((prev) => ({ ...prev, [photoId]: (prev[photoId] ?? 0) + 1 }));
         await likePhoto(photoId);
+    }
+
+    function handleLoadMore() {
+        startTransition(async () => {
+            const morePhotos = await loadMorePhotos(photos.length, pageSize);
+            setPhotos((prev) => [...prev, ...morePhotos]);
+            setLikes((prev) => {
+                const updated = { ...prev };
+                morePhotos.forEach((p: PhotoWithLikes) => (updated[p.id] = p.likes));
+                return updated;
+            });
+        });
     }
 
     return (
@@ -60,6 +85,24 @@ export default function MobileGallery({ photos }: { photos: PhotoWithLikes[] }) 
                     );
                 })}
             </div>
+            {hasMore && (
+                <div className="flex justify-center mt-12">
+                    <button
+                        onClick={handleLoadMore}
+                        disabled={isPending}
+                        className="px-6 py-2.5 text-sm font-medium rounded-full border border-neutral-300 dark:border-neutral-600 hover:border-neutral-400 dark:hover:border-neutral-400 transition-colors disabled:opacity-50"
+                    >
+                        {isPending ? (
+                            <span className="flex items-center gap-2">
+                                <SpinnerGapIcon size={14} className="animate-spin" />
+                                Loading...
+                            </span>
+                        ) : (
+                            "Load more"
+                        )}
+                    </button>
+                </div>
+            )}
         </div>
     );
 }

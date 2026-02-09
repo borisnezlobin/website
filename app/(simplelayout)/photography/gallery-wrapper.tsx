@@ -6,14 +6,28 @@ import MobileGallery from "./mobile-gallery";
 
 const Gallery = dynamic(() => import("./gallery"), { ssr: false });
 
-export default function GalleryWrapper({ photos }: { photos: PhotoData[] }) {
+export default function GalleryWrapper({
+    photos,
+    initialMobilePhotos,
+    totalCount,
+    pageSize,
+}: {
+    photos: PhotoData[];
+    initialMobilePhotos: PhotoData[];
+    totalCount: number;
+    pageSize: number;
+}) {
     return (
         <>
             <div className="hidden md:block w-full h-full">
                 <Gallery photos={photos} />
             </div>
             <div className="block md:hidden">
-                <MobileGallery photos={photos} />
+                <MobileGallery
+                    initialPhotos={initialMobilePhotos}
+                    totalCount={totalCount}
+                    pageSize={pageSize}
+                />
             </div>
         </>
     );
