@@ -41,6 +41,7 @@ export default function BlogAdminPage() {
       }
       const data = await res.json();
       setPosts(data.posts || []);
+      console.log("Fetched posts for admin:", data.posts);
     } catch (e) {
       console.error(e);
     } finally {

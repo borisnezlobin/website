@@ -31,6 +31,14 @@ export async function GET(request: NextRequest) {
   if (slug) {
     const post = await db.article.findUnique({
       where: { slug },
+      select: {
+        title: true,
+        slug: true,
+        description: true,
+        remoteURL: true,
+        createdAt: true,
+        views: true,
+      },
     });
 
     if (!post) {
@@ -66,6 +74,7 @@ export async function GET(request: NextRequest) {
       description: true,
       remoteURL: true,
       createdAt: true,
+      views: true,
     },
   });
 
