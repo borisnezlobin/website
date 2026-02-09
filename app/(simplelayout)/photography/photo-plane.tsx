@@ -23,6 +23,8 @@ function formatDate(dateStr: string): string {
   return `${month} ${day}${suffix}, ${year}`;
 }
 
+const LOAD_DISTANCE = 15;
+
 export default function PhotoPlane({ photo, position, rotation }: Props) {
   const groupRef = useRef<THREE.Group>(null);
   const materialRef = useRef<THREE.MeshStandardMaterial>(null);
@@ -32,6 +34,7 @@ export default function PhotoPlane({ photo, position, rotation }: Props) {
   const worldPosVec = useRef(new THREE.Vector3());
   const [dims, setDims] = useState<[number, number]>([3 * 1.5, 3]);
   const [photoWidth, setPhotoWidth] = useState(3 * 1.5);
+  const textureLoaded = useRef(false);
 
   const { theme } = useTheme();
 
@@ -39,7 +42,10 @@ export default function PhotoPlane({ photo, position, rotation }: Props) {
   const textX = textOnLeft ? -(photoWidth / 2 + 0.4) : photoWidth / 2 + 0.4;
   const textAnchor = textOnLeft ? "right" : "left";
 
-  useEffect(() => {
+  const loadTexture = useRef(() => {
+    if (textureLoaded.current) return;
+    textureLoaded.current = true;
+
     const mat = materialRef.current;
     const img = new Image();
     img.crossOrigin = "anonymous";
@@ -61,18 +67,24 @@ export default function PhotoPlane({ photo, position, rotation }: Props) {
       setPhotoWidth(w);
     };
     img.src = photo.image;
+  }).current;
 
+  useEffect(() => {
     return () => {
-      if (mat?.map) {
-        mat.map.dispose();
+      if (materialRef.current?.map) {
+        materialRef.current.map.dispose();
       }
     };
-  }, [photo.image]);
+  }, []);
 
   useFrame(() => {
     if (!groupRef.current) return;
     groupRef.current.getWorldPosition(worldPosVec.current);
     const dist = Math.abs(worldPosVec.current.z);
+
+    if (dist < LOAD_DISTANCE && !textureLoaded.current) {
+      loadTexture();
+    }
 
     const photoOpacity = THREE.MathUtils.clamp(1 - dist / 20, 0, 1);
     if (materialRef.current) {
@@ -104,7 +116,7 @@ export default function PhotoPlane({ photo, position, rotation }: Props) {
         />
       </mesh>
 
-      <Text
+      {/* <Text
         ref={titleRef}
         position={[textX, 0.0, 0.01]}
         fontSize={0.5}
@@ -117,7 +129,7 @@ export default function PhotoPlane({ photo, position, rotation }: Props) {
       >
         {photo.title}
         <meshBasicMaterial transparent opacity={0} />
-      </Text>
+      </Text> */}
 {/* 
       {photo.description && (
         <Text

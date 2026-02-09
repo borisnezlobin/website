@@ -113,12 +113,12 @@ export default function GalleryScene({ photos, onFocusChange }: Props) {
         <ambientLight intensity={4.0} />
         <pointLight position={[0, 2, 5]} intensity={50.0} color="#ffffff" />
         {photos.map((photo, i) => {
-          const xSpread = 6;
+          const xSpread = 2;
           const ySpread = 1.5;
           const xOffset = (seededRandom(i * 3 + 1) - 0.5) * xSpread;
-          const yOffset = (seededRandom(i * 7 + 2) - 0.5) * ySpread;
-          const rotY = (seededRandom(i * 13 + 3) - 0.5) * 0.4;
-          const rotX = (seededRandom(i * 17 + 4) - 0.5) * 0.15;
+          const yOffset = (seededRandom(i * 7 + 2) - 0.5) * ySpread + 0.5;
+          const rotY = (seededRandom(i * 13 + 3) - 0.5) * 0.1;
+          const rotX = (seededRandom(i * 17 + 4) - 0.5) * 0.05;
 
           return (
             <PhotoPlane

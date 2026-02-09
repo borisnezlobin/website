@@ -102,6 +102,37 @@ const getProjectWithoutCache = async (slug: string) => {
 
 const getProject = wrapWithCache(getProjectWithoutCache);
 
+const getPhotographsCountWithoutCache = async () => {
+    return await db.photograph.count({
+        where: {
+            slug: {
+                not: {
+                    startsWith: "draft-",
+                },
+            }
+        }
+    });
+}
+
+const getPhotographsCount = wrapWithCache(getPhotographsCountWithoutCache);
+
+const getPhotographsPaginatedWithoutCache = async (skip: number, take: number) => {
+    return await db.photograph.findMany({
+        orderBy: { likes: "desc" },
+        where: {
+            slug: {
+                not: {
+                    startsWith: "draft-",
+                },
+            }
+        },
+        skip,
+        take,
+    });
+}
+
+const getPhotographsPaginated = wrapWithCache(getPhotographsPaginatedWithoutCache);
+
 export {
     getBlogs,
     getBlog,
@@ -110,5 +141,7 @@ export {
     getNote,
     getProjects,
     getProject,
-    getPhotographs
+    getPhotographs,
+    getPhotographsCount,
+    getPhotographsPaginated,
 };

@@ -2,21 +2,13 @@
 
 import { useState, useEffect } from "react";
 import { ArrowLeft, FloppyDisk, Eye, CaretRight } from "@phosphor-icons/react";
-
-type BlogPost = {
-  id: string;
-  title: string;
-  slug: string;
-  description: string;
-  remoteURL: string | null;
-  createdAt: string;
-};
+import { Article } from "@/prisma/awooga/client";
 
 export default function BlogAdminPage() {
   const [password, setPassword] = useState("");
   const [isAuthed, setIsAuthed] = useState(false);
-  const [posts, setPosts] = useState<BlogPost[]>([]);
-  const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
+  const [posts, setPosts] = useState<Article[]>([]);
+  const [selectedPost, setSelectedPost] = useState<Article | null>(null);
   const [content, setContent] = useState("");
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -56,7 +48,7 @@ export default function BlogAdminPage() {
     }
   }
 
-  async function selectPost(post: BlogPost) {
+  async function selectPost(post: Article) {
     setSelectedPost(post);
     setContent("");
     setLoading(true);
@@ -229,7 +221,7 @@ export default function BlogAdminPage() {
                   <div className="font-medium truncate">{post.title}</div>
                   <div className="text-sm text-muted truncate">{post.description}</div>
                   <div className="text-xs text-muted mt-1">
-                    {post.remoteURL ? "Remote" : "Local"} · {new Date(post.createdAt).toLocaleDateString()}
+                    {post.remoteURL ? "Remote" : "Local"} · {new Date(post.createdAt).toLocaleDateString()} · {post.views} view{post.views !== 1 && "s"}
                   </div>
                 </div>
                 <CaretRight size={20} className="text-muted flex-shrink-0" />
