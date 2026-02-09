@@ -50,10 +50,15 @@ export default function PhotoInfoOverlay({ photo, likeCount, onLikeUpdate }: Pro
 
   return (
     <div
-      className={`fixed bottom-8 left-4 right-4 w-full z-10 flex flex-row items-center justify-center
-        transition-all duration-500 pointer-events-none
+      className={`fixed bottom-8 left-4 right-4 w-full z-10 flex flex-col items-center justify-center
+        transition-all duration-500 pointer-events-none space-y-4
         ${photo && visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"}`}
     >
+      {photo && (
+        <p className={`vectra pointer-events-auto text-5xl`}>
+          {photo.title}
+        </p>
+      )}
       {photo && (
         <button
           onClick={handleLike}
