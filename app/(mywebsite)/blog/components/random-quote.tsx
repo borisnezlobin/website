@@ -114,6 +114,9 @@ const quotes = [
     }, {
         text: "Straight from the page of your favorite author...",
         source: "Flashing Lights, Ye"
+    }, {
+        text: "You are not invited to the other side of sanity.",
+        source: "ET, Katy Perry"
     }
 ];
 
