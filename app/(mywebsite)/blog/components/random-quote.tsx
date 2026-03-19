@@ -1,5 +1,6 @@
 "use client";
 
+import { InkscapeColoredSvg } from "@/app/utils/inkscape-colored-svg";
 import { DiceFiveIcon } from "@phosphor-icons/react/dist/ssr";
 import { useState } from "react";
 
@@ -144,6 +145,7 @@ const RandomQuote: React.FC = () => {
                 <p className="text-muted-dark dark:text-muted pl-2 whitespace-nowrap emph absolute bottom-0 left-0 w-full text-center py-2 overflow-hidden text-ellipsis">
                     {quotes[index].source}
                 </p>
+                <InkscapeColoredSvg strokeWidth={0.5} path="/drawings/cornerborder.svg" color="#1A1714" className="absolute w-full h-full top-[-62%] right-[-68%]" />
             </center>
             <div className="w-full flex items-center justify-center mb-6">
                 <p
