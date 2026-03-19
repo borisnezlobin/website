@@ -1,7 +1,7 @@
 "use client"
 
 import { IconButton } from "@/app/components/buttons";
-import { MagnifyingGlass } from "@phosphor-icons/react";
+import { MagnifyingGlass } from "@phosphor-icons/react/dist/ssr";
 import { ReactNode, useState } from "react";
 
 const SearchBar = ({

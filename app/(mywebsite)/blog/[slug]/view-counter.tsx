@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { EyeIcon } from "@phosphor-icons/react";
+import { EyeIcon } from "@phosphor-icons/react/dist/ssr";
 import { viewArticle } from "./view-article";
 
 export function ViewCounter({ slug }: { slug: string; }) {

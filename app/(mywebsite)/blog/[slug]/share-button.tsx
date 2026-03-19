@@ -1,7 +1,7 @@
 "use client"
 
 import { IconButton } from "@/app/components/buttons";
-import { Share } from "@phosphor-icons/react";
+import { Share } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useState } from "react";
 
 const ShareButton = () => {

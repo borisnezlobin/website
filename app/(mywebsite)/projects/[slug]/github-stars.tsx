@@ -1,6 +1,6 @@
 "use client";
 
-import { Star } from "@phosphor-icons/react";
+import { Star } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useState } from "react";
 
 const GithubStars = ({ repository, author }: { repository: string, author: string }) => {

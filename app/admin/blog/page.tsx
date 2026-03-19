@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowLeft, FloppyDisk, Eye, CaretRight } from "@phosphor-icons/react";
+import { ArrowLeft, FloppyDisk, Eye, CaretRight } from "@phosphor-icons/react/dist/ssr";
 import { Article } from "@/prisma/awooga/client";
 
 export default function BlogAdminPage() {
