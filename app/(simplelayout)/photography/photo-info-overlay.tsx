@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
-import { HeartIcon } from "@phosphor-icons/react";
+import { HeartIcon } from "@phosphor-icons/react/dist/ssr";
 import { likePhoto } from "./like-photo";
 import type { PhotoData } from "./gallery";
 import { Separator } from "@/app/components/separator";

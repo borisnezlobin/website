@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { HeartIcon, SpinnerGapIcon } from "@phosphor-icons/react";
+import { HeartIcon, SpinnerGapIcon } from "@phosphor-icons/react/dist/ssr";
 import { PrintCard, getPrintTransform } from "@/app/components/landing/print-card";
 import type { PrintCardPhoto } from "@/app/components/landing/print-card";
 import { likePhoto } from "./like-photo";
