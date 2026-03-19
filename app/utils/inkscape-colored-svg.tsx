@@ -23,6 +23,7 @@ export function InkscapeColoredSvg({
     const [error, setError] = useState<string | null>(null);
     const [animReady, setAnimReady] = useState(false);
     const svgRef = useRef<SVGSVGElement>(null);
+    const pathLengthsRef = useRef<number[]>([]);
     const isAnimated = visible !== undefined;
 
     // ── Fetch, process, and measure ──────────────────────────────────────────
@@ -47,12 +48,6 @@ export function InkscapeColoredSvg({
                     } else {
                         content = content.replace(/(stroke:[^;]+;)/g, `$1stroke-width:${strokeWidth};`);
                     }
-                }
-
-                // pathLength="1" normalises each path so stroke-dasharray/offset values
-                // of 0 and 1 mean "fully drawn" and "fully hidden".
-                if (isAnimated) {
-                    content = content.replace(/<path /g, '<path pathLength="1" ');
                 }
 
                 // Strip the outer <svg> wrapper
@@ -130,17 +125,19 @@ export function InkscapeColoredSvg({
 
         if (!isAnimated) return;
 
-        // Set initial dash state with no transition so there's no flash on load.
-        // Read `visible` from closure — this effect intentionally only runs when
-        // content changes, not on every visible toggle.
+        // Measure each path's real pixel length via getTotalLength(), then use
+        // that as the dasharray value so one "dash" covers the entire path.
         const paths = svgRef.current.querySelectorAll<SVGPathElement>("path");
-        paths.forEach((p) => {
+        const lengths: number[] = [];
+        paths.forEach((p, i) => {
+            const len = p.getTotalLength();
+            lengths[i] = len;
             p.style.transition = "none";
             p.style.fill = "none";
-            p.style.strokeDasharray = "1000";
-            p.style.strokeDashoffset = visible ? "0" : "-500";
-            p.style.opacity = visible ? "1" : "0";
+            p.style.strokeDasharray = `${len}`;
+            p.style.strokeDashoffset = visible ? "0" : `${len}`;
         });
+        pathLengthsRef.current = lengths;
 
         // Mark ready after next paint so the initial state is registered before
         // any transition can fire.
@@ -158,17 +155,12 @@ export function InkscapeColoredSvg({
     useEffect(() => {
         if (!animReady || !svgRef.current) return;
         const paths = svgRef.current.querySelectorAll<SVGPathElement>("path");
+        const lengths = pathLengthsRef.current;
         const dur = visible ? drawDuration : undrawDuration;
-        paths.forEach((p) => {
-            if (visible) {
-                p.style.transition = `stroke-dashoffset ${dur}s ease-out, opacity 0.15s ease-out`;
-            } else {
-                const opacityDelay = dur * 0.7;
-                const opacityDur = dur * 0.3;
-                p.style.transition = `stroke-dashoffset ${dur}s ease-in, opacity ${opacityDur}s ease-in ${opacityDelay}s`;
-            }
-            p.style.strokeDashoffset = visible ? "0" : "1";
-            p.style.opacity = visible ? "1" : "0";
+        paths.forEach((p, i) => {
+            const len = lengths[i] ?? p.getTotalLength();
+            p.style.transition = `stroke-dashoffset ${dur}s ease-${visible ? "out" : "in"}`;
+            p.style.strokeDashoffset = visible ? "0" : `${len}`;
         });
     }, [visible, animReady]); // eslint-disable-line react-hooks/exhaustive-deps
 
