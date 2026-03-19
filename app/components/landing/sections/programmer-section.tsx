@@ -13,7 +13,7 @@ const currentProjects = [
     {
         title: "The JYV",
         url: "https://thejyv.com",
-        description: "A website I built end-to-end (with admin dashboard!) for The Journal For Youth Voice.",
+        description: "A website I built & designed end-to-end for The Journal For Youth Voice. Also led migration.",
     }, {
         title: "ENF",
         url: "/projects/enf",
