@@ -4,7 +4,7 @@ import { SecondaryButton } from "@/app/components/buttons";
 import SocialLinksBubble from "@/app/components/social-links-bubble";
 import { Separator } from "@/app/components/separator";
 import { useRouter } from "next/navigation";
-import { AtomIcon, HouseSimpleIcon, NewspaperIcon } from "@phosphor-icons/react";
+import { AtomIcon, HouseSimpleIcon, NewspaperIcon } from "@phosphor-icons/react/dist/ssr";
 
 const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
     const router = useRouter();

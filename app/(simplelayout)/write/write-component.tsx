@@ -1,6 +1,6 @@
 "use client";
 
-import { CopyIcon, XIcon } from "@phosphor-icons/react";
+import { CopyIcon, XIcon } from "@phosphor-icons/react/dist/ssr";
 import React, { useState, useRef, useEffect } from "react";
 
 export default function WritePageComponent() {

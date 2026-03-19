@@ -3,7 +3,7 @@
 import { useTheme } from "next-themes";
 import { SocialLinks } from "./social-links";
 import { Separator } from "./separator";
-import { MoonIcon, SunIcon } from "@phosphor-icons/react";
+import { MoonIcon, SunIcon } from "@phosphor-icons/react/dist/ssr";
 import { useEffect, useState } from "react";
 
 const defaultColor = " hover:text-primary dark:hover:text-primary-dark";

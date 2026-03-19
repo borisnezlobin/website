@@ -3,7 +3,7 @@ import {
     LinkedinLogo,
     XLogo,
 } from "@phosphor-icons/react/dist/ssr";
-import { IconWeight } from "@phosphor-icons/react";
+import type { IconWeight } from "@phosphor-icons/react/dist/lib/types";
 
 const defaultIconClass =
   "w-6 h-6 text-muted dark:text-muted-dark transition duration-100";
