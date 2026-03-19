@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "portless web next dev",
     "build": "next build",
     "start": "prisma generate && npx vercel dev",
     "lint": "next lint",

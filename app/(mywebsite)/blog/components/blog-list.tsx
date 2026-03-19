@@ -51,7 +51,23 @@ const BlogList = ({
                 Showing {articles.length} article{articles.length == 1 ? " " : "s "}
                 </p>
             </SearchBar> */}
-            <div className="mb-4 w-full flex justify-start print:hidden">
+            <div className="mt-12 w-full flex flex-row items-center justify-center mb-6 print:hidden">
+                <div className="rounded flex flex-row items-center justify-center">
+                    <button
+                        className={`px-4 py-1 rounded-l border  ${!showPersonalArticles ? 'bg-primary dark:bg-primary-dark text-light-background dark:text-dark-background border-primary dark:border-primary-dark' : 'hover:bg-light-foreground/10 dark:hover:bg-dark-foreground/10 border-muted-dark/50 dark:border-muted/50'}`}
+                        onClick={() => setShowPersonalArticles(false)}
+                    >
+                        Technical
+                    </button>
+                    <button
+                        className={`relative -left-px px-4 py-1 rounded-r border ${showPersonalArticles ? 'bg-primary dark:bg-primary-dark text-light-background dark:text-dark-background border-primary dark:border-primary-dark' : 'hover:bg-light-foreground/10 dark:hover:bg-dark-foreground/10 border-muted-dark/50 dark:border-muted/50'}`}
+                        onClick={() => setShowPersonalArticles(true)}
+                    >
+                        Creative
+                    </button>
+                </div>
+            </div>
+            {/* <div className="mb-4 w-full flex justify-start print:hidden">
                 <label className="inline-flex items-center cursor-pointer group">
                     <div className="relative">
                         <input
@@ -113,11 +129,11 @@ const BlogList = ({
                         </div>
                     </div>
                 )}
-            </div>
+            </div> */}
             {articles.map((post) => {
                 if (post.slug.includes("draft-")) return null;
                 const isPersonal = post.slug.includes("personal-");
-                if (isPersonal && !showPersonalArticles) return null;
+                if (isPersonal != showPersonalArticles) return null;
                 return (
                     <BlogListItem post={post} inGrid={false} key={post.id} />
                 );
