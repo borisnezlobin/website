@@ -154,7 +154,7 @@ export const NowPlaying = () => {
             <div className="absolute h-[150%] translate-y-1/4 w-screen bg-dark-background -z-10" />
             <div className="h-full flex items-end justify-center pb-4">
                 <div
-                    className="flex w-96 flex-row items-center rounded-md backdrop-blur-md shadow-lg animate-pulse-border"
+                    className="flex w-96 flex-row items-center rounded-md overflow-hidden backdrop-blur-md shadow-lg animate-pulse-border"
                     style={{
                         border: `1px solid rgba(${adjustedSecondary[0] * 1.2}, ${adjustedSecondary[1] * 1.2}, ${adjustedSecondary[2] * 1.2}, 1.0)`,
                         animation: `pulse-border 2s cubic-bezier(0.4, 0, 0.6, 1) infinite`,
@@ -164,8 +164,7 @@ export const NowPlaying = () => {
                     <img
                         src={song.albumImageUrl}
                         alt={`${song.album} album cover`}
-                        // wtf?? why is the rounded-l-md NOT THE SAME as rounded-md above??
-                        className="w-1/4 rounded-l-[0.3125rem]"
+                        className="w-1/4 self-stretch object-cover"
                     />
                     <div className="px-2 pl-4 py-4 w-3/4 min-w-0 flex flex-col items-start">
                         <Link
