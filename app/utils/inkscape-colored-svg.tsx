@@ -6,6 +6,8 @@ interface ColoredSvgProps extends SVGProps<SVGSVGElement> {
     strokeWidth?: number | string;
     /** When provided, enables draw/undraw animation tied to this boolean */
     visible?: boolean;
+    /** Pixels per second for constant path animation speed */
+    speed?: number;
     drawDuration?: number;
     undrawDuration?: number;
 }
@@ -15,6 +17,7 @@ export function InkscapeColoredSvg({
     color,
     strokeWidth,
     visible,
+    speed,
     drawDuration = 1.5,
     undrawDuration = 0.8,
     ...props
@@ -156,13 +159,21 @@ export function InkscapeColoredSvg({
         if (!animReady || !svgRef.current) return;
         const paths = svgRef.current.querySelectorAll<SVGPathElement>("path");
         const lengths = pathLengthsRef.current;
-        const dur = visible ? drawDuration : undrawDuration;
         paths.forEach((p, i) => {
             const len = lengths[i] ?? p.getTotalLength();
-            p.style.transition = `stroke-dashoffset ${dur}s ease-${visible ? "out" : "in"}`;
+            const dur =
+                speed && speed > 0
+                    ? visible
+                        ? len / speed
+                        : len / (speed * 2)
+                    : visible
+                    ? drawDuration
+                    : undrawDuration;
+            const easing = speed && speed > 0 ? "linear" : `ease-${visible ? "out" : "in"}`;
+            p.style.transition = `stroke-dashoffset ${dur}s ${easing}`;
             p.style.strokeDashoffset = visible ? "0" : `${len}`;
         });
-    }, [visible, animReady]); // eslint-disable-line react-hooks/exhaustive-deps
+    }, [visible, animReady, speed, drawDuration, undrawDuration]); // eslint-disable-line react-hooks/exhaustive-deps
 
     if (error) return <div className="text-red-500">{error}</div>;
     if (!svgData) return null;
