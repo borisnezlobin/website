@@ -145,7 +145,7 @@ const RandomQuote: React.FC<{ visible?: boolean }> = ({ visible }) => {
                 <p className="text-muted-dark dark:text-muted pl-2 whitespace-nowrap emph absolute bottom-0 left-0 w-full text-center py-2 overflow-hidden text-ellipsis">
                     {quotes[index].source}
                 </p>
-                <InkscapeColoredSvg strokeWidth={0.5} path="/drawings/cornerborder.svg" color="#1A1714" className="absolute h-full top-[-57.2%] right-[-15.8%]" visible={visible} />
+                <InkscapeColoredSvg strokeWidth={0.5} path="/drawings/cornerborder.svg" color="var(--text-color)" className="absolute h-full top-[-52.4%] right-[-14%]" visible={visible} />
             </center>
             <div className="w-full flex items-center justify-center mb-6">
                 <p

@@ -55,7 +55,7 @@ const BlogList = ({
             </SearchBar> */}
             <div className="mt-12 w-full flex flex-row items-center justify-center mb-6 print:hidden">
                 <div className="rounded flex flex-row items-center justify-center relative">
-                    <InkscapeColoredSvg strokeWidth={1.0} path="/drawings/technicalcreativewrapper.svg" color="var(--primary)" className="absolute pointer-events-none z-10 w-[129%] right-[-2px]" visible={showPersonalArticles} />
+                    <InkscapeColoredSvg strokeWidth={1.0} path="/drawings/technicalcreativewrapper.svg" color="var(--primary)" className="absolute pointer-events-none z-10 w-[129%] translate-y-px right-[-2px]" visible={showPersonalArticles} />
                     <button
                         className={`px-4 py-1 rounded-l border  ${!showPersonalArticles ? 'bg-primary dark:bg-primary-dark text-light-background dark:text-dark-background border-primary dark:border-primary-dark' : 'hover:bg-light-foreground/10 dark:hover:bg-dark-foreground/10 border-muted-dark/50 dark:border-muted/50'}`}
                         onClick={() => setShowPersonalArticles(false)}
