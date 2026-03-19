@@ -30,9 +30,9 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
                     <span className="vectra text-5xl md:text-8xl leading-none">
                         I write things.
                     </span>
-                    <p className="text-muted dark:text-muted-dark mt-4 max-w-2xl">
+                    <p className="text-muted dark:text-muted-dark mt-4 max-w-4xl">
                         Sometimes I try to change the world—I helped reinstate multivariable calculus at my school with my writing!—and other times I
-                        write about the Technical Challenges of being a programmer.
+                        write the random thoughts I&apos;ve got. I&apos;m currently exploring creative writing in my free time :)
                     </p>
                 </div>
 
