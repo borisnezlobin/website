@@ -164,7 +164,8 @@ export const NowPlaying = () => {
                     <img
                         src={song.albumImageUrl}
                         alt={`${song.album} album cover`}
-                        className="w-1/4 rounded-l-md shadow-md"
+                        // wtf?? why is the rounded-l-md NOT THE SAME as rounded-md above??
+                        className="w-1/4 rounded-l-[0.3125rem]"
                     />
                     <div className="px-2 pl-4 py-4 w-3/4 min-w-0 flex flex-col items-start">
                         <Link
