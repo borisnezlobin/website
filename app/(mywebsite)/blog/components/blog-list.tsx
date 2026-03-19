@@ -7,6 +7,8 @@ import BlogListItem from "./blog-list-item";
 import RandomQuote from "./random-quote";
 import { useState } from "react";
 import Age from "@/app/components/landing/age";
+import { CreativeBloom } from "./creative-bloom";
+import { InkscapeColoredSvg } from "@/app/utils/inkscape-colored-svg";
 
 const BlogList = ({
     articles,
@@ -130,6 +132,7 @@ const BlogList = ({
                     </div>
                 )}
             </div> */}
+            {/* <CreativeBloom visible={showPersonalArticles} /> */}
             {articles.map((post) => {
                 if (post.slug.includes("draft-")) return null;
                 const isPersonal = post.slug.includes("personal-");
