@@ -32,7 +32,17 @@ const BlogList = ({
             : (
                 <h1 className={`text-3xl mt-8 mb-6 font-normal`}>
                     My&nbsp;
-                    <span className="text-5xl vectra">Writing.</span>
+                    <span className="text-5xl vectra relative">
+                        Writing.
+                        <InkscapeColoredSvg
+                            strokeWidth={0.9}
+                            speed={250}
+                            path="/drawings/underline.svg"
+                            color="var(--text-color)"
+                            className="absolute w-[120%] top-[0.825em] left-0"
+                            visible={showPersonalArticles}
+                        />
+                    </span>
                 </h1>
             )}
             <RandomQuote visible={showPersonalArticles} />
@@ -55,7 +65,14 @@ const BlogList = ({
             </SearchBar> */}
             <div className="mt-12 w-full flex flex-row items-center justify-center mb-6 print:hidden">
                 <div className="rounded flex flex-row items-center justify-center relative">
-                    <InkscapeColoredSvg strokeWidth={1.0} path="/drawings/technicalcreativewrapper.svg" color="var(--primary)" className="absolute pointer-events-none z-10 w-[129%] translate-y-px right-[-2px]" visible={showPersonalArticles} />
+                    <InkscapeColoredSvg
+                        strokeWidth={1.0}
+                        speed={150}
+                        path="/drawings/technicalcreativewrapper.svg"
+                        color="var(--primary)"
+                        className="absolute pointer-events-none z-10 w-[129%] translate-y-px right-[-2px]"
+                        visible={showPersonalArticles}
+                    />
                     <button
                         className={`px-4 py-1 rounded-l border  ${!showPersonalArticles ? 'bg-primary dark:bg-primary-dark text-light-background dark:text-dark-background border-primary dark:border-primary-dark' : 'hover:bg-light-foreground/10 dark:hover:bg-dark-foreground/10 border-muted-dark/50 dark:border-muted/50'}`}
                         onClick={() => setShowPersonalArticles(false)}
