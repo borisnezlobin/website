@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { put } from "@vercel/blob";
-import { writeFileSync, existsSync, mkdirSync, readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import path from "path";
+import { revalidatePath } from "next/cache";
 import db from "@/app/lib/db";
 
 function checkAuth(request: NextRequest): boolean {
@@ -102,13 +103,6 @@ export async function POST(request: NextRequest) {
 
   const fileName = slugToFileName(slug);
 
-  const localDir = path.resolve(process.cwd(), "html", "blog");
-  if (!existsSync(localDir)) {
-    mkdirSync(localDir, { recursive: true });
-  }
-  const localPath = path.join(localDir, `${fileName}.html`);
-  writeFileSync(localPath, content, "utf-8");
-
   const blob = await put(`blog/${fileName}.html`, content, {
     allowOverwrite: true,
     access: "public",
@@ -128,10 +122,10 @@ export async function POST(request: NextRequest) {
 
   console.log("Updated database record for post", slug);
   console.log("Verified remoteURL in DB:", updated.remoteURL);
+  revalidatePath(`/blog/${slug}`);
 
   return NextResponse.json({
     success: true,
-    localPath,
     blobUrl: blob.url,
     dbRemoteURL: updated.remoteURL,
   });
