@@ -12,7 +12,7 @@ import { getBlog, getSimilarPosts } from "@/app/lib/db-caches";
 import { DraftBadge } from "@/app/components/draft-badge";
 import { Wrapper } from "@/app/(mywebsite)/notes/[slug]/[section]/skibidiwrapper";
 import { getBlogHTMLPath } from "@/app/utils/get-note-mdx-path";
-import { readFileSync } from "fs";
+import { existsSync, readFileSync } from "fs";
 import { formatDateWithOrdinal } from "@/app/utils/format-date";
 import { Metadata } from "next";
 import { ScrollForMore } from "@/app/components/landing/scroll-for-more";
@@ -60,7 +60,7 @@ async function getDataForSlug(slug: string) {
         console.log("Blog post has remote URL, fetching content from", blogPost.remoteURL);
         content = await (await fetch(blogPost.remoteURL)).text();
         console.log("Fetched remote content for blog post", slug);
-    } else {
+    } else if (existsSync(path)) {
         content = readFileSync(path, 'utf-8');
     }
     blogPost.body = content;
