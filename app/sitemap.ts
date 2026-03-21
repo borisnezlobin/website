@@ -2,7 +2,7 @@ import { MetadataRoute } from 'next'
 import { getBlogs, getNotes, getProjects } from './lib/db-caches'
 import { getNoteSections } from './(mywebsite)/notes/getNoteSections';
 import getNoteMdxPath, { getNoteHTMLPath } from './utils/get-note-mdx-path';
-import { readFileSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
  
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const blogs = await getBlogs();
@@ -12,22 +12,30 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     }));
 
     const projects = await getProjects();
-    const projectRoutes = projects.map((project) => ({
-        url: `https://www.borisnezlobin.com/projects/${project.slug}`,
-        lastModified: project.updatedAt,
-    }));
+    const projectRoutes = projects
+        .filter((project) => !project.slug.includes("draft-"))
+        .map((project) => ({
+            url: `https://www.borisnezlobin.com/projects/${project.slug}`,
+            lastModified: project.updatedAt,
+        }));
 
     const notes = await getNotes();
-    const noteRoutes = notes.map((note) => ({
-        url: `https://www.borisnezlobin.com/notes/${note.slug}`,
-        lastModified: note.updatedAt,
-    }));
+    const noteRoutes = notes
+        .filter((note) => !note.slug.includes("draft-"))
+        .map((note) => ({
+            url: `https://www.borisnezlobin.com/notes/${note.slug}`,
+            lastModified: note.updatedAt,
+        }));
 
     const noteSections = (
         await Promise.all(
             notes.flatMap(async (note) => {
+            if (note.slug.includes("draft-")) return [];
+            const notePath = getNoteHTMLPath(note.slug);
+            if (!existsSync(notePath)) return [];
+
             const sections = await getNoteSections(
-                readFileSync(getNoteHTMLPath(note.slug), "utf-8")
+                readFileSync(notePath, "utf-8")
             );
 
             console.log(note.title, "has", sections.length, "sections");

@@ -32,12 +32,6 @@ const BlogListItem = ({
                     <h2 className="text-xl flex flex-row justify-start items-center header-link">
                         {post.title}
                     </h2>
-                    {isPersonal && (
-                        <span className="text-xs font-semibold text-primary dark:text-primary-dark rounded flex items-center justify-center gap-x-1 emph">
-                            <WarningIcon />
-                            CAUTION
-                        </span>
-                    )}
                 </div>
                 <p aria-hidden className="hidden print:block !text-muted dark:!text-muted-dark">
                     https://borisnezlobin.com/blog/{post.slug}
