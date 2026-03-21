@@ -17,7 +17,7 @@ export const metadata = getMetadata({
 
 export default async function Home() {
     const [articles, photographs] = await Promise.all([getBlogs(), getPhotographs()]);
-    const previewArticles = articles.filter(e => !e.slug.includes("draft-") && !e.slug.includes("personal-")).slice(0, 3).map((a) => ({
+    const previewArticles = articles.filter(e => !e.isCreative).slice(0, 3).map((a) => ({
         title: a.title,
         description: a.description ?? "",
         slug: a.slug,

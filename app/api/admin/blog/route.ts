@@ -17,8 +17,8 @@ function checkAuth(request: NextRequest): boolean {
   return authHeader === `Bearer ${password}`;
 }
 
-function slugToFileName(slug: string): string {
-  return slug.replaceAll("draft-", "").replaceAll("personal-", "");
+function generateDraftUid(): string {
+  return Math.random().toString(36).slice(2, 8);
 }
 
 export async function GET(request: NextRequest) {
@@ -39,6 +39,9 @@ export async function GET(request: NextRequest) {
         remoteURL: true,
         createdAt: true,
         views: true,
+        isDraft: true,
+        isCreative: true,
+        draftUid: true,
       },
     });
 
@@ -57,7 +60,7 @@ export async function GET(request: NextRequest) {
     }
 
     if (!content) {
-      const localPath = path.resolve(process.cwd(), "html", "blog", `${slugToFileName(slug)}.html`);
+      const localPath = path.resolve(process.cwd(), "html", "blog", `${slug}.html`);
       if (existsSync(localPath)) {
         content = readFileSync(localPath, "utf-8");
       }
@@ -76,6 +79,9 @@ export async function GET(request: NextRequest) {
       remoteURL: true,
       createdAt: true,
       views: true,
+      isDraft: true,
+      isCreative: true,
+      draftUid: true,
     },
   });
 
@@ -87,46 +93,49 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { slug, content } = await request.json();
+  const { slug, content, isDraft, isCreative } = await request.json();
 
   if (!slug || typeof content !== "string") {
     return NextResponse.json({ error: "Missing slug or content" }, { status: 400 });
   }
 
-  const post = await db.article.findUnique({
-    where: { slug },
-  });
+  const post = await db.article.findUnique({ where: { slug } });
 
   if (!post) {
     return NextResponse.json({ error: "Post not found" }, { status: 404 });
   }
 
-  const fileName = slugToFileName(slug);
+  // Generate a draftUid if this is being saved as a draft and doesn't have one yet
+  const draftUid = isDraft && !post.draftUid ? generateDraftUid() : post.draftUid;
 
-  const blob = await put(`blog/${fileName}.html`, content, {
+  const blob = await put(`blog/${slug}.html`, content, {
     allowOverwrite: true,
     access: "public",
     addRandomSuffix: false,
     contentType: "text/html",
   });
 
-  console.log("Uploaded content to blob storage at", blob.url);
-
   const updated = await db.article.update({
     where: { slug },
     data: {
       remoteURL: blob.url,
       updatedAt: new Date(),
+      ...(isDraft !== undefined && { isDraft }),
+      ...(isCreative !== undefined && { isCreative }),
+      ...(draftUid && { draftUid }),
     },
   });
 
-  console.log("Updated database record for post", slug);
-  console.log("Verified remoteURL in DB:", updated.remoteURL);
   revalidatePath(`/blog/${slug}`);
+  if (updated.draftUid) {
+    revalidatePath(`/blog/${slug}-${updated.draftUid}`);
+  }
 
   return NextResponse.json({
     success: true,
     blobUrl: blob.url,
-    dbRemoteURL: updated.remoteURL,
+    isDraft: updated.isDraft,
+    isCreative: updated.isCreative,
+    draftUid: updated.draftUid,
   });
 }

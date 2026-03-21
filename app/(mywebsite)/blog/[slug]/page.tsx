@@ -15,9 +15,8 @@ import { getBlogHTMLPath } from "@/app/utils/get-note-mdx-path";
 import { existsSync, readFileSync } from "fs";
 import { formatDateWithOrdinal } from "@/app/utils/format-date";
 import { Metadata } from "next";
-import { ScrollForMore } from "@/app/components/landing/scroll-for-more";
-import { CaretDoubleDownIcon } from "@phosphor-icons/react/dist/ssr";
 import { ViewCounter } from "./view-counter";
+import { redirect } from "next/navigation";
 import BackToRouteLink from "@/app/components/back-to-route";
 
 type BlogPageParams = {
@@ -25,13 +24,13 @@ type BlogPageParams = {
 }
 
 export async function generateStaticParams() {
-    // Skip static generation if database isn't available (e.g., during Vercel builds)
     if (!process.env.POSTGRES_URL_NON_POOLING) {
         console.log("Database not available, skipping static params generation");
         return [];
     }
 
     const posts = await db.article.findMany({
+        where: { isDraft: false },
         select: { slug: true },
     });
 
@@ -40,35 +39,67 @@ export async function generateStaticParams() {
     return posts.map((post) => ({ params: { slug: post.slug } }));
 }
 
-async function getDataForSlug(slug: string) {
-    console.log("Getting blog post", slug);
-    let blogPost = await getBlog(slug);
+async function getDataForSlug(urlSlug: string) {
+    console.log("Getting blog post", urlSlug);
 
-    if (!blogPost) {
-        console.log(`Blog post ${slug} not found`);
-        return {
-            notFound: true,
-        };
+    // Try direct slug lookup — only serve if not a draft
+    let blogPost = await getBlog(urlSlug);
+    if (blogPost?.isDraft) {
+        let uid = blogPost.draftUid;
+        if (!uid) {
+            uid = Math.random().toString(36).slice(2, 8);
+            await db.article.update({ where: { slug: urlSlug }, data: { draftUid: uid } });
+        }
+        redirect(`/blog/${urlSlug}-${uid}`);
     }
 
-    const similarPosts = await getSimilarPosts(slug);
+    // Try draft UID lookup: the URL is `slug-uid`, so split off the last segment
+    if (!blogPost) {
+        const lastDash = urlSlug.lastIndexOf("-");
+        if (lastDash !== -1) {
+            const baseSlug = urlSlug.slice(0, lastDash);
+            const uid = urlSlug.slice(lastDash + 1);
+            const draft = await db.article.findFirst({
+                where: { slug: baseSlug, draftUid: uid },
+            });
+            if (draft) {
+                if (!draft.isDraft) redirect(`/blog/${baseSlug}`);
+                blogPost = draft;
+            }
+        }
+    }
 
-    // set post.body to be the content of the HTML file
-    const path = getBlogHTMLPath(slug);
+    // Handle legacy slug format (draft-personal-foo, draft-foo, personal-foo)
+    if (!blogPost) {
+        const cleanSlug = urlSlug.replace(/^draft-/, "").replace(/^personal-/, "");
+        if (cleanSlug !== urlSlug) {
+            const cleanPost = await db.article.findUnique({ where: { slug: cleanSlug } });
+            if (cleanPost) {
+                const target = cleanPost.isDraft && cleanPost.draftUid
+                    ? `/blog/${cleanSlug}-${cleanPost.draftUid}`
+                    : `/blog/${cleanSlug}`;
+                redirect(target);
+            }
+        }
+    }
+
+    if (!blogPost) {
+        console.log(`Blog post ${urlSlug} not found`);
+        return { notFound: true };
+    }
+
+    const similarPosts = await getSimilarPosts(blogPost.slug);
+
+    const localPath = getBlogHTMLPath(blogPost.slug);
     let content = "";
     if (blogPost.remoteURL) {
-        console.log("Blog post has remote URL, fetching content from", blogPost.remoteURL);
         content = await (await fetch(blogPost.remoteURL)).text();
-        console.log("Fetched remote content for blog post", slug);
-    } else if (existsSync(path)) {
-        content = readFileSync(path, 'utf-8');
+    } else if (existsSync(localPath)) {
+        content = readFileSync(localPath, "utf-8");
     }
     blogPost.body = content;
 
-    return {
-        post: blogPost,
-        similarPosts: similarPosts
-    };
+    return { post: blogPost, similarPosts };
 }
 
 export async function generateMetadata({ params }: { params: Promise<BlogPageParams> }): Promise<Metadata> {
@@ -107,7 +138,7 @@ export default async function SingleBlogPage(
     
     return (
         <>
-            {slug.includes("draft-") && <DraftBadge />}
+            {post.isDraft && <DraftBadge />}
             <div className={`pagepad`}>
                 {post.image && <ArticleImageBg imageUrl={post.image} />}
                 <div className="absolute top-16 left-8">

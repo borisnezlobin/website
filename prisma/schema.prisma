@@ -20,6 +20,9 @@ model Article {
   updatedAt   DateTime @default(now())
   remoteURL   String?
   views       Int      @default(0)
+  isDraft     Boolean  @default(false)
+  isCreative  Boolean  @default(false)
+  draftUid    String?
 
   @@index([title], map: "articles_title")
   @@index([createdAt], map: "created_at")
