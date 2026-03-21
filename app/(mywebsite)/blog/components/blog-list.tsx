@@ -67,7 +67,7 @@ const BlogList = ({
                 <div className="rounded flex flex-row items-center justify-center relative">
                     <InkscapeColoredSvg
                         strokeWidth={1.0}
-                        speed={150}
+                        speed={75}
                         path="/drawings/technicalcreativewrapper.svg"
                         color="var(--primary)"
                         className="absolute pointer-events-none z-10 w-[129%] translate-y-px right-[-2px]"

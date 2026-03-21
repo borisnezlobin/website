@@ -169,7 +169,7 @@ export function InkscapeColoredSvg({
                     : visible
                     ? drawDuration
                     : undrawDuration;
-            const easing = speed && speed > 0 ? "linear" : `ease-${visible ? "out" : "in"}`;
+            const easing = "cubic-bezier(0.16, 1, 0.3, 1)";
             p.style.transition = `stroke-dashoffset ${dur}s ${easing}`;
             p.style.strokeDashoffset = visible ? "0" : `${len}`;
         });
