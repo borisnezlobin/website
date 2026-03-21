@@ -1,23 +1,19 @@
 import path from "path";
 
-const slugToName = (slug: string) => {
-    return slug.replaceAll("draft-", "").replaceAll("personal-", "");
-}
-
 const getNoteMdxPath = (slug: string) => {
-    return path.resolve(process.cwd(), path.join("html", "notes", slugToName(slug) + ".mdx"));
+    return path.resolve(process.cwd(), path.join("html", "notes", slug + ".mdx"));
 }
 
 const getNoteHTMLPath = (slug: string) => {
-    return path.resolve(process.cwd(), path.join("html", "notes", slugToName(slug) + ".html"));
+    return path.resolve(process.cwd(), path.join("html", "notes", slug + ".html"));
 }
 
 const getBlogHTMLPath = (slug: string) => {
-    return path.resolve(process.cwd(), path.join("html", "blog", slugToName(slug) + ".html"));
+    return path.resolve(process.cwd(), path.join("html", "blog", slug + ".html"));
 }
 
 const getProjectHTMLPath = (slug: string) => {
-    return path.resolve(process.cwd(), path.join("html", "project", slugToName(slug) + ".html"));
+    return path.resolve(process.cwd(), path.join("html", "project", slug + ".html"));
 }
 
 export default getNoteMdxPath;

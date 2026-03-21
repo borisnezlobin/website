@@ -6,34 +6,22 @@ import { readFileSync } from 'fs';
  
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const blogs = await getBlogs();
-    const blogRoutes = blogs.map((blog) => {
-        if (blog.slug.includes("draft-")) {
-            return null;
-        } else return ({
-            url: `https://www.borisnezlobin.com/blog/${blog.slug}`,
-            lastModified: blog.updatedAt,
-        });
-    }).filter((blog) => blog !== null);
+    const blogRoutes = blogs.map((blog) => ({
+        url: `https://www.borisnezlobin.com/blog/${blog.slug}`,
+        lastModified: blog.updatedAt,
+    }));
 
     const projects = await getProjects();
-    const projectRoutes = projects.map((project) => {
-        if (project.slug.includes("draft-")) {
-            return null;
-        } else return ({
-            url: `https://www.borisnezlobin.com/projects/${project.slug}`,
-            lastModified: project.updatedAt,
-        });
-    }).filter((project) => project !== null);
+    const projectRoutes = projects.map((project) => ({
+        url: `https://www.borisnezlobin.com/projects/${project.slug}`,
+        lastModified: project.updatedAt,
+    }));
 
     const notes = await getNotes();
-    const noteRoutes = notes.map((note) => {
-        if (note.slug.includes("draft-")) {
-            return null;
-        } else return ({
-            url: `https://www.borisnezlobin.com/notes/${note.slug}`,
-            lastModified: note.updatedAt,
-        });
-    }).filter((note) => note !== null);
+    const noteRoutes = notes.map((note) => ({
+        url: `https://www.borisnezlobin.com/notes/${note.slug}`,
+        lastModified: note.updatedAt,
+    }));
 
     const noteSections = (
         await Promise.all(
@@ -46,7 +34,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
             return sections
                 .map((section) => {
-                if (section.slug.includes("draft-") || note.slug.includes("draft-")) {
+                if (section.slug.includes("draft-")) {
                     return null;
                 }
                 return {

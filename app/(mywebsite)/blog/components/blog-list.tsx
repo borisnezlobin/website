@@ -152,9 +152,7 @@ const BlogList = ({
             </div> */}
             {/* <CreativeBloom visible={showPersonalArticles} /> */}
             {articles.map((post) => {
-                if (post.slug.includes("draft-")) return null;
-                const isPersonal = post.slug.includes("personal-");
-                if (isPersonal != showPersonalArticles) return null;
+                if (post.isCreative !== showPersonalArticles) return null;
                 return (
                     <BlogListItem post={post} inGrid={false} key={post.id} />
                 );
