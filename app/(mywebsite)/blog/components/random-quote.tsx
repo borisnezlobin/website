@@ -153,6 +153,15 @@ const RandomQuote: React.FC<{ visible?: boolean }> = ({ visible }) => {
                     className="hidden lg:block absolute h-full top-[-52.4%] right-[-14%]"
                     visible={visible}
                 />
+
+                <InkscapeColoredSvg
+                    // strokeWidth={0.5}
+                    path="/drawings/leftborder.svg"
+                    color="var(--text-color)"
+                    speed={100}
+                    className="hidden lg:block absolute h-[160%] top-[-13.5%] left-[-7.1%]"
+                    visible={visible}
+                />
             </center>
             <div className="w-full flex items-center justify-center mb-6">
                 <p
