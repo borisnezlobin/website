@@ -68,7 +68,7 @@ const HiImBoris = () => {
     return (
         <div className="h-[100svh] relative top-[-6rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
             <p className="md:hidden text-base print:z-20 md:text-2xl relative left-4 emph z-10 bg-light-background dark:bg-dark-background rounded-t-lg px-4 py-1 print:!bg-transparent">
-                Hi, I&apos;m
+                Hi, I’m
             </p>
             <h1 className="md:hidden text-8xl relative right-4 bottom-4 font-bold edo z-10 text-center md:text-7xl bg-transparent dark:bg-transparent print:bg-transparent rounded-lg px-4 pb-3 py-1 vectra">
                 Boris.

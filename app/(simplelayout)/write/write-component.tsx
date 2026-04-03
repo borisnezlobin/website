@@ -95,11 +95,11 @@ export default function WritePageComponent() {
                 <>
                     <h1 className="text-4xl md:text-6xl font-bold vectra">Wrisk.</h1>
                     <p>
-                        Write and don&apos;t stop. Set a time, give yourself a prompt, and go: you get no distractions and <i>definitely</i> no stopping. Pause for too long and you&apos;ll lose everything ;)<br /><br />
+                        Write and don’t stop. Set a time, give yourself a prompt, and go: you get no distractions and <i>definitely</i> no stopping. Pause for too long and you’ll lose everything ;)<br /><br />
 
-                        Wrisk is for when you just don&apos;t know what to say — college essays, creative writing, journaling, or, like, whatever people write. Keep writing until the clock hits stop.<br /><br />
+                        Wrisk is for when you just don’t know what to say — college essays, creative writing, journaling, or, like, whatever people write. Keep writing until the clock hits stop.<br /><br />
 
-                        And one more thing — your clipboard&apos;s disabled :)
+                        And one more thing — your clipboard’s disabled :)
                     </p>
                     <div className="flex flex-col gap-4 min-h-screen">
                         <label className="flex flex-col gap-1">

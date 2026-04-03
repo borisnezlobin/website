@@ -3,6 +3,7 @@
 import { useTheme } from "next-themes";
 import Link from "next/link";
 import { useEffect, useState, useRef } from "react";
+import { useIsVisible } from "@/app/utils/use-is-visible";
 // @ts-expect-error types missing lol
 import pixels from "image-pixels";
 
@@ -232,8 +233,10 @@ export const NowPlaying = () => {
 
 const Equalizer = ({ rows = 12, frameDelay = 150, primary, background }: { rows?: number; frameDelay?: number, primary?: number[] | null, background?: number[] | null }) => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
+    const isVisible = useIsVisible(canvasRef, { trackWindowFocus: true });
 
     useEffect(() => {
+        if (!isVisible) return;
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext("2d");
@@ -324,7 +327,7 @@ const Equalizer = ({ rows = 12, frameDelay = 150, primary, background }: { rows?
             cancelAnimationFrame(animationFrameId);
             window.removeEventListener("resize", handleResize);
         };
-    }, [rows, primary, frameDelay]);
+    }, [rows, primary, frameDelay, isVisible]);
 
     return <canvas ref={canvasRef} className="w-full h-full" />;
 };

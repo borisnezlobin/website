@@ -127,7 +127,7 @@ const BlogList = ({
                             </h3>
                             <p className="text-muted dark:text-muted-dark mb-4 leading-relaxed">
                                 <i>Really</i> sure? Keep in mind that my personal articles are <b>word barf that landed on the page in paragraphs</b> (all of which are informal, unrevised, full of typos. and et cetera.).<br /><br />
-                                Like, they&apos;re long-form Tweets. By me, a <Age />-year-old. They are here for fun and are <b>not meant to impress anyone</b>.
+                                Like, they’re long-form Tweets. By me, a <Age />-year-old. They are here for fun and are <b>not meant to impress anyone</b>.
                             </p>
                             <div className="flex gap-3 justify-end">
                                 <button
@@ -143,7 +143,7 @@ const BlogList = ({
                                     }}
                                     className="px-4 py-2 bg-primary dark:bg-primary-dark text-white rounded hover:opacity-90 transition-opacity duration-200"
                                 >
-                                    I don&apos;t value my sanity.
+                                    I don’t value my sanity.
                                 </button>
                             </div>
                         </div>

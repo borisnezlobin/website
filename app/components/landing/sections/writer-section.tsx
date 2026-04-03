@@ -32,7 +32,7 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
                     </span>
                     <p className="text-muted dark:text-muted-dark mt-4 max-w-4xl">
                         Sometimes I try to change the world—I helped reinstate multivariable calculus at my school with my writing!—and other times I
-                        write the random thoughts I&apos;ve got. I&apos;m currently exploring creative writing in my free time :)
+                        write the random thoughts I’ve got. I’m currently exploring creative writing in my free time :)
                     </p>
                 </div>
 

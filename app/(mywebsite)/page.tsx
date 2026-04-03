@@ -10,6 +10,7 @@ import { ProgrammerSection } from "../components/landing/sections/programmer-sec
 import { TechIconsRow } from "../components/landing/sections/tech-icons-row";
 import { getBlogs, getPhotographs } from "../lib/db-caches";
 import { ArtistSection } from "../components/landing/sections/artist-section";
+import CrossOut from "../components/cross-out";
 
 export const metadata = getMetadata({
     info: "Hi, I'm",
@@ -41,8 +42,18 @@ export default async function Home() {
                     <h2 className="text-xl sm:text-3xl sm:text-[2rem] text-left print:mt-4 print:mb-2">
                         <AgeNoSSR /> <span className="vectra">years old</span>
                     </h2>
-                    <p className="max-w-3xl text-muted dark:text-muted-dark">
-                        ...and counting. I&apos;m a senior in high school. I occupy myself with things I find interesting, which means I&apos;m usually writing, programming, or building robots.
+                    <p className="max-w-3xl">
+                        ...and counting. I’m a <CrossOut
+                            originalText="senior in high school"
+                            replaceText={
+                                <span>
+                                    student at <span className="text-[#FDB414] bg-[#022675] dark:text-[#022675] dark:bg-[#FDB414] px-2 py-1 rounded text-sm">
+                                        UC <span className="font-semibold text-[#FDB414] dark:text-[#022675]">Berkeley</span>
+                                    </span>
+                                </span>
+                            }
+                        />. I occupy myself with things I find interesting, which means I’m usually writing, programming, or building robots.
+                        I also enjoy photography and design!
                     </p>
                 </div>
 

@@ -1,6 +1,7 @@
 'use client';
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { useIsVisible } from "@/app/utils/use-is-visible";
 
 const TEXT_SIZE = '1.5rem';
 
@@ -37,6 +38,8 @@ const Background = ({
 
     const [wordIndex, setWordIndex] = useState(0);
     const [lines, setLines] = useState<string[]>([]);
+    const containerRef = useRef<HTMLDivElement>(null);
+    const isVisible = useIsVisible(containerRef, { trackWindowFocus: true });
 
     useEffect(() => {
         const updateScreenSize = () => {
@@ -65,7 +68,7 @@ const Background = ({
             setWordIndex((prevIndex) => (prevIndex + 1) % WORDS.length);
         };
 
-        const wordInterval = setInterval(updateWordIndex, 2000);
+        const wordInterval = isVisible ? setInterval(updateWordIndex, 2000) : null;
 
         calculateCharSize();
         updateScreenSize();
@@ -73,10 +76,10 @@ const Background = ({
         window.addEventListener('resize', updateScreenSize);
 
         return () => {
-            clearInterval(wordInterval);
+            if (wordInterval) clearInterval(wordInterval);
             window.removeEventListener('resize', updateScreenSize);
         };
-    }, [WORDS.length]);
+    }, [WORDS.length, isVisible]);
 
     const randomCharacter = () => {
         // const letters = 'abcdefghijklmnopqrstuvwxyz';
@@ -194,7 +197,7 @@ const Background = ({
     });
 
     return (
-        <div className={`absolute w-full h-[100svh] left-0 text-slate-200 dark:text-slate-800 print:hidden flex flex-col ${!INVERT_SPACE ? 'justify-center items-center' : 'justify-start items-start'} pointer-events-none select-none z-0 ${className}`}>
+        <div ref={containerRef} className={`absolute w-full h-[100svh] left-0 text-slate-200 dark:text-slate-800 print:hidden flex flex-col ${!INVERT_SPACE ? 'justify-center items-center' : 'justify-start items-start'} pointer-events-none select-none z-0 ${className}`}>
             {htmlLines.map((e) => e)}
         </div>
     );
