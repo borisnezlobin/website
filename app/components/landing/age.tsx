@@ -8,7 +8,7 @@ const PRECISION = Math.pow(10, 5);
 const Age = () => {
     var isClient = window !== undefined;
     const ref = useRef<HTMLDivElement>(null);
-    const isVisible = useIsVisible(ref);
+    const isVisible = useIsVisible(ref, { trackWindowFocus: true });
 
     const timeSince =
         (Date.now() - new Date(2008, 8, 20, 2).valueOf()) /

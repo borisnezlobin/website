@@ -106,7 +106,7 @@ const ContactMePage = () => {
                     Want to reach out?
                 </h1>
                 <p className="text-base md:text-2xl emph">
-                    I mostly don&apos;t bite :)
+                    I mostly don’t bite :)
                 </p>
             </div>
             <ScrollForMore />
@@ -114,7 +114,7 @@ const ContactMePage = () => {
                 <div className="text-center mb-12 print:mb-6">
                     <p className="text-muted dark:text-muted-dark max-w-2xl mx-auto">
                         Whether you want to collaborate on a project, ask a question, or say hi, 
-                        I&apos;m looking forward to hearing from you!
+                        I’m looking forward to hearing from you!
                     </p>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 justify-items-center">
@@ -138,7 +138,7 @@ const ContactMePage = () => {
                             <CheckSquareIcon className="text-green-800" weight={"fill"} />
                         </span>
                         <span className="text-sm text-muted dark:text-muted-dark">
-                            I&apos;m chronically online
+                            I’m chronically online
                         </span>
                     </div>
                 </div>
