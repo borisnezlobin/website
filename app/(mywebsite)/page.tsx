@@ -47,7 +47,7 @@ export default async function Home() {
                             originalText="senior in high school"
                             replaceText={
                                 <span>
-                                    student at <span className="text-[#FDB414] bg-[#022675] dark:text-[#022675] dark:bg-[#FDB414] px-2 py-1 rounded text-sm">
+                                    student at <span className="text-[#FDB414] bg-[#002676] dark:text-[#022675] dark:bg-[#FDB414] px-2 py-1 rounded text-xs">
                                         UC <span className="font-semibold text-[#FDB414] dark:text-[#022675]">Berkeley</span>
                                     </span>
                                 </span>
