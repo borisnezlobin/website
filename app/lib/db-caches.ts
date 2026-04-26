@@ -1,13 +1,15 @@
 import db from "./db";
 import { unstable_cache } from "next/cache";
+import { buildPhotoFeed } from "./photo-feed";
+import type { PhotoFeed } from "./photo-types";
 
 type AnyFunction = (...args: any[]) => any;
 
-const wrapWithCache = <T extends AnyFunction>(fn: T): T => {
+const wrapWithCache = <T extends AnyFunction>(fn: T, tags?: string[]): T => {
     if (process.env.NODE_ENV === "development") {
         return fn;
     }
-    return unstable_cache(fn) as T;
+    return unstable_cache(fn, undefined, tags ? { tags } : undefined) as T;
 }
 
 const getBlogsWithoutCache = async () => {
@@ -32,7 +34,28 @@ const getPhotographsWithoutCache = async () => {
     });
 }
 
-const getPhotographs = wrapWithCache(getPhotographsWithoutCache);
+const getPhotographs = wrapWithCache(getPhotographsWithoutCache, ["photos"]);
+
+const getPhotoFeedWithoutCache = async (): Promise<PhotoFeed> => {
+    const [photos, categories] = await Promise.all([
+        db.photograph.findMany({
+            orderBy: { likes: "desc" },
+            where: {
+                slug: { not: { startsWith: "draft-" } },
+            },
+            include: {
+                categories: { select: { slug: true } },
+            },
+        }),
+        db.category.findMany({
+            orderBy: { label: "asc" },
+            include: { _count: { select: { photos: true } } },
+        }),
+    ]);
+    return buildPhotoFeed(photos as any, categories as any);
+};
+
+const getPhotoFeed = wrapWithCache(getPhotoFeedWithoutCache, ["photos"]);
 
 const getBlogWithoutCache = async (slug: string) => {
     return db.article.findUnique({
@@ -132,4 +155,5 @@ export {
     getPhotographs,
     getPhotographsCount,
     getPhotographsPaginated,
+    getPhotoFeed,
 };
