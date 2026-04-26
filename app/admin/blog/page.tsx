@@ -22,6 +22,7 @@ export default function BlogAdminPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [content, setContent] = useState("");
+  const [description, setDescription] = useState("");
   const [isDraft, setIsDraft] = useState(false);
   const [isCreative, setIsCreative] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -64,6 +65,7 @@ export default function BlogAdminPage() {
     setSelectedPost(post);
     setIsDraft(post.isDraft);
     setIsCreative(post.isCreative);
+    setDescription(post.description ?? "");
     setContent("");
     setLoading(true);
     try {
@@ -90,7 +92,7 @@ export default function BlogAdminPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${password}`,
         },
-        body: JSON.stringify({ slug: selectedPost.slug, content, isDraft, isCreative }),
+        body: JSON.stringify({ slug: selectedPost.slug, content, isDraft, isCreative, description }),
       });
       const data = await res.json();
       if (data.success) {
@@ -98,6 +100,7 @@ export default function BlogAdminPage() {
           ...selectedPost,
           isDraft: data.isDraft,
           isCreative: data.isCreative,
+          description: data.description ?? description,
           draftUid: data.draftUid,
         };
         setSelectedPost(updatedPost);
@@ -184,6 +187,17 @@ export default function BlogAdminPage() {
               {message.text}
             </div>
           )}
+
+          <div className="flex flex-col gap-1 mb-4">
+            <label className="text-sm text-muted dark:text-muted-dark">Description</label>
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              rows={2}
+              className="w-full px-4 py-2 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded resize-none focus:outline-none focus:ring-2 focus:ring-neutral-400 text-sm"
+              placeholder="One-line summary shown on the blog index and in social previews."
+            />
+          </div>
 
           <div className="flex items-center gap-6 mb-4">
             <label className="flex items-center gap-2 cursor-pointer select-none">

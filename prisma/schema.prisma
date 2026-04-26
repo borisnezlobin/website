@@ -56,26 +56,37 @@ model Project {
 }
 
 model Photograph {
-  id          String          @id @default(cuid())
+  id          String     @id @default(cuid())
   title       String
-  description String          @default("")
+  description String     @default("")
   image       String
-  likes     Int             @default(0)
-  slug      String          @unique
-  createdAt DateTime        @default(now())
-  updatedAt DateTime        @default(now())
-  photoTags PhotographTag[] @relation("PhotographToPhotographTag")
+  thumbUrl    String?
+  microUrl    String?
+  width       Int?
+  height      Int?
+  color       Float[]    @default([])
+  camera      String?
+  takenAt     DateTime?
+  likes       Int        @default(0)
+  slug        String     @unique
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @default(now())
+  categories  Category[] @relation("PhotographCategories")
+  heroFor     Category[] @relation("CategoryHero")
 
   @@index([createdAt], map: "photographs_created_at")
   @@index([title], map: "photographs_title")
 }
 
-model PhotographTag {
-  id        String       @id @default(cuid())
-  name      String       @unique
-  createdAt DateTime     @default(now())
-  updatedAt DateTime     @default(now())
-  photos    Photograph[] @relation("PhotographToPhotographTag")
+model Category {
+  id          String       @id @default(cuid())
+  slug        String       @unique
+  label       String
+  heroPhotoId String?
+  heroPhoto   Photograph?  @relation("CategoryHero", fields: [heroPhotoId], references: [id], onDelete: SetNull)
+  photos      Photograph[] @relation("PhotographCategories")
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @default(now())
 
-  @@index([name], map: "photograph_tags_name")
+  @@index([slug], map: "category_slug")
 }
