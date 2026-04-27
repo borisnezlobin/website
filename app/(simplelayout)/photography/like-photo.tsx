@@ -1,9 +1,9 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import db from "@/app/lib/db";
 
 export async function likePhoto(photoId: string) {
-    console.log("Liking photo", photoId);
     await db.photograph.update({
         where: { id: photoId },
         data: {
@@ -12,4 +12,7 @@ export async function likePhoto(photoId: string) {
             },
         },
     });
+    // Bust the photos cache so getPhotographs / getPhotoFeed return the
+    // incremented count on the next page render.
+    revalidateTag("photos");
 }

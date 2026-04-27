@@ -8,14 +8,13 @@ export function middleware(request: NextRequest) {
   const host = (request.headers.get("host") ?? "").toLowerCase().split(":")[0];
   const url = request.nextUrl;
 
-  // photos.borisnezlobin.com → serve /photography for any path
-  if (host === PHOTO_HOST) {
-    if (!url.pathname.startsWith("/photography")) {
-      const rewritten = url.clone();
-      rewritten.pathname = url.pathname === "/" ? "/photography" : `/photography${url.pathname}`;
-      return NextResponse.rewrite(rewritten);
-    }
-    return NextResponse.next();
+  // photos.borisnezlobin.com → serve /photography at the root.
+  // Other paths (font files in /public, /admin, etc.) pass through unchanged
+  // so static assets can load.
+  if (host === PHOTO_HOST && url.pathname === "/") {
+    const rewritten = url.clone();
+    rewritten.pathname = "/photography";
+    return NextResponse.rewrite(rewritten);
   }
 
   // borisnezlobin.com/photography*  →  redirect to photos.borisnezlobin.com/*

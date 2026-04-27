@@ -114,6 +114,7 @@ export default function MosaicFrame({ photos, cells, mode, gridSize, side, onOpe
               alt=""
               loading="lazy"
               draggable={false}
+              crossOrigin="anonymous"
               className="w-full h-full object-cover select-none"
             />
           </button>
