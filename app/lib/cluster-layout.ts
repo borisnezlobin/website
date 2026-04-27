@@ -312,9 +312,9 @@ export function placePhotosInRing(
  */
 export function outerExtent(clusters: Map<string, ClusterCenter>, padding = 90): number {
   let max = 0;
-  for (const c of clusters.values()) {
+  Array.from(clusters.values()).forEach((c) => {
     const reach = Math.hypot(c.cx, c.cy) + c.r;
     if (reach > max) max = reach;
-  }
+  });
   return max + padding;
 }

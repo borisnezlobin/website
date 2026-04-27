@@ -40,7 +40,7 @@ export default function MobileMosaic({ photos, categories, onOpenPhoto }: Props)
     <div className="min-h-screen bg-light-background dark:bg-dark-background text-light-foreground dark:text-dark-foreground">
       <header className="px-4 pt-4 pb-2 flex items-baseline justify-between">
         <h1 className="vectra text-3xl">Photography</h1>
-        <span className="text-[10px] uppercase tracking-widest text-muted dark:text-muted-dark">
+        <span className="text-[10px] tracking-widest text-muted dark:text-muted-dark">
           {photos.length} photos
         </span>
       </header>
