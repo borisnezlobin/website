@@ -27,6 +27,23 @@ const DEFAULT_PACK_DENSITY = 0.62;
 const CLUSTER_MIN_RADIUS = 140;
 const CLUSTER_MARGIN = 70;
 const DEFAULT_PADDING = 80;
+// Max fraction of the smaller photo's *area* that another photo may cover.
+// Bounding the area directly is more reliable than a per-axis check: two
+// portraits sharing an x-coordinate have 100% x-overlap, and an axis-only
+// rule has nothing to say about how much vertical overlap is acceptable.
+const MAX_OVERLAP_AREA = 0.35;
+
+function photosOverlapTooMuch(
+  ax: number, ay: number, aw: number, ah: number,
+  bx: number, by: number, bw: number, bh: number,
+): boolean {
+  const overlapX = (aw + bw) / 2 - Math.abs(ax - bx);
+  const overlapY = (ah + bh) / 2 - Math.abs(ay - by);
+  if (overlapX <= 0 || overlapY <= 0) return false;
+  const overlapArea = overlapX * overlapY;
+  const smallerArea = Math.min(aw * ah, bw * bh);
+  return overlapArea > smallerArea * MAX_OVERLAP_AREA;
+}
 
 function hashSeed(s: string): number {
   let h = 2166136261 >>> 0;
@@ -213,9 +230,8 @@ export function placePhotosInCluster(
   cluster: ClusterCenter,
   reserved?: ReservedBox,
 ): PhotoPlacement[] {
-  const placed: { lx: number; ly: number }[] = [];
+  const placed: { lx: number; ly: number; w: number; h: number }[] = [];
   const out: PhotoPlacement[] = [];
-  const minDistSq = MIN_CENTER_DIST * MIN_CENTER_DIST;
 
   for (let i = 0; i < photos.length; i++) {
     const photo = photos[i];
@@ -245,16 +261,14 @@ export function placePhotosInCluster(
         if (Math.abs(lx) < halfRW && Math.abs(ly) < halfRH) continue;
       }
 
-      let tooClose = false;
+      let conflicts = false;
       for (const b of placed) {
-        const dx = b.lx - lx;
-        const dy = b.ly - ly;
-        if (dx * dx + dy * dy < minDistSq) {
-          tooClose = true;
+        if (photosOverlapTooMuch(lx, ly, w, h, b.lx, b.ly, b.w, b.h)) {
+          conflicts = true;
           break;
         }
       }
-      if (tooClose) continue;
+      if (conflicts) continue;
       candidate = { lx, ly };
       break;
     }
@@ -265,7 +279,7 @@ export function placePhotosInCluster(
       candidate = { lx: Math.cos(angle) * radius, ly: Math.sin(angle) * radius };
     }
 
-    placed.push(candidate);
+    placed.push({ ...candidate, w, h });
     out.push({
       x: cluster.cx + candidate.lx,
       y: cluster.cy + candidate.ly,
