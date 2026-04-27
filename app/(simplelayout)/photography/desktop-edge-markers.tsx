@@ -1,11 +1,11 @@
 "use client";
 
-import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArrowUpIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Category } from "@/app/lib/photo-types";
 import type { ClusterCenter } from "@/app/lib/cluster-layout";
 import type { View } from "./use-pan-zoom";
 
-const EDGE_PAD = 56;
+const EDGE_PAD = 64;
 const VIEWPORT_INSET = 80;
 
 type MarkerInfo = {
@@ -13,7 +13,7 @@ type MarkerInfo = {
   cluster: ClusterCenter;
   x: number;
   y: number;
-  angle: number;
+  arrowAngleDeg: number;
 };
 
 export default function DesktopEdgeMarkers({
@@ -41,19 +41,18 @@ export default function DesktopEdgeMarkers({
             position: "absolute",
             left: m.x,
             top: m.y,
-            transform: `translate(-50%, -50%) rotate(${m.angle}rad)`,
+            transform: "translate(-50%, -50%)",
           }}
           className="z-20 pointer-events-auto"
           aria-label={`Pan to ${m.category.label}`}
         >
-          <div
-            className="flex items-center gap-2 px-3 py-2 rounded-full backdrop-blur-md bg-black/40 hover:bg-black/60 border border-white/15 text-white shadow-lg transition-colors"
-          >
-            <ArrowRightIcon size={16} weight="bold" />
-            <span
-              className="text-[10px] uppercase tracking-widest font-semibold whitespace-nowrap"
-              style={{ transform: `rotate(${-m.angle}rad)`, display: "inline-block" }}
-            >
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-[rgba(233,100,87,0.92)] text-white shadow-md hover:bg-[rgb(233,100,87)] transition-colors">
+            <ArrowUpIcon
+              size={11}
+              weight="bold"
+              style={{ transform: `rotate(${m.arrowAngleDeg}deg)` }}
+            />
+            <span className="text-[10px] uppercase tracking-widest font-semibold whitespace-nowrap">
               {m.category.label}
             </span>
           </div>
@@ -90,12 +89,14 @@ function computeMarkers(
     const tx = dx === 0 ? Infinity : halfW / Math.abs(dx);
     const ty = dy === 0 ? Infinity : halfH / Math.abs(dy);
     const t = Math.min(tx, ty);
+    // ArrowUp icon points up at 0deg; we want it to point along (dx,dy)
+    const arrowAngleDeg = (Math.atan2(dy, dx) * 180) / Math.PI + 90;
     out.push({
       category,
       cluster,
       x: cx + dx * t,
       y: cy + dy * t,
-      angle: Math.atan2(dy, dx),
+      arrowAngleDeg,
     });
   }
   return out;

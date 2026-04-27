@@ -2,9 +2,15 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Photo, Category } from "@/app/lib/photo-types";
-import { placeClusterCenters, type ClusterCenter } from "@/app/lib/cluster-layout";
+import {
+  outerExtent,
+  placeClusterCenters,
+  placePhotosInRing,
+  type ClusterCenter,
+} from "@/app/lib/cluster-layout";
 import DesktopCluster from "./desktop-cluster";
 import DesktopEdgeMarkers from "./desktop-edge-markers";
+import DesktopPhotoTile from "./desktop-photo-tile";
 import { usePanZoom } from "./use-pan-zoom";
 
 type Props = {
@@ -35,28 +41,42 @@ export default function DesktopCanvas({ photos, categories, onOpenPhoto }: Props
     scale: 0.8,
   });
 
-  const clusters = useMemo<Map<string, ClusterCenter>>(() => {
+  const { clusters, photosByCategory, uncategorized } = useMemo(() => {
     const usable = categories.filter((c) => c.count > 0);
-    return placeClusterCenters(
+    const clusters = placeClusterCenters(
       usable.map((c) => ({ slug: c.slug, count: c.count })),
     );
-  }, [categories]);
-
-  const photosByCategory = useMemo(() => {
     const map = new Map<string, Photo[]>();
-    for (const c of categories) map.set(c.slug, []);
+    for (const c of usable) map.set(c.slug, []);
     const uncategorized: Photo[] = [];
     for (const p of photos) {
       if (p.categorySlugs.length === 0) {
         uncategorized.push(p);
         continue;
       }
+      let placed = false;
       for (const s of p.categorySlugs) {
-        if (map.has(s)) map.get(s)!.push(p);
+        if (map.has(s)) {
+          map.get(s)!.push(p);
+          placed = true;
+          break;
+        }
       }
+      if (!placed) uncategorized.push(p);
     }
-    return { map, uncategorized };
+    return { clusters, photosByCategory: map, uncategorized };
   }, [photos, categories]);
+
+  const ringPlacements = useMemo(() => {
+    if (uncategorized.length === 0) return [];
+    const inner = outerExtent(clusters, 80);
+    const width = 220;
+    return placePhotosInRing(
+      uncategorized.map((p) => ({ slug: p.slug, orientation: p.orientation })),
+      inner,
+      width,
+    );
+  }, [uncategorized, clusters]);
 
   function jumpTo(cluster: ClusterCenter) {
     animateTo({
@@ -69,8 +89,7 @@ export default function DesktopCanvas({ photos, categories, onOpenPhoto }: Props
   return (
     <div
       ref={containerRef}
-      className="fixed inset-0 overflow-hidden bg-[#0d0b09] text-white touch-none"
-      style={{ cursor: draggedRef.current ? "grabbing" : "grab" }}
+      className="fixed inset-0 overflow-hidden bg-light-background dark:bg-dark-background text-light-foreground dark:text-dark-foreground touch-none cursor-grab active:cursor-grabbing"
       {...panZoomHandlers}
     >
       <div
@@ -85,16 +104,30 @@ export default function DesktopCanvas({ photos, categories, onOpenPhoto }: Props
       >
         {categories.map((category) => {
           const cluster = clusters.get(category.slug);
-          const list = photosByCategory.map.get(category.slug) ?? [];
+          const list = photosByCategory.get(category.slug) ?? [];
           if (!cluster || list.length === 0) return null;
           return (
             <DesktopCluster
               key={category.id}
-              category={category}
               cluster={cluster}
+              category={category}
               photos={list}
               onOpenPhoto={onOpenPhoto}
               draggedRef={draggedRef}
+            />
+          );
+        })}
+
+        {uncategorized.map((photo, i) => {
+          const placement = ringPlacements[i];
+          if (!placement) return null;
+          return (
+            <DesktopPhotoTile
+              key={photo.id}
+              photo={photo}
+              placement={placement}
+              draggedRef={draggedRef}
+              onOpen={() => onOpenPhoto(photo.id)}
             />
           );
         })}
@@ -108,12 +141,7 @@ export default function DesktopCanvas({ photos, categories, onOpenPhoto }: Props
         onJumpTo={jumpTo}
       />
 
-      <div className="absolute top-4 right-4 z-10 max-w-[220px] text-right pointer-events-none">
-        <p className="text-[11px] uppercase tracking-widest text-white/50">
-          Arrows point to off-screen categories — click to fly there.
-        </p>
-      </div>
-      <div className="absolute bottom-4 left-4 z-10 text-xs uppercase tracking-widest text-white/40 pointer-events-none">
+      <div className="absolute bottom-3 left-4 z-10 text-[10px] uppercase tracking-widest text-muted dark:text-muted-dark pointer-events-none">
         zoom · {Math.round(view.scale * 100)}%
       </div>
     </div>

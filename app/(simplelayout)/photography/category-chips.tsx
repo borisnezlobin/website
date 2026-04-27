@@ -19,7 +19,7 @@ export default function CategoryChips({
       <div className="flex gap-2 px-4 py-3 w-max">
         <button
           onClick={onScramble}
-          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-white/15 text-white/80 hover:border-white/40 transition-colors flex-shrink-0"
+          className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-black/15 dark:border-white/15 text-light-foreground/80 dark:text-dark-foreground/80 hover:border-black/40 dark:hover:border-white/40 transition-colors flex-shrink-0"
         >
           <ShuffleIcon size={12} weight="bold" />
           Scramble
@@ -33,12 +33,12 @@ export default function CategoryChips({
               disabled={cat.count === 0}
               className={`px-3 py-1.5 rounded-full text-xs font-medium transition-colors flex-shrink-0 disabled:opacity-30 ${
                 active
-                  ? "bg-white text-black"
-                  : "bg-transparent text-white/80 border border-white/15 hover:border-white/40"
+                  ? "bg-light-foreground dark:bg-dark-foreground text-light-background dark:text-dark-background"
+                  : "bg-transparent text-light-foreground/80 dark:text-dark-foreground/80 border border-black/15 dark:border-white/15 hover:border-black/40 dark:hover:border-white/40"
               }`}
             >
               {cat.label}
-              <span className={`ml-1.5 ${active ? "text-black/40" : "text-white/40"}`}>
+              <span className={`ml-1.5 ${active ? "opacity-50" : "text-muted dark:text-muted-dark"}`}>
                 {cat.count}
               </span>
             </button>
