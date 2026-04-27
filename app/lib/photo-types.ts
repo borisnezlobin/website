@@ -28,3 +28,19 @@ export type PhotoFeed = {
   photos: Photo[];
   categories: Category[];
 };
+
+export type SeriesSummary = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  count: number;
+};
+
+export type Series = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  photos: Photo[];
+};

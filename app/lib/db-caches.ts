@@ -1,7 +1,7 @@
 import db from "./db";
 import { unstable_cache } from "next/cache";
-import { buildPhotoFeed } from "./photo-feed";
-import type { PhotoFeed } from "./photo-types";
+import { buildPhotoFeed, serializeSeries, serializeSeriesSummary } from "./photo-feed";
+import type { PhotoFeed, Series, SeriesSummary } from "./photo-types";
 
 type AnyFunction = (...args: any[]) => any;
 
@@ -144,6 +144,39 @@ const getPhotographsPaginatedWithoutCache = async (skip: number, take: number) =
 
 const getPhotographsPaginated = wrapWithCache(getPhotographsPaginatedWithoutCache);
 
+const getSeriesBySlugWithoutCache = async (slug: string): Promise<Series | null> => {
+    const row = await db.series.findUnique({
+        where: { slug },
+        include: {
+            photos: {
+                orderBy: { position: "asc" },
+                include: {
+                    photo: {
+                        include: { categories: { select: { slug: true } } },
+                    },
+                },
+            },
+        },
+    });
+    if (!row) return null;
+    return serializeSeries(row as any);
+};
+
+const getSeriesBySlug = (slug: string) => {
+    if (process.env.NODE_ENV === "development") return getSeriesBySlugWithoutCache(slug);
+    return unstable_cache(getSeriesBySlugWithoutCache, ["series", slug], { tags: ["series", `series-${slug}`] })(slug);
+};
+
+const getAllSeriesSummariesWithoutCache = async (): Promise<SeriesSummary[]> => {
+    const rows = await db.series.findMany({
+        orderBy: { createdAt: "desc" },
+        include: { _count: { select: { photos: true } } },
+    });
+    return rows.map((r: any) => serializeSeriesSummary(r));
+};
+
+const getAllSeriesSummaries = wrapWithCache(getAllSeriesSummariesWithoutCache, ["series"]);
+
 export {
     getBlogs,
     getBlog,
@@ -156,4 +189,6 @@ export {
     getPhotographsCount,
     getPhotographsPaginated,
     getPhotoFeed,
+    getSeriesBySlug,
+    getAllSeriesSummaries,
 };

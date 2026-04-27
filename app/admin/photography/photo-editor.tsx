@@ -9,6 +9,7 @@ import {
   ImageSquareIcon,
   TrashIcon,
 } from "@phosphor-icons/react/dist/ssr";
+import { compressImageIfLarge, formatBytes } from "./compress-image";
 import type { Category, Message, Photo } from "./types";
 
 function titleToSlug(title: string): string {
@@ -92,6 +93,20 @@ export default function PhotoEditor({
     setSaving(true);
     setMessage(null);
 
+    let uploadFile = imageFile;
+    if (uploadFile) {
+      try {
+        setMessage({ type: "success", text: "Preparing image…" });
+        const result = await compressImageIfLarge(uploadFile);
+        if (result.compressed) {
+          console.info(`Compressed ${formatBytes(uploadFile.size)} → ${formatBytes(result.file.size)}`);
+        }
+        uploadFile = result.file;
+      } catch (e) {
+        console.error("Image compression failed; uploading original:", e);
+      }
+    }
+
     const form = new FormData();
     form.append("title", title);
     form.append("description", description);
@@ -99,24 +114,36 @@ export default function PhotoEditor({
     if (date) form.append("takenAt", date);
     if (camera) form.append("camera", camera);
     form.append("categories", JSON.stringify(Array.from(selectedCategories)));
-    if (imageFile) form.append("image", imageFile);
+    if (uploadFile) form.append("image", uploadFile);
     if (!isCreating) form.append("id", photo!.id);
 
     try {
+      setMessage({ type: "success", text: "Uploading…" });
       const res = await fetch("/api/admin/photography", {
         method: isCreating ? "POST" : "PUT",
         headers: { Authorization: `Bearer ${password}` },
         body: form,
       });
-      const data = await res.json();
-      if (data.success) {
-        setMessage({ type: "success", text: isCreating ? "Photo created" : "Photo updated" });
-        onSaved(data.photo);
-      } else {
-        setMessage({ type: "error", text: data.error || "Failed to save" });
+      // The body limit error returns HTML, not JSON, so guard the parse.
+      let data: { success?: boolean; error?: string } = {};
+      try {
+        data = await res.json();
+      } catch {
+        data = {};
       }
-    } catch {
-      setMessage({ type: "error", text: "Failed to save" });
+      if (res.ok && data.success) {
+        setMessage({ type: "success", text: isCreating ? "Photo created" : "Photo updated" });
+        if (data && (data as any).photo) onSaved((data as any).photo);
+      } else if (res.status === 413) {
+        setMessage({
+          type: "error",
+          text: `Image too large (${uploadFile ? formatBytes(uploadFile.size) : "?"} after compression). Try a smaller source file.`,
+        });
+      } else {
+        setMessage({ type: "error", text: data.error || `Failed to save (${res.status})` });
+      }
+    } catch (e) {
+      setMessage({ type: "error", text: e instanceof Error ? e.message : "Failed to save" });
     } finally {
       setSaving(false);
     }

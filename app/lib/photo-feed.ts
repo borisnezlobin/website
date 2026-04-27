@@ -1,4 +1,4 @@
-import type { Photo, Category, PhotoFeed } from "./photo-types";
+import type { Photo, Category, PhotoFeed, Series, SeriesSummary } from "./photo-types";
 
 type PhotographRow = {
   id: string;
@@ -64,5 +64,40 @@ export function buildPhotoFeed(photos: PhotographRow[], categories: CategoryRow[
   return {
     photos: photos.map(serializePhoto),
     categories: categories.map(serializeCategory),
+  };
+}
+
+type SeriesRow = {
+  id: string;
+  slug: string;
+  title: string;
+  description: string;
+  _count?: { photos: number };
+};
+
+type SeriesWithPhotosRow = SeriesRow & {
+  photos: { position: number; photo: PhotographRow }[];
+};
+
+export function serializeSeriesSummary(row: SeriesRow): SeriesSummary {
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    description: row.description ?? "",
+    count: row._count?.photos ?? 0,
+  };
+}
+
+export function serializeSeries(row: SeriesWithPhotosRow): Series {
+  // Defensive sort — index covers ordering, but if a future caller forgets to
+  // ORDER BY position the page would render in insertion order instead.
+  const ordered = [...row.photos].sort((a, b) => a.position - b.position);
+  return {
+    id: row.id,
+    slug: row.slug,
+    title: row.title,
+    description: row.description ?? "",
+    photos: ordered.map((sp) => serializePhoto(sp.photo)),
   };
 }

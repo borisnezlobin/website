@@ -1,15 +1,16 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { ImageSquareIcon, TagIcon } from "@phosphor-icons/react/dist/ssr";
+import { FilmStripIcon, ImageSquareIcon, TagIcon } from "@phosphor-icons/react/dist/ssr";
 import LoginForm from "./login-form";
 import PhotoList from "./photo-list";
 import PhotoEditor from "./photo-editor";
 import CategoryManager from "./category-manager";
+import SeriesManager from "./series-manager";
 import { useAdminFetch } from "./use-admin-fetch";
 import type { Photo } from "./types";
 
-type View = "photos" | "categories";
+type View = "photos" | "categories" | "series";
 
 export default function PhotographyAdminPage() {
   const [password, setPassword] = useState("");
@@ -87,9 +88,10 @@ export default function PhotographyAdminPage() {
         <nav className="flex gap-1 mb-6 border-b border-neutral-200 dark:border-neutral-800">
           <ViewTab label="Photos" icon={<ImageSquareIcon size={16} />} active={view === "photos"} onClick={() => setView("photos")} />
           <ViewTab label="Categories" icon={<TagIcon size={16} />} active={view === "categories"} onClick={() => setView("categories")} />
+          <ViewTab label="Series" icon={<FilmStripIcon size={16} />} active={view === "series"} onClick={() => setView("series")} />
         </nav>
 
-        {view === "photos" ? (
+        {view === "photos" && (
           <PhotoList
             photos={photos}
             loading={loading}
@@ -103,13 +105,17 @@ export default function PhotographyAdminPage() {
               setIsCreating(false);
             }}
           />
-        ) : (
+        )}
+        {view === "categories" && (
           <CategoryManager
             categories={categories}
             photos={photos}
             password={password}
             onChange={refetch}
           />
+        )}
+        {view === "series" && (
+          <SeriesManager password={password} photos={photos} />
         )}
       </div>
     </div>
