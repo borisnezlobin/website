@@ -2,6 +2,10 @@ export type ClusterCenter = {
   cx: number;
   cy: number;
   r: number;
+  // Shape stretch: photos and blob outline are stretched by these factors,
+  // so a cluster can be elliptical (wider/taller) instead of strictly circular.
+  xStretch: number;
+  yStretch: number;
   seed: number;
 };
 
@@ -78,13 +82,22 @@ export function blobRadius(theta: number, r: number, seed: number): number {
   return r * (1 + 0.16 * Math.sin(3 * theta + s1) + 0.09 * Math.cos(5 * theta + s2));
 }
 
+/** Point on the cluster's outline at polar angle theta, in canvas-local coords (offset from cluster center). */
+export function blobPoint(theta: number, cluster: ClusterCenter): { x: number; y: number } {
+  const rr = blobRadius(theta, cluster.r, cluster.seed);
+  return {
+    x: rr * Math.cos(theta) * cluster.xStretch,
+    y: rr * Math.sin(theta) * cluster.yStretch,
+  };
+}
+
 export function blobOutlinePath(cluster: ClusterCenter, segments = 96): string {
   let d = "";
   for (let i = 0; i <= segments; i++) {
     const theta = (i / segments) * Math.PI * 2;
-    const rr = blobRadius(theta, cluster.r, cluster.seed);
-    const x = cluster.cx + rr * Math.cos(theta);
-    const y = cluster.cy + rr * Math.sin(theta);
+    const { x: rx, y: ry } = blobPoint(theta, cluster);
+    const x = cluster.cx + rx;
+    const y = cluster.cy + ry;
     d += i === 0 ? `M ${x.toFixed(1)} ${y.toFixed(1)}` : ` L ${x.toFixed(1)} ${y.toFixed(1)}`;
   }
   return d + " Z";
@@ -101,7 +114,13 @@ export function blobOutlinePath(cluster: ClusterCenter, segments = 96): string {
  */
 export function placeClusterCenters(
   categories: CategoryLayoutInput[],
-  options: { density?: number; padding?: number; angleOffset?: number } = {},
+  options: {
+    density?: number;
+    padding?: number;
+    angleOffset?: number;
+    xStretch?: number;
+    yStretch?: number;
+  } = {},
 ): Map<string, ClusterCenter> {
   const out = new Map<string, ClusterCenter>();
   const N = categories.length;
@@ -110,6 +129,11 @@ export function placeClusterCenters(
   const density = options.density ?? DEFAULT_PACK_DENSITY;
   const padding = options.padding ?? DEFAULT_PADDING;
   const angleOffset = options.angleOffset ?? -Math.PI / 2;
+  // Stretch each cluster's shape so photos pack into a wider horizontal blob
+  // instead of a strict circle. Defaults make clusters ~1.5× wider than tall.
+  const xStretch = options.xStretch ?? 1.5;
+  const yStretch = options.yStretch ?? 1.0;
+  const maxStretch = Math.max(xStretch, yStretch);
 
   const radii = categories.map((c) => boundingRadiusFor(c.count, density));
 
@@ -118,6 +142,8 @@ export function placeClusterCenters(
       cx: 0,
       cy: 0,
       r: radii[0],
+      xStretch,
+      yStretch,
       seed: hashSeed(categories[0].slug),
     });
     return out;
@@ -135,14 +161,16 @@ export function placeClusterCenters(
     cursor = (cursor + step) % N;
   }
 
+  // Use the larger stretch dimension when computing the inter-cluster ring
+  // radius, so a horizontally stretched cluster doesn't bleed into its neighbor.
   let R = 0;
   for (let i = 0; i < N; i++) {
-    const r1 = radii[slots[i]];
-    const r2 = radii[slots[(i + 1) % N]];
+    const r1 = radii[slots[i]] * maxStretch;
+    const r2 = radii[slots[(i + 1) % N]] * maxStretch;
     const need = (r1 + r2 + padding) / (2 * Math.sin(Math.PI / N));
     if (need > R) R = need;
   }
-  const maxR = Math.max(...radii);
+  const maxR = Math.max(...radii) * maxStretch;
   if (R < maxR + padding) R = maxR + padding;
 
   for (let i = 0; i < N; i++) {
@@ -153,6 +181,8 @@ export function placeClusterCenters(
       cx: R * Math.cos(angle),
       cy: R * Math.sin(angle),
       r: radii[idx],
+      xStretch,
+      yStretch,
       seed: hashSeed(cat.slug),
     });
   }
@@ -197,13 +227,17 @@ export function placePhotosInCluster(
     for (let attempt = 0; attempt < 200; attempt++) {
       const u = halton(i * 250 + attempt + 1, 2);
       const v = halton(i * 250 + attempt + 1, 3);
-      const lx = (u * 2 - 1) * cluster.r;
-      const ly = (v * 2 - 1) * cluster.r;
-      const dist = Math.hypot(lx, ly);
-      if (dist < 1e-3) continue;
-      const theta = Math.atan2(ly, lx);
+      // Scan within the cluster's stretched bounds in canvas space.
+      const lx = (u * 2 - 1) * cluster.r * cluster.xStretch;
+      const ly = (v * 2 - 1) * cluster.r * cluster.yStretch;
+      // Translate back to unstretched polar space for the blob containment test.
+      const ux = lx / cluster.xStretch;
+      const uy = ly / cluster.yStretch;
+      const udist = Math.hypot(ux, uy);
+      if (udist < 1e-3) continue;
+      const theta = Math.atan2(uy, ux);
       const innerR = blobRadius(theta, cluster.r, cluster.seed) - Math.max(w, h) * 0.45;
-      if (dist > innerR) continue;
+      if (udist > innerR) continue;
 
       if (reserved) {
         const halfRW = reserved.width / 2 + w / 2;

@@ -7,15 +7,18 @@ const STROKE_BUFFER = 6;
 
 export default function DesktopClusterOutline({ cluster }: { cluster: ClusterCenter }) {
   const path = useMemo(() => blobOutlinePath(cluster), [cluster]);
-  const outerR = cluster.r * BLOB_MAX_RADIUS_RATIO + STROKE_BUFFER;
-  const size = outerR * 2;
-  const left = cluster.cx - outerR;
-  const top = cluster.cy - outerR;
+  const baseR = cluster.r * BLOB_MAX_RADIUS_RATIO + STROKE_BUFFER;
+  const xExtent = baseR * cluster.xStretch;
+  const yExtent = baseR * cluster.yStretch;
+  const left = cluster.cx - xExtent;
+  const top = cluster.cy - yExtent;
+  const width = xExtent * 2;
+  const height = yExtent * 2;
 
   return (
     <svg
-      style={{ position: "absolute", left, top, width: size, height: size, pointerEvents: "none" }}
-      viewBox={`${left} ${top} ${size} ${size}`}
+      style={{ position: "absolute", left, top, width, height, pointerEvents: "none" }}
+      viewBox={`${left} ${top} ${width} ${height}`}
       fill="none"
       aria-hidden
     >
