@@ -18,9 +18,11 @@ export type CategoryLayoutInput = {
   count: number;
 };
 
-const BASE_PHOTO_AREA = 180 * 120;
-const DEFAULT_DENSITY = 0.32;
-const DEFAULT_PADDING = 96;
+const MIN_CENTER_DIST = 70;
+const DEFAULT_PACK_DENSITY = 0.62;
+const CLUSTER_MIN_RADIUS = 140;
+const CLUSTER_MARGIN = 70;
+const DEFAULT_PADDING = 80;
 
 function hashSeed(s: string): number {
   let h = 2166136261 >>> 0;
@@ -58,9 +60,12 @@ function halton(index: number, base: number): number {
 }
 
 function boundingRadiusFor(count: number, density: number): number {
-  const area = (Math.max(6, count) * BASE_PHOTO_AREA) / Math.max(0.05, density);
-  return Math.sqrt(area / Math.PI) + 80;
+  const area = (Math.max(4, count) * MIN_CENTER_DIST * MIN_CENTER_DIST) / Math.max(0.1, density);
+  return Math.max(CLUSTER_MIN_RADIUS, Math.sqrt(area / Math.PI) + CLUSTER_MARGIN);
 }
+
+// Worst-case multiplier: the blob's polar perturbation peaks at 1 + 0.16 + 0.09.
+export const BLOB_MAX_RADIUS_RATIO = 1.25;
 
 /**
  * Polar blob: small sinusoidal perturbation around `r`. Stays convex enough
@@ -102,7 +107,7 @@ export function placeClusterCenters(
   const N = categories.length;
   if (N === 0) return out;
 
-  const density = options.density ?? DEFAULT_DENSITY;
+  const density = options.density ?? DEFAULT_PACK_DENSITY;
   const padding = options.padding ?? DEFAULT_PADDING;
   const angleOffset = options.angleOffset ?? -Math.PI / 2;
 
@@ -159,58 +164,74 @@ export type PlaceablePhoto = {
   orientation: "h" | "v";
 };
 
-const MIN_GAP = 14;
+function photoSize(orientation: "h" | "v"): { w: number; h: number } {
+  return orientation === "h" ? { w: 180, h: 120 } : { w: 120, h: 180 };
+}
 
+export type ReservedBox = { width: number; height: number };
+
+/**
+ * Pack photos inside a cluster's blob. Uses a center-distance constraint
+ * (not a bbox check), so photos overlap freely — this is what gives the
+ * dense moodboard look. The blob radius keeps everything inside the cluster.
+ *
+ * If `reserved` is provided, the rectangle (centered at cluster center) is
+ * kept clear — we use this to leave room for the cluster's label.
+ */
 export function placePhotosInCluster(
   photos: PlaceablePhoto[],
   cluster: ClusterCenter,
+  reserved?: ReservedBox,
 ): PhotoPlacement[] {
-  const placed: { lx: number; ly: number; w: number; h: number }[] = [];
+  const placed: { lx: number; ly: number }[] = [];
   const out: PhotoPlacement[] = [];
+  const minDistSq = MIN_CENTER_DIST * MIN_CENTER_DIST;
 
   for (let i = 0; i < photos.length; i++) {
     const photo = photos[i];
-    const w = photo.orientation === "h" ? 180 : 120;
-    const h = photo.orientation === "h" ? 120 : 180;
+    const { w, h } = photoSize(photo.orientation);
     const photoSeed = (cluster.seed ^ hashSeed(photo.slug)) >>> 0;
     const rng = mulberry32(photoSeed);
 
     let candidate: { lx: number; ly: number } | null = null;
-    for (let attempt = 0; attempt < 120; attempt++) {
-      const u = halton(i * 200 + attempt + 1, 2);
-      const v = halton(i * 200 + attempt + 1, 3);
+    for (let attempt = 0; attempt < 200; attempt++) {
+      const u = halton(i * 250 + attempt + 1, 2);
+      const v = halton(i * 250 + attempt + 1, 3);
       const lx = (u * 2 - 1) * cluster.r;
       const ly = (v * 2 - 1) * cluster.r;
       const dist = Math.hypot(lx, ly);
       if (dist < 1e-3) continue;
       const theta = Math.atan2(ly, lx);
-      const innerR = blobRadius(theta, cluster.r, cluster.seed) - Math.max(w, h) * 0.6;
+      const innerR = blobRadius(theta, cluster.r, cluster.seed) - Math.max(w, h) * 0.45;
       if (dist > innerR) continue;
 
-      let collides = false;
+      if (reserved) {
+        const halfRW = reserved.width / 2 + w / 2;
+        const halfRH = reserved.height / 2 + h / 2;
+        if (Math.abs(lx) < halfRW && Math.abs(ly) < halfRH) continue;
+      }
+
+      let tooClose = false;
       for (const b of placed) {
         const dx = b.lx - lx;
         const dy = b.ly - ly;
-        const need = (b.w + w) / 2 + MIN_GAP;
-        const need2 = (b.h + h) / 2 + MIN_GAP;
-        if (Math.abs(dx) < need && Math.abs(dy) < need2) {
-          collides = true;
+        if (dx * dx + dy * dy < minDistSq) {
+          tooClose = true;
           break;
         }
       }
-      if (collides) continue;
+      if (tooClose) continue;
       candidate = { lx, ly };
       break;
     }
 
     if (!candidate) {
-      candidate = {
-        lx: (rng() - 0.5) * cluster.r * 0.4,
-        ly: (rng() - 0.5) * cluster.r * 0.4,
-      };
+      const angle = rng() * Math.PI * 2;
+      const radius = rng() * cluster.r * 0.5;
+      candidate = { lx: Math.cos(angle) * radius, ly: Math.sin(angle) * radius };
     }
 
-    placed.push({ lx: candidate.lx, ly: candidate.ly, w, h });
+    placed.push(candidate);
     out.push({
       x: cluster.cx + candidate.lx,
       y: cluster.cy + candidate.ly,
@@ -220,4 +241,80 @@ export function placePhotosInCluster(
     });
   }
   return out;
+}
+
+/**
+ * Scatter photos along an annulus around the origin — used for uncategorized
+ * photos that sit beyond all clusters, forming an outer perimeter.
+ */
+export function placePhotosInRing(
+  photos: PlaceablePhoto[],
+  innerRadius: number,
+  ringWidth: number,
+  seed = 0xa5a5,
+): PhotoPlacement[] {
+  const out: PhotoPlacement[] = [];
+  const N = photos.length;
+  if (N === 0) return out;
+  const minDistSq = MIN_CENTER_DIST * MIN_CENTER_DIST;
+  const placed: { lx: number; ly: number }[] = [];
+
+  for (let i = 0; i < N; i++) {
+    const photo = photos[i];
+    const { w, h } = photoSize(photo.orientation);
+    const photoSeed = (seed ^ hashSeed(photo.slug)) >>> 0;
+    const rng = mulberry32(photoSeed);
+    const baseAngle = (i / N) * Math.PI * 2;
+
+    let candidate: { lx: number; ly: number } | null = null;
+    for (let attempt = 0; attempt < 60; attempt++) {
+      const angleJitter = (rng() - 0.5) * ((Math.PI * 2) / N) * 1.4;
+      const angle = baseAngle + angleJitter;
+      const r = innerRadius + rng() * ringWidth;
+      const lx = Math.cos(angle) * r;
+      const ly = Math.sin(angle) * r;
+
+      let tooClose = false;
+      for (const b of placed) {
+        const dx = b.lx - lx;
+        const dy = b.ly - ly;
+        if (dx * dx + dy * dy < minDistSq) {
+          tooClose = true;
+          break;
+        }
+      }
+      if (tooClose) continue;
+      candidate = { lx, ly };
+      break;
+    }
+
+    if (!candidate) {
+      const angle = baseAngle;
+      const r = innerRadius + ringWidth / 2;
+      candidate = { lx: Math.cos(angle) * r, ly: Math.sin(angle) * r };
+    }
+
+    placed.push(candidate);
+    out.push({
+      x: candidate.lx,
+      y: candidate.ly,
+      rotation: (rng() - 0.5) * 12,
+      width: w,
+      height: h,
+    });
+  }
+  return out;
+}
+
+/**
+ * Returns the outermost radius covered by all clusters — useful for placing
+ * an outer ring of photos that sits beyond the clusters.
+ */
+export function outerExtent(clusters: Map<string, ClusterCenter>, padding = 90): number {
+  let max = 0;
+  for (const c of clusters.values()) {
+    const reach = Math.hypot(c.cx, c.cy) + c.r;
+    if (reach > max) max = reach;
+  }
+  return max + padding;
 }

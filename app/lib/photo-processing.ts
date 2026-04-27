@@ -1,6 +1,6 @@
 import sharp from "sharp";
 import exifr from "exifr";
-import { extractDominantColorOklab, type Vec3 } from "./dominant-color";
+import { extractMeanColorOklab, type Vec3 } from "./photo-color";
 
 export type ProcessedPhoto = {
   full: Buffer;
@@ -16,7 +16,6 @@ export type ProcessedPhoto = {
 const FULL_LONG_EDGE = 2400;
 const THUMB_LONG_EDGE = 600;
 const MICRO_SIZE = 32;
-const SAMPLE_SIZE = 64;
 
 export async function processPhoto(input: Buffer): Promise<ProcessedPhoto> {
   const oriented = await sharp(input).rotate().toBuffer();
@@ -36,14 +35,16 @@ export async function processPhoto(input: Buffer): Promise<ProcessedPhoto> {
     .jpeg({ quality: 70 })
     .toBuffer();
 
+  // Sample the same 32×32 cropped square that becomes the rendered tile, so
+  // the stored mean color matches what the eye actually perceives at tile size.
   const sample = await sharp(oriented)
-    .resize({ width: SAMPLE_SIZE, height: SAMPLE_SIZE, fit: "inside" })
+    .resize({ width: MICRO_SIZE, height: MICRO_SIZE, fit: "cover" })
     .removeAlpha()
     .raw()
     .toBuffer({ resolveWithObject: true });
 
   const pixelCount = sample.info.width * sample.info.height;
-  const color = extractDominantColorOklab(sample.data, pixelCount);
+  const color = extractMeanColorOklab(sample.data, pixelCount);
 
   const exif = await readExif(input);
 

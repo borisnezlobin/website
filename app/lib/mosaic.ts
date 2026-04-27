@@ -1,4 +1,4 @@
-import { rgbToOklab } from "./dominant-color";
+import { rgbToOklab } from "./photo-color";
 import type { Photo } from "./photo-types";
 
 export type MosaicCell = {

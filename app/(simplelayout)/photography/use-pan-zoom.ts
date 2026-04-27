@@ -15,6 +15,7 @@ type DragState = {
   baseX: number;
   baseY: number;
   moved: number;
+  captured: boolean;
 };
 
 type PinchState = {
@@ -95,8 +96,8 @@ export function usePanZoom(
         baseX: view.x,
         baseY: view.y,
         moved: 0,
+        captured: false,
       };
-      (e.currentTarget as Element).setPointerCapture(e.pointerId);
     } else if (pointersRef.current.size === 2) {
       const pts = Array.from(pointersRef.current.values());
       const dx = pts[1].x - pts[0].x;
@@ -139,8 +140,18 @@ export function usePanZoom(
       const dx = e.clientX - drag.startX;
       const dy = e.clientY - drag.startY;
       drag.moved = Math.max(drag.moved, Math.hypot(dx, dy));
-      if (drag.moved > DRAG_THRESHOLD) draggedRef.current = true;
-      setView((v) => ({ ...v, x: drag.baseX + dx, y: drag.baseY + dy }));
+      if (drag.moved > DRAG_THRESHOLD) {
+        draggedRef.current = true;
+        if (!drag.captured) {
+          try {
+            (e.currentTarget as Element).setPointerCapture(e.pointerId);
+            drag.captured = true;
+          } catch {
+            // setPointerCapture can throw if the pointer was already released
+          }
+        }
+        setView((v) => ({ ...v, x: drag.baseX + dx, y: drag.baseY + dy }));
+      }
     }
   }, []);
 

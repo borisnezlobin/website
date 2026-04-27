@@ -64,7 +64,7 @@ export default function MosaicFrame({ photos, cells, mode, gridSize, side, onOpe
 
   return (
     <div
-      className="relative bg-black/40 rounded-md overflow-hidden"
+      className="relative bg-black/5 dark:bg-white/5 rounded-md overflow-hidden"
       style={{ width: side, height: side }}
     >
       {tiles.map((t) => {

@@ -52,69 +52,27 @@ export function oklabSqDist(a: Vec3, b: Vec3): number {
 }
 
 /**
- * k-means in OKLab on the pixels of an image. Returns the centroid of the
- * largest cluster — the "dominant" color — as [L, a, b]. Initialization is
- * deterministic (stride sampling) so the result is stable across runs.
+ * Mean color in OKLab over an image's pixels. We use this as each photo's
+ * representative color for mosaic matching: the rendered 32×32 tile is
+ * essentially a downscaled version of the photo, so the perceived tile color
+ * IS the mean. Matching against the mean keeps the rendered tile aligned
+ * with the cell it's filling — important for photos with frames or large
+ * backgrounds that would otherwise hijack a single dominant cluster.
  */
-export function extractDominantColorOklab(
+export function extractMeanColorOklab(
   rgb: Buffer | Uint8Array,
   pixelCount: number,
-  k = 5,
-  maxIter = 12,
 ): Vec3 {
-  const points: Vec3[] = new Array(pixelCount);
+  if (pixelCount <= 0) return [0, 0, 0];
+  let sumL = 0;
+  let sumA = 0;
+  let sumB = 0;
   for (let i = 0; i < pixelCount; i++) {
     const o = i * 3;
-    points[i] = rgbToOklab(rgb[o], rgb[o + 1], rgb[o + 2]);
+    const [L, a, b] = rgbToOklab(rgb[o], rgb[o + 1], rgb[o + 2]);
+    sumL += L;
+    sumA += a;
+    sumB += b;
   }
-
-  const centroids: Vec3[] = [];
-  for (let i = 0; i < k; i++) {
-    const idx = Math.min(points.length - 1, Math.floor((i + 0.5) * points.length / k));
-    centroids.push([points[idx][0], points[idx][1], points[idx][2]]);
-  }
-
-  const assignments = new Int32Array(points.length);
-  for (let iter = 0; iter < maxIter; iter++) {
-    let changed = false;
-    for (let i = 0; i < points.length; i++) {
-      let best = 0;
-      let bestD = Infinity;
-      for (let c = 0; c < k; c++) {
-        const d = oklabSqDist(points[i], centroids[c]);
-        if (d < bestD) {
-          bestD = d;
-          best = c;
-        }
-      }
-      if (assignments[i] !== best) {
-        assignments[i] = best;
-        changed = true;
-      }
-    }
-    if (!changed && iter > 0) break;
-
-    const sums: Vec3[] = Array.from({ length: k }, () => [0, 0, 0]);
-    const counts = new Int32Array(k);
-    for (let i = 0; i < points.length; i++) {
-      const c = assignments[i];
-      sums[c][0] += points[i][0];
-      sums[c][1] += points[i][1];
-      sums[c][2] += points[i][2];
-      counts[c]++;
-    }
-    for (let c = 0; c < k; c++) {
-      if (counts[c] > 0) {
-        centroids[c] = [sums[c][0] / counts[c], sums[c][1] / counts[c], sums[c][2] / counts[c]];
-      }
-    }
-  }
-
-  const counts = new Int32Array(k);
-  for (let i = 0; i < assignments.length; i++) counts[assignments[i]]++;
-  let bestC = 0;
-  for (let c = 1; c < k; c++) {
-    if (counts[c] > counts[bestC]) bestC = c;
-  }
-  return centroids[bestC];
+  return [sumL / pixelCount, sumA / pixelCount, sumB / pixelCount];
 }

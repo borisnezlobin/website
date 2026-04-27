@@ -35,12 +35,6 @@ export function useMosaicState(
       setCells([]);
       return;
     }
-    const pool = photos.filter((p) => p.categorySlugs.includes(category.slug));
-    if (pool.length === 0) {
-      setError("No photos in this category yet.");
-      setCells([]);
-      return;
-    }
     let cancelled = false;
     setLoading(true);
     setError(null);
