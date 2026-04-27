@@ -1,5 +1,5 @@
 const PHOTO_HOST = "photos.borisnezlobin.com";
-const PRIMARY_HOST = "borisnezlobin.com";
+const PRIMARY_HOSTS = ["borisnezlobin.com", "www.borisnezlobin.com"];
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
@@ -19,14 +19,12 @@ const nextConfig = {
     ];
   },
   async redirects() {
-    return [
-      {
-        source: "/photography/:path*",
-        has: [{ type: "host", value: PRIMARY_HOST }],
-        destination: `https://${PHOTO_HOST}/:path*`,
-        permanent: false,
-      },
-    ];
+    return PRIMARY_HOSTS.map((host) => ({
+      source: "/photography/:path*",
+      has: [{ type: "host", value: host }],
+      destination: `https://${PHOTO_HOST}/:path*`,
+      permanent: false,
+    }));
   },
 };
 
