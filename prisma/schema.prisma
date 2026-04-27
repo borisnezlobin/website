@@ -56,23 +56,24 @@ model Project {
 }
 
 model Photograph {
-  id          String     @id @default(cuid())
+  id          String        @id @default(cuid())
   title       String
-  description String     @default("")
+  description String        @default("")
   image       String
   thumbUrl    String?
   microUrl    String?
   width       Int?
   height      Int?
-  color       Float[]    @default([])
+  color       Float[]       @default([])
   camera      String?
   takenAt     DateTime?
-  likes       Int        @default(0)
-  slug        String     @unique
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @default(now())
-  categories  Category[] @relation("PhotographCategories")
-  heroFor     Category[] @relation("CategoryHero")
+  likes       Int           @default(0)
+  slug        String        @unique
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+  categories  Category[]    @relation("PhotographCategories")
+  heroFor     Category[]    @relation("CategoryHero")
+  series      SeriesPhoto[]
 
   @@index([createdAt], map: "photographs_created_at")
   @@index([title], map: "photographs_title")
@@ -89,4 +90,30 @@ model Category {
   updatedAt   DateTime     @default(now())
 
   @@index([slug], map: "category_slug")
+}
+
+model Series {
+  id          String        @id @default(cuid())
+  slug        String        @unique
+  title       String
+  description String        @default("")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @default(now())
+  photos      SeriesPhoto[]
+
+  @@index([slug], map: "series_slug")
+}
+
+// Ordered join: a photo's `position` in a given series. Composite PK keeps
+// each photo from being added twice; the (seriesId, position) index keeps
+// ordered fetches cheap.
+model SeriesPhoto {
+  series    Series     @relation(fields: [seriesId], references: [id], onDelete: Cascade)
+  seriesId  String
+  photo     Photograph @relation(fields: [photoId], references: [id], onDelete: Cascade)
+  photoId   String
+  position  Int
+
+  @@id([seriesId, photoId])
+  @@index([seriesId, position], map: "series_photo_position")
 }
