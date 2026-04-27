@@ -38,7 +38,7 @@ export default function DesktopCanvas({ photos, categories, onOpenPhoto }: Props
   const { view, animateTo, draggedRef, panZoomHandlers } = usePanZoom(containerRef, {
     x: 0,
     y: 0,
-    scale: 0.8,
+    scale: 1.2,
   });
 
   const { clusters, photosByCategory, uncategorized } = useMemo(() => {

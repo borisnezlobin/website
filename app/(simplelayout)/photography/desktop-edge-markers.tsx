@@ -52,7 +52,7 @@ export default function DesktopEdgeMarkers({
               weight="bold"
               style={{ transform: `rotate(${m.arrowAngleDeg}deg)` }}
             />
-            <span className="text-[10px] uppercase tracking-widest font-semibold whitespace-nowrap">
+            <span className="whitespace-nowrap">
               {m.category.label}
             </span>
           </div>

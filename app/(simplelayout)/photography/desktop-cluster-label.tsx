@@ -43,16 +43,16 @@ export default function DesktopClusterLabel({
 }) {
   return (
     <div
-      className="vectra select-none pointer-events-none"
+      className="select-none pointer-events-none !text-primary dark:!text-primary-dark"
       style={{
         position: "absolute",
         left: cluster.cx,
         top: cluster.cy,
         transform: "translate(-50%, -50%)",
-        color: "rgba(233,100,87,0.85)",
         fontSize,
         lineHeight: LINE_HEIGHT_RATIO,
         whiteSpace: "nowrap",
+        fontFamily: "Vectra"
       }}
     >
       {label}

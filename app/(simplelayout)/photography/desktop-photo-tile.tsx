@@ -19,17 +19,15 @@ function DesktopPhotoTile({ photo, placement, onOpen, draggedRef }: Props) {
         onOpen();
       }}
       style={{
-        position: "absolute",
         left: placement.x - placement.width / 2,
         top: placement.y - placement.height / 2,
         width: placement.width,
         height: placement.height,
         transform: `rotate(${placement.rotation}deg)`,
         boxShadow: "0 8px 24px rgba(0,0,0,0.5)",
-        border: "4px solid #1A1714",
         background: "#1A1714",
       }}
-      className="rounded-sm hover:z-10 transition-transform"
+      className="rounded-sm absolute border-2 border-muted dark:border-muted-dark hover:z-10 transition-transform"
       aria-label={photo.title}
     >
       <img
