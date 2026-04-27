@@ -11,6 +11,7 @@ import {
 import DesktopCluster from "./desktop-cluster";
 import DesktopEdgeMarkers from "./desktop-edge-markers";
 import DesktopPhotoTile from "./desktop-photo-tile";
+import DesktopWelcome from "./desktop-welcome";
 import { usePanZoom } from "./use-pan-zoom";
 
 type Props = {
@@ -102,6 +103,8 @@ export default function DesktopCanvas({ photos, categories, onOpenPhoto }: Props
           willChange: "transform",
         }}
       >
+        <DesktopWelcome />
+
         {categories.map((category) => {
           const cluster = clusters.get(category.slug);
           const list = photosByCategory.get(category.slug) ?? [];
