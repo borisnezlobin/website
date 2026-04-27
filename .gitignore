@@ -48,3 +48,5 @@ next-env.d.ts
 pnpm-lock.yaml
 prisma/awooga/**
 prisma/generated/**
+.playwright-mcp/
+.playwright-mcp/**

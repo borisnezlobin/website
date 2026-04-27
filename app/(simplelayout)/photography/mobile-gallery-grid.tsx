@@ -54,6 +54,7 @@ export default function MobileGalleryGrid({
                 loading="lazy"
                 decoding="async"
                 draggable={false}
+                crossOrigin="anonymous"
                 className="w-full h-full object-cover"
               />
             </button>

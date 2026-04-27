@@ -48,7 +48,11 @@ const CrossOut = ({ originalText, replaceText }: { originalText: React.ReactNode
 
     return (
         <span ref={containerRef} className="relative inline-grid align-baseline [grid-template-areas:'stack']">
-            <span className={`[grid-area:stack] relative text-center transition-opacity duration-500 ease-out ${isCrossed ? "opacity-0" : "opacity-100"}`}>
+            <span
+                aria-hidden="true"
+                data-nosnippet
+                className={`[grid-area:stack] relative text-center transition-opacity duration-500 ease-out ${isCrossed ? "opacity-0" : "opacity-100"}`}
+            >
                 {originalText}
                 <span
                     className={`pointer-events-none absolute left-0 right-0 top-1/2 h-[2px] -translate-y-1/2 bg-current origin-left transition-transform duration-700 ease-out ${

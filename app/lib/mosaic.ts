@@ -58,6 +58,9 @@ function loadImage(url: string): Promise<HTMLImageElement> {
     img.crossOrigin = "anonymous";
     img.onload = () => resolve(img);
     img.onerror = reject;
-    img.src = url;
+    // Append a query param so the request is keyed separately from any
+    // cached non-CORS response of the same URL (mobile Safari is strict
+    // about reusing tainted cache entries).
+    img.src = `${url}${url.includes("?") ? "&" : "?"}mosaic=1`;
   });
 }
