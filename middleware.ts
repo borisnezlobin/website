@@ -5,9 +5,10 @@ const PRIMARY_HOSTS = new Set(["borisnezlobin.com", "www.borisnezlobin.com"]);
 
 // Single-segment paths on the photo host that must NOT be treated as series
 // slugs. Anything containing a dot is also passed through (font files, etc.).
+// "p" is reserved so /p/{slug} resolves to the photo lightbox route.
 const RESERVED_PATHS = new Set([
   "admin", "api", "_next", "blog", "notes", "projects", "contact",
-  "photography", "feed.xml", "sitemap.xml", "favicon.ico", "robots.txt",
+  "photography", "p", "feed.xml", "sitemap.xml", "favicon.ico", "robots.txt",
 ]);
 
 function isAssetPath(slug: string): boolean {
@@ -25,9 +26,17 @@ export function middleware(request: NextRequest) {
       r.pathname = "/photography";
       return NextResponse.rewrite(r);
     }
-    // photos.borisnezlobin.com/{slug} → /photography/series/{slug}
-    // Only single-segment, non-asset, non-reserved paths.
     const segments = url.pathname.split("/").filter(Boolean);
+    // photos.borisnezlobin.com/p/{slug} → /photography/p/{slug}  (single photo lightbox)
+    if (segments.length === 2 && segments[0] === "p") {
+      const photoSlug = segments[1];
+      if (photoSlug && !isAssetPath(photoSlug)) {
+        const r = url.clone();
+        r.pathname = `/photography/p/${photoSlug}`;
+        return NextResponse.rewrite(r);
+      }
+    }
+    // photos.borisnezlobin.com/{slug} → /photography/series/{slug}
     if (segments.length === 1) {
       const slug = segments[0];
       if (!isAssetPath(slug) && !RESERVED_PATHS.has(slug)) {
@@ -41,6 +50,16 @@ export function middleware(request: NextRequest) {
   }
 
   if (PRIMARY_HOSTS.has(host)) {
+    // borisnezlobin.com/photography/p/{slug} → photos.borisnezlobin.com/p/{slug}
+    if (url.pathname.startsWith("/photography/p/")) {
+      const slug = url.pathname.slice("/photography/p/".length).split("/")[0];
+      if (slug) {
+        return NextResponse.redirect(
+          new URL(`https://${PHOTO_HOST}/p/${slug}${url.search}`),
+          307,
+        );
+      }
+    }
     // borisnezlobin.com/photography/series/{slug} → photos.borisnezlobin.com/{slug}
     if (url.pathname.startsWith("/photography/series/")) {
       const slug = url.pathname.slice("/photography/series/".length).split("/")[0];

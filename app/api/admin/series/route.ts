@@ -9,7 +9,7 @@ export const runtime = "nodejs";
 // middleware can't safely rewrite to a series view.
 const RESERVED_SLUGS = new Set([
   "admin", "api", "_next", "photography", "blog", "notes", "projects",
-  "contact", "favicon", "robots", "sitemap", "feed",
+  "contact", "favicon", "robots", "sitemap", "feed", "p",
 ]);
 
 function checkAuth(request: NextRequest): boolean {
