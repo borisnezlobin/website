@@ -12,8 +12,8 @@ export type LightboxState = {
   isOpen: boolean;
 };
 
-export function useLightbox(total: number): LightboxState {
-  const [index, setIndex] = useState(-1);
+export function useLightbox(total: number, initialIndex = -1): LightboxState {
+  const [index, setIndex] = useState(initialIndex);
 
   const next = useCallback(() => {
     setIndex((i) => (total > 0 && i >= 0 ? (i + 1) % total : i));
