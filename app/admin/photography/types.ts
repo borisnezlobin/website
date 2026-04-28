@@ -13,6 +13,7 @@ export type Photo = {
   camera: string | null;
   takenAt: string | null;
   likes: number;
+  inGallery: boolean;
   categorySlugs: string[];
 };
 

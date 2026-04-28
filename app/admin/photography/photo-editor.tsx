@@ -55,6 +55,7 @@ export default function PhotoEditor({
   const [selectedCategories, setSelectedCategories] = useState<Set<string>>(
     new Set(photo?.categorySlugs ?? []),
   );
+  const [inGallery, setInGallery] = useState(photo?.inGallery ?? true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<Message | null>(null);
 
@@ -114,6 +115,7 @@ export default function PhotoEditor({
     if (date) form.append("takenAt", date);
     if (camera) form.append("camera", camera);
     form.append("categories", JSON.stringify(Array.from(selectedCategories)));
+    form.append("inGallery", inGallery ? "true" : "false");
     if (uploadFile) form.append("image", uploadFile);
     if (!isCreating) form.append("id", photo!.id);
 
@@ -239,6 +241,32 @@ export default function PhotoEditor({
                 className="px-4 py-2 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded focus:outline-none focus:ring-2 focus:ring-neutral-400"
               />
             </Field>
+          </div>
+
+          <div className="flex items-center justify-between gap-4 p-4 rounded border border-neutral-200 dark:border-neutral-800">
+            <div>
+              <div className="font-medium">
+                {inGallery ? "Visible on /photography" : "Hidden from /photography"}
+              </div>
+              <p className="text-sm text-muted dark:text-muted-dark mt-1">
+                When hidden, this photo still appears in any series it belongs to and still feeds the mosaic tile pool — it just won't show on the main canvas or grid.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setInGallery((v) => !v)}
+              role="switch"
+              aria-checked={inGallery}
+              aria-label="Toggle gallery visibility"
+              className={`relative h-7 w-12 flex-shrink-0 rounded-full transition-colors ${
+                inGallery ? "bg-neutral-900 dark:bg-white" : "bg-neutral-300 dark:bg-neutral-700"
+              }`}
+            >
+              <span
+                className="absolute top-1 h-5 w-5 rounded-full bg-white dark:bg-neutral-900 shadow transition-[left] duration-200"
+                style={{ left: inGallery ? 24 : 4 }}
+              />
+            </button>
           </div>
         </div>
       </div>

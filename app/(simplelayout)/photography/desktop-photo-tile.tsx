@@ -8,7 +8,7 @@ type Props = {
   photo: Photo;
   placement: PhotoPlacement;
   onOpen: () => void;
-  draggedRef: React.MutableRefObject<boolean>;
+  draggedRef: React.RefObject<boolean>;
 };
 
 function DesktopPhotoTile({ photo, placement, onOpen, draggedRef }: Props) {

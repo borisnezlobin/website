@@ -302,7 +302,7 @@ function SeriesPhotoList({
 }) {
   return (
     <section className="mb-8">
-      <h2 className="text-sm font-medium text-muted dark:text-muted-dark uppercase tracking-widest mb-3">
+      <h2 className="text-sm font-medium text-muted dark:text-muted-dark mb-3">
         Photos in order ({photoIds.length})
       </h2>
       {photoIds.length === 0 ? (
@@ -367,7 +367,7 @@ function SeriesPhotoPicker({
 }) {
   return (
     <section>
-      <h2 className="text-sm font-medium text-muted dark:text-muted-dark uppercase tracking-widest mb-3">
+      <h2 className="text-sm font-medium text-muted dark:text-muted-dark mb-3">
         Library ({photos.length}) — click to add
       </h2>
       {photos.length === 0 ? (

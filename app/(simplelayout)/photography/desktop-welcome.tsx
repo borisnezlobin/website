@@ -13,13 +13,12 @@ export default function DesktopWelcome() {
       }}
     >
       <h2
-        className="!text-primary dark:!text-primary-dark"
-        style={{ fontFamily: "Vectra", fontSize: 120, lineHeight: 1, whiteSpace: "nowrap" }}
+        className="vectra text-9xl !text-primary dark:!text-primary-dark whitespace-nowrap"
       >
         Photography
       </h2>
-      <p className="mt-5 text-[11px] uppercase tracking-[0.35em] text-muted dark:text-muted-dark">
-        Drag to move · Click any image to view
+      <p className="mt-5 text-sm text-muted dark:text-muted-dark">
+        Drag to move · click any image to view
       </p>
     </div>
   );
