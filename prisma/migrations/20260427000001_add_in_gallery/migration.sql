@@ -1,0 +1,1 @@
+ALTER TABLE "Photograph" ADD COLUMN "inGallery" BOOLEAN NOT NULL DEFAULT true;

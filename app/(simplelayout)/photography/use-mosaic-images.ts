@@ -10,7 +10,7 @@ import type { Photo } from "@/app/lib/photo-types";
  * canvas can repaint to reveal newly-ready tiles.
  */
 export function useMosaicImages(photos: Photo[]): {
-  imagesRef: React.MutableRefObject<Map<string, HTMLImageElement>>;
+  imagesRef: React.RefObject<Map<string, HTMLImageElement>>;
   loadVersion: number;
 } {
   const imagesRef = useRef<Map<string, HTMLImageElement>>(new Map());

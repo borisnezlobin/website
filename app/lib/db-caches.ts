@@ -37,7 +37,7 @@ const getPhotographsWithoutCache = async () => {
 const getPhotographs = wrapWithCache(getPhotographsWithoutCache, ["photos"]);
 
 const getPhotoFeedWithoutCache = async (): Promise<PhotoFeed> => {
-    const [photos, categories] = await Promise.all([
+    const [photos, categories, series] = await Promise.all([
         db.photograph.findMany({
             orderBy: { likes: "desc" },
             where: {
@@ -51,8 +51,21 @@ const getPhotoFeedWithoutCache = async (): Promise<PhotoFeed> => {
             orderBy: { label: "asc" },
             include: { _count: { select: { photos: true } } },
         }),
+        db.series.findMany({
+            orderBy: { createdAt: "desc" },
+            include: {
+                _count: { select: { photos: true } },
+                photos: {
+                    take: 2,  // cover + one peeking behind for the canvas stack
+                    orderBy: { position: "asc" },
+                    include: {
+                        photo: { include: { categories: { select: { slug: true } } } },
+                    },
+                },
+            },
+        }),
     ]);
-    return buildPhotoFeed(photos as any, categories as any);
+    return buildPhotoFeed(photos as any, categories as any, series as any);
 };
 
 const getPhotoFeed = wrapWithCache(getPhotoFeedWithoutCache, ["photos"]);

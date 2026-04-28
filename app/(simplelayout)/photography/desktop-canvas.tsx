@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import type { Photo, Category } from "@/app/lib/photo-types";
+import type { Photo, Category, SeriesSummary } from "@/app/lib/photo-types";
 import {
   outerExtent,
   placeClusterCenters,
@@ -10,17 +10,20 @@ import {
 } from "@/app/lib/cluster-layout";
 import DesktopCluster from "./desktop-cluster";
 import DesktopEdgeMarkers from "./desktop-edge-markers";
+import DesktopExtraMarker from "./desktop-extra-marker";
 import DesktopPhotoTile from "./desktop-photo-tile";
+import DesktopSeriesShelf, { seriesShelfCenter } from "./desktop-series-shelf";
 import DesktopWelcome from "./desktop-welcome";
 import { usePanZoom } from "./use-pan-zoom";
 
 type Props = {
   photos: Photo[];
   categories: Category[];
+  series: SeriesSummary[];
   onOpenPhoto: (photoId: string) => void;
 };
 
-export default function DesktopCanvas({ photos, categories, onOpenPhoto }: Props) {
+export default function DesktopCanvas({ photos, categories, series, onOpenPhoto }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [viewport, setViewport] = useState({ width: 0, height: 0 });
 
@@ -43,14 +46,13 @@ export default function DesktopCanvas({ photos, categories, onOpenPhoto }: Props
   });
 
   const { clusters, photosByCategory, uncategorized } = useMemo(() => {
-    const usable = categories.filter((c) => c.count > 0);
-    const clusters = placeClusterCenters(
-      usable.map((c) => ({ slug: c.slug, count: c.count })),
-    );
+    // Photos opted out of the gallery are still in `feed.photos` (so the
+    // mosaic can use them as tiles) but don't appear on the canvas.
+    const visiblePhotos = photos.filter((p) => p.inGallery);
     const map = new Map<string, Photo[]>();
-    for (const c of usable) map.set(c.slug, []);
+    for (const c of categories) map.set(c.slug, []);
     const uncategorized: Photo[] = [];
-    for (const p of photos) {
+    for (const p of visiblePhotos) {
       if (p.categorySlugs.length === 0) {
         uncategorized.push(p);
         continue;
@@ -65,6 +67,12 @@ export default function DesktopCanvas({ photos, categories, onOpenPhoto }: Props
       }
       if (!placed) uncategorized.push(p);
     }
+    // Build clusters using the actual visible-photo counts so a category whose
+    // only photos are hidden doesn't get an empty bubble on the canvas.
+    const usable = categories
+      .map((c) => ({ slug: c.slug, count: (map.get(c.slug) ?? []).length }))
+      .filter((c) => c.count > 0);
+    const clusters = placeClusterCenters(usable);
     return { clusters, photosByCategory: map, uncategorized };
   }, [photos, categories]);
 
@@ -134,6 +142,8 @@ export default function DesktopCanvas({ photos, categories, onOpenPhoto }: Props
             />
           );
         })}
+
+        <DesktopSeriesShelf series={series} draggedRef={draggedRef} />
       </div>
 
       <DesktopEdgeMarkers
@@ -143,9 +153,22 @@ export default function DesktopCanvas({ photos, categories, onOpenPhoto }: Props
         viewport={viewport}
         onJumpTo={jumpTo}
       />
+      {series.length > 0 && (
+        <DesktopExtraMarker
+          label="Series"
+          cx={seriesShelfCenter().cx}
+          cy={seriesShelfCenter().cy}
+          view={view}
+          viewport={viewport}
+          onClick={() => {
+            const center = seriesShelfCenter();
+            animateTo({ x: -center.cx * view.scale, y: -center.cy * view.scale, scale: view.scale });
+          }}
+        />
+      )}
 
-      <div className="absolute bottom-3 left-4 z-10 text-[10px] uppercase tracking-widest text-muted dark:text-muted-dark pointer-events-none">
-        zoom · {Math.round(view.scale * 100)}%
+      <div className="absolute bottom-3 left-4 z-10 text-xs text-muted dark:text-muted-dark pointer-events-none">
+        Zoom · {Math.round(view.scale * 100)}%
       </div>
     </div>
   );

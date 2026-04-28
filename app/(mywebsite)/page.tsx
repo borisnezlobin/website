@@ -24,11 +24,14 @@ export default async function Home() {
         slug: a.slug,
         createdAt: a.createdAt,
     }));
-    const previewPhotos = photographs.slice(0, 8).map((p) => ({
-        title: p.title,
-        image: p.image,
-        slug: p.slug,
-    }));
+    const previewPhotos = photographs
+        .filter((p: any) => p.inGallery !== false)
+        .slice(0, 8)
+        .map((p) => ({
+            title: p.title,
+            image: p.image,
+            slug: p.slug,
+        }));
 
     return (
         <>

@@ -14,6 +14,7 @@ type PhotographRow = {
   camera: string | null;
   takenAt: Date | null;
   likes: number;
+  inGallery?: boolean;
   categories?: { slug: string }[];
 };
 
@@ -46,6 +47,7 @@ export function serializePhoto(row: PhotographRow): Photo {
     camera: row.camera ?? null,
     takenAt: row.takenAt ? row.takenAt.toISOString() : null,
     likes: row.likes,
+    inGallery: row.inGallery ?? true,
     categorySlugs: row.categories?.map((c) => c.slug) ?? [],
   };
 }
@@ -60,10 +62,15 @@ export function serializeCategory(row: CategoryRow): Category {
   };
 }
 
-export function buildPhotoFeed(photos: PhotographRow[], categories: CategoryRow[]): PhotoFeed {
+export function buildPhotoFeed(
+  photos: PhotographRow[],
+  categories: CategoryRow[],
+  series: SeriesWithCoversRow[],
+): PhotoFeed {
   return {
     photos: photos.map(serializePhoto),
     categories: categories.map(serializeCategory),
+    series: series.map(serializeSeriesSummary),
   };
 }
 
@@ -75,17 +82,26 @@ type SeriesRow = {
   _count?: { photos: number };
 };
 
+type SeriesWithCoversRow = SeriesRow & {
+  photos?: { position: number; photo: PhotographRow }[];
+};
+
 type SeriesWithPhotosRow = SeriesRow & {
   photos: { position: number; photo: PhotographRow }[];
 };
 
-export function serializeSeriesSummary(row: SeriesRow): SeriesSummary {
+export function serializeSeriesSummary(row: SeriesWithCoversRow): SeriesSummary {
+  const covers = (row.photos ?? [])
+    .slice() // don't mutate
+    .sort((a, b) => a.position - b.position)
+    .map((sp) => serializePhoto(sp.photo));
   return {
     id: row.id,
     slug: row.slug,
     title: row.title,
     description: row.description ?? "",
-    count: row._count?.photos ?? 0,
+    count: row._count?.photos ?? covers.length,
+    coverPhotos: covers,
   };
 }
 

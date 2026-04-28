@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import dynamic from "next/dynamic";
 import type { PhotoFeed } from "@/app/lib/photo-types";
 import Lightbox from "./lightbox";
@@ -15,10 +15,13 @@ type Mode = "mobile" | "desktop";
 
 export default function GalleryWrapper({ feed }: { feed: PhotoFeed }) {
   const mode = useViewportMode();
-  const lightbox = useLightbox(feed.photos.length);
+  // Lightbox only walks photos that are actually visible on the gallery —
+  // hidden-from-gallery photos shouldn't show up via prev/next either.
+  const visiblePhotos = useMemo(() => feed.photos.filter((p) => p.inGallery), [feed.photos]);
+  const lightbox = useLightbox(visiblePhotos.length);
 
   function openPhotoById(photoId: string) {
-    const idx = feed.photos.findIndex((p) => p.id === photoId);
+    const idx = visiblePhotos.findIndex((p) => p.id === photoId);
     if (idx >= 0) lightbox.setIndex(idx);
   }
 
@@ -32,18 +35,20 @@ export default function GalleryWrapper({ feed }: { feed: PhotoFeed }) {
         <DesktopCanvas
           photos={feed.photos}
           categories={feed.categories}
+          series={feed.series}
           onOpenPhoto={openPhotoById}
         />
       ) : (
         <MobileMosaic
           photos={feed.photos}
           categories={feed.categories}
+          series={feed.series}
           onOpenPhoto={openPhotoById}
         />
       )}
       {lightbox.isOpen && (
         <Lightbox
-          photos={feed.photos}
+          photos={visiblePhotos}
           index={lightbox.index}
           onClose={lightbox.close}
           onNext={lightbox.next}

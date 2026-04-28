@@ -16,7 +16,7 @@ type Props = {
   cluster: ClusterCenter;
   category: Category;
   onOpenPhoto: (photoId: string) => void;
-  draggedRef: React.MutableRefObject<boolean>;
+  draggedRef: React.RefObject<boolean>;
 };
 
 export default function DesktopCluster({ photos, cluster, category, onOpenPhoto, draggedRef }: Props) {

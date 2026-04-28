@@ -71,6 +71,7 @@ export async function POST(request: NextRequest) {
   const takenAtOverride = formData.get("takenAt");
   const file = formData.get("image");
   const createdAt = formData.get("createdAt");
+  const inGalleryRaw = formData.get("inGallery");
   const categorySlugs = parseCategorySlugs(formData.get("categories"));
 
   if (typeof title !== "string" || !title) {
@@ -82,6 +83,8 @@ export async function POST(request: NextRequest) {
   if (!(file instanceof File)) {
     return NextResponse.json({ error: "Image file is required" }, { status: 400 });
   }
+  // Field is optional; absent → default to true (matches DB default).
+  const inGallery = inGalleryRaw == null ? true : inGalleryRaw === "true" || inGalleryRaw === "1";
 
   const buffer = Buffer.from(await file.arrayBuffer());
   const processed = await processPhoto(buffer);
@@ -115,6 +118,7 @@ export async function POST(request: NextRequest) {
       camera,
       takenAt,
       slug,
+      inGallery,
       createdAt: typeof createdAt === "string" && createdAt ? new Date(createdAt) : new Date(),
       ...(categorySlugs.length > 0 && {
         categories: {
@@ -155,6 +159,9 @@ export async function PUT(request: NextRequest) {
   const file = formData.get("image");
   const hasCategories = formData.has("categories");
   const categorySlugs = hasCategories ? parseCategorySlugs(formData.get("categories")) : [];
+  const hasInGallery = formData.has("inGallery");
+  const inGalleryRaw = formData.get("inGallery");
+  const inGallery = inGalleryRaw === "true" || inGalleryRaw === "1";
 
   let imageUrl = existing.image;
   let thumbUrl = (existing as any).thumbUrl as string | null;
@@ -199,6 +206,7 @@ export async function PUT(request: NextRequest) {
       camera,
       takenAt,
       ...(typeof createdAt === "string" && createdAt && { createdAt: new Date(createdAt) }),
+      ...(hasInGallery && { inGallery }),
       updatedAt: new Date(),
       ...(hasCategories && {
         categories: {

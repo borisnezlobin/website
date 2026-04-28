@@ -25,7 +25,7 @@ export default function SeriesIntro({ title, description, count }: Props) {
           {description}
         </p>
       )}
-      <p className="mt-8 text-[11px] uppercase tracking-[0.35em] text-muted dark:text-muted-dark">
+      <p className="mt-8 text-sm text-muted dark:text-muted-dark">
         {count} photo{count === 1 ? "" : "s"}
       </p>
       <CaretDownIcon

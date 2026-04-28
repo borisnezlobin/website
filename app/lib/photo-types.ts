@@ -13,6 +13,10 @@ export type Photo = {
   camera: string | null;
   takenAt: string | null;
   likes: number;
+  // Whether this photo appears on the main /photography page (canvas + gallery
+  // grid). Hidden photos are still used for mosaic tiles and can still belong
+  // to series.
+  inGallery: boolean;
   categorySlugs: string[];
 };
 
@@ -27,6 +31,7 @@ export type Category = {
 export type PhotoFeed = {
   photos: Photo[];
   categories: Category[];
+  series: SeriesSummary[];
 };
 
 export type SeriesSummary = {
@@ -35,6 +40,10 @@ export type SeriesSummary = {
   title: string;
   description: string;
   count: number;
+  // First few photos in series order — used to render a visual cover (e.g.,
+  // a layered photo stack) on the canvas and mobile series strip without
+  // requiring a separate fetch per series.
+  coverPhotos: Photo[];
 };
 
 export type Series = {

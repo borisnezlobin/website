@@ -69,6 +69,7 @@ model Photograph {
   takenAt     DateTime?
   likes       Int           @default(0)
   slug        String        @unique
+  inGallery   Boolean       @default(true)
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @default(now())
   categories  Category[]    @relation("PhotographCategories")
