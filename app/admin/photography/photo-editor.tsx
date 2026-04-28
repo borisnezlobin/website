@@ -249,7 +249,7 @@ export default function PhotoEditor({
                 {inGallery ? "Visible on /photography" : "Hidden from /photography"}
               </div>
               <p className="text-sm text-muted dark:text-muted-dark mt-1">
-                When hidden, this photo still appears in any series it belongs to and still feeds the mosaic tile pool — it just won't show on the main canvas or grid.
+                {"When hidden, this photo still appears in any series it belongs to and still feeds the mosaic tile pool — it just won't show on the main canvas or grid."}
               </p>
             </div>
             <button
