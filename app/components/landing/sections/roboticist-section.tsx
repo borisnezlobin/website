@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { FlagIcon, GameControllerIcon, UsersThreeIcon, WaveformIcon } from "@phosphor-icons/react/dist/ssr";
+import { FlagIcon, GameControllerIcon, GithubLogoIcon, UsersThreeIcon, WaveformIcon } from "@phosphor-icons/react/dist/ssr";
 import { useIsVisible } from "@/app/utils/use-is-visible";
 import { SectionLabel } from "./section-label";
 import Link from "next/link";
@@ -88,6 +88,22 @@ export function RoboticistSection() {
                                 Kuriosity Robotics (’22-25)
                             </Link>
                         </div>
+                    </div>
+
+                    <div className="w-full flex flex-wrap flex-row items-center justify-center gap-y-4 gap-x-4 top-16 relative">
+                            <p>
+                                Writeup of our 2026 season&rsquo;s software architecture now available!
+                            </p>
+                            <Link
+                                href="https://github.com/HeronRobotics/heron"
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                aria-label="View Heron Robotics on GitHub"
+                                className="inline-flex items-center gap-2 px-3 !text-[#25292E] dark:!text-[#FDFDFE] !bg-[#F6F8FA] dark:!bg-[#21262D] rounded-md border !border-[#D1D9E0] py-[5px] dark:!border-[#363B41] hover:!bg-[#E1E4E8] dark:hover:!bg-[#21262D]"
+                            >
+                                <GithubLogoIcon size={18} weight="fill" />
+                                <span>View on GitHub (9 min read)</span>
+                            </Link>
                     </div>
                 </div>
             </div>

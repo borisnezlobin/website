@@ -27,25 +27,25 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
                 }`}
             >
                 <div className="flex flex-col items-start">
-                    <span className="vectra text-5xl md:text-8xl leading-none">
+                    <span className="vectra text-5xl md:text-8xl leading-none text-muted dark:text-muted-dark">
                         I write things.
                     </span>
-                    <p className="text-muted dark:text-muted-dark mt-4 max-w-4xl">
+                    <p className="mt-4 max-w-4xl">
                         Sometimes I try to change the world—I helped reinstate multivariable calculus at my school with my writing!—and other times I
                         write the random thoughts I’ve got. I’m currently exploring creative writing in my free time :)
                     </p>
                 </div>
 
                 <div className="flex flex-col gap-0">
+                    <p className="text-muted dark:text-muted-dark emph">
+                        Recent articles
+                    </p>
                     {articles.slice(0, 3).map((article, i) => (
                         <Link
                             key={article.slug}
                             href={`/writing/${article.slug}`}
                             className="group w-full h-full flex flex-row items-baseline gap-4 py-4 border-b border-neutral-200 dark:border-neutral-800 first:border-t"
                         >
-                            <span className="emph text-muted dark:text-muted-dark text-sm tabular-nums">
-                                {String(i + 1).padStart(2, "0")}
-                            </span>
                             <div className="flex flex-col gap-1 flex-1 min-w-0">
                                 <p className="font-semibold text-lg group-hover:text-primary transition-colors duration-200 truncate">
                                     {article.title}
