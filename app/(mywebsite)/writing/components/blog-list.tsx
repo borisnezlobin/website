@@ -7,7 +7,6 @@ import BlogListItem from "./blog-list-item";
 import RandomQuote from "./random-quote";
 import { useState } from "react";
 import Age from "@/app/components/landing/age";
-import { CreativeBloom } from "./creative-bloom";
 import { InkscapeColoredSvg } from "@/app/utils/inkscape-colored-svg";
 
 const BlogList = ({
@@ -150,7 +149,6 @@ const BlogList = ({
                     </div>
                 )}
             </div> */}
-            {/* <CreativeBloom visible={showPersonalArticles} /> */}
             {articles.map((post) => {
                 if (post.isCreative !== showPersonalArticles) return null;
                 return (

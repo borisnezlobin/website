@@ -30,12 +30,12 @@ const NotFoundPage = ({ title = "Page not found" }: { title?: string }) => {
                     </Link>
                     <Separator />
                     <Link
-                        href="/blog"
-                        aria-label="Blog"
+                        href="/writing"
+                        aria-label="Writing"
                         className="flex flex-row group text-light-foreground dark:text-dark-foreground justify-center items-center"
                     >
                         <NewspaperIcon className={"w-6 h-6 " + linkClass} />
-                        <p className={"ml-2 " + linkClass}>Blog</p>
+                        <p className={"ml-2 " + linkClass}>Writing</p>
                     </Link>
                     <Separator />
                     <Link

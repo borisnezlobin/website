@@ -40,7 +40,7 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
                     {articles.slice(0, 3).map((article, i) => (
                         <Link
                             key={article.slug}
-                            href={`/blog/${article.slug}`}
+                            href={`/writing/${article.slug}`}
                             className="group w-full h-full flex flex-row items-baseline gap-4 py-4 border-b border-neutral-200 dark:border-neutral-800 first:border-t"
                         >
                             <span className="emph text-muted dark:text-muted-dark text-sm tabular-nums">
@@ -66,7 +66,7 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
                 </div>
 
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-                    <Link href="/blog" className="text-primary font-semibold hover:underline flex items-center gap-2">
+                    <Link href="/writing" className="text-primary font-semibold hover:underline flex items-center gap-2">
                         All articles <ArrowRightIcon weight="bold" size={14} />
                     </Link>
                     <Separator className="hidden sm:flex" />

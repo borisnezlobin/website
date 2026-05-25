@@ -24,7 +24,7 @@ const BlogListItem = ({
             }`}
         >
             <Link
-                href={`/blog/${post.slug}`}
+                href={`/writing/${post.slug}`}
                 suppressHydrationWarning
                 title={post.title}
             >
@@ -34,7 +34,7 @@ const BlogListItem = ({
                     </h2>
                 </div>
                 <p aria-hidden className="hidden print:block !text-muted dark:!text-muted-dark">
-                    https://borisnezlobin.com/blog/{post.slug}
+                    https://borisnezlobin.com/writing/{post.slug}
                 </p>
                 <p>{post.description}</p>
                 <ArticleDate

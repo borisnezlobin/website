@@ -30,8 +30,8 @@ const NotFound = () => {
                                         <Link href={"/"} className="link">
                                             Home.
                                         </Link>
-                                        <Link href={"/blog"} className="link">
-                                            Blog.
+                                        <Link href={"/writing"} className="link">
+                                            Writing.
                                         </Link>
                                         <Link href={"/projects"} className="link">
                                             Projects.

@@ -18,7 +18,7 @@ const SearchPage = () => {
                 <SearchBar />
                 <div className="mt-4 flex flex-row justify-center items-center gap-2">
                     <Link
-                        href="/blog"
+                        href="/writing"
                         className="link font-semibold"
                         aria-label="Go to blog"
                     >
