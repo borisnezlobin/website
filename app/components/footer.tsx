@@ -78,7 +78,7 @@ const Footer = () => {
                             <Separator />
                         </span>
                         <span>
-                            <LinkWithIcon title="Blog" href="/blog" Icon={Newspaper}>
+                            <LinkWithIcon title="Writing" href="/writing" Icon={Newspaper}>
                                 Writing
                             </LinkWithIcon>
                         </span>

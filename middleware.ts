@@ -7,7 +7,7 @@ const PRIMARY_HOSTS = new Set(["borisnezlobin.com", "www.borisnezlobin.com"]);
 // slugs. Anything containing a dot is also passed through (font files, etc.).
 // "p" is reserved so /p/{slug} resolves to the photo lightbox route.
 const RESERVED_PATHS = new Set([
-  "admin", "api", "_next", "blog", "notes", "projects", "contact",
+  "admin", "api", "_next", "blog", "writing", "notes", "projects", "contact",
   "photography", "p", "feed.xml", "sitemap.xml", "favicon.ico", "robots.txt",
 ]);
 

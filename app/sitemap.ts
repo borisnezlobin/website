@@ -7,7 +7,7 @@ import { existsSync, readFileSync } from 'fs';
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const blogs = await getBlogs();
     const blogRoutes = blogs.map((blog) => ({
-        url: `https://www.borisnezlobin.com/blog/${blog.slug}`,
+        url: `https://www.borisnezlobin.com/writing/${blog.slug}`,
         lastModified: blog.updatedAt,
     }));
 
@@ -58,7 +58,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
     const sitemap = [
         { url: 'https://www.borisnezlobin.com/' },
-        { url: 'https://www.borisnezlobin.com/blog' },
+        { url: 'https://www.borisnezlobin.com/writing' },
         { url: 'https://www.borisnezlobin.com/contact' },
         { url: 'https://www.borisnezlobin.com/projects' },
         { url: 'https://www.borisnezlobin.com/notes' },

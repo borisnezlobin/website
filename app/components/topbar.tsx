@@ -36,7 +36,7 @@ const TopBar: React.FC = () => {
             <Link href={"/"} className={`link`}>
                 Home.
             </Link>
-            <Link href={"/blog"} className={`link`}>
+            <Link href={"/writing"} className={`link`}>
                 Writing.
             </Link>
             <Link href={"/projects"} className={`link !hidden md:!block`}>

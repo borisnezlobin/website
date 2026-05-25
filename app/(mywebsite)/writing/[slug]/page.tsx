@@ -50,7 +50,7 @@ async function getDataForSlug(urlSlug: string) {
             uid = Math.random().toString(36).slice(2, 8);
             await db.article.update({ where: { slug: urlSlug }, data: { draftUid: uid } });
         }
-        redirect(`/blog/${urlSlug}-${uid}`);
+        redirect(`/writing/${urlSlug}-${uid}`);
     }
 
     // Try draft UID lookup: the URL is `slug-uid`, so split off the last segment
@@ -63,7 +63,7 @@ async function getDataForSlug(urlSlug: string) {
                 where: { slug: baseSlug, draftUid: uid },
             });
             if (draft) {
-                if (!draft.isDraft) redirect(`/blog/${baseSlug}`);
+                if (!draft.isDraft) redirect(`/writing/${baseSlug}`);
                 blogPost = draft;
             }
         }
@@ -76,8 +76,8 @@ async function getDataForSlug(urlSlug: string) {
             const cleanPost = await db.article.findUnique({ where: { slug: cleanSlug } });
             if (cleanPost) {
                 const target = cleanPost.isDraft && cleanPost.draftUid
-                    ? `/blog/${cleanSlug}-${cleanPost.draftUid}`
-                    : `/blog/${cleanSlug}`;
+                    ? `/writing/${cleanSlug}-${cleanPost.draftUid}`
+                    : `/writing/${cleanSlug}`;
                 redirect(target);
             }
         }
@@ -142,7 +142,7 @@ export default async function SingleBlogPage(
             <div className={`pagepad`}>
                 {post.image && <ArticleImageBg imageUrl={post.image} />}
                 <div className="absolute top-16 left-8">
-                    <BackToRouteLink href="/blog" className="gap-2 flex flex-row items-center justify-center hover:underline hover:text-primary dark:hover:text-primary-dark" text="All articles" />
+                    <BackToRouteLink href="/writing" className="gap-2 flex flex-row items-center justify-center hover:underline hover:text-primary dark:hover:text-primary-dark" text="All articles" />
                 </div>
                 
                 <div className={`flex flex-col ${post.image && "min-h-screen relative -top-20"}`}>
@@ -188,11 +188,11 @@ export default async function SingleBlogPage(
                 )}
                 <LinkButton
                     direction="left"
-                    aria-label="Back to Blog"
+                    aria-label="Back to Writing"
                     className="mt-8 print:hidden"
-                    href="/blog"
+                    href="/writing"
                 >
-                    Back to blog
+                    Back to writing
                 </LinkButton>
 
                 <h2 className="text-2xl mt-12 print:hidden">More articles</h2>

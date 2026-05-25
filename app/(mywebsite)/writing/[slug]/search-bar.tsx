@@ -16,7 +16,7 @@ const SearchBar = ({
     return (
         <form
             action={() => {
-                window.location.href = "/blog/search/" + search;
+                window.location.href = "/writing/search/" + search;
             }}
             className="mt-4 flex w-full flex-row items-center justify-center gap-2 flex-wrap print:hidden"
         >
