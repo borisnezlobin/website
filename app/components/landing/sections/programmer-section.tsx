@@ -51,15 +51,15 @@ export function ProgrammerSection() {
             >
                 <div className="flex flex-col gap-8">
                     <div className="flex flex-col items-start">
-                        <span className="vectra text-5xl md:text-7xl leading-tight">
+                        <span className="vectra text-5xl md:text-7xl leading-tight text-muted dark:text-muted-dark">
                             Building things.
                         </span>
-                        <p className="text-muted dark:text-muted-dark mt-3 max-w-2xl">
-                            I’m a programmer (in case that wasn’t obvious). I build things for fun, often, and focus on building things that are useful to other people.
+                        <p className="mt-3 max-w-4xl">
+                            I’m a programmer. I build things for fun, often, and focus on building things that are useful to other people!
                         </p>
                     </div>
 
-                    <div className="flex flex-col gap-6">
+                    <div className="flex flex-col gap-6 mt-8">
                         {currentProjects.map((project) => (
                             <Link
                                 key={project.title}
@@ -91,8 +91,8 @@ export function ProgrammerSection() {
                 </div>
 
                 <div className="flex flex-col gap-0">
-                    <p className="emph text-sm tracking-wider text-muted dark:text-muted-dark uppercase mb-4">
-                        Past Projects
+                    <p className="emph text-sm text-muted dark:text-muted-dark mb-4">
+                        Cool Projects
                     </p>
                     {pastProjects.map((project) => (
                         <Link
@@ -121,8 +121,8 @@ export function ProgrammerSection() {
                 </div>
 
                 <div className="flex flex-col gap-2">
-                    <p className="emph text-sm tracking-wider text-muted dark:text-muted-dark uppercase mb-2">
-                        Industry
+                    <p className="emph text-sm text-muted dark:text-muted-dark mb-2">
+                        Experience
                     </p>
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
                         <span className="font-bold text-lg">Lockheed Martin</span>
@@ -132,7 +132,7 @@ export function ProgrammerSection() {
                             {lockheedChips.map((chip) => (
                                 <span
                                     key={chip}
-                                    className={`text-xs px-3 py-1 rounded-full border ${chip.startsWith("*") ? "border-primary dark:border-primary-dark text-primary dark:text-primary-dark" : "border-neutral-300 dark:border-neutral-700 text-muted dark:text-muted-dark"}`}
+                                    className={`text-sm px-3 py-1 rounded-full border ${chip.startsWith("*") ? "border-primary dark:border-primary-dark text-primary dark:text-primary-dark" : "border-neutral-300 dark:border-neutral-700 text-muted dark:text-muted-dark"}`}
                                 >
                                     {chip.startsWith("*") ? (
                                         <em>{chip.slice(1)}</em>
@@ -143,10 +143,28 @@ export function ProgrammerSection() {
                             ))}
                         </div>
                     </div>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mt-4">
+                        <span className="text-muted dark:text-muted-dark">Nowadays, I freelance as a photographer and web developer:</span>
+                        <div className="flex flex-wrap gap-2">
+                            <span
+                                className={`text-sm px-3 py-1 rounded-full border border-neutral-300 dark:border-neutral-700 text-muted dark:text-muted-dark`}
+                            >
+                                <Link href="https://g.studio" target="_blank" rel="noopener noreferrer" className="flex flex-row gap-1 items-center hover:underline">
+                                    G Studio Productions
+                                    <ArrowSquareOutIcon size={12} className="inline-block ml-1" />
+                                </Link>
+                            </span>
+                            <span
+                                className={`text-sm px-3 py-1 rounded-full border border-neutral-300 dark:border-neutral-700 text-muted dark:text-muted-dark`}
+                            >
+                                Palo Alto Stanford Aquatics (in progress)
+                            </span>
+                        </div>
+                    </div>
                 </div>
 
                 <div className="flex flex-col gap-3">
-                    <p className="emph text-sm tracking-wider text-muted dark:text-muted-dark uppercase">
+                    <p className="emph text-sm text-muted dark:text-muted-dark">
                         Open Source
                     </p>
                     <HorizontalScroll>
