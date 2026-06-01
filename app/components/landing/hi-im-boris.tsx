@@ -3,12 +3,11 @@
 import { useEffect, useState, useRef } from "react";
 
 const badgeQuotes = [
-    "I code.",
-    "I love programming.",
     "I build cool things.",
     "I solve problems.",
-    "I learn new things.",
-    "I write stuff.",
+    "Writing cool stuff!",
+    "Working on secret tech @ UC Berkeley!",
+    "Tokenmaxxer? I barely know her.",
     "Drop the “The.”",
     "@b_nezlobin on Twitter.",
     "1% better every day.",
