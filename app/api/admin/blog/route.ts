@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { put } from "@vercel/blob";
 import { existsSync, readFileSync } from "fs";
 import path from "path";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import db from "@/app/lib/db";
 
 function checkAuth(request: NextRequest): boolean {
@@ -143,6 +143,7 @@ export async function POST(request: NextRequest) {
     },
   });
 
+  revalidateTag("blogs");
   revalidatePath(`/blog/${slug}`);
   if (updated.draftUid) {
     revalidatePath(`/blog/${slug}-${updated.draftUid}`);
@@ -209,6 +210,7 @@ export async function PUT(request: NextRequest) {
     select: POST_SELECT,
   });
 
+  revalidateTag("blogs");
   revalidatePath("/writing");
   revalidatePath(`/writing/${cleanSlug}`);
 

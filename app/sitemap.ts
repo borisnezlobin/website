@@ -3,7 +3,10 @@ import { getBlogs, getNotes, getProjects } from './lib/db-caches'
 import { getNoteSections } from './(mywebsite)/notes/getNoteSections';
 import getNoteMdxPath, { getNoteHTMLPath } from './utils/get-note-mdx-path';
 import { existsSync, readFileSync } from 'fs';
- 
+
+// Regenerate at most hourly; writes also bust the "blogs" cache tag for near-immediate refresh.
+export const revalidate = 3600;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     const blogs = await getBlogs();
     const blogRoutes = blogs.map((blog) => ({
