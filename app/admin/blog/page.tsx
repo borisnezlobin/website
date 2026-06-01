@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowLeft, FloppyDisk, Eye, CaretRight } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, FloppyDisk, Eye, CaretRight, Plus } from "@phosphor-icons/react/dist/ssr";
 import type { ArticleCategory } from "@/prisma/awooga/client";
 
 const CATEGORIES: ArticleCategory[] = ["TECHNICAL", "CREATIVE", "PERSONAL"];
@@ -29,6 +29,10 @@ export default function BlogAdminPage() {
   const [description, setDescription] = useState("");
   const [isDraft, setIsDraft] = useState(false);
   const [category, setCategory] = useState<ArticleCategory>("TECHNICAL");
+  const [creating, setCreating] = useState(false);
+  const [title, setTitle] = useState("");
+  const [slug, setSlug] = useState("");
+  const [slugEdited, setSlugEdited] = useState(false);
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -120,6 +124,53 @@ export default function BlogAdminPage() {
     }
   }
 
+  const slugify = (s: string) =>
+    s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+
+  function startNew() {
+    setSelectedPost(null);
+    setCreating(true);
+    setTitle("");
+    setSlug("");
+    setSlugEdited(false);
+    setDescription("");
+    setContent("");
+    setIsDraft(false);
+    setCategory("TECHNICAL");
+    setMessage(null);
+  }
+
+  async function createArticle() {
+    const cleanSlug = slug.trim();
+    if (!title.trim() || !cleanSlug) {
+      setMessage({ type: "error", text: "Title and slug are required" });
+      return;
+    }
+    setSaving(true);
+    setMessage(null);
+    try {
+      const res = await fetch("/api/admin/blog", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
+        body: JSON.stringify({ title: title.trim(), slug: cleanSlug, description, content, category, isDraft }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        const post: Post = data.post;
+        setPosts(prev => [post, ...prev]);
+        setSelectedPost(post);
+        setCreating(false);
+        setMessage({ type: "success", text: data.blobUrl ? `Created · ${data.blobUrl}` : "Created" });
+      } else {
+        setMessage({ type: "error", text: data.error || "Failed to create" });
+      }
+    } catch (e) {
+      setMessage({ type: "error", text: "Failed to create" });
+    } finally {
+      setSaving(false);
+    }
+  }
+
   function handleLogin(e: React.FormEvent) {
     e.preventDefault();
     localStorage.setItem("admin_password", password);
@@ -150,45 +201,78 @@ export default function BlogAdminPage() {
     );
   }
 
-  if (selectedPost) {
-    const previewHref = selectedPost.isDraft && selectedPost.draftUid
-      ? `/blog/${selectedPost.slug}-${selectedPost.draftUid}`
-      : `/blog/${selectedPost.slug}`;
+  if (selectedPost || creating) {
+    const editing = !!selectedPost;
+    const previewHref = editing
+      ? selectedPost!.isDraft && selectedPost!.draftUid
+        ? `/blog/${selectedPost!.slug}-${selectedPost!.draftUid}`
+        : `/blog/${selectedPost!.slug}`
+      : "#";
 
     return (
       <div className="min-h-screen bg-light-background dark:bg-dark-background p-4 md:p-8">
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-4 mb-6">
             <button
-              onClick={() => setSelectedPost(null)}
+              onClick={() => { setSelectedPost(null); setCreating(false); }}
               className="flex items-center gap-2 text-muted hover:text-black dark:hover:text-white transition-colors"
             >
               <ArrowLeft size={20} />
               Back
             </button>
-            <h1 className="text-xl font-semibold flex-1">{selectedPost.title}</h1>
-            <a
-              href={previewHref}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-3 py-1.5 text-sm text-muted hover:text-black dark:hover:text-white transition-colors"
-            >
-              <Eye size={18} />
-              Preview
-            </a>
+            <h1 className="text-xl font-semibold flex-1">{editing ? selectedPost!.title : "New article"}</h1>
+            {editing && (
+              <a
+                href={previewHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 px-3 py-1.5 text-sm text-muted hover:text-black dark:hover:text-white transition-colors"
+              >
+                <Eye size={18} />
+                Preview
+              </a>
+            )}
             <button
-              onClick={saveContent}
+              onClick={editing ? saveContent : createArticle}
               disabled={saving}
               className="flex items-center gap-2 px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-black rounded font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
             >
               <FloppyDisk size={18} />
-              {saving ? "Saving..." : "Save"}
+              {saving ? (editing ? "Saving..." : "Creating...") : (editing ? "Save" : "Create")}
             </button>
           </div>
 
           {message && (
             <div className={`mb-4 p-3 rounded text-sm ${message.type === "success" ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200" : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200"}`}>
               {message.text}
+            </div>
+          )}
+
+          {creating && (
+            <div className="flex flex-col sm:flex-row gap-4 mb-4">
+              <div className="flex flex-col gap-1 flex-1">
+                <label className="text-sm text-muted dark:text-muted-dark">Title</label>
+                <input
+                  value={title}
+                  onChange={(e) => {
+                    setTitle(e.target.value);
+                    if (!slugEdited) setSlug(slugify(e.target.value));
+                  }}
+                  className="w-full px-4 py-2 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded focus:outline-none focus:ring-2 focus:ring-neutral-400 text-sm"
+                  placeholder="Article title"
+                  autoFocus
+                />
+              </div>
+              <div className="flex flex-col gap-1 flex-1">
+                <label className="text-sm text-muted dark:text-muted-dark">Slug</label>
+                <input
+                  value={slug}
+                  onChange={(e) => { setSlug(e.target.value); setSlugEdited(true); }}
+                  className="w-full px-4 py-2 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded font-mono text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400"
+                  placeholder="article-slug"
+                />
+                <span className="text-xs text-muted">/writing/{slug || "…"}</span>
+              </div>
             </div>
           )}
 
@@ -229,12 +313,12 @@ export default function BlogAdminPage() {
                 </button>
               ))}
             </div>
-            {selectedPost.isDraft && selectedPost.draftUid && (
+            {editing && selectedPost!.isDraft && selectedPost!.draftUid && (
               <span className="text-xs text-muted font-mono">
-                draft URL: /blog/{selectedPost.slug}-{selectedPost.draftUid}
+                draft URL: /blog/{selectedPost!.slug}-{selectedPost!.draftUid}
               </span>
             )}
-            {selectedPost.isDraft && !selectedPost.draftUid && (
+            {editing && selectedPost!.isDraft && !selectedPost!.draftUid && (
               <span className="text-xs text-muted italic">UID generated on first save</span>
             )}
           </div>
@@ -260,16 +344,25 @@ export default function BlogAdminPage() {
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-semibold">Blog Admin</h1>
-          <button
-            onClick={() => {
-              localStorage.removeItem("admin_password");
-              setIsAuthed(false);
-              setPassword("");
-            }}
-            className="text-sm text-muted hover:text-black dark:hover:text-white transition-colors"
-          >
-            Logout
-          </button>
+          <div className="flex items-center gap-4">
+            <button
+              onClick={startNew}
+              className="flex items-center gap-2 px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-black rounded font-medium hover:opacity-90 transition-opacity"
+            >
+              <Plus size={18} weight="bold" />
+              New article
+            </button>
+            <button
+              onClick={() => {
+                localStorage.removeItem("admin_password");
+                setIsAuthed(false);
+                setPassword("");
+              }}
+              className="text-sm text-muted hover:text-black dark:hover:text-white transition-colors"
+            >
+              Logout
+            </button>
+          </div>
         </div>
 
         {loading ? (
