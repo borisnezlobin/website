@@ -9,19 +9,25 @@ datasource db {
   // directUrl = env("PROD_POSTGRES_URL_NON_POOLING")
 }
 
+enum ArticleCategory {
+  TECHNICAL
+  CREATIVE
+  PERSONAL
+}
+
 model Article {
-  id          String   @id @default(cuid())
+  id          String          @id @default(cuid())
   title       String
   description String
   body        String
   image       String?
-  slug        String   @unique
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @default(now())
+  slug        String          @unique
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @default(now())
   remoteURL   String?
-  views       Int      @default(0)
-  isDraft     Boolean  @default(false)
-  isCreative  Boolean  @default(false)
+  views       Int             @default(0)
+  isDraft     Boolean         @default(false)
+  category    ArticleCategory @default(TECHNICAL)
   draftUid    String?
 
   @@index([title], map: "articles_title")

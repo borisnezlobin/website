@@ -40,7 +40,7 @@ export async function GET(request: NextRequest) {
         createdAt: true,
         views: true,
         isDraft: true,
-        isCreative: true,
+        category: true,
         draftUid: true,
       },
     });
@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
       createdAt: true,
       views: true,
       isDraft: true,
-      isCreative: true,
+      category: true,
       draftUid: true,
     },
   });
@@ -93,7 +93,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { slug, content, isDraft, isCreative, description } = await request.json();
+  const { slug, content, isDraft, category, description } = await request.json();
 
   if (!slug || typeof content !== "string") {
     return NextResponse.json({ error: "Missing slug or content" }, { status: 400 });
@@ -121,7 +121,7 @@ export async function POST(request: NextRequest) {
       remoteURL: blob.url,
       updatedAt: new Date(),
       ...(isDraft !== undefined && { isDraft }),
-      ...(isCreative !== undefined && { isCreative }),
+      ...(category !== undefined && { category }),
       ...(typeof description === "string" && { description }),
       ...(draftUid && { draftUid }),
     },
@@ -136,7 +136,7 @@ export async function POST(request: NextRequest) {
     success: true,
     blobUrl: blob.url,
     isDraft: updated.isDraft,
-    isCreative: updated.isCreative,
+    category: updated.category,
     description: updated.description,
     draftUid: updated.draftUid,
   });

@@ -1,8 +1,8 @@
 "use client";
 
-import { InkscapeColoredSvg } from "@/app/utils/inkscape-colored-svg";
 import { DiceFiveIcon } from "@phosphor-icons/react/dist/ssr";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { QuoteShader } from "./quote-shader";
 
 
 const quotes = [
@@ -122,46 +122,25 @@ const quotes = [
 ];
 
 
-const RandomQuote: React.FC<{ visible?: boolean }> = ({ visible }) => {
+const RandomQuote: React.FC<{ visible?: boolean; sliced?: boolean }> = ({ visible, sliced }) => {
     const getRandomIndex = () => Math.floor(Math.random() * quotes.length);
-    const random = getRandomIndex();
-    const [index, setIndex] = useState(random);
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => setIndex(getRandomIndex()), []);
 
     return (
         <>
-            <center className="w-full print:hidden bg-dark-background dark:bg-light-background flex items-center justify-center relative p-2 md:py-8 mb-2 md:px-8 md:pb-12 h-48">
-                <p
-                    className="text-dark dark:text-light relative w-full font-semibold leading-tight text-center max-w-3xl overflow-hidden text-ellipsis"
-                    style={{
-                        fontSize: "clamp(0.25rem, 3vw, 1.5rem)",
-                        lineHeight: "1.2",
-                        overflowWrap: "break-word",
-                        wordWrap: "break-word",
-                        wordBreak: "break-word",
-                    }}
-                >
-                    {quotes[index].text}
-                </p>
-                <p className="text-muted-dark dark:text-muted pl-2 whitespace-nowrap emph absolute bottom-0 left-0 w-full text-center py-2 overflow-hidden text-ellipsis">
-                    {quotes[index].source}
-                </p>
-                <InkscapeColoredSvg
-                    strokeWidth={0.5}
-                    path="/drawings/cornerborder.svg"
-                    color="var(--text-color)"
-                    speed={100}
-                    className="hidden lg:block absolute h-full top-[-52.4%] right-[-14%]"
-                    visible={visible}
+            <center className="w-full print:hidden relative mb-2 h-48" style={{ overflow: "visible" }}>
+                <QuoteShader
+                    text={quotes[index].text}
+                    source={quotes[index].source}
+                    illustrated={!!visible}
+                    active={!!sliced}
+                    className="absolute inset-0"
                 />
-
-                <InkscapeColoredSvg
-                    // strokeWidth={0.5}
-                    path="/drawings/leftborder.svg"
-                    color="var(--text-color)"
-                    speed={100}
-                    className="hidden lg:block absolute h-[160%] top-[-13.5%] left-[-7.1%]"
-                    visible={visible}
-                />
+                <p className="sr-only">
+                    {quotes[index].text} — {quotes[index].source}
+                </p>
             </center>
             <div className="w-full flex items-center justify-center mb-6">
                 <p

@@ -1,35 +1,35 @@
 "use client";
 
-import { Article } from "@/prisma/awooga/client";
-import { SearchBar } from "../[slug]/search-bar";
-import Link from "next/link";
+import { Article, ArticleCategory } from "@/prisma/awooga/client";
 import BlogListItem from "./blog-list-item";
 import RandomQuote from "./random-quote";
 import { useState } from "react";
-import Age from "@/app/components/landing/age";
 import { InkscapeColoredSvg } from "@/app/utils/inkscape-colored-svg";
+
+const activeTab =
+    "bg-primary dark:bg-primary-dark text-light-background dark:text-dark-background border-primary dark:border-primary-dark";
+const inactiveTab =
+    "hover:bg-light-foreground/10 dark:hover:bg-dark-foreground/10 border-muted-dark/50 dark:border-muted/50";
 
 const BlogList = ({
     articles,
     title,
-    query = "",
 }: {
     articles: Article[];
     title?: string;
-    query?: string;
 }) => {
-    const [showPersonalArticles, setShowPersonalArticles] = useState(false);
-    const [showConfirmDialog, setShowConfirmDialog] = useState(false);
+    const [category, setCategory] = useState<ArticleCategory>("TECHNICAL");
+
+    // Non-technical tabs get the hand-drawn flourish; only Personal gets the slice shader.
+    const flourish = category !== "TECHNICAL";
+    const sliced = category === "PERSONAL";
 
     return (
-        <div
-            className="pagepad"
-            suppressHydrationWarning
-        >
-            {title ?
-                <h1 className={`text-3xl mt-8 mb-4`}>{title}</h1>
-            : (
-                <h1 className={`text-3xl mt-8 mb-6 font-normal`}>
+        <div className="pagepad" suppressHydrationWarning>
+            {title ? (
+                <h1 className="text-3xl mt-8 mb-4">{title}</h1>
+            ) : (
+                <h1 className="text-3xl mt-8 mb-6 font-normal">
                     My&nbsp;
                     <span className="text-5xl vectra relative">
                         Writing.
@@ -39,29 +39,14 @@ const BlogList = ({
                             path="/drawings/underline.svg"
                             color="var(--text-color)"
                             className="absolute w-[120%] top-[0.825em] left-0"
-                            visible={showPersonalArticles}
+                            visible={flourish}
                         />
                     </span>
                 </h1>
             )}
-            <RandomQuote visible={showPersonalArticles} />
-            {/* <SearchBar query={query}>
-                <p className="text-muted dark:text-muted-dark print:mb-4">
-                {query && (
-                    <>
-                    <Link
-                        href="/blog"
-                        className="link font-semibold"
-                        title="Clear search"
-                    >
-                        Clear search
-                    </Link>
-                    <span className="text-muted dark:text-muted-dark">{" • "}</span>
-                    </>
-                )}
-                Showing {articles.length} article{articles.length == 1 ? " " : "s "}
-                </p>
-            </SearchBar> */}
+
+            <RandomQuote visible={flourish} sliced={sliced} />
+
             <div className="mt-12 w-full flex flex-row items-center justify-center mb-6 print:hidden">
                 <div className="rounded flex flex-row items-center justify-center relative">
                     <InkscapeColoredSvg
@@ -70,90 +55,32 @@ const BlogList = ({
                         path="/drawings/technicalcreativewrapper.svg"
                         color="var(--primary)"
                         className="absolute pointer-events-none z-10 w-[129%] translate-y-px right-[-2px]"
-                        visible={showPersonalArticles}
+                        visible={flourish}
                     />
                     <button
-                        className={`px-4 py-1 rounded-l border  ${!showPersonalArticles ? 'bg-primary dark:bg-primary-dark text-light-background dark:text-dark-background border-primary dark:border-primary-dark' : 'hover:bg-light-foreground/10 dark:hover:bg-dark-foreground/10 border-muted-dark/50 dark:border-muted/50'}`}
-                        onClick={() => setShowPersonalArticles(false)}
+                        className={`px-4 py-1 rounded-l border ${category === "TECHNICAL" ? activeTab : inactiveTab}`}
+                        onClick={() => setCategory("TECHNICAL")}
                     >
                         Technical
                     </button>
                     <button
-                        className={`relative -left-px px-4 py-1 rounded-r border ${showPersonalArticles ? 'bg-primary dark:bg-primary-dark text-light-background dark:text-dark-background border-primary dark:border-primary-dark' : 'hover:bg-light-foreground/10 dark:hover:bg-dark-foreground/10 border-muted-dark/50 dark:border-muted/50'}`}
-                        onClick={() => setShowPersonalArticles(true)}
+                        className={`relative -left-px px-4 py-1 border ${category === "CREATIVE" ? activeTab : inactiveTab}`}
+                        onClick={() => setCategory("CREATIVE")}
                     >
                         Creative
                     </button>
+                    <button
+                        className={`relative -left-[2px] px-4 py-1 rounded-r border ${category === "PERSONAL" ? activeTab : inactiveTab}`}
+                        onClick={() => setCategory("PERSONAL")}
+                    >
+                        Personal
+                    </button>
                 </div>
             </div>
-            {/* <div className="mb-4 w-full flex justify-start print:hidden">
-                <label className="inline-flex items-center cursor-pointer group">
-                    <div className="relative">
-                        <input
-                            type="checkbox"
-                            className="sr-only hidden"
-                            checked={showPersonalArticles}
-                            onChange={() => {
-                                if (!showPersonalArticles) {
-                                    setShowConfirmDialog(true);
-                                } else {
-                                    setShowPersonalArticles(false);
-                                }
-                            }}
-                        />
-                        <div className={`w-5 h-5 border-2 rounded transition-all duration-200 ${
-                            showPersonalArticles 
-                                ? 'bg-primary dark:bg-primary-dark border-primary dark:border-primary-dark' 
-                                : 'border-muted dark:border-muted-dark group-hover:border-primary dark:group-hover:border-primary-dark'
-                        }`}>
-                            {showPersonalArticles && (
-                                <svg className="w-3 h-3 text-white dark:text-dark-background m-0.5" viewBox="0 0 20 20" fill="currentColor">
-                                    <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
-                                </svg>
-                            )}
-                        </div>
-                    </div>
-                    <span className="ml-3 text-light dark:text-dark group-hover:text-primary dark:group-hover:text-primary-dark transition-colors duration-200">
-                        Show personal articles
-                    </span>
-                </label>
-                
-                {showConfirmDialog && (
-                    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
-                        <div className="bg-light-background dark:bg-dark-background border border-muted dark:border-muted-dark rounded-lg p-6 max-w-md w-full shadow-lg">
-                            <h3 className="text-lg font-semibold mb-3">
-                                Are you <i>sure</i> about that?
-                            </h3>
-                            <p className="text-muted dark:text-muted-dark mb-4 leading-relaxed">
-                                <i>Really</i> sure? Keep in mind that my personal articles are <b>word barf that landed on the page in paragraphs</b> (all of which are informal, unrevised, full of typos. and et cetera.).<br /><br />
-                                Like, they’re long-form Tweets. By me, a <Age />-year-old. They are here for fun and are <b>not meant to impress anyone</b>.
-                            </p>
-                            <div className="flex gap-3 justify-end">
-                                <button
-                                    onClick={() => setShowConfirmDialog(false)}
-                                    className="px-4 py-2 text-muted dark:text-muted-dark hover:text-light dark:hover:text-dark transition-colors duration-200"
-                                >
-                                    Cancel
-                                </button>
-                                <button
-                                    onClick={() => {
-                                        setShowPersonalArticles(true);
-                                        setShowConfirmDialog(false);
-                                    }}
-                                    className="px-4 py-2 bg-primary dark:bg-primary-dark text-white rounded hover:opacity-90 transition-opacity duration-200"
-                                >
-                                    I don’t value my sanity.
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </div> */}
+
             {articles.map((post) => {
-                if (post.isCreative !== showPersonalArticles) return null;
-                return (
-                    <BlogListItem post={post} inGrid={false} key={post.id} />
-                );
+                if (post.category !== category) return null;
+                return <BlogListItem post={post} inGrid={false} key={post.id} />;
             })}
         </div>
     );

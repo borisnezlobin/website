@@ -22,7 +22,6 @@ const SearchResultsPage = async ({ params }: { params: Promise<{ query: string }
         <BlogList
             articles={posts}
             title={`Search "${query}"`}
-            query={query}
         />
     );
 };
