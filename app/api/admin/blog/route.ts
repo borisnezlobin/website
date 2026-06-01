@@ -144,9 +144,9 @@ export async function POST(request: NextRequest) {
   });
 
   revalidateTag("blogs");
-  revalidatePath(`/blog/${slug}`);
+  revalidatePath(`/writing/${slug}`);
   if (updated.draftUid) {
-    revalidatePath(`/blog/${slug}-${updated.draftUid}`);
+    revalidatePath(`/writing/${slug}-${updated.draftUid}`);
   }
 
   return NextResponse.json({

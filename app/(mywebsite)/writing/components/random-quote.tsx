@@ -118,6 +118,30 @@ const quotes = [
     }, {
         text: "You are not invited to the other side of sanity.",
         source: "ET, Katy Perry"
+    }, {
+        text: "Only I could have lived this life.",
+        source: "Boris Nezlobin"
+    }, {
+        text: "I’m not a writer, I’m a choir filled with coke lines.",
+        source: "The Landing, Apashe & Wasiu"
+    }, {
+        text: "Smoke weed every day.",
+        source: "The Next Episode, Dr. Dre"
+    }, {
+        text: "(What NWA said)",
+        source: "NWA"
+    }, {
+        text: "It’s this, the high life. The mountains stood in the distance, still watching...",
+        source: "This The High Life, Boris Nezlobin"
+    }, {
+        text: "And we will never be alone again, because it doesn’t happen every day.",
+        source: "Instant Crush, Daft Punk"
+    }, {
+        text: "If you ask, lost my soul / Drivin’ fast, lost control / Off the road, jaw was broke / ’Member we all was broke / ’Member I’m comin’ back / I’ll be takin’ all the stacks, oh",
+        source: "Pt. 2, Ye"
+    }, {
+        text: "It’s 4a.m. and I can’t sleep.",
+        source: "Coldest Winter, Ye"
     }
 ];
 
