@@ -54,7 +54,7 @@ const BlogList = ({
                         speed={75}
                         path="/drawings/technicalcreativewrapper.svg"
                         color="var(--primary)"
-                        className="absolute pointer-events-none z-10 w-[129%] translate-y-px right-[-2px]"
+                        className="absolute pointer-events-none z-10 w-[129%] scale-y-[0.7] translate-y-px right-[-2px]"
                         visible={flourish}
                     />
                     <button

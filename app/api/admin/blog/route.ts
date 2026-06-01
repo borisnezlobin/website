@@ -21,6 +21,22 @@ function generateDraftUid(): string {
   return Math.random().toString(36).slice(2, 8);
 }
 
+const CATEGORIES = ["TECHNICAL", "CREATIVE", "PERSONAL"] as const;
+type Category = (typeof CATEGORIES)[number];
+
+const POST_SELECT = {
+  id: true,
+  title: true,
+  slug: true,
+  description: true,
+  remoteURL: true,
+  createdAt: true,
+  views: true,
+  isDraft: true,
+  category: true,
+  draftUid: true,
+} as const;
+
 export async function GET(request: NextRequest) {
   if (!checkAuth(request)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
@@ -140,4 +156,61 @@ export async function POST(request: NextRequest) {
     description: updated.description,
     draftUid: updated.draftUid,
   });
+}
+
+export async function PUT(request: NextRequest) {
+  if (!checkAuth(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const { title, slug, description, content, category, isDraft } = await request.json();
+
+  const cleanTitle = typeof title === "string" ? title.trim() : "";
+  const cleanSlug = typeof slug === "string" ? slug.trim() : "";
+
+  if (!cleanTitle || !cleanSlug) {
+    return NextResponse.json({ error: "Title and slug are required" }, { status: 400 });
+  }
+  if (!/^[a-z0-9-]+$/.test(cleanSlug)) {
+    return NextResponse.json({ error: "Slug may only contain lowercase letters, numbers, and hyphens" }, { status: 400 });
+  }
+
+  const existing = await db.article.findUnique({ where: { slug: cleanSlug } });
+  if (existing) {
+    return NextResponse.json({ error: "An article with that slug already exists" }, { status: 409 });
+  }
+
+  const html = typeof content === "string" ? content : "";
+  const cat: Category = CATEGORIES.includes(category) ? category : "TECHNICAL";
+  const draftUid = isDraft ? generateDraftUid() : null;
+
+  let remoteURL: string | null = null;
+  if (html.trim()) {
+    const blob = await put(`blog/${cleanSlug}.html`, html, {
+      allowOverwrite: true,
+      access: "public",
+      addRandomSuffix: false,
+      contentType: "text/html",
+    });
+    remoteURL = blob.url;
+  }
+
+  const created = await db.article.create({
+    data: {
+      title: cleanTitle,
+      slug: cleanSlug,
+      description: typeof description === "string" ? description : "",
+      body: "",
+      category: cat,
+      isDraft: !!isDraft,
+      ...(remoteURL && { remoteURL }),
+      ...(draftUid && { draftUid }),
+    },
+    select: POST_SELECT,
+  });
+
+  revalidatePath("/writing");
+  revalidatePath(`/writing/${cleanSlug}`);
+
+  return NextResponse.json({ success: true, post: created, blobUrl: remoteURL });
 }
