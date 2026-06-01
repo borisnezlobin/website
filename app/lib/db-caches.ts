@@ -19,7 +19,7 @@ const getBlogsWithoutCache = async () => {
     });
 }
 
-const getBlogs = wrapWithCache(getBlogsWithoutCache);
+const getBlogs = wrapWithCache(getBlogsWithoutCache, ["blogs"]);
 
 const getPhotographsWithoutCache = async () => {
     return await db.photograph.findMany({
@@ -76,7 +76,7 @@ const getBlogWithoutCache = async (slug: string) => {
     });
 }
 
-const getBlog = wrapWithCache(getBlogWithoutCache);
+const getBlog = wrapWithCache(getBlogWithoutCache, ["blogs"]);
 
 const getSimilarPostsWithoutCache = async (slug: string) => {
     return await db.article.findMany({
@@ -88,7 +88,7 @@ const getSimilarPostsWithoutCache = async (slug: string) => {
     });
 }
 
-const getSimilarPosts = wrapWithCache(getSimilarPostsWithoutCache);
+const getSimilarPosts = wrapWithCache(getSimilarPostsWithoutCache, ["blogs"]);
 
 const getNotesWithoutCache = async () => {
     return db.note.findMany();
