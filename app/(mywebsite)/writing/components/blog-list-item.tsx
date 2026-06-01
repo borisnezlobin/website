@@ -12,8 +12,6 @@ const BlogListItem = ({
     post: Article;
     inGrid: boolean;
 }) => {
-    const isPersonal = post.isCreative;
-
     return (
         <div
             key={post.id}

@@ -2,6 +2,10 @@
 
 import { useState, useEffect } from "react";
 import { ArrowLeft, FloppyDisk, Eye, CaretRight } from "@phosphor-icons/react/dist/ssr";
+import type { ArticleCategory } from "@/prisma/awooga/client";
+
+const CATEGORIES: ArticleCategory[] = ["TECHNICAL", "CREATIVE", "PERSONAL"];
+const titleCase = (c: ArticleCategory) => c[0] + c.slice(1).toLowerCase();
 
 type Post = {
   id: string;
@@ -12,7 +16,7 @@ type Post = {
   createdAt: string;
   views: number;
   isDraft: boolean;
-  isCreative: boolean;
+  category: ArticleCategory;
   draftUid: string | null;
 };
 
@@ -24,7 +28,7 @@ export default function BlogAdminPage() {
   const [content, setContent] = useState("");
   const [description, setDescription] = useState("");
   const [isDraft, setIsDraft] = useState(false);
-  const [isCreative, setIsCreative] = useState(false);
+  const [category, setCategory] = useState<ArticleCategory>("TECHNICAL");
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
@@ -64,7 +68,7 @@ export default function BlogAdminPage() {
   async function selectPost(post: Post) {
     setSelectedPost(post);
     setIsDraft(post.isDraft);
-    setIsCreative(post.isCreative);
+    setCategory(post.category);
     setDescription(post.description ?? "");
     setContent("");
     setLoading(true);
@@ -92,14 +96,14 @@ export default function BlogAdminPage() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${password}`,
         },
-        body: JSON.stringify({ slug: selectedPost.slug, content, isDraft, isCreative, description }),
+        body: JSON.stringify({ slug: selectedPost.slug, content, isDraft, category, description }),
       });
       const data = await res.json();
       if (data.success) {
         const updatedPost: Post = {
           ...selectedPost,
           isDraft: data.isDraft,
-          isCreative: data.isCreative,
+          category: data.category,
           description: data.description ?? description,
           draftUid: data.draftUid,
         };
@@ -209,15 +213,22 @@ export default function BlogAdminPage() {
               />
               <span className="text-sm">Draft</span>
             </label>
-            <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={isCreative}
-                onChange={(e) => setIsCreative(e.target.checked)}
-                className="w-4 h-4 accent-neutral-900 dark:accent-white"
-              />
-              <span className="text-sm">Creative</span>
-            </label>
+            <div className="flex items-center gap-1 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
+              {CATEGORIES.map((c) => (
+                <button
+                  key={c}
+                  type="button"
+                  onClick={() => setCategory(c)}
+                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                    category === c
+                      ? "bg-neutral-900 dark:bg-white text-white dark:text-black"
+                      : "text-muted hover:text-black dark:hover:text-white"
+                  }`}
+                >
+                  {titleCase(c)}
+                </button>
+              ))}
+            </div>
             {selectedPost.isDraft && selectedPost.draftUid && (
               <span className="text-xs text-muted font-mono">
                 draft URL: /blog/{selectedPost.slug}-{selectedPost.draftUid}
@@ -275,7 +286,8 @@ export default function BlogAdminPage() {
                   <div className="flex items-center gap-2">
                     <span className="font-medium truncate">{post.title}</span>
                     {post.isDraft && <span className="text-xs px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 flex-shrink-0">Draft</span>}
-                    {post.isCreative && <span className="text-xs px-1.5 py-0.5 rounded bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 flex-shrink-0">Creative</span>}
+                    {post.category === "CREATIVE" && <span className="text-xs px-1.5 py-0.5 rounded bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 flex-shrink-0">Creative</span>}
+                    {post.category === "PERSONAL" && <span className="text-xs px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300 flex-shrink-0">Personal</span>}
                   </div>
                   <div className="text-sm text-muted truncate">{post.description}</div>
                   <div className="text-xs text-muted mt-1">
