@@ -5,6 +5,8 @@ import BlogListItem from "./blog-list-item";
 import RandomQuote from "./random-quote";
 import { useState } from "react";
 import { InkscapeColoredSvg } from "@/app/utils/inkscape-colored-svg";
+import Soyjak from "@/app/components/soyjak";
+import { XIcon } from "@phosphor-icons/react/dist/ssr";
 
 const activeTab =
     "bg-primary dark:bg-primary-dark text-light-background dark:text-dark-background border-primary dark:border-primary-dark";
@@ -18,9 +20,8 @@ const BlogList = ({
     articles: Article[];
     title?: string;
 }) => {
+    const [aiWarning, setAiWarning] = useState(true);
     const [category, setCategory] = useState<ArticleCategory>("TECHNICAL");
-
-    // Non-technical tabs get the hand-drawn flourish; only Personal gets the slice shader.
     const flourish = category !== "TECHNICAL";
     const sliced = category === "PERSONAL";
 
@@ -77,6 +78,28 @@ const BlogList = ({
                     </button>
                 </div>
             </div>
+
+            {aiWarning && (
+                <div className="group w-full flex flex-row items-start justify-center gap-4 my-6">
+                    <p className="text-center mt-2">
+                            <span className="text-lg">
+                                0% AI-generated, 100% Absolutely Incredible.
+                            </span><br />
+                        <span className="text-muted dark:text-muted-dark">
+                            I even drew this Soyjak myself in Inkscape :)
+                        </span>
+                    </p>
+                    <Soyjak className="w-24" />
+
+                    <button
+                        className="hover:underline opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-row items-center gap-1 text-muted dark:text-muted-dark"
+                        onClick={() => setAiWarning(false)}
+                    >
+                        <XIcon className="pt-0.5" />
+                        Dismiss
+                    </button>
+                </div>
+            )}
 
             {articles.map((post) => {
                 if (post.category !== category) return null;
