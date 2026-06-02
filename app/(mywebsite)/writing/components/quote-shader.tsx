@@ -15,6 +15,12 @@ const AMP_FRAC = 0.013;
 // The text/source feel the shader at this fraction of the rectangle's strength.
 const TEXT_EFFECT = 0.2;
 
+// The rectangle fills the BlogList content column: max-w-6xl (1152) minus the
+// pagepad's p-8 (64) = 1088 at its widest. The illustrations hang off the rectangle by
+// a fixed distance — a fraction of THIS full width, not of the live width — so they
+// stay pinned to the corners as the column narrows instead of drifting inward.
+const RECT_MAX_WIDTH = 1088;
+
 const ILLUSTRATIONS = [
     {
         path: "/drawings/cornerborder.svg",
@@ -22,7 +28,7 @@ const ILLUSTRATIONS = [
         place: (w: number, h: number) => {
             const ch = h;
             const cw = ch * (132.89981 / 49.860859);
-            return { cx: w + 0.14 * w - cw, cy: -0.524 * h, cw, ch };
+            return { cx: w + 0.14 * RECT_MAX_WIDTH - cw - 2, cy: -0.524 * h, cw, ch };
         },
     },
     {
@@ -31,7 +37,9 @@ const ILLUSTRATIONS = [
         place: (w: number, h: number) => {
             const ch = 1.6 * h;
             const cw = ch * (117.12772 / 149.53333);
-            return { cx: -0.071 * w, cy: -0.135 * h, cw, ch };
+            // Raised by one rendered stroke width so the top edge sits flush.
+            const strokePx = 0.7 * (ch / 149.53333);
+            return { cx: -0.071 * RECT_MAX_WIDTH, cy: -0.135 * h - strokePx, cw, ch };
         },
     },
 ];
