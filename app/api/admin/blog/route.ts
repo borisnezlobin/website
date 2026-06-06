@@ -4,6 +4,7 @@ import { existsSync, readFileSync } from "fs";
 import path from "path";
 import { revalidatePath, revalidateTag } from "next/cache";
 import db from "@/app/lib/db";
+import { extractImagesToR2 } from "@/app/lib/blog-images";
 
 function checkAuth(request: NextRequest): boolean {
   const authHeader = request.headers.get("Authorization");
@@ -124,7 +125,9 @@ export async function POST(request: NextRequest) {
   // Generate a draftUid if this is being saved as a draft and doesn't have one yet
   const draftUid = isDraft && !post.draftUid ? generateDraftUid() : post.draftUid;
 
-  const blob = await put(`blog/${slug}.html`, content, {
+  const { html: processedContent } = await extractImagesToR2(slug, content);
+
+  const blob = await put(`blog/${slug}.html`, processedContent, {
     allowOverwrite: true,
     access: "public",
     addRandomSuffix: false,
@@ -187,7 +190,8 @@ export async function PUT(request: NextRequest) {
 
   let remoteURL: string | null = null;
   if (html.trim()) {
-    const blob = await put(`blog/${cleanSlug}.html`, html, {
+    const { html: processedHtml } = await extractImagesToR2(cleanSlug, html);
+    const blob = await put(`blog/${cleanSlug}.html`, processedHtml, {
       allowOverwrite: true,
       access: "public",
       addRandomSuffix: false,
