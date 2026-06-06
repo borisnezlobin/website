@@ -288,15 +288,30 @@ export default function BlogAdminPage() {
           </div>
 
           <div className="flex items-center gap-6 mb-4">
-            <label className="flex items-center gap-2 cursor-pointer select-none">
-              <input
-                type="checkbox"
-                checked={isDraft}
-                onChange={(e) => setIsDraft(e.target.checked)}
-                className="w-4 h-4 accent-neutral-900 dark:accent-white"
-              />
-              <span className="text-sm">Draft</span>
-            </label>
+            <div className="flex items-center gap-1 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
+              <button
+                type="button"
+                onClick={() => setIsDraft(false)}
+                className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                  !isDraft
+                    ? "bg-neutral-900 dark:bg-white text-white dark:text-black"
+                    : "text-muted hover:text-black dark:hover:text-white"
+                }`}
+              >
+                Published
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsDraft(true)}
+                className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
+                  isDraft
+                    ? "bg-amber-600 dark:bg-amber-500 text-white dark:text-black"
+                    : "text-muted hover:text-black dark:hover:text-white"
+                }`}
+              >
+                Draft
+              </button>
+            </div>
             <div className="flex items-center gap-1 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
               {CATEGORIES.map((c) => (
                 <button

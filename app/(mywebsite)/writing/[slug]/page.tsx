@@ -104,7 +104,19 @@ async function getDataForSlug(urlSlug: string) {
 
 export async function generateMetadata({ params }: { params: Promise<BlogPageParams> }): Promise<Metadata> {
     const { slug } = await params;
-    const post = await getBlog(slug);
+    let post = await getBlog(slug);
+
+    if (!post) {
+        const lastDash = slug.lastIndexOf("-");
+        if (lastDash !== -1) {
+            const baseSlug = slug.slice(0, lastDash);
+            const uid = slug.slice(lastDash + 1);
+            const draft = await db.article.findFirst({
+                where: { slug: baseSlug, draftUid: uid },
+            });
+            if (draft) post = draft;
+        }
+    }
 
     if (!post) {
         return getMetadata({

@@ -142,6 +142,9 @@ const quotes = [
     }, {
         text: "It’s 4a.m. and I can’t sleep.",
         source: "Coldest Winter, Ye"
+    }, {
+        text: "When I die, they’ll read this and say a genius wrote it.",
+        source: "50 Cent"
     }
 ];
 
