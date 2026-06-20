@@ -1,0 +1,53 @@
+{
+  "staircases": [
+    {
+      "file": "IMG_6619",
+      "caption": "A clean built flight: low, wide treads fronted by a kerb of round stones. The kind I counted without hesitation.",
+      "spec": { "steps": 5, "rise": 0.5, "run": 1.6, "width": 4.4, "jitter": 0.35, "meander": 0.25, "seed": 6619 }
+    },
+    {
+      "file": "IMG_6681",
+      "caption": "A stepped stone ramp paved with rounded cobbles — more incline than staircase, but the risers are real.",
+      "spec": { "steps": 8, "rise": 0.42, "run": 1.3, "width": 3.2, "jitter": 0.45, "meander": 0.5, "seed": 6681 }
+    },
+    {
+      "file": "IMG_6682",
+      "caption": "Big irregular blocks making a few deep steps. Every one a different size — counted, but a headache to count.",
+      "spec": { "steps": 4, "rise": 0.7, "run": 1.5, "width": 3.4, "jitter": 0.6, "meander": 0.35, "seed": 6682 }
+    },
+    {
+      "file": "IMG_6688",
+      "caption": "A rough, narrow flight climbing through cloud forest — uneven enough that two people might count it differently.",
+      "spec": { "steps": 11, "rise": 0.55, "run": 1.0, "width": 2.6, "jitter": 0.55, "meander": 0.6, "seed": 6688 }
+    },
+    {
+      "file": "IMG_6699",
+      "caption": "The long climb: dozens of uneven risers vanishing into the mist — with the count notebook in the corner of the frame.",
+      "spec": { "steps": 22, "rise": 0.5, "run": 0.85, "width": 2.4, "jitter": 0.5, "meander": 0.7, "seed": 6699 }
+    }
+  ],
+  "paving": [
+    { "file": "IMG_6683", "caption": "Cobbled paving from above — flat enough that it's a path, not a stair." },
+    { "file": "IMG_6684", "caption": "A gentle cobbled ramp. Some risers, but mostly walking grade." },
+    { "file": "IMG_6685", "caption": "Rounded cobbles set into the slope — the boundary case between step and path." },
+    { "file": "IMG_6686", "caption": "Paved trail through the cloud forest. Counted only where a real riser showed up." },
+    { "file": "IMG_6687", "caption": "Neat dry-stone paving. Lovely work, but flat — these don't add to the count." }
+  ],
+  "notSteps": [
+    { "file": "IMG_6608", "caption": "A single stone bar laid across the dirt. One lone edging stone — not a flight, didn't count it." },
+    { "file": "IMG_6609", "caption": "Loose rocky scramble. Stones underfoot, but nothing built — not steps." },
+    { "file": "IMG_6617", "caption": "Rounded stones half-buried in a dirt ramp. Worn past the point of being a step." },
+    { "file": "IMG_6618", "caption": "Flat dirt with one faint buried stone. The kind of thing I deliberately did not count." }
+  ],
+  "counting": [
+    { "file": "IMG_6603", "caption": "The overlook above the Urubamba — notebook and boot in the frame, mid-count.", "kind": "image" },
+    { "file": "IMG_6630", "caption": "The day's tallies, held up against the peaks.", "kind": "image" },
+    { "file": "IMG_6631", "caption": "Counting columns, mountains behind.", "kind": "image" },
+    { "file": "IMG_6632", "caption": "Another page of the running count, on the way to the pass.", "kind": "image" },
+    { "file": "IMG_6709", "caption": "Pages dense with tallies — every flight, section by section.", "kind": "image" },
+    { "file": "IMG_6717", "caption": "The count over a vast morning valley near the end of the trail.", "kind": "image" },
+    { "file": "IMG_6689", "caption": "Counting in the rain near the high pass, paper in hand.", "kind": "image" },
+    { "file": "IMG_6693", "caption": "Cloud, drizzle, and a stubborn tally that day.", "kind": "image" },
+    { "file": "IMG_6694", "caption": "Walking and counting in the rain — a few seconds from the trail.", "kind": "video" }
+  ]
+}
