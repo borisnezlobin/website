@@ -66,6 +66,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         { url: 'https://www.borisnezlobin.com/projects' },
         { url: 'https://www.borisnezlobin.com/notes' },
         { url: 'https://www.borisnezlobin.com/wrisk' },
+        { url: 'https://www.borisnezlobin.com/inca' },
         ...blogRoutes,
         ...projectRoutes,
         ...noteRoutes,

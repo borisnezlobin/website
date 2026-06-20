@@ -1,0 +1,25 @@
+┌──────────────────────────────┬──────────────────┬─────────┐
+│             Camp             │ Topo (SRTM 30 m) │  Yours  │
+├──────────────────────────────┼──────────────────┼─────────┤
+│ Day 1 (km 11, Wayllabamba)   │ 3,030 m          │ 3,000 m │
+├──────────────────────────────┼──────────────────┼─────────┤
+│ Day 2 (km 18.7, Pacaymayo)   │ 3,585 m          │ 3,595 m │
+├──────────────────────────────┼──────────────────┼─────────┤
+│ Day 3 (km 29.3, Wiñay Wayna) │ 2,698 m          │ 2,679 m │
+└──────────────────────────────┴──────────────────┴─────────┘
+
+Claude used a hiker's GPS data to query an elevation API to (a) verify my elevation numbers
+(which were posted on the trail by signs, but still worth verifying) and (b) construct a full elevation
+map of the trail (at 30m resolution, since I'm broke).
+
+# The Length
+
+It's ~34 km, not 43. This is now ironclad — four independent things agree:
+  - A firsthand 6,364-point GPS recording = 34.31 km (a recording that dense cannot be "missing switchbacks").       
+  - The Ministry of Culture's OSM track = 36 km.
+  - Your camp elevations match topo at the GPS camp coordinates within 10–30 m.
+  - Your "50% at the pass" note = km 16.4 of 34 km = 48%.
+
+The famous "43 km" is just the romanticized figure (sources range 39–52 km with no consensus; operator per-day     
+numbers sum to 52). Day-by-day from the GPS camps: D1 11 km → D2 7.7 km (over the pass) → D3 10.6 km → D4 4.7 km.  
+I'll anchor the page to the accurate ~34 km and note "often cited as 43 km" so it still matches searches.
