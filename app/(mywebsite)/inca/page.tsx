@@ -19,9 +19,6 @@ import { Faq } from "./components/Faq";
 const trail = trailData as unknown as Trail;
 const photos = photoData as PhotoManifest;
 
-// Merge hand-traced models (dropped into data/models) with the procedural
-// stand-ins: each staircase shows its traced model if one exists, otherwise a
-// generated placeholder — so the lab stays full and improves as you trace.
 function buildStairItems(): StairItem[] {
   const byPhoto = new Map(loadModels().map((m) => [m.photo, m]));
   const items: StairItem[] = photos.staircases.map((s) => {
@@ -32,7 +29,6 @@ function buildStairItems(): StairItem[] {
     }
     return { photo: s.file, caption: s.caption, mesh: buildStairMesh(s.spec), traced: false };
   });
-  // traced models for photos not already in the staircase list
   for (const m of byPhoto.values()) {
     items.push({ photo: m.photo, caption: m.caption, mesh: m.mesh, traced: true });
   }
@@ -40,7 +36,6 @@ function buildStairItems(): StairItem[] {
 }
 const trek = buildTrek(trail);
 
-// One host everywhere (matches app/sitemap.ts and the rest of the indexed site).
 const SITE = "https://www.borisnezlobin.com";
 const CANONICAL = `${SITE}/inca`;
 const OG_IMAGE = `${SITE}/og?title=${encodeURIComponent(
@@ -49,11 +44,11 @@ const OG_IMAGE = `${SITE}/og?title=${encodeURIComponent(
 const UPDATED = trail.updatedAt ?? "2026-06-20";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const description = `I counted every stone step on the 4-day Classic Inca Trail by hand: ${intComma(
+  const description = `I counted every stone step on the 4-day Classic Inca Trail: there are ${intComma(
     trek.totals.totalStairs,
-  )} steps in total, ${intComma(
+  )} steps in total and ${intComma(
     trek.totals.minStairs,
-  )} you must climb, from Km 82 to Machu Picchu. Each one is placed on the trail's real GPS elevation profile — likely the most detailed map of the trail's stairs anywhere.`;
+  )} you must climb (at minimum). Paired with a GPS trek and 30m satellite elevation data, this is the most accurate map of the trail's stairs, and likely the most detailed map of the trail's elevation, anywhere.`;
 
   const base = getMetadata({
     title: "How Many Steps Are on the Inca Trail?",
@@ -69,6 +64,7 @@ export async function generateMetadata(): Promise<Metadata> {
       "how many steps on the Inca Trail",
       "Inca Trail stairs",
       "Inca Trail elevation profile",
+      "Inca Trail elevation map",
       "Inca Trail stairs count",
       "Dead Woman's Pass elevation",
       "Machu Picchu trek",
@@ -91,6 +87,7 @@ export default function IncaPage() {
   const faq = buildFaq(trek);
   const stairItems = buildStairItems();
 
+  // SEOmaxx
   const jsonLd = {
     "@context": "https://schema.org",
     "@graph": [
