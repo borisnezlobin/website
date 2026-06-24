@@ -1,14 +1,14 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowsClockwise } from "@phosphor-icons/react/dist/ssr";
-import { buildStairMesh, type StairSpec, type Vec3 } from "../lib/stairs";
+import type { StairMesh, Vec3 } from "../lib/stairs";
 
 // A spinnable wireframe of one staircase, drawn on a plain 2D canvas — no WebGL,
-// no 3D library. We build the mesh once, then each frame rotate every point by
-// the current yaw/pitch, project it through a simple pinhole camera, and stroke
-// the edges back-to-front with depth-faded opacity. Drag to orbit, scroll to
-// zoom; it idles with a slow auto-spin until you grab it.
+// no 3D library. Each frame we run every point through a look-at orbit camera
+// (world axes: +X right, +Y up, +Z away from the viewer) and stroke the edges
+// back-to-front with depth-faded opacity. Drag to orbit, scroll to zoom; it
+// idles with a slow auto-spin until you grab it.
 
 interface Colors {
   nose: string;
@@ -42,15 +42,15 @@ function rgbaWithAlpha(color: string, alpha: number): string {
   return color;
 }
 
-export function StairWireframe({ spec, label }: { spec: StairSpec; label?: string }) {
+export function StairWireframe({ mesh, label }: { mesh: StairMesh; label?: string }) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const wrapRef = useRef<HTMLDivElement>(null);
-  const mesh = useMemo(() => buildStairMesh(spec), [spec]);
 
-  // camera state lives in refs so the animation loop never restarts on a tilt
-  const yaw = useRef(-0.7);
-  const pitch = useRef(0.42);
-  const dist = useRef(3.1);
+  // camera state lives in refs so the animation loop never restarts on a tilt.
+  // az/el are orbit angles around the model; default is a gentle front view.
+  const az = useRef(-0.35);
+  const el = useRef(0.18);
+  const dist = useRef(3.0);
   const drag = useRef<{ x: number; y: number } | null>(null);
   const spinning = useRef(true);
   const [autoSpin, setAutoSpin] = useState(true);
@@ -100,34 +100,40 @@ export function StairWireframe({ spec, label }: { spec: StairSpec; label?: strin
     const projected = new Array(points.length) as { x: number; y: number; depth: number }[];
 
     const draw = () => {
-      if (spinning.current && !drag.current) yaw.current += 0.0045;
+      if (spinning.current && !drag.current) az.current += 0.004;
 
       ctx.clearRect(0, 0, w, h);
-      const cy = Math.cos(yaw.current);
-      const sy = Math.sin(yaw.current);
-      const cp = Math.cos(pitch.current);
-      const sp = Math.sin(pitch.current);
+      // orbit camera: place it on a sphere around the model and look inward.
+      const ce = Math.cos(el.current);
+      const se = Math.sin(el.current);
+      const ca = Math.cos(az.current);
+      const sa = Math.sin(az.current);
+      const dir = [sa * ce, se, -ca * ce]; // unit vector from model -> camera
+      const D = dist.current * radius;
+      const camPos = [center[0] + dir[0] * D, center[1] + dir[1] * D, center[2] + dir[2] * D];
+      const fwd = [-dir[0], -dir[1], -dir[2]]; // look direction (+Z into the scene)
+      let rt = [fwd[2], 0, -fwd[0]]; // right = normalize(worldUp × fwd), stays level
+      const rl = Math.hypot(rt[0], rt[1], rt[2]) || 1;
+      rt = [rt[0] / rl, rt[1] / rl, rt[2] / rl];
+      const up = [
+        fwd[1] * rt[2] - fwd[2] * rt[1],
+        fwd[2] * rt[0] - fwd[0] * rt[2],
+        fwd[0] * rt[1] - fwd[1] * rt[0],
+      ];
       const focal = Math.min(w, h) * 0.92;
-      const camZ = dist.current * radius;
       const cx2 = w / 2;
-      const cy2 = h / 2 + h * 0.06; // nudge down so the flight sits nicely
+      const cy2 = h / 2 + h * 0.04;
 
       for (let i = 0; i < points.length; i++) {
         const p = points[i] as Vec3;
-        let x = p[0] - center[0];
-        let y = p[1] - center[1];
-        let z = p[2] - center[2];
-        // yaw about up axis, then pitch about side axis
-        const x1 = x * cy + z * sy;
-        const z1 = -x * sy + z * cy;
-        const y1 = y * cp - z1 * sp;
-        const z2 = y * sp + z1 * cp;
-        x = x1;
-        y = y1;
-        z = z2;
-        const depth = camZ - z;
-        const s = focal / Math.max(0.001, depth);
-        projected[i] = { x: cx2 + x * s, y: cy2 - y * s, depth };
+        const vx = p[0] - camPos[0];
+        const vy = p[1] - camPos[1];
+        const vz = p[2] - camPos[2];
+        const xv = vx * rt[0] + vy * rt[1] + vz * rt[2];
+        const yv = vx * up[0] + vy * up[1] + vz * up[2];
+        const zv = vx * fwd[0] + vy * fwd[1] + vz * fwd[2]; // depth in front of camera
+        const s = focal / Math.max(0.001, zv);
+        projected[i] = { x: cx2 + xv * s, y: cy2 - yv * s, depth: zv };
       }
 
       // far edges first so near ones overlay
@@ -135,15 +141,15 @@ export function StairWireframe({ spec, label }: { spec: StairSpec; label?: strin
         .map((e, i) => ({ i, d: projected[e.a].depth + projected[e.b].depth }))
         .sort((m, n) => n.d - m.d);
 
-      const dNear = camZ - radius;
-      const dFar = camZ + radius;
+      const dNear = D - radius;
+      const dFar = D + radius;
       for (const { i } of order) {
         const e = edges[i];
         const pa = projected[e.a];
         const pb = projected[e.b];
         const mid = (pa.depth + pb.depth) / 2;
         const t = Math.max(0, Math.min(1, (mid - dNear) / (dFar - dNear || 1)));
-        const nose = e.kind === "nose";
+        const nose = e.kind === "nose" || e.kind === "edge";
         const base = nose ? colors.nose : colors.tread;
         const alpha = (nose ? 0.95 : 0.5) * (1 - 0.62 * t); // fade with distance
         ctx.strokeStyle = rgbaWithAlpha(base, alpha);
@@ -174,8 +180,8 @@ export function StairWireframe({ spec, label }: { spec: StairSpec; label?: strin
     const dx = e.clientX - drag.current.x;
     const dy = e.clientY - drag.current.y;
     drag.current = { x: e.clientX, y: e.clientY };
-    yaw.current += dx * 0.01;
-    pitch.current = Math.max(-1.2, Math.min(1.3, pitch.current + dy * 0.01));
+    az.current -= dx * 0.01; // drag right → orbit right; drag up → look from above
+    el.current = Math.max(-1.4, Math.min(1.4, el.current - dy * 0.01));
   };
   const endDrag = () => (drag.current = null);
   const onWheel = (e: React.WheelEvent) => {

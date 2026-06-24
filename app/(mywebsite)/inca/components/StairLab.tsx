@@ -2,14 +2,24 @@
 
 import { useState } from "react";
 import { StairWireframe } from "./StairWireframe";
-import { photoUrl, type StaircasePhoto } from "../lib/photos";
+import { photoUrl } from "../lib/photos";
+import type { StairMesh } from "../lib/stairs";
 
-// Each photographed flight, paired with its spinnable wireframe reconstruction.
-// Tap a thumbnail to switch which staircase is loaded into the viewer.
+export interface StairItem {
+  photo: string;
+  caption: string;
+  mesh: StairMesh;
+  traced: boolean;
+}
 
-export function StairLab({ staircases }: { staircases: StaircasePhoto[] }) {
+// Each photographed flight, paired with its spinnable 3D wireframe — either a
+// hand-traced model or, until one exists, a procedural stand-in. Tap a thumbnail
+// to load a different staircase into the viewer.
+
+export function StairLab({ items }: { items: StairItem[] }) {
   const [active, setActive] = useState(0);
-  const current = staircases[active];
+  if (!items.length) return null;
+  const current = items[Math.min(active, items.length - 1)];
 
   return (
     <div>
@@ -18,7 +28,7 @@ export function StairLab({ staircases }: { staircases: StaircasePhoto[] }) {
           <div className="overflow-hidden rounded-lg border border-neutral-200 dark:border-neutral-700">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={photoUrl(current.file)}
+              src={photoUrl(current.photo)}
               alt={current.caption}
               className="aspect-[4/5] w-full object-cover"
               loading="lazy"
@@ -28,9 +38,9 @@ export function StairLab({ staircases }: { staircases: StaircasePhoto[] }) {
         </figure>
 
         <figure className="m-0">
-          <StairWireframe spec={current.spec} label={current.caption} />
+          <StairWireframe mesh={current.mesh} label={current.caption} />
           <figcaption className="mt-2 text-xs text-muted dark:text-muted-dark">
-            its wireframe — {current.spec.steps} steps, reconstructed
+            its wireframe — {current.traced ? "hand-traced" : "procedural stand-in"}
           </figcaption>
         </figure>
       </div>
@@ -38,9 +48,9 @@ export function StairLab({ staircases }: { staircases: StaircasePhoto[] }) {
       <p className="mt-4 max-w-2xl text-light-foreground dark:text-dark-foreground">{current.caption}</p>
 
       <div className="mt-5 flex flex-wrap gap-2">
-        {staircases.map((s, i) => (
+        {items.map((s, i) => (
           <button
-            key={s.file}
+            key={s.photo}
             type="button"
             onClick={() => setActive(i)}
             aria-pressed={i === active}
@@ -52,7 +62,7 @@ export function StairLab({ staircases }: { staircases: StaircasePhoto[] }) {
             }`}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={photoUrl(s.file)} alt="" className="h-full w-full object-cover" loading="lazy" />
+            <img src={photoUrl(s.photo)} alt="" className="h-full w-full object-cover" loading="lazy" />
           </button>
         ))}
       </div>

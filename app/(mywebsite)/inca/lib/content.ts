@@ -46,9 +46,9 @@ export function buildFaq(trek: TrekData): QA[] {
     },
     {
       q: "How were the steps counted?",
-      a: `By hand, on foot, with a notebook — every staircase tallied in real time over the four days, then transcribed and parsed. Steps that might not really count as steps are held aside (the "±" band of about ${intComma(
+      a: `By hand, on foot, with a notebook — every staircase tallied as it was climbed, over the four days of the trek. Doubtful steps (about ${intComma(
         t.ambiguousStairs,
-      )}), and avoidable or forked steps are tracked so both a true total and a minimum can be given.`,
+      )} of them) are held aside as "maybe", and steps you can step around, or that sit on a fork in the trail, are tracked separately — so the count can give both a true total and a realistic minimum.`,
     },
   ];
 }

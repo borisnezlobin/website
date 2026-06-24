@@ -27,11 +27,12 @@ export function Hero({ trek }: { trek: TrekData }) {
         How many steps are on the Inca Trail?
       </h1>
       <p className="mt-5 text-lg text-light-foreground dark:text-dark-foreground md:text-xl">
-        I walked it with a notebook and counted every staircase. From the Km 82 trailhead to
-        Machu Picchu there are about{" "}
-        <strong className="font-semibold">{intComma(t.totalStairs)} stone steps</strong> — and you
-        have to climb at least <strong className="font-semibold">{intComma(t.minStairs)}</strong> of
-        them.
+        Guidebooks promise &ldquo;thousands&rdquo; but never a number, so I counted. Walking the
+        four days from the Km 82 trailhead to Machu Picchu, I tallied every staircase by hand:
+        about <strong className="font-semibold">{intComma(t.totalStairs)} stone steps</strong> in
+        all, of which you must climb at least{" "}
+        <strong className="font-semibold">{intComma(t.minStairs)}</strong>. Below, every one of them
+        is placed on the real elevation of the trail.
       </p>
 
       <div className="mt-9 grid grid-cols-2 gap-x-6 gap-y-7 md:grid-cols-4">

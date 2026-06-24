@@ -6,16 +6,38 @@ import type { PhotoManifest } from "./lib/photos";
 import { buildTrek } from "./lib/trek";
 import { buildFaq } from "./lib/content";
 import { intComma } from "./lib/chart";
+import { buildStairMesh } from "./lib/stairs";
+import { loadModels } from "./lib/models";
 import getMetadata from "../../lib/metadata";
 import { Hero } from "./components/Hero";
 import { TrekProfile } from "./components/TrekProfile";
 import { Methodology } from "./components/Methodology";
-import { StairLab } from "./components/StairLab";
+import { StairLab, type StairItem } from "./components/StairLab";
 import { PhotoGallery } from "./components/PhotoGallery";
 import { Faq } from "./components/Faq";
 
 const trail = trailData as unknown as Trail;
 const photos = photoData as PhotoManifest;
+
+// Merge hand-traced models (dropped into data/models) with the procedural
+// stand-ins: each staircase shows its traced model if one exists, otherwise a
+// generated placeholder — so the lab stays full and improves as you trace.
+function buildStairItems(): StairItem[] {
+  const byPhoto = new Map(loadModels().map((m) => [m.photo, m]));
+  const items: StairItem[] = photos.staircases.map((s) => {
+    const traced = byPhoto.get(s.file);
+    if (traced) {
+      byPhoto.delete(s.file);
+      return { photo: s.file, caption: traced.caption || s.caption, mesh: traced.mesh, traced: true };
+    }
+    return { photo: s.file, caption: s.caption, mesh: buildStairMesh(s.spec), traced: false };
+  });
+  // traced models for photos not already in the staircase list
+  for (const m of byPhoto.values()) {
+    items.push({ photo: m.photo, caption: m.caption, mesh: m.mesh, traced: true });
+  }
+  return items;
+}
 const trek = buildTrek(trail);
 
 // One host everywhere (matches app/sitemap.ts and the rest of the indexed site).
@@ -27,11 +49,11 @@ const OG_IMAGE = `${SITE}/og?title=${encodeURIComponent(
 const UPDATED = trail.updatedAt ?? "2026-06-20";
 
 export async function generateMetadata(): Promise<Metadata> {
-  const description = `I counted every stone step on the 4-day Classic Inca Trail: ${intComma(
+  const description = `I counted every stone step on the 4-day Classic Inca Trail by hand: ${intComma(
     trek.totals.totalStairs,
-  )} steps in total and ${intComma(
+  )} steps in total, ${intComma(
     trek.totals.minStairs,
-  )} you must climb, from Km 82 to Machu Picchu — drawn on the trail's real GPS elevation profile, with a day-by-day breakdown.`;
+  )} you must climb, from Km 82 to Machu Picchu. Each one is placed on the trail's real GPS elevation profile — likely the most detailed map of the trail's stairs anywhere.`;
 
   const base = getMetadata({
     title: "How Many Steps Are on the Inca Trail?",
@@ -67,6 +89,7 @@ function SectionHeading({ kicker, title }: { kicker: string; title: string }) {
 
 export default function IncaPage() {
   const faq = buildFaq(trek);
+  const stairItems = buildStairItems();
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -124,12 +147,14 @@ export default function IncaPage() {
       <Hero trek={trek} />
 
       <section className="mt-14">
-        <SectionHeading kicker="Walk the whole trail" title="Every step, on the real mountain" />
+        <SectionHeading kicker="The whole trail at a glance" title="Where all the steps are" />
         <p className="mb-5 max-w-2xl text-light-foreground dark:text-dark-foreground">
-          This is the trail&apos;s true elevation, from a firsthand GPS track and 30-metre topo
-          data. It&apos;s grey where you walk on dirt and red where the Incas built stone steps.
-          Scroll to zoom in and the red resolves into the individual steps; drag to move along the
-          trail.
+          The Inca Trail isn&apos;t one long staircase. It&apos;s a {trek.totalKm.toFixed(0)}-kilometre
+          walk over a {intComma(trek.maxElev)}-metre pass and a long stone descent to Machu Picchu,
+          with the steps bunched on the steepest pitches — gentle along the river, relentless on the
+          drop through Phuyupatamarca. The chart below is the real trail: true elevation from a GPS
+          track and topographic data, grey where you walk on dirt and red where the Incas laid stone.
+          Drag to move along it, and zoom in until the red breaks into the individual steps.
         </p>
         <TrekProfile trek={trek} />
       </section>
@@ -140,18 +165,24 @@ export default function IncaPage() {
       </section>
 
       <section className="mt-16">
-        <SectionHeading kicker="Spin the stairs" title="What I counted as a step" />
+        <SectionHeading kicker="In three dimensions" title="What a single step looks like" />
         <p className="mb-6 max-w-2xl text-light-foreground dark:text-dark-foreground">
-          A photo flattens a staircase; these let you walk around one. Each flight I photographed is
-          paired with a 3D wireframe rebuilt from it — drag to spin, scroll to zoom. They&apos;re
-          parametric reconstructions, not laser scans (you can&apos;t scan in 3D from a single
-          photo), but the proportions, irregularity and step count match what&apos;s in the frame.
+          No two Inca steps are alike — hand-cut from whatever stone was on the mountain, tall in one
+          place, ankle-low the next, tilted almost everywhere. A photograph flattens all of that, so
+          each staircase here is rebuilt as a 3D model you can spin and zoom. They&apos;re
+          reconstructions from photographs rather than scans, but the proportions and the number of
+          steps match the real flight.
         </p>
-        <StairLab staircases={photos.staircases} />
+        <StairLab items={stairItems} />
       </section>
 
       <section className="mt-16">
-        <SectionHeading kicker="Field notes" title="The steps, the not-steps, and the counting" />
+        <SectionHeading kicker="From the trail" title="Steps, not-steps, and judgement calls" />
+        <p className="mb-6 max-w-2xl text-light-foreground dark:text-dark-foreground">
+          Half the work of counting is deciding what counts. These are photographs from the trek:
+          the unmistakable staircases, the borderline cases — ramps, paving, a single worn slab —
+          that had to be ruled in or out, and the path as it really looks underfoot.
+        </p>
         <PhotoGallery
           notSteps={photos.notSteps}
           paving={photos.paving}
@@ -166,7 +197,8 @@ export default function IncaPage() {
 
       <p className="mt-16 max-w-2xl text-sm text-muted dark:text-muted-dark">
         These are one person&apos;s careful counts, not an official survey — honest about their
-        doubts and easy to correct. Found a miscount or a better elevation? I&apos;d love to hear it.
+        doubts and easy to correct. If you&apos;ve walked the trail and think a stretch is miscounted,
+        or you have a better elevation for a landmark, I&apos;d genuinely like to hear it.
       </p>
     </main>
   );
