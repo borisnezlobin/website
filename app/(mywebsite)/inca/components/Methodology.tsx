@@ -1,70 +1,41 @@
 import type { TrekData } from "../lib/trek";
 import { intComma } from "../lib/chart";
 
-function Rule({ code, children }: { code: string; children: React.ReactNode }) {
-  return (
-    <li className="flex gap-3">
-      <code className="h-fit shrink-0 rounded bg-neutral-100 px-1.5 py-0.5 font-mono text-sm text-light-foreground dark:bg-neutral-800 dark:text-dark-foreground">
-        {code}
-      </code>
-      <span className="text-light-foreground dark:text-dark-foreground">{children}</span>
-    </li>
-  );
-}
-
 export function Methodology({ trek }: { trek: TrekData }) {
   const t = trek.totals;
   return (
-    <div className="max-w-2xl">
-      <p className="text-light-foreground dark:text-dark-foreground">
-        Nobody had a real number, so I made one. Over four days on the Classic Inca Trail I walked
-        with a notebook and tallied every staircase as I climbed or descended it — section by
-        section, all the way from the Km&nbsp;82 trailhead to Machu Picchu. Afterwards I transcribed
-        the notebook and parsed it into the {intComma(t.groupCount)} stair groups behind every number
-        on this page.
+    <div className="max-w-2xl space-y-4 text-light-foreground dark:text-dark-foreground">
+      <p>
+        There is no official count of the steps on the Inca Trail. Guidebooks promise
+        &ldquo;thousands&rdquo;; none of them say how many. So over the four days from Km&nbsp;82 to
+        Machu Picchu I carried a notebook and tallied every staircase as I climbed or descended it —
+        {" "}
+        {intComma(t.groupCount)} separate flights of stone in all. As far as I can tell, this is the
+        only place every step on the trail has been counted and put on a map.
       </p>
-      <p className="mt-4 text-light-foreground dark:text-dark-foreground">
-        Counting stone steps honestly is harder than it sounds, so the data keeps its doubts.
-        Worn-down stairs that might not really be stairs are flagged as ambiguous — about{" "}
-        {intComma(t.ambiguousStairs)} of them — and left out of the headline climb. Steps you can step
-        around are marked avoidable. Where the trail splits, both sides are counted toward the total
-        but only the shorter one toward the minimum. That is why there are two numbers: a full{" "}
-        <strong className="font-semibold">{intComma(t.totalStairs)}</strong> that exist and a leaner{" "}
-        <strong className="font-semibold">{intComma(t.minStairs)}</strong> you must actually take.
+      <p>
+        Counting stairs turns out to be a question of judgement. Is a knee-high block with a flat top
+        a step? A shallow ramp of cobbles? A single worn slab? I logged the clear ones, set the
+        doubtful ones aside as &ldquo;maybe&rdquo; (about {intComma(t.ambiguousStairs)} of them), and
+        marked the steps you can skirt around. Where the path forks, I counted both branches but
+        charged only the shorter one to the climb you can&apos;t avoid. That is why there are two
+        numbers: the <strong className="font-semibold">{intComma(t.totalStairs)}</strong> steps that
+        physically exist, and the <strong className="font-semibold">{intComma(t.minStairs)}</strong>{" "}
+        you actually have to take.
       </p>
-
-      <h3 className="vectra mt-8 text-xl font-bold text-light-foreground dark:text-dark-foreground">
-        How to read the notes
-      </h3>
-      <ul className="mt-4 space-y-2.5">
-        <Rule code="21">21 steps up; a negative number means down</Rule>
-        <Rule code="-3-1">3 steps down, 1 of which you can walk around</Rule>
-        <Rule code="± 4">ambiguous — might not really count as a step</Rule>
-        <Rule code="10/2">a fork: you take one side or the other</Rule>
-        <Rule code="Dead Woman&apos;s Pass">words become a landmark on the trail</Rule>
-      </ul>
-
-      <h3 className="vectra mt-8 text-xl font-bold text-light-foreground dark:text-dark-foreground">
-        Putting the steps on the real mountain
-      </h3>
-      <p className="mt-4 text-light-foreground dark:text-dark-foreground">
-        Stairs alone don&apos;t tell you how high you are — most of the climbing happens on dirt
-        grade between the staircases. So rather than guess, the profile is the real trail: a
-        firsthand GPS track of all {trek.totalKm.toFixed(0)}&nbsp;km, sampled against 30-metre
-        topographic data, so every elevation is accurate to the metre — from {intComma(
-          trek.profile[0].elev,
-        )}
-        &nbsp;m at Km&nbsp;82 up to {intComma(trek.maxElev)}&nbsp;m at Dead Woman&apos;s Pass and down
-        to Machu Picchu, gaining {intComma(trek.ascentM)}&nbsp;m and losing {intComma(trek.descentM)}
-        &nbsp;m along the way. I then aligned my step counts to that track using the landmarks both
-        share — the pass, the named ruins, the three camps — so each staircase lands at its real
-        place on the mountain. The line is grey where you walk and red where the Incas built steps.
+      <p>
+        To put all those steps on the real mountain, the profile is built from a firsthand GPS
+        recording of the whole {trek.totalKm.toFixed(0)}-kilometre route, sampled against 30-metre
+        topographic data and pinned to the known heights of the pass, the ruins and the three camps —
+        accurate to within a few metres. The steps are then laid onto the line by steepness, because
+        that is where the Incas cut them: on the grades too steep to simply walk. Grey is dirt path;
+        red is stone stairs.
       </p>
-      <p className="mt-4 text-sm text-muted dark:text-muted-dark">
-        One surprise from the GPS: the trail is about {trek.totalKm.toFixed(0)}&nbsp;km, not the
-        43&nbsp;km you&apos;ll see almost everywhere. A 6,000-point firsthand recording and the
-        Ministry of Culture&apos;s own map agree — and so does my own &ldquo;halfway at the
-        pass&rdquo; note.
+      <p>
+        The GPS also settled an old myth. The Classic Inca Trail is described almost everywhere as
+        43&nbsp;km. It isn&apos;t: a 6,000-point recording, the Peruvian Ministry of Culture&apos;s
+        own map, and the simple fact that Dead Woman&apos;s Pass falls at the halfway mark all put it
+        closer to <strong className="font-semibold">{trek.totalKm.toFixed(0)}&nbsp;km</strong>.
       </p>
     </div>
   );

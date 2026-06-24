@@ -19,13 +19,37 @@ export interface StairSpec {
   seed: number; // makes the irregularity deterministic
 }
 
-export type EdgeKind = "nose" | "tread" | "riser" | "rung";
+// "nose"/"edge" are the bright accent lines; the rest are structural.
+export type EdgeKind = "nose" | "tread" | "riser" | "rung" | "blob" | "edge";
 
 export interface StairMesh {
   points: Vec3[];
   edges: { a: number; b: number; kind: EdgeKind }[];
   center: Vec3;
   radius: number;
+}
+
+// Centre + framing radius for any point/edge set, used by both the procedural
+// generator and imported (hand-traced) models so they render identically.
+export function finalizeMesh(
+  points: Vec3[],
+  edges: StairMesh["edges"],
+): StairMesh {
+  const min: Vec3 = [Infinity, Infinity, Infinity];
+  const max: Vec3 = [-Infinity, -Infinity, -Infinity];
+  for (const p of points) {
+    for (let k = 0; k < 3; k++) {
+      if (p[k] < min[k]) min[k] = p[k];
+      if (p[k] > max[k]) max[k] = p[k];
+    }
+  }
+  if (!points.length) {
+    min[0] = min[1] = min[2] = 0;
+    max[0] = max[1] = max[2] = 0;
+  }
+  const center: Vec3 = [(min[0] + max[0]) / 2, (min[1] + max[1]) / 2, (min[2] + max[2]) / 2];
+  const radius = 0.5 * Math.hypot(max[0] - min[0], max[1] - min[1], max[2] - min[2]) || 1;
+  return { points, edges, center, radius };
 }
 
 // Deterministic PRNG so a given seed always yields the same stones.
@@ -105,18 +129,5 @@ export function buildStairMesh(spec: StairSpec): StairMesh {
     }
   }
 
-  // bounds for centring + framing
-  const min: Vec3 = [Infinity, Infinity, Infinity];
-  const max: Vec3 = [-Infinity, -Infinity, -Infinity];
-  for (const p of points) {
-    for (let k = 0; k < 3; k++) {
-      if (p[k] < min[k]) min[k] = p[k];
-      if (p[k] > max[k]) max[k] = p[k];
-    }
-  }
-  const center: Vec3 = [(min[0] + max[0]) / 2, (min[1] + max[1]) / 2, (min[2] + max[2]) / 2];
-  const radius =
-    0.5 * Math.hypot(max[0] - min[0], max[1] - min[1], max[2] - min[2]) || 1;
-
-  return { points, edges, center, radius };
+  return finalizeMesh(points, edges);
 }

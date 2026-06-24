@@ -54,9 +54,24 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
     return { eMin, eMax, denom, segs };
   }, [trek]);
 
+  // Vertical range fits the visible window, so zooming in magnifies the local
+  // relief (and the steps) instead of leaving a flat line at the bottom.
+  const yr = useMemo(() => {
+    let mn = Infinity;
+    let mx = -Infinity;
+    for (const p of trek.profile)
+      if (p.km >= view.a - 0.1 && p.km <= view.b + 0.1) {
+        if (p.elev < mn) mn = p.elev;
+        if (p.elev > mx) mx = p.elev;
+      }
+    if (!isFinite(mn)) return { min: base.eMin, max: base.eMax };
+    const pad = Math.max(35, (mx - mn) * 0.18);
+    return { min: Math.floor((mn - pad) / 20) * 20, max: Math.ceil((mx + pad) / 20) * 20 };
+  }, [trek, view, base]);
+
   const span = view.b - view.a;
   const sx = (km: number) => L + ((km - view.a) / span) * PW;
-  const sy = (e: number) => TOP + (1 - (e - base.eMin) / (base.eMax - base.eMin)) * MAIN_H;
+  const sy = (e: number) => TOP + (1 - (e - yr.min) / (yr.max - yr.min)) * MAIN_H;
   const kmAtClientX = (clientX: number) => {
     const rect = svgRef.current!.getBoundingClientRect();
     return view.a + (((clientX - rect.left) / rect.width) * W - L) * (span / PW);
@@ -106,7 +121,7 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
 
     // individual steps once they're far enough apart to see
     const stepsShown = visIdx.reduce((n, i) => n + base.segs[i].steps, 0);
-    const showTicks = PW / Math.max(1, stepsShown) >= 2.4;
+    const showTicks = PW / Math.max(1, stepsShown) >= 2.0;
     const ticks: { x: number; y: number; up: boolean }[] = [];
     if (showTicks) {
       for (const i of visIdx) {
@@ -119,7 +134,7 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
       }
     }
 
-    const yTicks = niceTicks(base.eMin, base.eMax, 4).map((v) => ({ v, y: sy(v) }));
+    const yTicks = niceTicks(yr.min, yr.max, 4).map((v) => ({ v, y: sy(v) }));
     const xStep = niceStepKm(span);
     const xTicks: { v: number; x: number }[] = [];
     for (let v = Math.ceil(view.a / xStep) * xStep; v <= view.b + 1e-6; v += xStep)
@@ -225,13 +240,15 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
           <g clipPath="url(#plot)">
             <path d={geom.area} className="fill-neutral-200/60 dark:fill-neutral-800/60" />
             <path d={geom.line} fill="none" className="stroke-neutral-400 dark:stroke-neutral-500" strokeWidth={1.5} strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-            {/* stairs: line reddens with step density */}
-            {geom.reds.map((s, i) => (
-              <line key={i} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} style={{ stroke: "var(--primary)" }} strokeOpacity={s.op} strokeWidth={2.6} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-            ))}
+            {/* zoomed out: the line reddens with step density */}
+            {!geom.showTicks &&
+              geom.reds.map((s, i) => (
+                <line key={i} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} style={{ stroke: "var(--primary)" }} strokeOpacity={s.op} strokeWidth={2.6} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+              ))}
+            {/* zoomed in: each counted step as its own mark */}
             {geom.showTicks &&
               geom.ticks.map((t, i) => (
-                <line key={i} x1={t.x} x2={t.x} y1={t.y} y2={t.up ? t.y - 4 : t.y + 4} style={{ stroke: "var(--primary)" }} strokeWidth={1} vectorEffect="non-scaling-stroke" />
+                <line key={i} x1={t.x} x2={t.x} y1={t.up ? t.y + 1 : t.y - 1} y2={t.up ? t.y - 6 : t.y + 6} style={{ stroke: "var(--primary)" }} strokeWidth={1.3} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
               ))}
 
             {geom.lms.map((l) => (
@@ -287,8 +304,13 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
 
         {hover && (
           <div
-            className="pointer-events-none absolute z-10 max-w-[230px] -translate-x-1/2 rounded-md border border-neutral-200 bg-light-background/95 px-3 py-2 text-sm shadow-lg dark:border-neutral-700 dark:bg-dark-background/95"
-            style={{ left: `${(hover.x / W) * 100}%`, top: 8 }}
+            className="pointer-events-none absolute z-10 w-max max-w-[230px] rounded-md border border-neutral-200 bg-light-background/95 px-3 py-2 text-sm shadow-lg dark:border-neutral-700 dark:bg-dark-background/95"
+            style={{
+              left: `${(hover.x / W) * 100}%`,
+              top: 8,
+              // anchor to the side away from the edge so it never gets clipped
+              transform: `translateX(${hover.x > W * 0.62 ? "calc(-100% - 10px)" : "10px"})`,
+            }}
           >
             <div className="font-semibold text-light-foreground dark:text-dark-foreground">
               {metres(hover.elev)}
