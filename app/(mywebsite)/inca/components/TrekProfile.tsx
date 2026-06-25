@@ -5,6 +5,7 @@ import {
   ArrowsOutSimple,
   MagnifyingGlassMinus,
   MagnifyingGlassPlus,
+  Selection,
 } from "@phosphor-icons/react/dist/ssr";
 import type { TrekData, TrekLandmark } from "../lib/trek";
 import { intComma, metres, niceTicks } from "../lib/chart";
@@ -38,8 +39,28 @@ interface View {
 export function TrekProfile({ trek }: { trek: TrekData }) {
   const svgRef = useRef<SVGSVGElement>(null);
   const drag = useRef<{ x: number; a: number; b: number } | null>(null);
+  const selDrag = useRef<number | null>(null); // start km of an in-progress measurement
   const [view, setView] = useState<View>({ a: 0, b: trek.totalKm });
   const [hoverKm, setHoverKm] = useState<number | null>(null);
+  const [sel, setSel] = useState<View | null>(null); // a measured stretch, km
+  const [selectMode, setSelectMode] = useState(false); // drag measures instead of panning
+
+  // Steps counted along any stretch of trail — the integral of the step density
+  // over [a, b]. profile.steps is the minimum-route count, so this reads as "the
+  // steps you actually take across this stretch."
+  const stepsBetween = useMemo(() => {
+    const p = trek.profile;
+    return (a: number, b: number) => {
+      const lo = Math.min(a, b);
+      const hi = Math.max(a, b);
+      let sum = 0;
+      for (let i = 0; i < p.length - 1; i++) {
+        const overlap = Math.min(p[i + 1].km, hi) - Math.max(p[i].km, lo);
+        if (overlap > 0) sum += p[i].steps * (overlap / (p[i + 1].km - p[i].km || 1));
+      }
+      return sum;
+    };
+  }, [trek]);
 
   // view-independent: y-bounds, and per-segment step density + direction.
   const base = useMemo(() => {
@@ -161,10 +182,22 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
   };
   const onPointerDown = (e: React.PointerEvent) => {
     (e.target as Element).setPointerCapture?.(e.pointerId);
-    drag.current = { x: e.clientX, a: view.a, b: view.b };
+    if (e.shiftKey || selectMode) {
+      const km = kmAtClientX(e.clientX);
+      selDrag.current = km;
+      setSel({ a: km, b: km });
+    } else {
+      setSel(null);
+      drag.current = { x: e.clientX, a: view.a, b: view.b };
+    }
   };
   const onPointerMove = (e: React.PointerEvent) => {
-    if (drag.current) {
+    if (selDrag.current != null) {
+      const km = kmAtClientX(e.clientX);
+      const a = Math.max(0, Math.min(selDrag.current, km));
+      const b = Math.min(trek.totalKm, Math.max(selDrag.current, km));
+      setSel({ a, b });
+    } else if (drag.current) {
       const rect = svgRef.current!.getBoundingClientRect();
       const dkm = ((e.clientX - drag.current.x) / rect.width) * W * (span / PW);
       let a = drag.current.a - dkm;
@@ -174,7 +207,13 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
       setView({ a, b });
     } else setHoverKm(kmAtClientX(e.clientX));
   };
-  const endDrag = () => (drag.current = null);
+  const endDrag = () => {
+    drag.current = null;
+    if (selDrag.current != null) {
+      selDrag.current = null;
+      setSel((s) => (s && s.b - s.a > 0.02 ? s : null)); // discard a stray tap
+    }
+  };
 
   const hover = useMemo(() => {
     if (hoverKm == null || hoverKm < view.a || hoverKm > view.b) return null;
@@ -191,6 +230,8 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
   }, [hoverKm, view, trek, base]);
 
   const zoomed = span < trek.totalKm - 0.01;
+  const viewSteps = useMemo(() => stepsBetween(view.a, view.b), [stepsBetween, view]);
+  const selSteps = sel ? stepsBetween(sel.a, sel.b) : null;
 
   return (
     <figure className="not-prose my-2">
@@ -266,6 +307,30 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
               </g>
             ))}
 
+            {sel && selSteps != null && (
+              <g>
+                <rect
+                  x={Math.min(sx(sel.a), sx(sel.b))}
+                  y={TOP}
+                  width={Math.abs(sx(sel.b) - sx(sel.a))}
+                  height={MAIN_H}
+                  style={{ fill: "var(--primary)", fillOpacity: 0.12 }}
+                />
+                <line x1={sx(sel.a)} x2={sx(sel.a)} y1={TOP} y2={BOTTOM} style={{ stroke: "var(--primary)", strokeOpacity: 0.6 }} strokeWidth={1} />
+                <line x1={sx(sel.b)} x2={sx(sel.b)} y1={TOP} y2={BOTTOM} style={{ stroke: "var(--primary)", strokeOpacity: 0.6 }} strokeWidth={1} />
+                <text
+                  x={Math.min(Math.max((sx(sel.a) + sx(sel.b)) / 2, L + 34), R - 34)}
+                  y={TOP + 13}
+                  textAnchor="middle"
+                  className="fill-light-foreground dark:fill-dark-foreground tabular-nums"
+                  fontSize={12}
+                  fontWeight={600}
+                >
+                  {intComma(selSteps)} steps
+                </text>
+              </g>
+            )}
+
             {hover && (
               <g>
                 <line x1={hover.x} x2={hover.x} y1={TOP} y2={BOTTOM} className="stroke-light-foreground/30 dark:stroke-dark-foreground/30" strokeWidth={1} strokeDasharray="3 3" />
@@ -289,14 +354,27 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
         </svg>
 
         <div className="absolute right-2.5 top-2.5 flex gap-1">
+          <CtrlBtn
+            label={selectMode ? "Measuring — tap to pan again" : "Measure a stretch"}
+            active={selectMode}
+            onClick={() => setSelectMode((m) => !m)}
+          >
+            <Selection size={16} />
+          </CtrlBtn>
           <CtrlBtn label="Zoom in" onClick={() => zoomAround((view.a + view.b) / 2, 1 / 1.6)}>
             <MagnifyingGlassPlus size={16} />
           </CtrlBtn>
           <CtrlBtn label="Zoom out" onClick={() => zoomAround((view.a + view.b) / 2, 1.6)}>
             <MagnifyingGlassMinus size={16} />
           </CtrlBtn>
-          {zoomed && (
-            <CtrlBtn label="Reset" onClick={() => setView({ a: 0, b: trek.totalKm })}>
+          {(zoomed || sel) && (
+            <CtrlBtn
+              label="Reset"
+              onClick={() => {
+                setView({ a: 0, b: trek.totalKm });
+                setSel(null);
+              }}
+            >
               <ArrowsOutSimple size={16} />
             </CtrlBtn>
           )}
@@ -324,28 +402,62 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
         )}
       </div>
 
-      <figcaption className="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1.5 text-sm text-muted dark:text-muted-dark">
-        <span className="inline-flex items-center gap-1.5">
-          <span className="inline-block h-0.5 w-4" style={{ background: "var(--primary)" }} /> stone steps
-        </span>
-        <span className="inline-flex items-center gap-1.5">
-          <span className="inline-block h-0.5 w-4 bg-neutral-400 dark:bg-neutral-500" /> walking grade
-        </span>
-        <span className="ml-auto text-muted dark:text-muted-dark">
-          {zoomed ? "drag to pan · scroll to zoom" : "scroll or zoom in to find the steps"}
-        </span>
+      <figcaption className="mt-3 text-sm text-muted dark:text-muted-dark">
+        <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
+          <span className="inline-flex items-center gap-1.5">
+            <span className="inline-block h-0.5 w-4" style={{ background: "var(--primary)" }} /> stone steps
+          </span>
+          <span className="inline-flex items-center gap-1.5">
+            <span className="inline-block h-0.5 w-4 bg-neutral-400 dark:bg-neutral-500" /> walking grade
+          </span>
+          <span className="ml-auto font-medium tabular-nums text-light-foreground dark:text-dark-foreground">
+            {sel && selSteps != null
+              ? `${intComma(selSteps)} steps over ${(sel.b - sel.a).toFixed(1)} km`
+              : `${intComma(viewSteps)} steps ${zoomed ? "in view" : "in total"}`}
+          </span>
+        </div>
+        <div className="mt-1.5">
+          {selectMode
+            ? "drag across the trail to measure a stretch · tap the button again to pan"
+            : "scroll to zoom · drag to pan · shift-drag (or tap the box) to measure a stretch"}
+          {sel && (
+            <button
+              type="button"
+              onClick={() => setSel(null)}
+              className="ml-2 underline hover:text-light-foreground dark:hover:text-dark-foreground"
+            >
+              clear
+            </button>
+          )}
+        </div>
       </figcaption>
     </figure>
   );
 }
 
-function CtrlBtn({ label, onClick, children }: { label: string; onClick: () => void; children: React.ReactNode }) {
+function CtrlBtn({
+  label,
+  onClick,
+  active,
+  children,
+}: {
+  label: string;
+  onClick: () => void;
+  active?: boolean;
+  children: React.ReactNode;
+}) {
   return (
     <button
       onClick={onClick}
       aria-label={label}
+      aria-pressed={active}
       title={label}
-      className="grid h-7 w-7 place-items-center rounded-md border border-neutral-200 bg-light-background/80 text-muted backdrop-blur hover:text-light-foreground dark:border-neutral-700 dark:bg-dark-background/80 dark:text-muted-dark dark:hover:text-dark-foreground"
+      className={`grid h-7 w-7 place-items-center rounded-md border backdrop-blur ${
+        active
+          ? "border-transparent text-white"
+          : "border-neutral-200 bg-light-background/80 text-muted hover:text-light-foreground dark:border-neutral-700 dark:bg-dark-background/80 dark:text-muted-dark dark:hover:text-dark-foreground"
+      }`}
+      style={active ? { background: "var(--primary)" } : undefined}
     >
       {children}
     </button>

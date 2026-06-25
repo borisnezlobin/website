@@ -4,7 +4,7 @@ import { intComma } from "../lib/chart";
 export function Methodology({ trek }: { trek: TrekData }) {
   const t = trek.totals;
   return (
-    <div className="max-w-2xl space-y-4 text-light-foreground dark:text-dark-foreground">
+    <div className="mx-auto max-w-2xl space-y-4 text-light-foreground dark:text-dark-foreground">
       <p>
         There is no official count of the steps on the Inca Trail. Guidebooks promise
         &ldquo;thousands&rdquo;; none of them say how many. So over the four days from Km&nbsp;82 to
@@ -22,6 +22,15 @@ export function Methodology({ trek }: { trek: TrekData }) {
         numbers: the <strong className="font-semibold">{intComma(t.totalStairs)}</strong> steps that
         physically exist, and the <strong className="font-semibold">{intComma(t.minStairs)}</strong>{" "}
         you actually have to take.
+      </p>
+      <p>
+        Neither extreme is what a real hiker climbs. Nobody skirts every avoidable step, and nobody
+        treats every &ldquo;maybe&rdquo; as a stair. So the honest answer is a range: assuming you
+        walk around a quarter of the avoidable steps and count half the doubtful ones, you take
+        somewhere between{" "}
+        <strong className="font-semibold">{intComma(t.expectedLow)}</strong> and{" "}
+        <strong className="font-semibold">{intComma(t.expectedHigh)}</strong> steps — the spread
+        comes from which side of each fork you happen to walk.
       </p>
       <p>
         To put all those steps on the real mountain, the profile is built from a firsthand GPS
