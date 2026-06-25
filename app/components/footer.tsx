@@ -120,7 +120,7 @@ const Footer = () => {
             </footer>
 
             <p aria-hidden className="w-full text-center hidden print:flex gap-4 justify-between items-center print-footer border-t pt-2 border-muted">
-                <Link href="https://borisnezlobin.com" className="font-bold underline">
+                <Link href="https://www.borisnezlobin.com" className="font-bold underline">
                     borisnezlobin.com
                 </Link>
                 <span className="text-muted dark:text-muted-dark">

@@ -22,6 +22,8 @@ export function buildFaq(trek: TrekData): QA[] {
   const climb = intComma(trek.ascentM);
   const drop = intComma(trek.descentM);
   const dist = trek.totalKm.toFixed(0);
+  const dwpUp = intComma(trek.perDay[1].totals.upTotal); // day two climb to the pass
+  const dayThreeDown = intComma(trek.perDay[2].totals.downTotal); // day three descent
 
   return [
     {
@@ -39,6 +41,14 @@ export function buildFaq(trek: TrekData): QA[] {
     {
       q: "What is the highest point of the Inca Trail?",
       a: `Dead Woman’s Pass (Warmiwañusca), at about ${peak} m by 30-metre topographic data is reached at the midpoint of the trek, at the top of the day-two climb.`,
+    },
+    {
+      q: "How many stairs is the climb to Dead Woman’s Pass?",
+      a: `From the day-one camp up to Dead Woman’s Pass (Warmiwañusca) you climb roughly ${dwpUp} stone stairs, almost all of it unbroken uphill. It is the single biggest staircase of the four days: a relentless flight of Inca steps up to the ${peak} m pass, after which the trail tips over and begins its long descent toward Machu Picchu.`,
+    },
+    {
+      q: "How many stairs are on the day-three descent of the Inca Trail?",
+      a: `Day three is the longest day and the hardest on the knees: an almost continuous stone descent of about ${dayThreeDown} stairs down through the cloud forest past Sayacmarca and Phuyupatamarca. It holds more downhill stairs than any other day of the trek—more than half of all the descending steps on the whole route.`,
     },
     {
       q: "How long is the Inca Trail and how many days does it take?",

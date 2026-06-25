@@ -87,6 +87,8 @@ function SectionHeading({ title }: { title: string }) {
 export default function IncaPage() {
   const faq = buildFaq(trek);
   const stairItems = buildStairItems();
+  const dwpClimb = trek.perDay[1].totals.upTotal; // day two: camp → Dead Woman's Pass
+  const dayThreeDescent = trek.perDay[2].totals.downTotal; // day three: the long descent
 
   // SEOmaxx
   const jsonLd = {
@@ -161,9 +163,13 @@ export default function IncaPage() {
         <SectionHeading title="Where the steps fall, day by day" />
         <p className="mx-auto mb-6 max-w-2xl ">
           The four days are nothing alike. The first is a gentle warm-up along the river; the second
-          is the brutal climb to Dead Woman&rsquo;s Pass; the third is the longest, an endless stone
-          descent through the cloud forest; the fourth is a short pre-dawn push to the Sun Gate. Here
-          is how the count splits across them.
+          is the brutal climb to Dead Woman&rsquo;s Pass &mdash; about{" "}
+          <strong className="font-semibold">{intComma(dwpClimb)} stairs up</strong> from the day-one
+          camp to the {intComma(trek.maxElev)}-metre pass, the biggest single climb of the trek. The
+          third is the longest, a knee-punishing{" "}
+          <strong className="font-semibold">{intComma(dayThreeDescent)}-stair descent</strong> through
+          the cloud forest; the fourth is a short pre-dawn push to the Sun Gate. Here is how the count
+          splits across them.
         </p>
         <DayBreakdown days={trek.perDay} />
       </section>
@@ -199,7 +205,7 @@ export default function IncaPage() {
 
         This means I didn&rsquo;t count many steps on the third day (which had steep cobbled ramps) that a casual hiker may consider a &ldquo;step.&rdquo; In all, I&rsquo;d estimate that there are around 1.5x more stepping motions than steps on the trail.<br /><br />
 
-        If you&rsquo;d like the raw data, please reach out to me at <Link href="/contact" className="link">borisnezlobin.com/contact</Link>.
+        If you&rsquo;d like the raw data, please reach out to me at <Link href="/contact" className="link">www.borisnezlobin.com/contact</Link>.
       </p>
     </main>
   );
