@@ -1,7 +1,5 @@
 import type { QA } from "../lib/content";
 
-// Visible, crawlable Q&A. The same items feed the FAQPage JSON-LD in the page,
-// so what Google reads matches what a visitor reads.
 export function Faq({ items }: { items: QA[] }) {
   return (
     <div className="mx-auto max-w-2xl divide-y divide-neutral-200 dark:divide-neutral-700">

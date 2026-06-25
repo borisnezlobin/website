@@ -2,11 +2,6 @@ import fs from "node:fs";
 import path from "node:path";
 import { finalizeMesh, type EdgeKind, type StairMesh, type Vec3 } from "./stairs";
 
-// Hand-traced staircase models, authored in the offline tracer tool
-// (incastepcounter/public/stair-tracer.html) and dropped into this folder as
-// JSON. Each file is self-describing; just adding one makes it appear in the
-// "Spin the stairs" lab. Read at build/render time on the server.
-
 export interface ImportedModel {
   photo: string;
   caption: string;
@@ -30,8 +25,6 @@ const MODELS_DIR = path.join(
   "models",
 );
 
-// Returns [] if the folder is missing or empty, so the page falls back to the
-// procedural staircases until real traced models exist.
 export function loadModels(): ImportedModel[] {
   let files: string[];
   try {

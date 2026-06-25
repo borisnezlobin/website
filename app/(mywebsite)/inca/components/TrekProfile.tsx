@@ -254,7 +254,7 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
             trek.totalKm,
           )} km Inca Trail. It climbs from about ${metres(trek.profile[0].elev)} at Km 82 to ${metres(
             trek.maxElev,
-          )} at Dead Woman's Pass, then descends to Machu Picchu. The line reddens over the ${intComma(
+          )} at Dead Woman’s Pass, then descends to Machu Picchu. The line reddens over the ${intComma(
             trek.totals.totalStairs,
           )} stone steps counted along the way.`}
         >

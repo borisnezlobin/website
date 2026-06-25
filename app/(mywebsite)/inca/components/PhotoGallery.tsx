@@ -72,7 +72,7 @@ export function PhotoGallery({
         </h3>
         <p className="mx-auto mt-2 max-w-2xl text-light-foreground dark:text-dark-foreground">
           Most of the count is easy. The honesty is in the edges — loose rock, worn nubs, and paving
-          that&apos;s flat enough to be a path. These are the ones I left out, or agonised over.
+          that&rsquo;s flat enough to be a path. These are the ones I left out, or agonised over.
         </p>
         <div className="mt-5 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
           {notSteps.map((p) => (

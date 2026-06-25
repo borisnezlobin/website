@@ -42,7 +42,6 @@ export async function generateStaticParams() {
 async function getDataForSlug(urlSlug: string) {
     console.log("Getting blog post", urlSlug);
 
-    // Try direct slug lookup — only serve if not a draft
     let blogPost = await getBlog(urlSlug);
     if (blogPost?.isDraft) {
         let uid = blogPost.draftUid;
@@ -53,7 +52,6 @@ async function getDataForSlug(urlSlug: string) {
         redirect(`/writing/${urlSlug}-${uid}`);
     }
 
-    // Try draft UID lookup: the URL is `slug-uid`, so split off the last segment
     if (!blogPost) {
         const lastDash = urlSlug.lastIndexOf("-");
         if (lastDash !== -1) {
@@ -69,7 +67,6 @@ async function getDataForSlug(urlSlug: string) {
         }
     }
 
-    // Handle legacy slug format (draft-personal-foo, draft-foo, personal-foo)
     if (!blogPost) {
         const cleanSlug = urlSlug.replace(/^draft-/, "").replace(/^personal-/, "");
         if (cleanSlug !== urlSlug) {

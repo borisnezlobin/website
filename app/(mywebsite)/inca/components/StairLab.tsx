@@ -12,10 +12,6 @@ export interface StairItem {
   traced: boolean;
 }
 
-// Each photographed flight, paired with its spinnable 3D wireframe — either a
-// hand-traced model or, until one exists, a procedural stand-in. Tap a thumbnail
-// to load a different staircase into the viewer.
-
 export function StairLab({ items }: { items: StairItem[] }) {
   const [active, setActive] = useState(0);
   if (!items.length) return null;

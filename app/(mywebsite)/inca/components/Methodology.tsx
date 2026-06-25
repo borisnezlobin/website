@@ -18,7 +18,7 @@ export function Methodology({ trek }: { trek: TrekData }) {
         a step? A shallow ramp of cobbles? A single worn slab? I logged the clear ones, set the
         doubtful ones aside as &ldquo;maybe&rdquo; (about {intComma(t.ambiguousStairs)} of them), and
         marked the steps you can skirt around. Where the path forks, I counted both branches but
-        charged only the shorter one to the climb you can&apos;t avoid. That is why there are two
+        charged only the shorter one to the climb you can&rsquo;t avoid. That is why there are two
         numbers: the <strong className="font-semibold">{intComma(t.totalStairs)}</strong> steps that
         physically exist, and the <strong className="font-semibold">{intComma(t.minStairs)}</strong>{" "}
         you actually have to take.
@@ -42,8 +42,8 @@ export function Methodology({ trek }: { trek: TrekData }) {
       </p>
       <p>
         The GPS also settled an old myth. The Classic Inca Trail is described almost everywhere as
-        43&nbsp;km. It isn&apos;t: a 6,000-point recording, the Peruvian Ministry of Culture&apos;s
-        own map, and the simple fact that Dead Woman&apos;s Pass falls at the halfway mark all put it
+        43&nbsp;km. It isn&rsquo;t: a 6,000-point recording, the Peruvian Ministry of Culture&rsquo;s
+        own map, and the simple fact that Dead Woman&rsquo;s Pass falls at the halfway mark all put it
         closer to <strong className="font-semibold">{trek.totalKm.toFixed(0)}&nbsp;km</strong>.
       </p>
     </div>
