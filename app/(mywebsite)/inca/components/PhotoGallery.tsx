@@ -67,10 +67,10 @@ export function PhotoGallery({
   return (
     <div className="space-y-10">
       <div>
-        <h3 className="vectra text-xl font-bold text-light-foreground dark:text-dark-foreground">
+        <h3 className="mx-auto max-w-2xl text-xl font-semibold text-light-foreground dark:text-dark-foreground">
           The judgement calls
         </h3>
-        <p className="mt-2 max-w-2xl text-light-foreground dark:text-dark-foreground">
+        <p className="mx-auto mt-2 max-w-2xl text-light-foreground dark:text-dark-foreground">
           Most of the count is easy. The honesty is in the edges — loose rock, worn nubs, and paving
           that&apos;s flat enough to be a path. These are the ones I left out, or agonised over.
         </p>
@@ -85,10 +85,10 @@ export function PhotoGallery({
       </div>
 
       <div>
-        <h3 className="vectra text-xl font-bold text-light-foreground dark:text-dark-foreground">
+        <h3 className="mx-auto max-w-2xl text-xl font-semibold text-light-foreground dark:text-dark-foreground">
           Counting, in the field
         </h3>
-        <p className="mt-2 max-w-2xl text-light-foreground dark:text-dark-foreground">
+        <p className="mx-auto mt-2 max-w-2xl text-light-foreground dark:text-dark-foreground">
           Four days, a notebook, and a lot of muttered numbers — including a short clip of the count
           in the rain.
         </p>

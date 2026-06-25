@@ -9,8 +9,12 @@ import type { Day, Item, StepGroup, Trail } from "./types";
 //                 fork/branch chosen.
 export interface Totals {
   totalStairs: number;
+  upTotal: number; // every physical step that climbs (upTotal + downTotal = totalStairs)
+  downTotal: number; // every physical step that descends
   minStairs: number;
   ambiguousStairs: number; // ± "maybe" stairs — a band on totalStairs, never in min
+  expectedLow: number; // realistic count: cheapest fork/branch at each choice
+  expectedHigh: number; // realistic count: costliest fork/branch at each choice
   up: number; // climb on the minimum route
   down: number; // descent on the minimum route
   avoidable: number; // skippable stairs along the way
@@ -21,11 +25,24 @@ export interface Totals {
   uncertaintyUpTo: number;
 }
 
+// The expected (realistic) count assumes a hiker who walks around only a quarter
+// of the avoidable steps and treats half the ± "maybe" steps as real. The range
+// itself comes from the forks and branches: the low end takes the cheapest side
+// of every choice, the high end the costliest.
+const AVOIDABLE_TAKEN = 0.75; // climb 75% of skippable steps (skirt around 25%)
+const AMBIGUOUS_TAKEN = 0.5; // count half of the ± "maybe" steps
+const expectedGroup = (g: StepGroup) => g.steps - g.avoidable + AVOIDABLE_TAKEN * g.avoidable;
+const expectedAmbiguous = (g: StepGroup) => AMBIGUOUS_TAKEN * g.steps;
+
 function empty(): Totals {
   return {
     totalStairs: 0,
+    upTotal: 0,
+    downTotal: 0,
     minStairs: 0,
     ambiguousStairs: 0,
+    expectedLow: 0,
+    expectedHigh: 0,
     up: 0,
     down: 0,
     avoidable: 0,
@@ -48,45 +65,76 @@ function addLinear(acc: Totals, item: Item) {
     acc.groupCount += 1;
     const g = item.group;
     if (g.ambiguous) {
-      acc.ambiguousStairs += g.steps;
+      addAmbiguous(acc, g);
     } else {
-      acc.totalStairs += g.steps;
+      addPhysical(acc, g);
       acc.avoidable += g.avoidable;
       const req = required(g);
       acc.minStairs += req;
+      addExpected(acc, expectedGroup(g));
       if (g.direction === "up") acc.up += req;
       else acc.down += req;
     }
-    for (const sub of item.subAmbiguous ?? []) acc.ambiguousStairs += sub.steps;
+    for (const sub of item.subAmbiguous ?? []) addAmbiguous(acc, sub);
     return;
   }
   if (item.kind === "fork" && item.fork) {
     acc.forkCount += 1;
     let best: StepGroup | null = null;
     let bestReq = Infinity;
+    let expLow = Infinity;
+    let expHigh = -Infinity;
     for (const a of item.fork.alternatives) {
       if (a.ambiguous) {
-        acc.ambiguousStairs += a.steps;
+        addAmbiguous(acc, a); // a maybe-path counts the same either way
         continue;
       }
-      acc.totalStairs += a.steps; // every path's stairs exist
+      addPhysical(acc, a); // every path's stairs exist
       const req = required(a);
       if (req < bestReq) {
         bestReq = req;
         best = a;
       }
+      const e = expectedGroup(a);
+      expLow = Math.min(expLow, e);
+      expHigh = Math.max(expHigh, e);
     }
     if (best) {
       acc.minStairs += bestReq;
       acc.avoidable += best.avoidable;
+      acc.expectedLow += expLow;
+      acc.expectedHigh += expHigh;
       if (best.direction === "up") acc.up += bestReq;
       else acc.down += bestReq;
     }
   }
 }
 
+// A scalar that contributes equally to both ends of the expected range (groups,
+// ± steps — anything that isn't a fork/branch where the count can diverge).
+function addExpected(acc: Totals, value: number) {
+  acc.expectedLow += value;
+  acc.expectedHigh += value;
+}
+
+// A real (non-±) flight: counts toward the total and its directional split.
+function addPhysical(acc: Totals, g: StepGroup) {
+  acc.totalStairs += g.steps;
+  if (g.direction === "up") acc.upTotal += g.steps;
+  else acc.downTotal += g.steps;
+}
+
+// A ± "maybe" flight: a step I wasn't sure to count. Held out of the total and
+// folded into the expected count at half weight.
+function addAmbiguous(acc: Totals, g: StepGroup) {
+  acc.ambiguousStairs += g.steps;
+  addExpected(acc, expectedAmbiguous(g));
+}
+
 function mergeAll(into: Totals, from: Totals) {
   into.totalStairs += from.totalStairs;
+  into.upTotal += from.upTotal;
+  into.downTotal += from.downTotal;
   into.ambiguousStairs += from.ambiguousStairs;
   into.avoidable += from.avoidable;
   into.groupCount += from.groupCount;
@@ -120,12 +168,18 @@ export function dayTotals(day: Day): Totals {
       acc.branchCount += 1;
       const laneTotals = lanes.map(linear);
       let best: Totals | null = null;
+      let expLow = Infinity;
+      let expHigh = -Infinity;
       for (const lt of laneTotals) {
         mergeAll(acc, lt); // total counts every lane's stairs
         if (!best || lt.minStairs < best.minStairs) best = lt;
+        expLow = Math.min(expLow, lt.expectedLow);
+        expHigh = Math.max(expHigh, lt.expectedHigh);
       }
       if (best) {
         acc.minStairs += best.minStairs;
+        acc.expectedLow += expLow;
+        acc.expectedHigh += expHigh;
         acc.up += best.up;
         acc.down += best.down;
       }
@@ -161,6 +215,8 @@ export function trailTotals(trail: Trail): Totals {
     const t = dayTotals(day);
     mergeAll(acc, t);
     acc.minStairs += t.minStairs;
+    acc.expectedLow += t.expectedLow;
+    acc.expectedHigh += t.expectedHigh;
     acc.up += t.up;
     acc.down += t.down;
   }

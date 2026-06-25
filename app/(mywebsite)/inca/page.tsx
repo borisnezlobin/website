@@ -14,6 +14,8 @@ import { TrekProfile } from "./components/TrekProfile";
 import { Methodology } from "./components/Methodology";
 import { StairLab, type StairItem } from "./components/StairLab";
 import { PhotoGallery } from "./components/PhotoGallery";
+import { DayBreakdown } from "./components/DayBreakdown";
+import { AmbiguousBreakdown } from "./components/AmbiguousBreakdown";
 import { Faq } from "./components/Faq";
 
 const trail = trailData as unknown as Trail;
@@ -72,14 +74,11 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-function SectionHeading({ kicker, title }: { kicker: string; title: string }) {
+function SectionHeading({ title }: { title: string }) {
   return (
-    <div className="mb-6">
-      <p className="text-sm text-muted dark:text-muted-dark">{kicker}</p>
-      <h2 className="vectra mt-1 text-2xl font-bold text-light-foreground dark:text-dark-foreground md:text-3xl">
-        {title}
-      </h2>
-    </div>
+    <h2 className="mx-auto mb-5 max-w-2xl text-2xl font-semibold text-light-foreground dark:text-dark-foreground">
+      {title}
+    </h2>
   );
 }
 
@@ -144,8 +143,8 @@ export default function IncaPage() {
       <Hero trek={trek} />
 
       <section className="mt-14">
-        <SectionHeading kicker="The whole trail at a glance" title="Where all the steps are" />
-        <p className="mb-5 max-w-2xl text-light-foreground dark:text-dark-foreground">
+        <SectionHeading title="Where all the steps are" />
+        <p className="mx-auto mb-5 max-w-2xl text-light-foreground dark:text-dark-foreground">
           The Inca Trail isn&apos;t one long staircase. It&apos;s a {trek.totalKm.toFixed(0)}-kilometre
           walk over a {intComma(trek.maxElev)}-metre pass and a long stone descent to Machu Picchu,
           with the steps bunched on the steepest pitches — gentle along the river, relentless on the
@@ -157,13 +156,24 @@ export default function IncaPage() {
       </section>
 
       <section className="mt-16">
-        <SectionHeading kicker="Method" title="How I counted them" />
+        <SectionHeading title="Where the steps fall, day by day" />
+        <p className="mx-auto mb-6 max-w-2xl text-light-foreground dark:text-dark-foreground">
+          The four days are nothing alike. The first is a gentle warm-up along the river; the second
+          is the brutal climb to Dead Woman&apos;s Pass; the third is the longest, an endless stone
+          descent through the cloud forest; the fourth is a short pre-dawn push to the Sun Gate. Here
+          is how the count splits across them.
+        </p>
+        <DayBreakdown days={trek.perDay} />
+      </section>
+
+      <section className="mt-16">
+        <SectionHeading title="How I counted them" />
         <Methodology trek={trek} />
       </section>
 
       <section className="mt-16">
-        <SectionHeading kicker="In three dimensions" title="What a single step looks like" />
-        <p className="mb-6 max-w-2xl text-light-foreground dark:text-dark-foreground">
+        <SectionHeading title="What a single step looks like" />
+        <p className="mx-auto mb-6 max-w-2xl text-light-foreground dark:text-dark-foreground">
           No two Inca steps are alike — hand-cut from whatever stone was on the mountain, tall in one
           place, ankle-low the next, tilted almost everywhere. A photograph flattens all of that, so
           each staircase here is rebuilt as a 3D model you can spin and zoom. They&apos;re
@@ -174,12 +184,14 @@ export default function IncaPage() {
       </section>
 
       <section className="mt-16">
-        <SectionHeading kicker="From the trail" title="Steps, not-steps, and judgement calls" />
-        <p className="mb-6 max-w-2xl text-light-foreground dark:text-dark-foreground">
+        <SectionHeading title="Steps, not-steps, and judgement calls" />
+        <p className="mx-auto mb-6 max-w-2xl text-light-foreground dark:text-dark-foreground">
           Half the work of counting is deciding what counts. These are photographs from the trek:
           the unmistakable staircases, the borderline cases — ramps, paving, a single worn slab —
           that had to be ruled in or out, and the path as it really looks underfoot.
         </p>
+        <AmbiguousBreakdown totals={trek.totals} />
+        <div className="mt-10" />
         <PhotoGallery
           notSteps={photos.notSteps}
           paving={photos.paving}
@@ -188,11 +200,11 @@ export default function IncaPage() {
       </section>
 
       <section className="mt-16">
-        <SectionHeading kicker="Questions" title="The Inca Trail steps, answered" />
+        <SectionHeading title="The Inca Trail steps, answered" />
         <Faq items={faq} />
       </section>
 
-      <p className="mt-16 max-w-2xl text-sm text-muted dark:text-muted-dark">
+      <p className="mx-auto mt-16 max-w-2xl text-sm text-muted dark:text-muted-dark">
         These are one person&apos;s careful counts, not an official survey — honest about their
         doubts and easy to correct. If you&apos;ve walked the trail and think a stretch is miscounted,
         or you have a better elevation for a landmark, I&apos;d genuinely like to hear it.

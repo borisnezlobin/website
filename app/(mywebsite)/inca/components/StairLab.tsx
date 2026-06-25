@@ -45,7 +45,7 @@ export function StairLab({ items }: { items: StairItem[] }) {
         </figure>
       </div>
 
-      <p className="mt-4 max-w-2xl text-light-foreground dark:text-dark-foreground">{current.caption}</p>
+      <p className="mx-auto mt-4 max-w-2xl text-light-foreground dark:text-dark-foreground">{current.caption}</p>
 
       <div className="mt-5 flex flex-wrap gap-2">
         {items.map((s, i) => (

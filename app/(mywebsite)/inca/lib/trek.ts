@@ -1,6 +1,6 @@
 import type { Item, StepGroup, Trail } from "./types";
 import { classifyMarker, cleanLabel, type LandmarkKind } from "./landmarks";
-import { trailTotals, type Totals } from "./totals";
+import { dayTotals, trailTotals, type Totals } from "./totals";
 import profileData from "../data/trail-profile.json";
 import landmarkData from "../data/trail-landmarks.json";
 
@@ -28,6 +28,11 @@ export interface TrekLandmark {
   kind: string;
 }
 
+export interface DayTotals {
+  name: string;
+  totals: Totals;
+}
+
 export interface TrekData {
   totalKm: number;
   ascentM: number;
@@ -38,6 +43,7 @@ export interface TrekData {
   maxStepsPerKm: number; // busiest staircase density, for colour scaling
   landmarks: TrekLandmark[];
   totals: Totals;
+  perDay: DayTotals[];
   source: string;
 }
 
@@ -252,6 +258,7 @@ export function buildTrek(trail: Trail): TrekData {
     maxStepsPerKm,
     landmarks,
     totals: trailTotals(trail),
+    perDay: trail.days.map((day) => ({ name: day.name, totals: dayTotals(day) })),
     source: profileData.source,
   };
   return cached;
