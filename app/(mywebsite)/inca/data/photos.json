@@ -27,21 +27,21 @@
     }
   ],
   "paving": [
-    { "file": "IMG_6683", "caption": "Cobbled paving from above — flat enough that it's a path, not a stair." },
+    { "file": "IMG_6683", "caption": "Cobbled paving from above â flat enough that it’s a path, not a stair." },
     { "file": "IMG_6684", "caption": "A gentle cobbled ramp. Some risers, but mostly walking grade." },
     { "file": "IMG_6685", "caption": "Rounded cobbles set into the slope — the boundary case between step and path." },
     { "file": "IMG_6686", "caption": "Paved trail through the cloud forest. Counted only where a real riser showed up." },
-    { "file": "IMG_6687", "caption": "Neat dry-stone paving. Lovely work, but flat — these don't add to the count." }
+    { "file": "IMG_6687", "caption": "Neat dry-stone paving. Lovely work, but flat â these don’t add to the count." }
   ],
   "notSteps": [
-    { "file": "IMG_6608", "caption": "A single stone bar laid across the dirt. One lone edging stone — not a flight, didn't count it." },
+    { "file": "IMG_6608", "caption": "A single stone bar laid across the dirt. One lone edging stone â not a flight, didn’t count it." },
     { "file": "IMG_6609", "caption": "Loose rocky scramble. Stones underfoot, but nothing built — not steps." },
     { "file": "IMG_6617", "caption": "Rounded stones half-buried in a dirt ramp. Worn past the point of being a step." },
     { "file": "IMG_6618", "caption": "Flat dirt with one faint buried stone. The kind of thing I deliberately did not count." }
   ],
   "counting": [
     { "file": "IMG_6603", "caption": "The overlook above the Urubamba — notebook and boot in the frame, mid-count.", "kind": "image" },
-    { "file": "IMG_6630", "caption": "The day's tallies, held up against the peaks.", "kind": "image" },
+    { "file": "IMG_6630", "caption": "The day’s tallies, held up against the peaks.", "kind": "image" },
     { "file": "IMG_6631", "caption": "Counting columns, mountains behind.", "kind": "image" },
     { "file": "IMG_6632", "caption": "Another page of the running count, on the way to the pass.", "kind": "image" },
     { "file": "IMG_6709", "caption": "Pages dense with tallies — every flight, section by section.", "kind": "image" },

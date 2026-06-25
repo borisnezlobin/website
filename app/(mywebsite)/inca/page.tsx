@@ -17,6 +17,8 @@ import { PhotoGallery } from "./components/PhotoGallery";
 import { DayBreakdown } from "./components/DayBreakdown";
 import { AmbiguousBreakdown } from "./components/AmbiguousBreakdown";
 import { Faq } from "./components/Faq";
+import Link from "next/link";
+import Image from "next/image";
 
 const trail = trailData as unknown as Trail;
 const photos = photoData as PhotoManifest;
@@ -43,7 +45,7 @@ const CANONICAL = `${SITE}/inca`;
 const OG_IMAGE = `${SITE}/og?title=${encodeURIComponent(
   `${intComma(trek.totals.totalStairs)} steps`,
 )}&subtitle=${encodeURIComponent("Every stair on the Inca Trail, counted")}`;
-const UPDATED = trail.updatedAt ?? "2026-06-20";
+const UPDATED = trail.updatedAt ?? "2026-06-25";
 
 export async function generateMetadata(): Promise<Metadata> {
   const description = `I counted every stone step on the 4-day Classic Inca Trail: there are ${intComma(
@@ -76,7 +78,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 function SectionHeading({ title }: { title: string }) {
   return (
-    <h2 className="mx-auto mb-5 max-w-2xl text-2xl font-semibold text-light-foreground dark:text-dark-foreground">
+    <h2 className="mx-auto mb-5 max-w-2xl text-2xl font-semibold ">
       {title}
     </h2>
   );
@@ -94,11 +96,11 @@ export default function IncaPage() {
         "@type": "Article",
         "@id": `${CANONICAL}#article`,
         headline: "How Many Steps Are on the Inca Trail?",
-        description: `A hand count of every stone step on the Classic Inca Trail — ${intComma(
+        description: `A hand count of every stone step on the Classic Inca Trail—${intComma(
           trek.totals.totalStairs,
         )} in total, ${intComma(
           trek.totals.minStairs,
-        )} on the minimum route — drawn on the trail's real GPS elevation profile.`,
+        )} at minimum—drawn on the trail's real GPS elevation profile.`,
         image: OG_IMAGE,
         author: { "@type": "Person", name: "Boris Nezlobin", url: SITE },
         publisher: { "@type": "Person", name: "Boris Nezlobin", url: SITE },
@@ -134,7 +136,7 @@ export default function IncaPage() {
   };
 
   return (
-    <main className="mx-auto max-w-4xl px-4 py-12 md:px-8 md:py-16">
+    <main className="mx-auto max-w-4xl px-4 py-12 md:px-8 md:py-16 skibidiwrapper">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -144,8 +146,8 @@ export default function IncaPage() {
 
       <section className="mt-14">
         <SectionHeading title="Where all the steps are" />
-        <p className="mx-auto mb-5 max-w-2xl text-light-foreground dark:text-dark-foreground">
-          The Inca Trail isn&apos;t one long staircase. It&apos;s a {trek.totalKm.toFixed(0)}-kilometre
+        <p className="mx-auto mb-5 max-w-2xl ">
+          The Inca Trail isn&rsquo;t one long staircase. It&rsquo;s a {trek.totalKm.toFixed(0)}-kilometre
           walk over a {intComma(trek.maxElev)}-metre pass and a long stone descent to Machu Picchu,
           with the steps bunched on the steepest pitches — gentle along the river, relentless on the
           drop through Phuyupatamarca. The chart below is the real trail: true elevation from a GPS
@@ -157,9 +159,9 @@ export default function IncaPage() {
 
       <section className="mt-16">
         <SectionHeading title="Where the steps fall, day by day" />
-        <p className="mx-auto mb-6 max-w-2xl text-light-foreground dark:text-dark-foreground">
+        <p className="mx-auto mb-6 max-w-2xl ">
           The four days are nothing alike. The first is a gentle warm-up along the river; the second
-          is the brutal climb to Dead Woman&apos;s Pass; the third is the longest, an endless stone
+          is the brutal climb to Dead Woman&rsquo;s Pass; the third is the longest, an endless stone
           descent through the cloud forest; the fourth is a short pre-dawn push to the Sun Gate. Here
           is how the count splits across them.
         </p>
@@ -172,42 +174,32 @@ export default function IncaPage() {
       </section>
 
       <section className="mt-16">
-        <SectionHeading title="What a single step looks like" />
-        <p className="mx-auto mb-6 max-w-2xl text-light-foreground dark:text-dark-foreground">
-          No two Inca steps are alike — hand-cut from whatever stone was on the mountain, tall in one
-          place, ankle-low the next, tilted almost everywhere. A photograph flattens all of that, so
-          each staircase here is rebuilt as a 3D model you can spin and zoom. They&apos;re
-          reconstructions from photographs rather than scans, but the proportions and the number of
-          steps match the real flight.
-        </p>
-        <StairLab items={stairItems} />
-      </section>
-
-      <section className="mt-16">
-        <SectionHeading title="Steps, not-steps, and judgement calls" />
-        <p className="mx-auto mb-6 max-w-2xl text-light-foreground dark:text-dark-foreground">
-          Half the work of counting is deciding what counts. These are photographs from the trek:
-          the unmistakable staircases, the borderline cases — ramps, paving, a single worn slab —
-          that had to be ruled in or out, and the path as it really looks underfoot.
-        </p>
-        <AmbiguousBreakdown totals={trek.totals} />
-        <div className="mt-10" />
-        <PhotoGallery
-          notSteps={photos.notSteps}
-          paving={photos.paving}
-          counting={photos.counting}
-        />
-      </section>
-
-      <section className="mt-16">
         <SectionHeading title="The Inca Trail steps, answered" />
         <Faq items={faq} />
       </section>
 
+
+      <figure className="mx-auto mt-12 max-w-2xl">
+        <Image
+          src="/inca/inca-trail-steps.jpg"
+          alt="An open field notebook headed &ldquo;Stones,&rdquo; its grid pages filled with handwritten step tallies, propped on a grassy ridge with cloud-wrapped Andean peaks behind."
+          width={1024}
+          height={768}
+          className="h-auto w-full rounded-xl"
+        />
+        <figcaption className="mt-3 text-sm text-muted dark:text-muted-dark">
+          A picture of my notebook, taken at Intipata. The handwriting has
+          been redrawn by Gemini for privacy, so it&rsquo;s slightly inaccurate in places.
+        </figcaption>
+      </figure>
+
       <p className="mx-auto mt-16 max-w-2xl text-sm text-muted dark:text-muted-dark">
-        These are one person&apos;s careful counts, not an official survey — honest about their
-        doubts and easy to correct. If you&apos;ve walked the trail and think a stretch is miscounted,
-        or you have a better elevation for a landmark, I&apos;d genuinely like to hear it.
+        These are my personal counts, and I admit that I could be off by up to 2%. It&rsquo;s also worth noting that the stairs I counted were only the
+        intentional and significant elevation-changing steps that the Incas built.<br /><br />
+
+        This means I didn&rsquo;t count many steps on the third day (which had steep cobbled ramps) that a casual hiker may consider a &ldquo;step.&rdquo; In all, I&rsquo;d estimate that there are around 1.5x more stepping motions than steps on the trail.<br /><br />
+
+        If you&rsquo;d like the raw data, please reach out to me at <Link href="/contact" className="link">borisnezlobin.com/contact</Link>.
       </p>
     </main>
   );
