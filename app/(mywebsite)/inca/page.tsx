@@ -200,10 +200,9 @@ export default function IncaPage() {
       </figure>
 
       <p className="mx-auto mt-16 max-w-2xl text-sm text-muted dark:text-muted-dark">
-        These are my personal counts, and I admit that I could be off by up to 2%. It&rsquo;s also worth noting that the stairs I counted were only the
-        intentional and significant elevation-changing steps that the Incas built.<br /><br />
+        These are my own counts, and I stand behind them to about 2%. To be precise about what I counted: only the intentional, elevation-changing stone steps the Incas built.<br /><br />
 
-        This means I didn&rsquo;t count many steps on the third day (which had steep cobbled ramps) that a casual hiker may consider a &ldquo;step.&rdquo; In all, I&rsquo;d estimate that there are around 1.5x more stepping motions than steps on the trail.<br /><br />
+        That means on the third day&rsquo;s steep cobbled ramps I left out a lot of what a casual hiker might call a &ldquo;step.&rdquo; All told, I&rsquo;d reckon there are around 1.5x more stepping motions than built steps on the trail.<br /><br />
 
         If you&rsquo;d like the raw data, please reach out to me at <Link href="/contact" className="link">www.borisnezlobin.com/contact</Link>.
       </p>
