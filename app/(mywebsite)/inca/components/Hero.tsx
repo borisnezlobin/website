@@ -22,29 +22,29 @@ export function Hero({ trek }: { trek: TrekData }) {
           How many steps are on the Inca Trail?
         </h1>
         <p className="mt-2 text-muted italic dark:text-muted-dark">
-          Hand-counted over four days and {trek.totalKm.toFixed(0)} km
+          I counted the stairs on the four-day and {trek.totalKm.toFixed(0)}-km Classic Inca Trail to Machu Picchu.
         </p>
       </div>
 
       <div className="mx-auto mt-8 max-w-2xl space-y-4 text-light-foreground dark:text-dark-foreground">
         <p>
-          There has never been an accurate count of steps built by the Incas on the Inca Trail,
-          despite dozens of travel agencies throwing out approximate estimates, until now.
+          Every guidebook and tour operator quotes a different number for the Inca Trail&rsquo;s
+          steps. The reason for that is simple: nobody has ever actually counted them. So I did.
         </p>
         <p>
-          I counted—by hand!—every single stair, step, and staircase on the four-day Inca Trail from
-          Km 82 to Machu Picchu and kept track of which steps were ambiguous or optional. In places
-          where the trail split, I counted both forks.
+          I counted&mdash;by hand!&mdash;every single stair, step, and staircase on the four-day Inca
+          Trail from Km 82 to Machu Picchu, tracking which steps were ambiguous and which were
+          optional. Where the trail forked, I walked and counted both sides.
         </p>
         <p>
-          To finally answer the question, there are{" "}
+          So here is the real answer: there are{" "}
           <strong className="font-semibold">{intComma(t.totalStairs)} stone steps</strong> on the
-          four-day Inca Trail, of which you must climb{" "}
-          <strong className="font-semibold">at least {intComma(t.minStairs)}</strong>. In practice,
-          most hikers actually take somewhere between{" "}
+          four-day Inca Trail. You must climb{" "}
+          <strong className="font-semibold">at least {intComma(t.minStairs)}</strong> of those. This is not an estimate! Realistically, most
+          hikers take somewhere between{" "}
           <strong className="font-semibold">
             {intComma(t.expectedLow)} and {intComma(t.expectedHigh)}
-          </strong>
+          </strong>, depending on their route choices and side trips.
           .
         </p>
       </div>
