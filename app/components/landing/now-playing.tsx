@@ -54,7 +54,7 @@ export const NowPlaying = () => {
                 }
 
                 // cough cough. not that I would ever...
-                if (data.title.includes("Shake That") || data.title.includes("In Paris")) {
+                if (data.title.includes("Shake That") || data.title.includes("In Paris") || data.title.includes("Das Übermensch")) {
                     setSong(null);
                     return;
                 }
