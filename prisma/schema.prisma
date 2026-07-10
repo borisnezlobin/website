@@ -29,9 +29,21 @@ model Article {
   isDraft     Boolean         @default(false)
   category    ArticleCategory @default(TECHNICAL)
   draftUid    String?
+  viewEvents  ArticleView[]
 
   @@index([title], map: "articles_title")
   @@index([createdAt], map: "created_at")
+}
+
+// One row per counted article view. The `views` Int on Article stays the cheap
+// running total; these timestamped rows back the views-over-time chart.
+model ArticleView {
+  id        String   @id @default(cuid())
+  article   Article  @relation(fields: [articleId], references: [id], onDelete: Cascade)
+  articleId String
+  createdAt DateTime @default(now())
+
+  @@index([articleId, createdAt], map: "article_view_article_created")
 }
 
 model Note {

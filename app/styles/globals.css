@@ -255,15 +255,28 @@ script {
   --code-comment: #767676;
 }
 
+/* Embedded images break wider than the prose column so screenshots stay
+   readable, while max-height keeps tall/portrait images from towering. The
+   flex box centers each image on the page regardless of its aspect ratio. */
+.skibidiwrapper .image-embed {
+    display: flex;
+    justify-content: center;
+    width: min(92vw, 56rem);
+    margin-left: 50%;
+    transform: translateX(-50%);
+}
+
 .skibidiwrapper img {
     break-inside: avoid !important;
     page-break-inside: avoid !important;
     display: block;
-    max-width: 75% !important;
+    width: auto;
+    max-width: 100%;
+    max-height: min(78vh, 36rem);
     height: auto;
     margin: auto;
     border-radius: 4px;
-    border: 1px solid var(--code-border-color);
+    box-shadow: 0 0 0 1px var(--code-border-color);
 }
 
 @media print {

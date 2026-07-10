@@ -8,7 +8,7 @@ export async function generateMetadata({ params }: { params: Promise<{ query: st
     return getMetadata({
         title: `Search results for "${query.slice(0, 20)}"`,
         info: (new Date()).toLocaleDateString(),
-        subtitle: "Boris Nezlobin.",
+        subtitle: "Writing",
         description: `Search results for "${query}" on Boris Nezlobin's blog.`,
     });
 }

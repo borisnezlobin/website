@@ -14,9 +14,13 @@ const getMetadata = ({
   info?: string;
   subtitle?: string;
 }) => {
-  const ogUrl =
-    img ||
-    `${CONFIG.API_URL}/og?title=${title || ""}&info=${info || ""}&subtitle=${subtitle || ""}`;
+  const ogUrl = img || (() => {
+    const url = new URL("/og", CONFIG.API_URL);
+    url.searchParams.set("title", title);
+    url.searchParams.set("info", info || "");
+    url.searchParams.set("subtitle", subtitle || "");
+    return url.toString();
+  })();
 
   return {
     title: title ? title + " / Boris Nezlobin." : "Boris Nezlobin.",
@@ -36,8 +40,8 @@ const getMetadata = ({
       images: [
         {
           url: ogUrl,
-          width: 1920,
-          height: 1080,
+          width: 1200,
+          height: 630,
         },
       ],
       locale: "en-US",
@@ -50,8 +54,8 @@ const getMetadata = ({
       images: [
         {
           url: ogUrl,
-          width: 1920,
-          height: 1080,
+          width: 1200,
+          height: 630,
         },
       ],
     },

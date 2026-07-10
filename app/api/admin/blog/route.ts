@@ -83,7 +83,20 @@ export async function GET(request: NextRequest) {
       }
     }
 
-    return NextResponse.json({ post, content });
+    const viewsByDay = await db.$queryRaw<{ day: Date; count: number }[]>`
+      SELECT date_trunc('day', v."createdAt") AS day, count(*)::int AS count
+      FROM "ArticleView" v
+      JOIN "Article" a ON a.id = v."articleId"
+      WHERE a.slug = ${slug} AND v."createdAt" >= now() - interval '120 days'
+      GROUP BY day
+      ORDER BY day ASC
+    `;
+
+    return NextResponse.json({
+      post,
+      content,
+      viewsByDay: viewsByDay.map((r) => ({ date: r.day, count: Number(r.count) })),
+    });
   }
 
   const posts = await db.article.findMany({

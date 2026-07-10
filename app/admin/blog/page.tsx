@@ -1,8 +1,15 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowLeft, FloppyDisk, Eye, CaretRight, Plus } from "@phosphor-icons/react/dist/ssr";
+import { ArrowLeft, FloppyDisk, Eye, EyeSlash, CaretRight, Plus } from "@phosphor-icons/react/dist/ssr";
 import type { ArticleCategory } from "@/prisma/awooga/client";
+import { VIEW_EXCLUDE_COOKIE } from "@/app/lib/view-config";
+import ViewsChart, { type ViewDay } from "./views-chart";
+
+const FIVE_YEARS = 60 * 60 * 24 * 365 * 5;
+const isExcludedFromViews = () =>
+  typeof document !== "undefined" &&
+  document.cookie.split("; ").includes(`${VIEW_EXCLUDE_COOKIE}=1`);
 
 const CATEGORIES: ArticleCategory[] = ["TECHNICAL", "CREATIVE", "PERSONAL"];
 const titleCase = (c: ArticleCategory) => c[0] + c.slice(1).toLowerCase();
@@ -26,6 +33,7 @@ export default function BlogAdminPage() {
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [content, setContent] = useState("");
+  const [viewsByDay, setViewsByDay] = useState<ViewDay[]>([]);
   const [description, setDescription] = useState("");
   const [isDraft, setIsDraft] = useState(false);
   const [category, setCategory] = useState<ArticleCategory>("TECHNICAL");
@@ -36,6 +44,19 @@ export default function BlogAdminPage() {
   const [loading, setLoading] = useState(false);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
+  const [excluded, setExcluded] = useState(false);
+
+  useEffect(() => {
+    setExcluded(isExcludedFromViews());
+  }, []);
+
+  function toggleExcluded() {
+    const next = !excluded;
+    document.cookie = next
+      ? `${VIEW_EXCLUDE_COOKIE}=1; path=/; max-age=${FIVE_YEARS}; samesite=lax`
+      : `${VIEW_EXCLUDE_COOKIE}=; path=/; max-age=0; samesite=lax`;
+    setExcluded(next);
+  }
 
   useEffect(() => {
     const stored = localStorage.getItem("admin_password");
@@ -75,6 +96,7 @@ export default function BlogAdminPage() {
     setCategory(post.category);
     setDescription(post.description ?? "");
     setContent("");
+    setViewsByDay([]);
     setLoading(true);
     try {
       const res = await fetch(`/api/admin/blog?slug=${post.slug}`, {
@@ -82,6 +104,7 @@ export default function BlogAdminPage() {
       });
       const data = await res.json();
       setContent(data.content || "");
+      setViewsByDay(data.viewsByDay || []);
     } catch (e) {
       console.error(e);
     } finally {
@@ -135,6 +158,7 @@ export default function BlogAdminPage() {
     setSlugEdited(false);
     setDescription("");
     setContent("");
+    setViewsByDay([]);
     setIsDraft(false);
     setCategory("TECHNICAL");
     setMessage(null);
@@ -276,6 +300,10 @@ export default function BlogAdminPage() {
             </div>
           )}
 
+          {editing && (
+            <ViewsChart viewsByDay={viewsByDay} totalViews={selectedPost!.views} />
+          )}
+
           <div className="flex flex-col gap-1 mb-4">
             <label className="text-sm text-muted dark:text-muted-dark">Description</label>
             <textarea
@@ -360,6 +388,18 @@ export default function BlogAdminPage() {
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-2xl font-semibold">Blog Admin</h1>
           <div className="flex items-center gap-4">
+            <button
+              onClick={toggleExcluded}
+              title={excluded ? "Your views on this device are not counted" : "Count your views on this device"}
+              className={`flex items-center gap-2 px-3 py-2 rounded text-sm font-medium transition-colors ${
+                excluded
+                  ? "bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200"
+                  : "text-muted hover:text-black dark:hover:text-white"
+              }`}
+            >
+              {excluded ? <EyeSlash size={18} /> : <Eye size={18} />}
+              {excluded ? "Not counting you" : "Counting you"}
+            </button>
             <button
               onClick={startNew}
               className="flex items-center gap-2 px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-black rounded font-medium hover:opacity-90 transition-opacity"

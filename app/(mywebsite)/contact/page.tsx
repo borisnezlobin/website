@@ -7,7 +7,7 @@ import { Separator } from "@/app/components/separator";
 export const metadata = getMetadata({
     title: "Contact Me",
     description: "Questions, comments, suggestions? Find me on GitHub, LinkedIn, or send me an email.",
-    subtitle: "Boris Nezlobin."
+    subtitle: "Get in touch"
 });
 
 const ContactType = ({ title, icon, url, urlTitle, description, professionalism }: { title: string, icon: ReactNode, url: string, urlTitle?: string, description?: string, professionalism: number }) => {

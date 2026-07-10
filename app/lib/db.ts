@@ -1,12 +1,15 @@
 import { PrismaClient } from "@/prisma/awooga/client";
-import { PrismaPg } from '@prisma/adapter-pg';
+import { PrismaNeon } from "@prisma/adapter-neon";
 
 function createPrismaClient() {
   const connectionString = process.env.PROD_POSTGRES_PRISMA_URL;
   if (!connectionString) {
     throw new Error("PROD_POSTGRES_PRISMA_URL is not set");
   }
-  const adapter = new PrismaPg({ connectionString });
+  // Neon's serverless adapter uses HTTP/WebSockets instead of requiring a
+  // direct TCP connection to PostgreSQL on port 5432. This also works on
+  // networks that block outbound database ports.
+  const adapter = new PrismaNeon({ connectionString });
   return new PrismaClient({ adapter });
 }
 

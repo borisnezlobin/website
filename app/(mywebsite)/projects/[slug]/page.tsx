@@ -30,7 +30,7 @@ export async function generateMetadata({
         return getMetadata({
             title: "Project not found.",
             info: "404",
-            subtitle: "Boris Nezlobin.",
+            subtitle: "Not found",
             description:
                 "This project couldn't be found. Visit my website to contact me, see what I'm up to, and learn more about me!",
         });
@@ -39,7 +39,7 @@ export async function generateMetadata({
     return getMetadata({
         title: proj.title,
         info: new Date(proj.createdAt).toLocaleDateString(),
-        subtitle: "A project by Boris Nezlobin.",
+        subtitle: "Projects",
         description: proj.description,
     });
 }
