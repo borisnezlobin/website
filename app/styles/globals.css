@@ -255,9 +255,10 @@ script {
   --code-comment: #767676;
 }
 
-/* Embedded images break wider than the prose column so screenshots stay
-   readable, while max-height keeps tall/portrait images from towering. The
-   flex box centers each image on the page regardless of its aspect ratio. */
+.markdown-preview-view.markdown-rendered {
+    overflow: visible;
+}
+
 .skibidiwrapper .image-embed {
     display: flex;
     justify-content: center;
@@ -277,6 +278,10 @@ script {
     margin: auto;
     border-radius: 4px;
     box-shadow: 0 0 0 1px var(--code-border-color);
+}
+
+.dark .skibidiwrapper img.invert {
+    box-shadow: 0 0 0 1px #cacaca;
 }
 
 @media print {
@@ -517,7 +522,6 @@ script {
 
   .fade-out-bottom {
       position: relative;
-      /* Mask the container to fade the text to transparent at the bottom */
       -webkit-mask-image: linear-gradient(to bottom, black var(--mask-start), transparent 100%);
       mask-image: linear-gradient(to bottom, black var(--mask-start), transparent 100%);
   }
@@ -525,14 +529,12 @@ script {
   .fade-out-bottom::after {
       content: '';
       position: absolute;
-      inset: 0; /* Cover the entire container */
-      pointer-events: none; /* Allow interaction with the content underneath */
-      
-      /* Apply a blur to the content behind this pseudo-element */
+      inset: 0;
+      pointer-events: none;
+
       backdrop-filter: blur(30px);
       -webkit-backdrop-filter: blur(30px);
 
-      /* Mask this pseudo-element so the blur effect fades in from top to bottom */
       -webkit-mask-image: linear-gradient(to bottom, transparent 70%, black 95%);
       mask-image: linear-gradient(to bottom, transparent 70%, black 95%);
   }
