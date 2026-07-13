@@ -29,8 +29,8 @@ export async function generateMetadata({
     if (!proj) {
         return getMetadata({
             title: "Project not found.",
-            info: "404",
-            subtitle: "Not found",
+            info: "Error 404",
+            subtitle: "Return to projects",
             description:
                 "This project couldn't be found. Visit my website to contact me, see what I'm up to, and learn more about me!",
         });

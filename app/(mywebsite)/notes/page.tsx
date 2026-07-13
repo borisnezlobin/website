@@ -4,6 +4,7 @@ import { getNotes } from "../../lib/db-caches";
 
 export const metadata = getMetadata({
     title: "Lecture Notes",
+    info: "Study materials",
     subtitle: "Linear Algebra, AP Physics C, and more.",
     description: "A collection of notes I've taken for various courses. Linear Algebra, AP Physics C, and more.",
 });

@@ -6,8 +6,9 @@ import { Separator } from "@/app/components/separator";
 
 export const metadata = getMetadata({
     title: "Contact Me",
-    description: "Questions, comments, suggestions? Find me on GitHub, LinkedIn, or send me an email.",
-    subtitle: "Get in touch"
+    info: "Say hello",
+    description: "Questions, comments, suggestions? FFind an index of ways to reach me here.",
+    subtitle: "Always open!"
 });
 
 const ContactType = ({ title, icon, url, urlTitle, description, professionalism }: { title: string, icon: ReactNode, url: string, urlTitle?: string, description?: string, professionalism: number }) => {

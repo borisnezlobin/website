@@ -9,6 +9,8 @@ import { ThemeProvider } from 'next-themes'
 
 export const metadata: Metadata = getMetadata({
   title: "404",
+  info: "Error",
+  subtitle: "Return home",
   description: "Page not found",
 });
 

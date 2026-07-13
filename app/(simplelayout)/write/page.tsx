@@ -4,6 +4,7 @@ import WritePageComponent from "./write-component"
 
 export const metadata: Metadata = getMetadata({
     title: "Wrisk",
+    info: "Writing tool",
     subtitle: "Don't stop writing or you lose it all.",
     description: "Set a time, give yourself a prompt, and write. No distractions and definitely no stopping. Pause for too long and you'll lose everything :)"
 });

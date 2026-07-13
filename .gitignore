@@ -50,3 +50,5 @@ prisma/awooga/**
 prisma/generated/**
 .playwright-mcp/
 .playwright-mcp/**
+app/(mywebsite)/leading-preview/**
+app/(mywebsite)/texture-lab/**

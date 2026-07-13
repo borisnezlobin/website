@@ -5,7 +5,9 @@ import GalleryWrapper from "./gallery-wrapper";
 
 export const metadata: Metadata = getMetadata({
   title: "Photography",
-  description: "My photography (the good stuff).",
+  info: "Open for hire",
+  subtitle: "Artistic and commercial photography.",
+  description: "My photography portfolio, including artistic and commercial work I'm proud of. Available for hire.",
 });
 
 export default async function PhotographyPage() {

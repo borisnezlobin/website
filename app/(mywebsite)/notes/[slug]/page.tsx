@@ -15,8 +15,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     if (!note) {
         return getMetadata({
             title: "Notes not found.",
-            info: "404",
-            subtitle: "Not found",
+            info: "Error 404",
+            subtitle: "Return to lecture notes",
             description:
                 "The requested notes couldn't be found.\nVisit my website to contact me, see what I'm up to, and learn more about me!",
         });
@@ -24,7 +24,8 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
     return getMetadata({
         title: `${note.title}`,
-        subtitle: "Lecture Notes",
+        info: "Lecture Notes",
+        subtitle: "Course notes",
         description: note.description + ". Made and published by Boris Nezlobin.",
     });
 }
