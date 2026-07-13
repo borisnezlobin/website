@@ -1,0 +1,168 @@
+// dynamic texture inspired by Project Hail Mary's spin drivea animations, iterated on heavily using opus 4.8 and sol 5.6.
+// awesome what you can do with prompting I guess
+
+const TAU = Math.PI * 2;
+const hash = (i: number, j: number) => {
+    const x = Math.sin(i * 127.1 + j * 311.7) * 43758.5453;
+    return x - Math.floor(x);
+};
+const shimmer = (x: number, y: number, t: number) =>
+    (Math.sin(x * 0.015 + y * 0.01 + t * 0.5) + Math.sin((x - y) * 0.012 - t * 0.4)) * 0.25 + 0.5;
+const facet = (i: number, j: number): [number, number] => {
+    const a = hash(i, j) * TAU;
+    return [Math.cos(a), Math.sin(a)];
+};
+const specular = (cx: number, cy: number, nx: number, ny: number, lx: number, ly: number) => {
+    const dx = lx - cx, dy = ly - cy;
+    const d = Math.hypot(dx, dy) || 1;
+    const align = Math.max(0, (nx * dx + ny * dy) / d);
+    return align ** 5 * (0.5 + 0.5 * Math.exp(-d / 380));
+};
+const triPath = (ctx: CanvasRenderingContext2D, p: number[], cx: number, cy: number, scale: number, ang: number) => {
+    const cos = Math.cos(ang), sin = Math.sin(ang);
+    ctx.beginPath();
+    for (let k = 0; k < 3; k++) {
+        const dx = (p[k * 2] - cx) * scale, dy = (p[k * 2 + 1] - cy) * scale;
+        ctx[k === 0 ? "moveTo" : "lineTo"](cx + dx * cos - dy * sin, cy + dx * sin + dy * cos);
+    }
+    ctx.closePath();
+};
+
+export type SpinColors = { ink: string; glow: string; red: string };
+export type Mask = (cx: number, cy: number, w: number, h: number) => number;
+
+const drawMixed = (
+    ctx: CanvasRenderingContext2D, w: number, h: number, t: number, lx: number, ly: number, c: SpinColors, mask: Mask, cell: number,
+) => {
+    ctx.clearRect(0, 0, w, h);
+    ctx.lineJoin = "round";
+    for (let j = 0; j * cell < h; j++) {
+        for (let i = 0; i * cell < w; i++) {
+            const x0 = i * cell, y0 = j * cell;
+            const diag = ((i + j) & 1) === 0;
+            const tris = diag
+                ? [[x0, y0, x0 + cell, y0, x0 + cell, y0 + cell], [x0, y0, x0 + cell, y0 + cell, x0, y0 + cell]]
+                : [[x0, y0, x0 + cell, y0, x0, y0 + cell], [x0 + cell, y0, x0 + cell, y0 + cell, x0, y0 + cell]];
+            for (let ti = 0; ti < 2; ti++) {
+                const p = tris[ti];
+                const cx = (p[0] + p[2] + p[4]) / 3, cy = (p[1] + p[3] + p[5]) / 3;
+                const density = mask(cx, cy, w, h);
+                if (density < 0.02 || hash(i * 2 + ti, j) > density) continue;
+                const [nx, ny] = facet(i * 2 + ti, j);
+                const spec = specular(cx, cy, nx, ny, lx, ly);
+                const color = spec > 0.6 && hash(i * 3 + ti, j) > 0.9 ? c.red : spec > 0.42 ? c.glow : c.ink;
+                if (hash(i * 5 + ti, j) > 0.4) { // ~60% solid, 40% wireframe
+                    ctx.globalAlpha = Math.min(0.85, 0.045 + spec * 0.85 + shimmer(cx, cy, t) * 0.03);
+                    ctx.fillStyle = color;
+                    triPath(ctx, p, cx, cy, 0.9, Math.sin(t * 0.5 + hash(i, j) * 6) * 0.05);
+                    ctx.fill();
+                } else {
+                    ctx.globalAlpha = Math.min(0.8, 0.04 + spec * 0.7 + shimmer(cx, cy, t) * 0.03);
+                    ctx.strokeStyle = color;
+                    ctx.lineWidth = 0.85 + spec * 0.9;
+                    triPath(ctx, p, cx, cy, 0.82, 0);
+                    ctx.stroke();
+                }
+            }
+        }
+    }
+    ctx.globalAlpha = 1;
+};
+
+// Mount an animated spin-drive on a canvas. Light follows the cursor (eased, no jump) and drifts
+// gently at rest; honours prefers-reduced-motion with a single static frame. Returns a cleanup fn.
+export function createSpinDrive(
+    canvas: HTMLCanvasElement,
+    mask: Mask,
+    opts: { cell?: number } = {},
+): () => void {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return () => { };
+    const cell = opts.cell ?? 16;
+
+    const colors: SpinColors = { ink: "#6f6f6f", glow: "#39342e", red: "#c8483c" };
+    const readColors = () => {
+        const dark = document.documentElement.classList.contains("dark") || document.body.classList.contains("dark");
+        colors.ink = dark ? getComputedStyle(document.body).color || "#d0d0d0" : "#6f6f6f";
+        colors.glow = dark ? "#f4efe6" : "#39342e";
+        colors.red = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim() || "#c8483c";
+    };
+    readColors();
+    const themeObs = new MutationObserver(readColors);
+    themeObs.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
+    themeObs.observe(document.body, { attributes: true, attributeFilter: ["class"] });
+
+    let w = 0, h = 0;
+    const resize = () => {
+        const dpr = Math.min(2, window.devicePixelRatio || 1);
+        w = canvas.clientWidth; h = canvas.clientHeight;
+        canvas.width = w * dpr; canvas.height = h * dpr;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    };
+    resize();
+
+    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ro = new ResizeObserver(() => { resize(); if (still) drawMixed(ctx, w, h, 0, w * 0.3, h * 0.3, colors, mask, cell); });
+    ro.observe(canvas);
+    if (still) {
+        drawMixed(ctx, w, h, 0, w * 0.3, h * 0.3, colors, mask, cell);
+        return () => { themeObs.disconnect(); ro.disconnect(); };
+    }
+
+    const mouse = { x: -9999, y: -9999, active: false };
+    const onMove = (e: PointerEvent) => {
+        const r = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; mouse.active = true;
+    };
+    const onLeave = () => { mouse.active = false; };
+    canvas.addEventListener("pointermove", onMove);
+    canvas.addEventListener("pointerleave", onLeave);
+
+    let visible = true;
+    const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0 });
+    io.observe(canvas);
+
+    let raf = 0, t0: number | null = null, lx = -1, ly = -1;
+    let anchor: { x: number; y: number; t: number } | null = null, wasActive = false;
+    const loop = (ts: number) => {
+        if (t0 === null) t0 = ts;
+        const t = (ts - t0) / 1000;
+        let tx: number, ty: number;
+        if (mouse.active) {
+            tx = mouse.x; ty = mouse.y; wasActive = true; anchor = null;
+        } else {
+            if (wasActive || !anchor) { anchor = { x: lx < 0 ? w * 0.5 : lx, y: ly < 0 ? h * 0.4 : ly, t }; wasActive = false; }
+            const dt = t - anchor.t;
+            tx = anchor.x + Math.sin(dt * 0.25) * w * 0.16 + Math.sin(dt * 0.4) * w * 0.06;
+            ty = anchor.y + Math.sin(dt * 0.19) * h * 0.16 + Math.sin(dt * 0.33) * h * 0.06;
+        }
+        if (lx < 0) { lx = tx; ly = ty; }
+        lx += (tx - lx) * 0.25; ly += (ty - ly) * 0.25;
+        if (visible) drawMixed(ctx, w, h, t, lx, ly, colors, mask, cell);
+        raf = requestAnimationFrame(loop);
+    };
+    raf = requestAnimationFrame(loop);
+
+    return () => {
+        cancelAnimationFrame(raf);
+        themeObs.disconnect(); ro.disconnect(); io.disconnect();
+        canvas.removeEventListener("pointermove", onMove);
+        canvas.removeEventListener("pointerleave", onLeave);
+    };
+}
+
+// The article hero canopy — fills the top, arcs up over the centre.
+export const canopyMask: Mask = (x, y, w, h) => {
+    const u = x / w;
+    const wob = Math.sin(x * 0.018 + 0.6) * 0.022 + Math.sin(x * 0.052) * 0.014;
+    const by = h * (0.5 + 0.2 * (2 * u - 1) ** 2 + wob);
+    return Math.max(0, Math.min(1, (by - y) / (h * 0.09)));
+};
+
+// A horizontal rule — a slim band that fades top/bottom and tapers at the ends.
+export const dividerMask: Mask = (x, y, w, h) => {
+    const yFade = 1 - ((y - h / 2) / (h / 2)) ** 2;                  // dense at the mid-line, fading up/down
+    const xFade = Math.min(1, (Math.min(x, w - x) / (w * 0.16)) ** 1.2); // taper toward the ends
+    const wob = Math.sin(x * 0.05) * 0.12;
+    return Math.max(0, (yFade + wob) * xFade);
+};

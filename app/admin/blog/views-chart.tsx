@@ -95,8 +95,8 @@ export default function ViewsChart({
                   style={{ height: d.count > 0 ? `${Math.max(6, (d.count / max) * 100)}%` : "3px" }}
                 />
                 {hover === i && (
-                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-10 whitespace-nowrap px-2 py-1 rounded bg-neutral-900 dark:bg-white text-white dark:text-black text-xs shadow-lg">
-                    <span className="font-semibold tabular-nums">{d.count}</span> view{d.count !== 1 && "s"} · {fmtDay(d.date)}
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 z-10 whitespace-nowrap px-2 py-1 rounded bg-neutral-900 dark:bg-white !text-white dark:!text-black text-xs shadow-lg">
+                    <span className="font-semibold tabular-nums !text-white dark:!text-black">{d.count}</span> view{d.count !== 1 && "s"} · {fmtDay(d.date)}
                   </div>
                 )}
               </div>

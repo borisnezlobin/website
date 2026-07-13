@@ -1382,6 +1382,41 @@ body:not(.show-inline-title) .inline-title:not([data-level]) {
   user-select: text;
   scrollbar-gutter: stable;
 }
+.blog-article {
+  --blog-serif: "Iowan Old Style", "Palatino Linotype", Palatino, serif;
+  --blog-dropcap-color: var(--primary);
+}
+.blog-article .markdown-preview-view {
+  line-height: 1.8;
+  font-size: 1.1875rem;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.blog-article .markdown-preview-view :is(p, li, blockquote, h1, h2, h3, h4, h5, h6, div:not(.callout), span:not(:is(pre span, code span))) {
+  font-family: var(--blog-serif);
+  letter-spacing: 0.002em;
+}
+/* Kill widows/orphans in prose. */
+.blog-article .markdown-preview-view :is(p, li) {
+  text-wrap: pretty;
+}
+/* Bold first line + styled first word — added by the BlogDropCap component (article opener only). */
+.blog-article .blog-lede::first-line {
+  font-weight: 700;
+}
+.blog-article .blog-lede-word {
+  font-weight: 700;
+  font-style: italic;
+  color: var(--primary);
+}
+/* A little breathing room above images (the embed wrapper, not the inner img — avoids doubling). */
+.blog-article .markdown-preview-view :is(.internal-embed, .image-embed, .el-embed) {
+  margin-top: 1.25rem;
+}
+/* Bare images not wrapped in an embed. */
+.blog-article .markdown-preview-view p > img {
+  margin-top: 1.25rem;
+}
 .markdown-preview-view.is-readable-line-width .markdown-preview-sizer {
   max-width: var(--file-line-width);
   margin-left: auto;

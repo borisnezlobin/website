@@ -6,18 +6,20 @@ import {
 } from "./components";
 import ShareButton from "./share-button";
 import getMetadata from "@/app/lib/metadata";
-import { LinkButton } from "@/app/components/buttons";
 import BlogListItem from "../components/blog-list-item";
 import { getBlog, getSimilarPosts } from "@/app/lib/db-caches";
 import { DraftBadge } from "@/app/components/draft-badge";
 import { Wrapper } from "@/app/(mywebsite)/notes/[slug]/[section]/skibidiwrapper";
+import { BlogDropCap } from "./blog-drop-cap";
+import { BlogDividers } from "./blog-dividers";
+import { BlogHeroTexture } from "./blog-hero-texture";
 import { getBlogHTMLPath } from "@/app/utils/get-note-mdx-path";
 import { existsSync, readFileSync } from "fs";
 import { formatDateWithOrdinal } from "@/app/utils/format-date";
 import { Metadata } from "next";
 import { ViewCounter } from "./view-counter";
 import { redirect } from "next/navigation";
-import BackToRouteLink from "@/app/components/back-to-route";
+import { WritingBackLink } from "./writing-back-link";
 
 type BlogPageParams = {
     slug: string;
@@ -118,8 +120,8 @@ export async function generateMetadata({ params }: { params: Promise<BlogPagePar
     if (!post) {
         return getMetadata({
             title: "Blog post not found.",
-            info: "404",
-            subtitle: "Not found",
+            info: "Error 404",
+            subtitle: "Return to writing",
             description:
                 "This blog post could not be found.\nVisit my website to contact me, see what I'm up to, and learn more about me!",
         });
@@ -150,22 +152,23 @@ export default async function SingleBlogPage(
             {post.isDraft && <DraftBadge />}
             <div className={`pagepad`}>
                 {post.image && <ArticleImageBg imageUrl={post.image} />}
-                <div className="absolute top-16 left-8">
-                    <BackToRouteLink href="/writing" className="gap-2 flex flex-row items-center justify-center hover:underline hover:text-primary dark:hover:text-primary-dark" text="All articles" />
+                <div className="absolute top-16 left-8 z-[2]">
+                    <WritingBackLink variant="link" className="gap-2 flex flex-row items-center justify-center hover:underline hover:text-primary dark:hover:text-primary-dark" text="All articles" />
                 </div>
                 
-                <div className={`flex flex-col ${post.image && "min-h-screen relative -top-20"}`}>
+                <div className={`flex flex-col ${post.image ? "min-h-screen relative -top-20" : "relative left-1/2 w-screen -translate-x-1/2 -mt-8 min-h-[66vh] items-center justify-end overflow-hidden pb-[5vh] print:min-h-0 print:mt-0 print:left-0 print:w-full print:translate-x-0 print:pb-0 print:justify-start"}`}>
                     {post.image && <div className="flex-grow-[0.9]"></div>}
+                    {!post.image && <BlogHeroTexture />}
                     <header
                         className={`
                             gap-3 z-[1] flex flex-col justify-start items-center p-0
-                            ${post.image ? "rounded shadow bg-light-background dark:bg-dark-background print:mt-0 md:items-center p-4 md:p-8" : "mt-8 md:p-0 max-w-2xl mx-auto"}
+                            ${post.image ? "rounded shadow bg-light-background dark:bg-dark-background print:mt-0 md:items-center p-4 md:p-8" : "relative max-w-2xl mx-auto px-6"}
                         `}
                     >
-                        <h1 className={`text-[1.75rem] font-bold md:font-normal md:text-2xl bg-transparent dark:bg-transparent w-full text-center print:text-left text-[#191919] dark:text-[#fafafa] print:dark:text-[#101010]`}>
+                        <h1 className={`text-[1.75rem] font-bold md:font-normal md:text-2xl [text-wrap:balance] bg-transparent dark:bg-transparent w-full text-center print:text-left text-[#191919] dark:text-[#fafafa] print:dark:text-[#101010]`}>
                             {post.title}
                         </h1>
-                        <p className={`bg-transparent dark:bg-transparent print:text-left ${!post.image ? "text-left mt-8" : "text-center"}`}>
+                        <p className={`bg-transparent dark:bg-transparent print:text-left [text-wrap:pretty] ${!post.image ? "text-center mt-6 max-w-2xl" : "text-center"}`}>
                             {post.description}
                         </p>
                         <p className="hidden print:block mt-4 italic !text-muted">
@@ -177,7 +180,7 @@ export default async function SingleBlogPage(
                     className={`z-[1] w-full justify-center items-center relative mb-8 p-0 md:p-8 rounded-lg bg-background ${!post.image ? "mt-2 md:pt-0" : "md:pt-0"}`}
                 >
                     <div
-                        className={`z-[1] max-w-2xl ml-auto mr-auto relative w-full p-0 ${!post.image && "md:pt-8"} rounded-lg bg-background`}
+                        className={`blog-article z-[1] max-w-[38.5rem] ml-auto mr-auto relative w-full p-0 ${!post.image && "md:pt-8"} rounded-lg bg-background`}
                     >
                         <span className="text-muted dark:text-muted-dark font-normal flex items-center gap-3 flex-wrap">
                             <span className="text-muted dark:text-muted-dark italic">
@@ -186,6 +189,8 @@ export default async function SingleBlogPage(
                             <ViewCounter slug={post.slug} />
                         </span>
                         <Wrapper content={post.body} />
+                        <BlogDropCap />
+                        <BlogDividers />
                     </div>
                 </div>
                 {post && (
@@ -195,14 +200,7 @@ export default async function SingleBlogPage(
                         <TweetArticleButton slug={post.slug} />
                     </div>
                 )}
-                <LinkButton
-                    direction="left"
-                    aria-label="Back to Writing"
-                    className="mt-8 print:hidden"
-                    href="/writing"
-                >
-                    Back to writing
-                </LinkButton>
+                <WritingBackLink variant="button" className="mt-8 print:hidden" text="Back to writing" />
 
                 <h2 className="text-2xl mt-12 print:hidden">More articles</h2>
                 <div className="md:pl-8 print:hidden">
