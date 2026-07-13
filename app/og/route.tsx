@@ -32,9 +32,8 @@ export async function GET(request: NextRequest) {
         .replace(/\s*(?:by\s+)?Boris Nezlobin\.?/gi, "")
         .trim()
         .replace(/[,.—-]+$/, "");
-    const eyebrow = withoutAuthor(info) || "Portfolio";
+    const eyebrow = withoutAuthor(info) || "Personal site";
     const footerNote = withoutAuthor(subtitle);
-    const showSignature = title.toLowerCase().replace(/\.$/, "") !== "boris nezlobin";
 
     const titleSize = title.length > 90 ? 46 : title.length > 48 ? 56 : 68;
 
@@ -70,7 +69,7 @@ export async function GET(request: NextRequest) {
                         tw="text-6xl text-[#2b2b2b]"
                         style={{ fontFamily: vectra ? 'Vectra' : 'Charter' }}
                     >
-                        {showSignature ? "Boris Nezlobin" : ""}
+                        Boris Nezlobin
                     </span>
                     <span tw="text-xl text-[#707070]">{footerNote}</span>
                 </div>

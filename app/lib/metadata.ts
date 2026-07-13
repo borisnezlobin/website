@@ -16,7 +16,7 @@ const getMetadata = ({
 }) => {
   const ogUrl = img || (() => {
     const url = new URL("/og", CONFIG.API_URL);
-    url.searchParams.set("title", title);
+    url.searchParams.set("title", title || "Ideas, projects, and photographs.");
     url.searchParams.set("info", info || "");
     url.searchParams.set("subtitle", subtitle || "");
     return url.toString();

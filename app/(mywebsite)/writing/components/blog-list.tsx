@@ -3,10 +3,11 @@
 import { Article, ArticleCategory } from "@/prisma/awooga/client";
 import BlogListItem from "./blog-list-item";
 import RandomQuote from "./random-quote";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { InkscapeColoredSvg } from "@/app/utils/inkscape-colored-svg";
 import Soyjak from "@/app/components/soyjak";
 import { XIcon } from "@phosphor-icons/react/dist/ssr";
+import { DEFAULT_CATEGORY, WRITING_CATEGORY_KEY, categoryToParam, paramToCategory, writingHref } from "../categories";
 
 const activeTab =
     "bg-primary dark:bg-primary-dark text-light-background dark:text-dark-background border-primary dark:border-primary-dark";
@@ -16,14 +17,36 @@ const inactiveTab =
 const BlogList = ({
     articles,
     title,
+    initialCategory = DEFAULT_CATEGORY,
 }: {
     articles: Article[];
     title?: string;
+    initialCategory?: ArticleCategory;
 }) => {
     const [aiWarning, setAiWarning] = useState(true);
-    const [category, setCategory] = useState<ArticleCategory>("TECHNICAL");
+    const [category, setCategory] = useState<ArticleCategory>(initialCategory);
     const flourish = category !== "TECHNICAL";
     const sliced = category === "PERSONAL";
+
+    const persist = (cat: ArticleCategory) => {
+        try { sessionStorage.setItem(WRITING_CATEGORY_KEY, categoryToParam(cat)); } catch { /* ignore */ }
+    };
+    useEffect(() => {
+        const sync = () => {
+            const next = paramToCategory(new URLSearchParams(window.location.search).get("category"));
+            setCategory(next);
+            persist(next);
+        };
+        sync();
+        window.addEventListener("popstate", sync);
+        return () => window.removeEventListener("popstate", sync);
+    }, []);
+
+    const selectCategory = (next: ArticleCategory) => {
+        setCategory(next);
+        persist(next);
+        window.history.pushState(null, "", writingHref(next));
+    };
 
     return (
         <div className="pagepad" suppressHydrationWarning>
@@ -60,19 +83,19 @@ const BlogList = ({
                     />
                     <button
                         className={`px-4 py-1 rounded-l border ${category === "TECHNICAL" ? activeTab : inactiveTab}`}
-                        onClick={() => setCategory("TECHNICAL")}
+                        onClick={() => selectCategory("TECHNICAL")}
                     >
                         Technical
                     </button>
                     <button
                         className={`relative -left-px px-4 py-1 border ${category === "CREATIVE" ? activeTab : inactiveTab}`}
-                        onClick={() => setCategory("CREATIVE")}
+                        onClick={() => selectCategory("CREATIVE")}
                     >
                         Creative
                     </button>
                     <button
                         className={`relative -left-[2px] px-4 py-1 rounded-r border ${category === "PERSONAL" ? activeTab : inactiveTab}`}
-                        onClick={() => setCategory("PERSONAL")}
+                        onClick={() => selectCategory("PERSONAL")}
                     >
                         Personal
                     </button>
