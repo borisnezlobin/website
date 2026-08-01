@@ -11,7 +11,7 @@ export async function GET() {
             <description><![CDATA[${post.description}]]></description>
             <link>${baseUrl}/writing/${post.slug}</link>
             <guid isPermaLink="true">${baseUrl}/writing/${post.slug}</guid>
-            <pubDate>${post.createdAt.toUTCString()}</pubDate>
+            <pubDate>${new Date(post.createdAt).toUTCString()}</pubDate>
         </item>`).join("");
 
     const xml = `<?xml version="1.0" encoding="UTF-8"?>

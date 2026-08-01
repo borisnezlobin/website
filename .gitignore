@@ -52,3 +52,4 @@ prisma/generated/**
 .playwright-mcp/**
 app/(mywebsite)/leading-preview/**
 app/(mywebsite)/texture-lab/**
+

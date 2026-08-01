@@ -31,10 +31,13 @@ const triPath = (ctx: CanvasRenderingContext2D, p: number[], cx: number, cy: num
 export type SpinColors = { ink: string; glow: string; red: string };
 export type Mask = (cx: number, cy: number, w: number, h: number) => number;
 
+// The spin-drive texture is one fixed, axis-aligned lattice — never rotated, scaled, or warped.
+// Variants only change the `mask` (where the texture is allowed to appear).
 const drawMixed = (
-    ctx: CanvasRenderingContext2D, w: number, h: number, t: number, lx: number, ly: number, c: SpinColors, mask: Mask, cell: number,
+    ctx: CanvasRenderingContext2D, w: number, h: number, t: number, lx: number, ly: number, c: SpinColors, mask: Mask, cell: number, background?: string,
 ) => {
-    ctx.clearRect(0, 0, w, h);
+    if (background) { ctx.fillStyle = background; ctx.fillRect(0, 0, w, h); }
+    else ctx.clearRect(0, 0, w, h);
     ctx.lineJoin = "round";
     for (let j = 0; j * cell < h; j++) {
         for (let i = 0; i * cell < w; i++) {
@@ -74,18 +77,39 @@ const drawMixed = (
 export function createSpinDrive(
     canvas: HTMLCanvasElement,
     mask: Mask,
-    opts: { cell?: number } = {},
+    opts: {
+        cell?: number;
+        // Fixed backing resolution (e.g. an export size). Without it the canvas tracks its display box.
+        size?: { w: number; h: number };
+        // Opaque base fill instead of a transparent clear — needed when the frame is exported.
+        background?: string;
+        // Draw over the texture each frame (e.g. title/description), so overlays end up in the canvas
+        // itself and are captured by toBlob / captureStream, not just shown via a DOM layer.
+        onFrame?: (ctx: CanvasRenderingContext2D, w: number, h: number, t: number) => void;
+        // Force the chip palette to a theme instead of reading the page's dark class.
+        theme?: "light" | "dark";
+        // Override the accent red instead of reading --primary off the page (which tracks the page theme).
+        primary?: string;
+    } = {},
 ): () => void {
     const ctx = canvas.getContext("2d");
     if (!ctx) return () => { };
     const cell = opts.cell ?? 16;
+    const frame = (t: number, lx: number, ly: number) => {
+        drawMixed(ctx, w, h, t, lx, ly, colors, mask, cell, opts.background);
+        opts.onFrame?.(ctx, w, h, t);
+    };
 
     const colors: SpinColors = { ink: "#6f6f6f", glow: "#39342e", red: "#c8483c" };
     const readColors = () => {
-        const dark = document.documentElement.classList.contains("dark") || document.body.classList.contains("dark");
-        colors.ink = dark ? getComputedStyle(document.body).color || "#d0d0d0" : "#6f6f6f";
+        const dark = opts.theme
+            ? opts.theme === "dark"
+            : document.documentElement.classList.contains("dark") || document.body.classList.contains("dark");
+        colors.ink = dark
+            ? (opts.theme ? "#c9c6c0" : getComputedStyle(document.body).color || "#d0d0d0")
+            : "#6f6f6f";
         colors.glow = dark ? "#f4efe6" : "#39342e";
-        colors.red = getComputedStyle(document.documentElement).getPropertyValue("--primary").trim() || "#c8483c";
+        colors.red = opts.primary || getComputedStyle(document.documentElement).getPropertyValue("--primary").trim() || "#c8483c";
     };
     readColors();
     const themeObs = new MutationObserver(readColors);
@@ -94,6 +118,12 @@ export function createSpinDrive(
 
     let w = 0, h = 0;
     const resize = () => {
+        if (opts.size) {
+            w = opts.size.w; h = opts.size.h;
+            canvas.width = w; canvas.height = h;
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            return;
+        }
         const dpr = Math.min(2, window.devicePixelRatio || 1);
         w = canvas.clientWidth; h = canvas.clientHeight;
         canvas.width = w * dpr; canvas.height = h * dpr;
@@ -102,17 +132,20 @@ export function createSpinDrive(
     resize();
 
     const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const ro = new ResizeObserver(() => { resize(); if (still) drawMixed(ctx, w, h, 0, w * 0.3, h * 0.3, colors, mask, cell); });
+    const ro = new ResizeObserver(() => { resize(); if (still) frame(0, w * 0.3, h * 0.3); });
     ro.observe(canvas);
     if (still) {
-        drawMixed(ctx, w, h, 0, w * 0.3, h * 0.3, colors, mask, cell);
+        frame(0, w * 0.3, h * 0.3);
         return () => { themeObs.disconnect(); ro.disconnect(); };
     }
 
     const mouse = { x: -9999, y: -9999, active: false };
     const onMove = (e: PointerEvent) => {
         const r = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - r.left; mouse.y = e.clientY - r.top; mouse.active = true;
+        // Scale display coords into backing-resolution coords (they differ when `size` is fixed).
+        mouse.x = (e.clientX - r.left) * (w / r.width);
+        mouse.y = (e.clientY - r.top) * (h / r.height);
+        mouse.active = true;
     };
     const onLeave = () => { mouse.active = false; };
     canvas.addEventListener("pointermove", onMove);
@@ -122,9 +155,10 @@ export function createSpinDrive(
     const io = new IntersectionObserver(([e]) => { visible = e.isIntersecting; }, { threshold: 0 });
     io.observe(canvas);
 
-    let raf = 0, t0: number | null = null, lx = -1, ly = -1;
+    let raf = 0, t0: number | null = null, lx = -1, ly = -1, lastDraw = -1e9;
     let anchor: { x: number; y: number; t: number } | null = null, wasActive = false;
     const loop = (ts: number) => {
+        raf = requestAnimationFrame(loop);
         if (t0 === null) t0 = ts;
         const t = (ts - t0) / 1000;
         let tx: number, ty: number;
@@ -138,8 +172,10 @@ export function createSpinDrive(
         }
         if (lx < 0) { lx = tx; ly = ty; }
         lx += (tx - lx) * 0.25; ly += (ty - ly) * 0.25;
-        if (visible) drawMixed(ctx, w, h, t, lx, ly, colors, mask, cell);
-        raf = requestAnimationFrame(loop);
+        // Frame-rate cap: ~30fps while the light is being steered, ~12fps at rest. A continuous
+        // full-canvas redraw at 60fps is what cooks the CPU; the eye can't tell at this cadence.
+        const minGap = mouse.active ? 32 : 82;
+        if (visible && ts - lastDraw >= minGap) { lastDraw = ts; frame(t, lx, ly); }
     };
     raf = requestAnimationFrame(loop);
 

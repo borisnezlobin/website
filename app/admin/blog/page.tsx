@@ -3,13 +3,8 @@
 import { useState, useEffect } from "react";
 import { ArrowLeft, FloppyDisk, Eye, EyeSlash, CaretRight, Plus } from "@phosphor-icons/react/dist/ssr";
 import type { ArticleCategory } from "@/prisma/awooga/client";
-import { VIEW_EXCLUDE_COOKIE } from "@/app/lib/view-config";
+import { isViewExcluded, setViewExcluded } from "@/app/lib/view-exclude-client";
 import ViewsChart, { type ViewDay } from "./views-chart";
-
-const FIVE_YEARS = 60 * 60 * 24 * 365 * 5;
-const isExcludedFromViews = () =>
-  typeof document !== "undefined" &&
-  document.cookie.split("; ").includes(`${VIEW_EXCLUDE_COOKIE}=1`);
 
 const CATEGORIES: ArticleCategory[] = ["TECHNICAL", "CREATIVE", "PERSONAL"];
 const titleCase = (c: ArticleCategory) => c[0] + c.slice(1).toLowerCase();
@@ -47,14 +42,12 @@ export default function BlogAdminPage() {
   const [excluded, setExcluded] = useState(false);
 
   useEffect(() => {
-    setExcluded(isExcludedFromViews());
+    setExcluded(isViewExcluded());
   }, []);
 
   function toggleExcluded() {
     const next = !excluded;
-    document.cookie = next
-      ? `${VIEW_EXCLUDE_COOKIE}=1; path=/; max-age=${FIVE_YEARS}; samesite=lax`
-      : `${VIEW_EXCLUDE_COOKIE}=; path=/; max-age=0; samesite=lax`;
+    setViewExcluded(next);
     setExcluded(next);
   }
 
