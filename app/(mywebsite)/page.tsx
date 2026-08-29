@@ -47,9 +47,9 @@ export default async function Home() {
                     </h2>
                     <p className="max-w-3xl">
                         ...and counting. I’m a student at <span className="text-[#FDB414] bg-[#002676] dark:text-[#022675] dark:bg-[#FDB414] px-2 py-1 rounded text-xs">
-                            UC <span className="font-semibold text-[#FDB414] dark:text-[#022675]">Berkeley</span> studying Applied Mathematics &{" "}
-                            <Abbreviation label="Industrial Engineering & Operations Research">IEOR</Abbreviation>
-                        </span>. I occupy myself with things I find interesting, which means I’m usually writing, programming, or building robots.
+                            UC <span className="font-semibold text-[#FDB414] dark:text-[#022675]">Berkeley</span>
+                        </span> studying Applied Mathematics &{" "}
+                            <Abbreviation label="Industrial Engineering & Operations Research">IEOR</Abbreviation>. I occupy myself with things I find interesting, which means I’m usually writing, programming, or building robots.
                         I also enjoy photography and design!
                     </p>
                 </div>
@@ -59,7 +59,7 @@ export default async function Home() {
                 <RoboticistSection />
                 <WriterSection articles={previewArticles} />
                 <ArtistSection photos={previewPhotos} />
-                <NowPlaying />
+                {/* <NowPlaying /> */}
             </main>
         </>
     );

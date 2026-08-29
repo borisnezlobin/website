@@ -9,6 +9,8 @@ const badgeQuotes = [
     "Working on secret tech @ UC Berkeley!",
     "Tokenmaxxer? I barely know her.",
     "Drop the “The.”",
+    "IEOR & Applied Mathematics, 2029",
+    "Boris had a farm, studying I-E-O-R.",
     "@b_nezlobin on Twitter.",
     "1% better every day.",
     "Staying hydrated, ish.",
