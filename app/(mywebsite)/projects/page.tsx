@@ -12,7 +12,7 @@ export const metadata = getMetadata({
     title: "Projects.",
     info: "Selected work",
     subtitle: ">5k users · Featured by Hack Club",
-    description: "Check out the projects I've worked on and read my writeups about each.",
+    description: "Check out the projects I've worked on.",
 })
 
 const SmallProjectListItem = ({ link, linkText, description, icon }: { link: string, linkText: string, description: string, icon: ReactNode }) => {
@@ -58,13 +58,7 @@ export default async function ProjectsPage() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-4 mt-8 md:mt-4">
                     {projects.map((project: Project) => project.slug.indexOf("draft") === -1 ? (
-                        <Link
-                            key={project.slug}
-                            href={"/projects/" + project.slug}
-                            aria-label={project.title}
-                        >
-                            <ProjectListItem project={project} />
-                        </Link>
+                        <ProjectListItem key={project.slug} project={project} />
                     ) : null)}
                 </div>
 

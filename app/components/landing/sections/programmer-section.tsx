@@ -16,16 +16,16 @@ const currentProjects = [
         description: "A website I built & designed end-to-end for The Journal For Youth Voice. Also led migration.",
     }, {
         title: "ENF",
-        url: "/projects/enf",
+        url: "/projects",
         description: "The only free, up-to-date European electrical network frequency data.",
         badge: "Featured by Hack Club!",
     },
 ];
 
 const pastProjects = [
-    { title: "rendr", description: "3D renderer + raytracer in C", url: "/projects/rendr" },
+    { title: "rendr", description: "3D renderer + raytracer in C", url: "/projects" },
     { title: "The C.H.", description: "Style code comments in VS Code", url: "https://marketplace.visualstudio.com/items?itemName=randomletters.the-comment-highlighter" },
-    { title: "Lim", description: "Track website usage, set daily limits", url: "/projects/lim" },
+    { title: "Lim", description: "Track website usage, set daily limits", url: "/projects" },
 ];
 
 const contributions = [

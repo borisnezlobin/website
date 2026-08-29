@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next'
-import { getBlogs, getNotes, getProjects } from './lib/db-caches'
+import { getBlogs, getNotes } from './lib/db-caches'
 import { getNoteSections } from './(mywebsite)/notes/getNoteSections';
 import getNoteMdxPath, { getNoteHTMLPath } from './utils/get-note-mdx-path';
 import { existsSync, readFileSync } from 'fs';
@@ -13,14 +13,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         url: `https://www.borisnezlobin.com/writing/${blog.slug}`,
         lastModified: blog.updatedAt,
     }));
-
-    const projects = await getProjects();
-    const projectRoutes = projects
-        .filter((project) => !project.slug.includes("draft-"))
-        .map((project) => ({
-            url: `https://www.borisnezlobin.com/projects/${project.slug}`,
-            lastModified: project.updatedAt,
-        }));
 
     const notes = await getNotes();
     const noteRoutes = notes
@@ -68,7 +60,6 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         { url: 'https://www.borisnezlobin.com/wrisk' },
         { url: 'https://www.borisnezlobin.com/inca' },
         ...blogRoutes,
-        ...projectRoutes,
         ...noteRoutes,
         ...noteSections,
     ];

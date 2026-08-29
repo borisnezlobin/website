@@ -42,9 +42,6 @@ const TopBar: React.FC = () => {
             <Link href={"/projects"} className={`link !hidden md:!block`}>
                 Projects.
             </Link>
-            <Link href={"/notes"} className={`link !hidden md:!block`}>
-                Notes.
-            </Link>
             <Link href={"/contact"} className={`link`}>
                 Contact.
             </Link>
