@@ -1,19 +1,14 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import dynamic from "next/dynamic";
-import type { PhotoFeed } from "@/app/lib/photo-types";
+import type { Photo, PhotoFeed } from "@/app/lib/photo-types";
 import Lightbox from "./lightbox";
-import MobileMosaic from "./mobile-mosaic";
+import Gallery from "./gallery";
 import { useLightbox } from "./use-lightbox";
+import { useGallerySelection } from "./use-gallery-selection";
 
-const DesktopCanvas = dynamic(() => import("./desktop-canvas"), { ssr: false });
-
-const DESKTOP_QUERY = "(min-width: 768px)";
 // Matches /p/{slug} or /photography/p/{slug} — second segment is captured.
 const PHOTO_PATH_RE = /\/p\/([^/?#]+)$/;
-
-type Mode = "mobile" | "desktop";
 
 export default function GalleryWrapper({
   feed,
@@ -22,18 +17,25 @@ export default function GalleryWrapper({
   feed: PhotoFeed;
   initialPhotoSlug?: string;
 }) {
-  const mode = useViewportMode();
-  const visiblePhotos = useMemo(
-    () => feed.photos.filter((p) => p.inGallery),
-    [feed.photos],
-  );
+  const selection = useGallerySelection(feed.photos, feed.categories);
+  const { galleryPhotos, visiblePhotos } = selection;
+
+  // The arrows walk exactly the list the photo was opened from — normally the
+  // grid's current category and order. A mosaic tile can be a photo the active
+  // filter excludes, so that opens against the full set instead. Frozen while
+  // open so a re-shuffle underneath can't move the photo you're looking at.
+  const [lightboxPhotos, setLightboxPhotos] = useState<Photo[]>(galleryPhotos);
 
   const initialIndex = useMemo(() => {
     if (!initialPhotoSlug) return -1;
-    return visiblePhotos.findIndex((p) => p.slug === initialPhotoSlug);
-  }, [visiblePhotos, initialPhotoSlug]);
+    return galleryPhotos.findIndex((p) => p.slug === initialPhotoSlug);
+  }, [galleryPhotos, initialPhotoSlug]);
 
-  const lightbox = useLightbox(visiblePhotos.length, initialIndex);
+  const lightbox = useLightbox(lightboxPhotos.length, initialIndex);
+
+  useEffect(() => {
+    if (!lightbox.isOpen) setLightboxPhotos(galleryPhotos);
+  }, [galleryPhotos, lightbox.isOpen]);
 
   // Captured at first render so we know whether to write /p/{slug} (production
   // photos host) or /photography/p/{slug} (dev / primary host fallback).
@@ -61,7 +63,7 @@ export default function GalleryWrapper({
       prevIndexRef.current = lightbox.index;
       return;
     }
-    const photo = lightbox.index >= 0 ? visiblePhotos[lightbox.index] : null;
+    const photo = lightbox.index >= 0 ? lightboxPhotos[lightbox.index] : null;
     const targetPath = photo
       ? `${basePathRef.current}/p/${photo.slug}`
       : basePathRef.current || "/";
@@ -77,7 +79,7 @@ export default function GalleryWrapper({
       window.history.replaceState(null, "", targetPath);
     }
     prevIndexRef.current = lightbox.index;
-  }, [lightbox.index, visiblePhotos]);
+  }, [lightbox.index, lightboxPhotos]);
 
   // Sync from URL when user navigates with browser back/forward.
   useEffect(() => {
@@ -86,7 +88,7 @@ export default function GalleryWrapper({
       const match = PHOTO_PATH_RE.exec(path);
       if (match) {
         const slug = match[1];
-        const idx = visiblePhotos.findIndex((p) => p.slug === slug);
+        const idx = lightboxPhotos.findIndex((p) => p.slug === slug);
         if (idx >= 0 && idx !== lightbox.index) {
           skipUrlUpdateRef.current = true;
           lightbox.setIndex(idx);
@@ -98,37 +100,27 @@ export default function GalleryWrapper({
     };
     window.addEventListener("popstate", onPop);
     return () => window.removeEventListener("popstate", onPop);
-  }, [visiblePhotos, lightbox]);
+  }, [lightboxPhotos, lightbox]);
 
   function openPhotoById(photoId: string) {
-    const idx = visiblePhotos.findIndex((p) => p.id === photoId);
-    if (idx >= 0) lightbox.setIndex(idx);
-  }
-
-  if (mode === null) {
-    return <div className="fixed inset-0 bg-[#0d0b09]" />;
+    const list = galleryPhotos.some((p) => p.id === photoId) ? galleryPhotos : visiblePhotos;
+    const idx = list.findIndex((p) => p.id === photoId);
+    if (idx < 0) return;
+    setLightboxPhotos(list);
+    lightbox.setIndex(idx);
   }
 
   return (
     <>
-      {mode === "desktop" ? (
-        <DesktopCanvas
-          photos={feed.photos}
-          categories={feed.categories}
-          series={feed.series}
-          onOpenPhoto={openPhotoById}
-        />
-      ) : (
-        <MobileMosaic
-          photos={feed.photos}
-          categories={feed.categories}
-          series={feed.series}
-          onOpenPhoto={openPhotoById}
-        />
-      )}
+      <Gallery
+        photos={feed.photos}
+        series={feed.series}
+        selection={selection}
+        onOpenPhoto={openPhotoById}
+      />
       {lightbox.isOpen && (
         <Lightbox
-          photos={visiblePhotos}
+          photos={lightboxPhotos}
           index={lightbox.index}
           onClose={lightbox.close}
           onNext={lightbox.next}
@@ -137,16 +129,4 @@ export default function GalleryWrapper({
       )}
     </>
   );
-}
-
-function useViewportMode(): Mode | null {
-  const [mode, setMode] = useState<Mode | null>(null);
-  useEffect(() => {
-    const mq = window.matchMedia(DESKTOP_QUERY);
-    const update = () => setMode(mq.matches ? "desktop" : "mobile");
-    update();
-    mq.addEventListener("change", update);
-    return () => mq.removeEventListener("change", update);
-  }, []);
-  return mode;
 }

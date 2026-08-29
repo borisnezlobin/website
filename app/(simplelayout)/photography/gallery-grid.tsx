@@ -3,13 +3,17 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import type { Photo } from "@/app/lib/photo-types";
 
-const TARGET_ROW_HEIGHT = 150;
 const GAP = 4;
+// Rows get taller as the container widens, so a wide screen shows a comparable
+// number of photos per row instead of a long ribbon of tiny thumbnails. Measured
+// against the grid's own width, not the viewport — the mosaic takes a column too.
+const rowHeightFor = (containerWidth: number) =>
+  containerWidth >= 1000 ? 340 : containerWidth >= 640 ? 280 : 190;
 
 type RowItem = { photo: Photo; width: number; height: number };
 type Row = RowItem[];
 
-export default function MobileGalleryGrid({
+export default function GalleryGrid({
   photos,
   onOpenPhoto,
 }: {
@@ -37,7 +41,7 @@ export default function MobileGalleryGrid({
   const rows = useMemo(() => (width <= 0 ? [] : computeRows(photos, width)), [photos, width]);
 
   return (
-    <div ref={containerRef} className="px-2 pb-12 flex flex-col" style={{ gap: GAP }}>
+    <div ref={containerRef} className="px-2 md:px-6 pb-12 flex flex-col" style={{ gap: GAP }}>
       {rows.map((row, i) => (
         <div key={i} className="flex" style={{ gap: GAP }}>
           {row.map(({ photo, width: w, height: h }) => (
@@ -67,6 +71,7 @@ export default function MobileGalleryGrid({
 
 function computeRows(photos: Photo[], containerWidth: number): Row[] {
   if (photos.length === 0) return [];
+  const targetRowHeight = rowHeightFor(containerWidth);
   const rows: Row[] = [];
   let queue: { photo: Photo; aspect: number }[] = [];
   let queueWidth = 0;
@@ -74,32 +79,33 @@ function computeRows(photos: Photo[], containerWidth: number): Row[] {
   for (const photo of photos) {
     const aspect = photo.width > 0 && photo.height > 0 ? photo.width / photo.height : 1;
     queue.push({ photo, aspect });
-    queueWidth += aspect * TARGET_ROW_HEIGHT + GAP;
+    queueWidth += aspect * targetRowHeight + GAP;
 
     if (queueWidth - GAP >= containerWidth) {
-      rows.push(layoutRow(queue, containerWidth));
+      rows.push(layoutRow(queue, containerWidth, targetRowHeight));
       queue = [];
       queueWidth = 0;
     }
   }
 
-  if (queue.length > 0) rows.push(layoutRow(queue, containerWidth, true));
+  if (queue.length > 0) rows.push(layoutRow(queue, containerWidth, targetRowHeight, true));
   return rows;
 }
 
 function layoutRow(
   items: { photo: Photo; aspect: number }[],
   containerWidth: number,
+  targetRowHeight: number,
   lastRow = false,
 ): Row {
   const totalGap = (items.length - 1) * GAP;
   const totalAspect = items.reduce((s, x) => s + x.aspect, 0);
   let height: number;
   if (lastRow) {
-    const naturalWidth = totalAspect * TARGET_ROW_HEIGHT + totalGap;
+    const naturalWidth = totalAspect * targetRowHeight + totalGap;
     height = naturalWidth > containerWidth
       ? (containerWidth - totalGap) / totalAspect
-      : TARGET_ROW_HEIGHT;
+      : targetRowHeight;
   } else {
     height = (containerWidth - totalGap) / totalAspect;
   }

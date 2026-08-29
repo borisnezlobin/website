@@ -5,13 +5,13 @@ import type { SeriesSummary } from "@/app/lib/photo-types";
 
 const CARD_HEIGHT = 220;
 
-export default function MobileSeriesStrip({ series }: { series: SeriesSummary[] }) {
+export default function SeriesStrip({ series }: { series: SeriesSummary[] }) {
   if (series.length === 0) return null;
   return (
-    <section className="px-4 mb-6">
+    <section className="px-4 md:px-0 pt-6 mb-6 border-t !border-black/10 dark:!border-white/10">
       <h2 className="text-sm text-muted dark:text-muted-dark mb-2">Series</h2>
-      <div className="-mx-4 overflow-x-auto no-scrollbar">
-        <div className="flex gap-3 px-4">
+      <div className="-mx-4 md:mx-0 overflow-x-auto no-scrollbar">
+        <div className="flex gap-3 px-4 md:px-0">
           {series.map((s) => (
             <SeriesCard key={s.id} series={s} />
           ))}
@@ -51,7 +51,9 @@ function SeriesCard({ series }: { series: SeriesSummary }) {
         {/* <footer> instead of <div> so the obsidian.css `div:not(.callout)` rule
             doesn't override the text colors below. */}
         <footer className="absolute bottom-0 left-0 right-0 p-3">
-          <span className="vectra text-3xl !text-primary dark:!text-primary-dark block leading-tight">
+          {/* Sits on the black gradient over the cover photo in both themes, so the
+              red is pinned to the dark-theme stop rather than the page theme. */}
+          <span className="vectra text-3xl !text-primary-dark block leading-tight">
             {series.title}
           </span>
           <span className="block text-sm !text-white/80 mt-0.5">

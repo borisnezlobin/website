@@ -18,7 +18,15 @@ const config: Config = {
                     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
             },
             colors: {
-                primary:  "var(--primary)",
+                // `--primary` already swaps with the theme, so DEFAULT covers most cases.
+                // The explicit light/dark stops exist for surfaces that are pinned to one
+                // theme regardless of the page (the lightbox scrim, exported canvases).
+                primary: {
+                    DEFAULT: "var(--primary)",
+                    light: "#cc2a26",
+                    dark: "#e96457",
+                    "light-bg": "#fae5e4",
+                },
                 muted: {
                     DEFAULT: "#707070",
                     dark: "#949494",

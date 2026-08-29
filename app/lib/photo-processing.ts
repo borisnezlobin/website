@@ -1,6 +1,7 @@
 import sharp from "sharp";
 import exifr from "exifr";
 import { extractMeanColorOklab, type Vec3 } from "./photo-color";
+import { normalizeCamera } from "./camera-names";
 
 export type ProcessedPhoto = {
   full: Buffer;
@@ -62,20 +63,42 @@ export async function processPhoto(input: Buffer): Promise<ProcessedPhoto> {
 
 async function readExif(input: Buffer): Promise<{ camera?: string; takenAt?: Date }> {
   try {
-    const exif = await exifr.parse(input, { tiff: true, exif: true });
+    // XMP is included because phone exports and edited files often drop the EXIF
+    // IFD while keeping the same facts there — without it a photo silently lands
+    // with no camera and no date.
+    const exif = await exifr.parse(input, { tiff: true, exif: true, xmp: true });
     if (!exif) return {};
-    const make = typeof exif.Make === "string" ? exif.Make.trim() : "";
-    const model = typeof exif.Model === "string" ? exif.Model.trim() : "";
-    const camera = model ? (make && !model.startsWith(make) ? `${make} ${model}` : model) : undefined;
-    let takenAt: Date | undefined;
-    const raw = exif.DateTimeOriginal ?? exif.CreateDate;
-    if (raw instanceof Date && !isNaN(raw.getTime())) takenAt = raw;
-    else if (typeof raw === "string") {
-      const d = new Date(raw);
-      if (!isNaN(d.getTime())) takenAt = d;
-    }
-    return { camera, takenAt };
+    return { camera: readCamera(exif), takenAt: readTakenAt(exif) };
   } catch {
     return {};
   }
+}
+
+function readCamera(exif: Record<string, unknown>): string | undefined {
+  const str = (v: unknown) => (typeof v === "string" && v.trim() ? v.trim() : undefined);
+  const model = str(exif.Model) ?? str(exif.UniqueCameraModel);
+  const make = str(exif.Make);
+  return normalizeCamera(make, model);
+}
+
+function readTakenAt(exif: Record<string, unknown>): Date | undefined {
+  // In preference order: when the shutter fired, when the file was created, then
+  // the generic timestamps XMP tooling leaves behind.
+  const candidates = [
+    exif.DateTimeOriginal,
+    exif.CreateDate,
+    exif.DateCreated,
+    exif.DateTimeDigitized,
+    exif.ModifyDate,
+  ];
+  for (const raw of candidates) {
+    if (raw instanceof Date && !isNaN(raw.getTime())) return raw;
+    if (typeof raw === "string") {
+      // EXIF writes "2024:06:01 12:30:00", which Date can't parse as-is.
+      const normalized = raw.replace(/^(\d{4}):(\d{2}):(\d{2})/, "$1-$2-$3");
+      const d = new Date(normalized);
+      if (!isNaN(d.getTime())) return d;
+    }
+  }
+  return undefined;
 }

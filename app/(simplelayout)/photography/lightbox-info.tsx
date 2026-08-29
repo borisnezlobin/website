@@ -4,34 +4,45 @@ import { useEffect, useState } from "react";
 import { CalendarIcon, CameraIcon, HeartIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Photo } from "@/app/lib/photo-types";
 import { likePhoto } from "./like-photo";
+import LightboxTexture from "./lightbox-texture";
 
 const likedKey = (id: string) => `liked-photo-${id}`;
 
 export default function LightboxInfo({ photo }: { photo: Photo }) {
   return (
-    <aside className="w-full md:w-[300px] lg:w-[360px] md:flex-shrink-0 flex flex-col gap-4 md:gap-5 md:max-h-[80vh] md:overflow-y-auto md:pr-2 md:pt-2 md:pb-2">
-      <header className="flex flex-col gap-1">
-        <h2
-          className="vectra text-3xl md:text-4xl text-primary dark:!text-primary-dark"
-          style={{ lineHeight: 1.5, paddingTop: 4 }}
-        >
-          {photo.title}
-        </h2>
-        {photo.categorySlugs.length > 0 && (
-          <p className="text-base text-white/40">
-            {photo.categorySlugs.map((slug) => slug.charAt(0).toUpperCase() + slug.slice(1)).join(" · ")}
+    <div className="w-full md:w-[300px] lg:w-[360px] md:flex-shrink-0 md:h-[80vh] flex flex-col">
+      <aside className="flex flex-col gap-4 md:gap-5 md:min-h-0 md:overflow-y-auto md:pr-2 md:pt-2 md:pb-2">
+        <header className="flex flex-col gap-1">
+          <h2
+            // The lightbox always sits on a near-black scrim, so the red is pinned to the
+            // dark-theme stop instead of tracking the page theme.
+            className="vectra text-3xl md:text-4xl !text-primary-dark"
+            style={{ lineHeight: 1.5, paddingTop: 4 }}
+          >
+            {photo.title}
+          </h2>
+          {photo.categorySlugs.length > 0 && (
+            <p className="text-base text-white/40">
+              {photo.categorySlugs.map((slug) => slug.charAt(0).toUpperCase() + slug.slice(1)).join(" · ")}
+            </p>
+          )}
+        </header>
+
+        {photo.description && (
+          <p className="text-white/80 text-sm md:text-lg leading-relaxed whitespace-pre-line">
+            {photo.description}
           </p>
         )}
-      </header>
 
-      {photo.description && (
-        <p className="text-white/80 text-sm md:text-lg leading-relaxed whitespace-pre-line">
-          {photo.description}
-        </p>
-      )}
+        <PhotoMeta photo={photo} />
+      </aside>
 
-      <PhotoMeta photo={photo} />
-    </aside>
+      {/* Takes whatever vertical space the caption leaves over, so the texture
+          can never end up behind the title, description, or metadata. */}
+      <div className="relative hidden md:block flex-1 min-h-0 mt-6">
+        <LightboxTexture />
+      </div>
+    </div>
   );
 }
 

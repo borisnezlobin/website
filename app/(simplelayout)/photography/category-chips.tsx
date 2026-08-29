@@ -16,7 +16,7 @@ export default function CategoryChips({
 }) {
   return (
     <div className="w-full overflow-x-auto no-scrollbar">
-      <div className="flex gap-2 px-4 py-3 w-max">
+      <div className="flex gap-2 px-4 py-3 w-max md:w-full md:flex-wrap md:justify-center">
         <button
           onClick={onScramble}
           className="flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium border border-black/20 dark:border-white/20 text-light-foreground/80 dark:text-dark-foreground/80 hover:border-black/40 dark:hover:border-white/40 transition-colors flex-shrink-0"
