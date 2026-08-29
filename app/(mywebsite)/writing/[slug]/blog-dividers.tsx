@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { createSpinDrive, dividerMask } from "./spin-drive";
+import { createSpinDrive, dividerMask } from "@/app/lib/spin-drive";
 
 // component that replaces <hr> in blogs with a thin spin-drive texture band thingy
 export function BlogDividers() {

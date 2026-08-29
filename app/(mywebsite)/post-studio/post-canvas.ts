@@ -2,7 +2,7 @@
 // Everything is painted into the canvas (not a DOM overlay) so a still export or a
 // captureStream recording both include the text.
 
-import { Mask } from "../writing/[slug]/spin-drive";
+import { Mask } from "@/app/lib/spin-drive";
 
 export type Format = "1:1" | "4:5" | "9:16";
 export type Variant = "field" | "slant" | "bloom";

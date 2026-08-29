@@ -10,7 +10,7 @@ import { ProgrammerSection } from "../components/landing/sections/programmer-sec
 import { TechIconsRow } from "../components/landing/sections/tech-icons-row";
 import { getBlogs, getPhotographs } from "../lib/db-caches";
 import { ArtistSection } from "../components/landing/sections/artist-section";
-import CrossOut from "../components/cross-out";
+import { Abbreviation } from "../components/abbreviation";
 
 export const metadata = getMetadata({
     info: "Hi, I'm",
@@ -46,16 +46,10 @@ export default async function Home() {
                         <AgeNoSSR /> <span className="vectra">years old</span>
                     </h2>
                     <p className="max-w-3xl">
-                        ...and counting. I’m a <CrossOut
-                            originalText="senior in high school"
-                            replaceText={
-                                <span>
-                                    student at <span className="text-[#FDB414] bg-[#002676] dark:text-[#022675] dark:bg-[#FDB414] px-2 py-1 rounded text-xs">
-                                        UC <span className="font-semibold text-[#FDB414] dark:text-[#022675]">Berkeley</span>
-                                    </span>
-                                </span>
-                            }
-                        />. I occupy myself with things I find interesting, which means I’m usually writing, programming, or building robots.
+                        ...and counting. I’m a student at <span className="text-[#FDB414] bg-[#002676] dark:text-[#022675] dark:bg-[#FDB414] px-2 py-1 rounded text-xs">
+                            UC <span className="font-semibold text-[#FDB414] dark:text-[#022675]">Berkeley</span> studying Applied Mathematics &{" "}
+                            <Abbreviation label="Industrial Engineering & Operations Research">IEOR</Abbreviation>
+                        </span>. I occupy myself with things I find interesting, which means I’m usually writing, programming, or building robots.
                         I also enjoy photography and design!
                     </p>
                 </div>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { canopyMask, createSpinDrive } from "./spin-drive";
+import { canopyMask, createSpinDrive } from "@/app/lib/spin-drive";
 
 // spin drive vrooom
 export function BlogHeroTexture() {

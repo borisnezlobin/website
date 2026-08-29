@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import { DownloadSimple, VideoCamera, Stop } from "@phosphor-icons/react/dist/ssr";
-import { createSpinDrive } from "../writing/[slug]/spin-drive";
+import { createSpinDrive } from "@/app/lib/spin-drive";
 import {
     variantMask, SIZES, drawComposition, slugify,
     type Align, type Composition, type Content, type Format, type Palette, type Pos, type Theme, type Variant,

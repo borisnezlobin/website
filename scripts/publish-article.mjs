@@ -61,7 +61,8 @@ function resolveSource() {
 }
 
 // Extract the article body: the .markdown-preview-view holding the real content, emitted as a bare
-// <div>. Everything outside it (head, body wrapper, scripts, styles) is dropped.
+// <div>. Everything outside it (head, body wrapper, scripts, styles) is dropped, as is the hidden
+// YAML frontmatter block Obsidian emits ahead of the content.
 function extractBody(raw) {
     const root = parse(raw, { comment: false, blockTextElements: { script: false, style: false } });
     const candidates = root.querySelectorAll(".markdown-preview-view");
@@ -71,7 +72,7 @@ function extractBody(raw) {
         if (score > bestScore) { bestScore = score; best = el; }
     }
     if (!best) fail("No .markdown-preview-view content found — is this an Obsidian HTML export?");
-    best.querySelectorAll("script, style").forEach((n) => n.remove());
+    best.querySelectorAll("script, style, .frontmatter, .frontmatter-container").forEach((n) => n.remove());
     return `<div>\n${best.innerHTML.trim()}\n</div>\n`;
 }
 

@@ -34,7 +34,7 @@ export type Mask = (cx: number, cy: number, w: number, h: number) => number;
 // The spin-drive texture is one fixed, axis-aligned lattice — never rotated, scaled, or warped.
 // Variants only change the `mask` (where the texture is allowed to appear).
 const drawMixed = (
-    ctx: CanvasRenderingContext2D, w: number, h: number, t: number, lx: number, ly: number, c: SpinColors, mask: Mask, cell: number, background?: string,
+    ctx: CanvasRenderingContext2D, w: number, h: number, t: number, lx: number, ly: number, c: SpinColors, mask: Mask, cell: number, intensity: number, background?: string,
 ) => {
     if (background) { ctx.fillStyle = background; ctx.fillRect(0, 0, w, h); }
     else ctx.clearRect(0, 0, w, h);
@@ -55,12 +55,12 @@ const drawMixed = (
                 const spec = specular(cx, cy, nx, ny, lx, ly);
                 const color = spec > 0.6 && hash(i * 3 + ti, j) > 0.9 ? c.red : spec > 0.42 ? c.glow : c.ink;
                 if (hash(i * 5 + ti, j) > 0.4) { // ~60% solid, 40% wireframe
-                    ctx.globalAlpha = Math.min(0.85, 0.045 + spec * 0.85 + shimmer(cx, cy, t) * 0.03);
+                    ctx.globalAlpha = Math.min(0.85, (0.045 + spec * 0.85 + shimmer(cx, cy, t) * 0.03) * intensity);
                     ctx.fillStyle = color;
                     triPath(ctx, p, cx, cy, 0.9, Math.sin(t * 0.5 + hash(i, j) * 6) * 0.05);
                     ctx.fill();
                 } else {
-                    ctx.globalAlpha = Math.min(0.8, 0.04 + spec * 0.7 + shimmer(cx, cy, t) * 0.03);
+                    ctx.globalAlpha = Math.min(0.8, (0.04 + spec * 0.7 + shimmer(cx, cy, t) * 0.03) * intensity);
                     ctx.strokeStyle = color;
                     ctx.lineWidth = 0.85 + spec * 0.9;
                     triPath(ctx, p, cx, cy, 0.82, 0);
@@ -90,13 +90,22 @@ export function createSpinDrive(
         theme?: "light" | "dark";
         // Override the accent red instead of reading --primary off the page (which tracks the page theme).
         primary?: string;
+        // Scales every facet's alpha. The defaults are tuned for a full-width hero;
+        // small panels need a boost or the unlit facets vanish entirely.
+        intensity?: number;
+        // Draw one frame and stop. Lets a page mount many textures at once and only
+        // spend a RAF loop on the one the cursor is actually over.
+        animate?: boolean;
+        // Where the light sits in the static frame, as a fraction of the canvas box.
+        staticLight?: { x: number; y: number };
     } = {},
 ): () => void {
     const ctx = canvas.getContext("2d");
     if (!ctx) return () => { };
     const cell = opts.cell ?? 16;
+    const intensity = opts.intensity ?? 1;
     const frame = (t: number, lx: number, ly: number) => {
-        drawMixed(ctx, w, h, t, lx, ly, colors, mask, cell, opts.background);
+        drawMixed(ctx, w, h, t, lx, ly, colors, mask, cell, intensity, opts.background);
         opts.onFrame?.(ctx, w, h, t);
     };
 
@@ -131,11 +140,12 @@ export function createSpinDrive(
     };
     resize();
 
-    const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const ro = new ResizeObserver(() => { resize(); if (still) frame(0, w * 0.3, h * 0.3); });
+    const light = opts.staticLight ?? { x: 0.3, y: 0.3 };
+    const still = opts.animate === false || window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const ro = new ResizeObserver(() => { resize(); if (still) frame(0, w * light.x, h * light.y); });
     ro.observe(canvas);
     if (still) {
-        frame(0, w * 0.3, h * 0.3);
+        frame(0, w * light.x, h * light.y);
         return () => { themeObs.disconnect(); ro.disconnect(); };
     }
 
@@ -187,18 +197,4 @@ export function createSpinDrive(
     };
 }
 
-// The article hero canopy — fills the top, arcs up over the centre.
-export const canopyMask: Mask = (x, y, w, h) => {
-    const u = x / w;
-    const wob = Math.sin(x * 0.018 + 0.6) * 0.022 + Math.sin(x * 0.052) * 0.014;
-    const by = h * (0.5 + 0.2 * (2 * u - 1) ** 2 + wob);
-    return Math.max(0, Math.min(1, (by - y) / (h * 0.09)));
-};
-
-// A horizontal rule — a slim band that fades top/bottom and tapers at the ends.
-export const dividerMask: Mask = (x, y, w, h) => {
-    const yFade = 1 - ((y - h / 2) / (h / 2)) ** 2;                  // dense at the mid-line, fading up/down
-    const xFade = Math.min(1, (Math.min(x, w - x) / (w * 0.16)) ** 1.2); // taper toward the ends
-    const wob = Math.sin(x * 0.05) * 0.12;
-    return Math.max(0, (yFade + wob) * xFade);
-};
+export { canopyMask, dividerMask, hashSeed } from "./masks";
