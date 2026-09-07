@@ -53,3 +53,17 @@ prisma/generated/**
 app/(mywebsite)/leading-preview/**
 app/(mywebsite)/texture-lab/**
 
+
+# python bytecode
+__pycache__/
+*.pyc
+
+# whale generation kit: blender scripts, source meshes, renders. nothing here ships.
+/whale-assets/
+
+# sprite sheets replaced by the points/ink pipeline
+/public/whales/*.gif
+
+# local one-off scripts; publish-article is the shared one
+/scripts/*
+!/scripts/publish-article.mjs

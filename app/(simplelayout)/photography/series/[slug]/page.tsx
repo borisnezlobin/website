@@ -9,10 +9,9 @@ type Props = { params: Promise<{ slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const series = await getSeriesBySlug(slug);
-  if (!series) return getMetadata({ title: "Series not found", info: "Error 404", subtitle: "Return to photography" });
+  if (!series) return getMetadata({ title: "Series not found", subtitle: "Return to photography" });
   return getMetadata({
     title: series.title,
-    info: "Photography",
     subtitle: "Photo series",
     description: series.description || `${series.photos.length} photos in ${series.title}.`,
   });

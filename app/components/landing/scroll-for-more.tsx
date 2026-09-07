@@ -6,9 +6,10 @@ const ScrollForMore = ({ className = "", text }: { className?: string, text?: st
     const [scrolled, setScrolled] = useState(false);
 
     useEffect(() => {
-        window.addEventListener("scroll", (e) => {
-            setScrolled(window.scrollY > window.innerHeight * 0.05);
-        })
+        const followScroll = () => setScrolled(window.scrollY > window.innerHeight * 0.05);
+        followScroll();
+        window.addEventListener("scroll", followScroll, { passive: true });
+        return () => window.removeEventListener("scroll", followScroll);
     }, []);
 
     return <div className={`print:hidden absolute bottom-0 left-0 flex flex-col gap-2 justify-end items-center pb-1 ${className}`}>

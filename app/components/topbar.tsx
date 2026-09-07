@@ -12,11 +12,16 @@ const TopBar: React.FC = () => {
   const blurBackground = (pathname !== "/");
 
   useEffect(() => {
+    let wasScrolled = window.scrollY > 0;
+    setIsScrolled(wasScrolled);
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 0);
+      const nextScrolled = window.scrollY > 0;
+      if (nextScrolled === wasScrolled) return;
+      wasScrolled = nextScrolled;
+      setIsScrolled(nextScrolled);
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 

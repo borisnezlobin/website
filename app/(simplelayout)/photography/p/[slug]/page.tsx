@@ -10,7 +10,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const feed = await getPhotoFeed();
   const photo = feed.photos.find((p) => p.slug === slug && p.inGallery);
-  if (!photo) return getMetadata({ title: "Photo not found", info: "Error 404", subtitle: "Return to photography" });
+  if (!photo) return getMetadata({ title: "Photo not found", subtitle: "Return to photography" });
   return getMetadata({
     title: photo.title,
     description: photo.description || `${photo.title} — photo by Boris Nezlobin.`,

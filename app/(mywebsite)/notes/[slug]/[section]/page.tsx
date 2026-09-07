@@ -36,7 +36,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     if (!note) {
         return getMetadata({
             title: "Notes not found.",
-            info: "Error 404",
             subtitle: "Return to lecture notes",
             description:
                 "The requested notes couldn't be found. Visit my website to contact me, see what I'm up to, and learn more about me!",
@@ -50,7 +49,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
         return getMetadata({
             title: `Section not found.`,
             subtitle: "Return to lecture notes",
-            info: "Error 404",
             description:
                 `The requested section couldn't be found in my ${note.title} notes. Visit my website to contact me, see what I'm up to, and learn more about me!`,
         });
@@ -59,7 +57,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     return getMetadata({
         title: `${sect.title}`,
         subtitle: note.title,
-        info: "Lecture Notes",
         description: `Check out my ${sect.title} notes on ${note.title}! ${note.description} ${sections.length} sections. Made and published by Boris Nezlobin.`,
     });
 }

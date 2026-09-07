@@ -10,7 +10,6 @@ import { AlarmIcon, ClockCounterClockwiseIcon, GithubLogoIcon, SunIcon, XIcon, X
 
 export const metadata = getMetadata({
     title: "Projects.",
-    info: "Selected work",
     subtitle: ">5k users · Featured by Hack Club",
     description: "Check out the projects I've worked on.",
 })

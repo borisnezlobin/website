@@ -3,11 +3,19 @@
 import useWindowSize from "@/app/utils/use-window-size";
 import { useTheme } from "next-themes";
 import { useEffect, useRef } from "react";
+import { DistanceField, buildDistanceField, distanceAt, gradientAt } from "./distance-field";
 
 type BoidGridType = {
     [key: string]: {
         [key: string]: Boid[]
     }
+}
+
+type Obstacle = {
+    field: DistanceField;
+    x: number;
+    y: number;
+    width: number;
 }
 
 
@@ -16,17 +24,24 @@ const BOID_SIZE = 7;
 const BOID_GRID_CELL_SIZE = 200;
 
 const PERCEPTION_RADIUS = 200;
-const SOFT_REPULSION_RADIUS = 80;
 const AVOIDANCE_RADIUS = 20;
 
 const AVOIDANCE_WEIGHT = 15.0;
 const ALIGNMENT_WEIGHT = 1.0;
 const COHESION_WEIGHT = 0.1;
-const SOFT_REPULSION_WEIGHT = 0.00;
 
 const WALL_MARGIN = 500;
 const VERTICAL_WALL_MARGIN = 500;
 const WALL_FORCE = 300;
+const WHALE_SELECTOR = "img[data-whale-hero]";
+const WHALE_SOURCE = "/whale-assets/uptotheright.webp";
+const WHALE_MARGIN = 55;
+const WHALE_FORCE = 2200;
+const WHALE_LOOKAHEAD = 110;
+const WHALE_RECHECK_FRAMES = 30;
+const MIN_VISIBLE_FRACTION = 0.05;
+const TARGET_FRAME_MS = 1000 / 60;
+const FRAME_TOLERANCE_MS = 2;
 
 const MAX_SPEED = 400;
 const DESIRED_SPEED = 300;
@@ -39,7 +54,11 @@ const BoidCanvas = () => {
     const boids = useRef<Boid[]>([]);
     const theme = useTheme();
     const windowSize = useWindowSize();
-    
+
+    const whale = useRef<Obstacle | null>(null);
+    const whaleField = useRef<DistanceField | null>(null);
+    const framesSinceWhaleCheck = useRef<number>(WHALE_RECHECK_FRAMES);
+
     const animationFrameId = useRef<number>(undefined);
     const lastTimestamp = useRef<number>(0);
     const isInViewRef = useRef<boolean>(false);
@@ -64,6 +83,13 @@ const BoidCanvas = () => {
             animationFrameId.current = undefined;
             return;
         }
+
+        const sinceLastFrame = lastTimestamp.current ? timestamp - lastTimestamp.current : Infinity;
+        if (sinceLastFrame < TARGET_FRAME_MS - FRAME_TOLERANCE_MS) {
+            animationFrameId.current = requestAnimationFrame(animate);
+            return;
+        }
+
         const canvas = canvasRef.current;
         if (!canvas) return;
         const ctx = canvas.getContext('2d');
@@ -76,15 +102,22 @@ const BoidCanvas = () => {
             initBoids(width, height);
         }
 
-        const deltaMs = lastTimestamp.current ? (timestamp - lastTimestamp.current) : 16.67;
+        const deltaMs = lastTimestamp.current ? sinceLastFrame : TARGET_FRAME_MS;
         const dt = Math.min(deltaMs, 100) / 1000; // seconds, clamped
         lastTimestamp.current = timestamp;
 
         ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = theme.theme === 'dark' ? '#E96457' : '#CC2A26';
+
+        framesSinceWhaleCheck.current += 1;
+        if (framesSinceWhaleCheck.current >= WHALE_RECHECK_FRAMES) {
+            framesSinceWhaleCheck.current = 0;
+            whale.current = locateWhale(canvas, whaleField.current);
+        }
 
         boids.current.forEach(boid => {
-            boid.update(boidGrid.current!, width, height, dt);
-            boid.draw(ctx, theme.theme === 'dark', boidGrid.current);
+            boid.update(boidGrid.current!, width, height, dt, whale.current);
+            boid.draw(ctx);
         });
 
         animationFrameId.current = requestAnimationFrame(animate);
@@ -98,6 +131,12 @@ const BoidCanvas = () => {
         canvas.height = windowSize.height;
 
         initBoids(canvas.width, canvas.height);
+
+        if (!whaleField.current) {
+            buildDistanceField(WHALE_SOURCE)
+                .then((field) => { whaleField.current = field; })
+                .catch(() => { });
+        }
 
         const maybeStart = () => {
             const shouldRun = isInViewRef.current && isPageVisibleRef.current && hasFocusRef.current;
@@ -118,14 +157,15 @@ const BoidCanvas = () => {
         const observer = new IntersectionObserver(
             (entries) => {
                 const entry = entries[0];
-                isInViewRef.current = !!entry?.isIntersecting;
+                isInViewRef.current = !!entry?.isIntersecting
+                    && entry.intersectionRatio >= MIN_VISIBLE_FRACTION;
                 if (isInViewRef.current) {
                     maybeStart();
                 } else {
                     stop();
                 }
             },
-            { root: null, threshold: 0.05 }
+            { root: null, threshold: [0, MIN_VISIBLE_FRACTION] }
         );
         observer.observe(canvas);
 
@@ -171,25 +211,45 @@ const BoidCanvas = () => {
     return (
         <canvas
             ref={canvasRef}
-            className="absolute top-0 left-0 w-full h-full z-0"
+            className="absolute top-0 left-0 w-full h-full z-[5]"
         ></canvas>
     );
 }
 
-function dot(a: { x: number; y: number }, b: { x: number; y: number }) {
-    return a.x * b.x + a.y * b.y;
+function locateWhale(canvas: HTMLCanvasElement, field: DistanceField | null): Obstacle | null {
+    if (!field) return null;
+    const image = document.querySelector(WHALE_SELECTOR);
+    if (!image) return null;
+
+    const whaleBox = image.getBoundingClientRect();
+    if (!whaleBox.width) return null;
+    const canvasBox = canvas.getBoundingClientRect();
+
+    return {
+        field,
+        x: whaleBox.x - canvasBox.x,
+        y: whaleBox.y - canvasBox.y,
+        width: whaleBox.width,
+    };
 }
 
-function mag(v: { x: number; y: number }) {
-    return Math.sqrt(v.x * v.x + v.y * v.y);
+type Approach = { distance: number; fx: number; fy: number };
+
+function probe(whale: Obstacle, x: number, y: number): Approach | null {
+    const field = whale.field;
+    const cellsPerPixel = field.imageWidth / whale.width;
+    const fx = (x - whale.x) * cellsPerPixel + field.pad;
+    const fy = (y - whale.y) * cellsPerPixel + field.pad;
+
+    if (fx < 0 || fy < 0 || fx > field.width - 1 || fy > field.height - 1) return null;
+
+    return { distance: distanceAt(field, fx, fy) / cellsPerPixel, fx, fy };
 }
 
-function relativeAngle(aPos: { x: number; y: number }, aVel: { x: number; y: number }, bPos: { x: number; y: number }) {
-    const toB = { x: bPos.x - aPos.x, y: bPos.y - aPos.y };
-    const aVelMag = mag(aVel);
-    const toBMag = mag(toB);
-    const cosTheta = dot(aVel, toB) / (aVelMag * toBMag);
-    return Math.acos(cosTheta); // in radians
+function nearerApproach(a: Approach | null, b: Approach | null) {
+    if (!a) return b;
+    if (!b) return a;
+    return a.distance <= b.distance ? a : b;
 }
 
 function wallScale(val: number) {
@@ -225,34 +285,37 @@ class Boid {
         this.gridY = Math.floor(this.y / BOID_GRID_CELL_SIZE);
     }
 
-    update(boidGrid: BoidGridType, gridWidth: number, gridHeight: number, dt: number) {
-        let steeringAlign = { x: 0, y: 0 };
-        let steeringCohesion = { x: 0, y: 0 };
-        let steeringSeparation = { x: 0, y: 0 };
+    update(boidGrid: BoidGridType, gridWidth: number, gridHeight: number, dt: number, whale: Obstacle | null = null) {
+        let steeringAlignX = 0;
+        let steeringAlignY = 0;
+        let steeringCohesionX = 0;
+        let steeringCohesionY = 0;
+        let steeringSeparationX = 0;
+        let steeringSeparationY = 0;
         let totalCount = 0;
 
-        const gridX = Math.floor(this.x / BOID_GRID_CELL_SIZE);
-        const gridY = Math.floor(this.y / BOID_GRID_CELL_SIZE);
+        const gridX = this.gridX;
+        const gridY = this.gridY;
+        const velocitySquared = this.vx * this.vx + this.vy * this.vy;
+        const currentSpeed = Math.sqrt(velocitySquared);
+        const inverseSpeed = currentSpeed > 0 ? 1 / currentSpeed : 0;
 
-        let steeringWalls = { x: 0, y: 0 };
+        let steeringWallsX = 0;
+        let steeringWallsY = 0;
+        const steeringWhale = this.avoidWhale(whale);
 
         if (this.x < WALL_MARGIN) {
-            // steeringWalls.x += (WALL_MARGIN - this.x) / WALL_MARGIN;
-            steeringWalls.x += wallScale(Math.min(1, (WALL_MARGIN - this.x) / WALL_MARGIN));
+            steeringWallsX += wallScale(Math.min(1, (WALL_MARGIN - this.x) / WALL_MARGIN));
         }
         if (this.x > gridWidth - WALL_MARGIN) {
-            // steeringWalls.x -= (this.x - (gridWidth - WALL_MARGIN)) / WALL_MARGIN;
-            steeringWalls.x -= wallScale(Math.min(1, (this.x - (gridWidth - WALL_MARGIN)) / WALL_MARGIN));
+            steeringWallsX -= wallScale(Math.min(1, (this.x - (gridWidth - WALL_MARGIN)) / WALL_MARGIN));
         }
         if (this.y < VERTICAL_WALL_MARGIN) {
-            // steeringWalls.y += (VERTICAL_WALL_MARGIN - this.y) / VERTICAL_WALL_MARGIN;
-            steeringWalls.y += wallScale(Math.min(1, (VERTICAL_WALL_MARGIN - this.y) / VERTICAL_WALL_MARGIN));
+            steeringWallsY += wallScale(Math.min(1, (VERTICAL_WALL_MARGIN - this.y) / VERTICAL_WALL_MARGIN));
         }
         if (this.y > gridHeight - VERTICAL_WALL_MARGIN) {
-            // steeringWalls.y -= (this.y - (gridHeight - VERTICAL_WALL_MARGIN)) / VERTICAL_WALL_MARGIN;
-            steeringWalls.y -= wallScale(Math.min(1, (this.y - (gridHeight - VERTICAL_WALL_MARGIN)) / VERTICAL_WALL_MARGIN));
+            steeringWallsY -= wallScale(Math.min(1, (this.y - (gridHeight - VERTICAL_WALL_MARGIN)) / VERTICAL_WALL_MARGIN));
         }
-
 
         for (let i = -1; i <= 1; i++) {
             for (let j = -1; j <= 1; j++) {
@@ -260,47 +323,32 @@ class Boid {
                 const neighborCellY = gridY + j;
                 if (boidGrid[neighborCellX] && boidGrid[neighborCellX][neighborCellY]) {
                     for (const other of boidGrid[neighborCellX][neighborCellY]) {
-                        const d = Math.hypot(this.x - other.x, this.y - other.y);
-                        if (other !== this && d < PERCEPTION_RADIUS) {
-                            if (relativeAngle({ x: this.x, y: this.y }, { x: this.vx, y: this.vy }, { x: other.x, y: other.y }) > 3 * Math.PI / 4) {
+                        if (other === this) continue;
+                        const toOtherX = other.x - this.x;
+                        const toOtherY = other.y - this.y;
+                        const distanceSquared = toOtherX * toOtherX + toOtherY * toOtherY;
+                        if (distanceSquared < PERCEPTION_RADIUS * PERCEPTION_RADIUS) {
+                            const facingDot = this.vx * toOtherX + this.vy * toOtherY;
+                            if (facingDot < 0
+                                && facingDot * facingDot > velocitySquared * distanceSquared * 0.5) {
                                 continue;
                             }
-                            const weight = (PERCEPTION_RADIUS / d);
-                            steeringAlign.x += other.vx;
-                            steeringAlign.y += other.vy;
+                            steeringAlignX += other.vx;
+                            steeringAlignY += other.vy;
 
-                            const cohesionWeight = (PERCEPTION_RADIUS - d) / PERCEPTION_RADIUS;
-                            const speed = Math.hypot(this.vx, this.vy);
-
-                            const toOther = { x: other.x - this.x, y: other.y - this.y };
-                            const forward = { x: this.vx / speed, y: this.vy / speed };
-
-                            const forwardness = dot(toOther, forward);
+                            const forwardness = toOtherX * this.vx * inverseSpeed
+                                + toOtherY * this.vy * inverseSpeed;
                             if (forwardness > 0) {
-                                steeringCohesion.x += toOther.x * 0.5;
-                                steeringCohesion.y += toOther.y * 0.5;
+                                steeringCohesionX += toOtherX * 0.5;
+                                steeringCohesionY += toOtherY * 0.5;
                             }
 
-
-
-                            // steeringSeparation.x += (this.x - other.x) * weight;
-                            // steeringSeparation.y += (this.y - other.y) * weight;
-
-                            if (d < AVOIDANCE_RADIUS && d > 0) {
+                            if (distanceSquared > 0
+                                && distanceSquared < AVOIDANCE_RADIUS * AVOIDANCE_RADIUS) {
+                                const d = Math.sqrt(distanceSquared);
                                 const strength = (AVOIDANCE_RADIUS - d) / AVOIDANCE_RADIUS;
-
-                                const dx = this.x - other.x;
-                                const dy = this.y - other.y;
-                                const invD = 1 / d;
-
-                                steeringSeparation.x += dx * strength;
-                                steeringSeparation.y += dy * strength;
-                            } else if (d < SOFT_REPULSION_RADIUS && d > AVOIDANCE_RADIUS) {
-                                const strength = (SOFT_REPULSION_RADIUS - d) / SOFT_REPULSION_RADIUS;
-                                const dx = this.x - other.x;
-                                const dy = this.y - other.y;
-                                steeringSeparation.x += dx * strength * SOFT_REPULSION_WEIGHT;
-                                steeringSeparation.y += dy * strength * SOFT_REPULSION_WEIGHT;
+                                steeringSeparationX -= toOtherX * strength;
+                                steeringSeparationY -= toOtherY * strength;
                             }
 
                             totalCount++;
@@ -311,38 +359,29 @@ class Boid {
         }
 
         if (totalCount > 0) {
-            steeringAlign.x /= totalCount;
-            steeringAlign.y /= totalCount;
-
-            steeringAlign.x -= this.vx;
-            steeringAlign.y -= this.vy;
-
-            steeringCohesion.x /= totalCount;
-            steeringCohesion.y /= totalCount;
-
-            steeringCohesion.x -= this.x;
-            steeringCohesion.y -= this.y;
+            steeringAlignX = steeringAlignX / totalCount - this.vx;
+            steeringAlignY = steeringAlignY / totalCount - this.vy;
+            steeringCohesionX = steeringCohesionX / totalCount - this.x;
+            steeringCohesionY = steeringCohesionY / totalCount - this.y;
         }
 
-
-        this.vx += steeringSeparation.x * AVOIDANCE_WEIGHT * dt;
-        this.vy += steeringSeparation.y * AVOIDANCE_WEIGHT * dt;
+        this.vx += steeringSeparationX * AVOIDANCE_WEIGHT * dt;
+        this.vy += steeringSeparationY * AVOIDANCE_WEIGHT * dt;
         const alignFactor = Math.min(1, 5 / (totalCount + 0.1));
-        this.vx += steeringAlign.x * ALIGNMENT_WEIGHT * alignFactor * dt;
-        this.vy += steeringAlign.y * ALIGNMENT_WEIGHT * alignFactor * dt;
+        this.vx += steeringAlignX * ALIGNMENT_WEIGHT * alignFactor * dt;
+        this.vy += steeringAlignY * ALIGNMENT_WEIGHT * alignFactor * dt;
 
+        this.vx += steeringCohesionX * COHESION_WEIGHT * dt;
+        this.vy += steeringCohesionY * COHESION_WEIGHT * dt;
 
-        this.vx += steeringCohesion.x * COHESION_WEIGHT * dt;
-        this.vy += steeringCohesion.y * COHESION_WEIGHT * dt;
+        this.vx += steeringWallsX * WALL_FORCE * dt;
+        this.vy += steeringWallsY * WALL_FORCE * dt;
 
-        this.vx += steeringWalls.x * WALL_FORCE * dt;
-        this.vy += steeringWalls.y * WALL_FORCE * dt;
+        this.vx += steeringWhale.x * WHALE_FORCE * dt;
+        this.vy += steeringWhale.y * WHALE_FORCE * dt;
 
-        // now we inject (noise)
         this.vx += (Math.random() - 0.5) * NOISE * dt;
         this.vy += (Math.random() - 0.5) * NOISE * dt;
-
-
 
         const speed = Math.hypot(this.vx, this.vy);
 
@@ -358,37 +397,44 @@ class Boid {
         this.x += this.vx * dt;
         this.y += this.vy * dt;
 
-        // if (this.x < 0) this.x += gridWidth;
-        // if (this.x > gridWidth) this.x -= gridWidth;
-        // if (this.y < 0) this.y += gridHeight;
-        // if (this.y > gridHeight) this.y -= gridHeight;
-
-        for (const key in boidGrid) {
-            for (const subKey in boidGrid[key]) {
-                const index = boidGrid[key][subKey].indexOf(this);
-                if (index > -1) {
-                    boidGrid[key][subKey].splice(index, 1);
-                }
-            }
+        const oldCell = boidGrid[this.gridX]?.[this.gridY];
+        if (oldCell) {
+            const oldIndex = oldCell.indexOf(this);
+            if (oldIndex >= 0) oldCell.splice(oldIndex, 1);
         }
-
-        if (!boidGrid[gridX]) boidGrid[gridX] = {};
-        if (!boidGrid[gridX][gridY]) boidGrid[gridX][gridY] = [];
-        boidGrid[gridX][gridY].push(this);
 
         this.setGridPosition();
+        if (!boidGrid[this.gridX]) boidGrid[this.gridX] = {};
+        if (!boidGrid[this.gridX][this.gridY]) boidGrid[this.gridX][this.gridY] = [];
+        boidGrid[this.gridX][this.gridY].push(this);
     }
 
-    draw(ctx: CanvasRenderingContext2D, isDarkMode: boolean, boidGrid: BoidGridType | undefined) {
-        if (boidGrid == undefined) {
-            console.error("BoidGrid is undefined");
-            return;
-        }
-        const color = isDarkMode ? '#E96457' : '#CC2A26';
+    avoidWhale(whale: Obstacle | null) {
+        if (!whale) return { x: 0, y: 0 };
 
+        const speed = Math.hypot(this.vx, this.vy) || 1;
+        const here = probe(whale, this.x, this.y);
+        const ahead = probe(
+            whale,
+            this.x + (this.vx / speed) * WHALE_LOOKAHEAD,
+            this.y + (this.vy / speed) * WHALE_LOOKAHEAD,
+        );
+        const closest = nearerApproach(here, ahead);
+        if (!closest || closest.distance > WHALE_MARGIN) return { x: 0, y: 0 };
 
-        // draw triangle
-        ctx.fillStyle = color;
+        const outward = here ?? closest;
+        const gradient = gradientAt(whale.field, outward.fx, outward.fy);
+        const gradientSize = Math.hypot(gradient.x, gradient.y);
+        if (gradientSize === 0) return { x: 0, y: 0 };
+
+        const strength = Math.min(1.5, (WHALE_MARGIN - closest.distance) / WHALE_MARGIN);
+        return {
+            x: (gradient.x / gradientSize) * strength,
+            y: (gradient.y / gradientSize) * strength,
+        };
+    }
+
+    draw(ctx: CanvasRenderingContext2D) {
         const normVelocity = Math.sqrt(this.vx * this.vx + this.vy * this.vy);
         const tempVx = this.vx / normVelocity;
         const tempVy = this.vy / normVelocity;

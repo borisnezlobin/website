@@ -37,13 +37,15 @@ body {
   src: url("/charter_regular.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
   font-family: "vectra";
-  src: url("/antro_vectra.otf") format("opentype");
+  src: url("/antro_vectra.woff2") format("woff2");
   font-weight: 400;
   font-style: normal;
+  font-display: swap;
 }
 
 .vectra {
@@ -55,6 +57,7 @@ body {
   src: url("/charter_italic.woff2") format("woff2");
   font-weight: 400;
   font-style: italic;
+  font-display: swap;
 }
 
 @font-face {
@@ -62,6 +65,7 @@ body {
   src: url("/charter_bold.woff2") format("woff2");
   font-weight: 700;
   font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
@@ -69,6 +73,7 @@ body {
   src: url("/charter_bold_italic.woff2") format("woff2");
   font-weight: 700;
   font-style: italic;
+  font-display: swap;
 }
 
 svg, path {
@@ -544,4 +549,9 @@ script {
   /* border-top-width: 1px;
   border-bottom-width: 1px; */
   @apply flex flex-col items-center justify-center min-h-[100svh] print:hidden relative w-full border-muted dark:border-muted-dark;
+}
+
+
+.dark .whale-negative {
+    filter: invert(1) hue-rotate(180deg) sepia(0.1) brightness(0.84);
 }

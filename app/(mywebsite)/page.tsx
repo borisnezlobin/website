@@ -12,9 +12,7 @@ import { getBlogs, getPhotographs } from "../lib/db-caches";
 import { ArtistSection } from "../components/landing/sections/artist-section";
 import { Abbreviation } from "../components/abbreviation";
 
-export const metadata = getMetadata({
-    info: "Hi, I'm",
-});
+export const metadata = getMetadata({});
 
 export default async function Home() {
     const [articles, photographs] = await Promise.all([getBlogs(), getPhotographs()]);
@@ -59,7 +57,6 @@ export default async function Home() {
                 <RoboticistSection />
                 <WriterSection articles={previewArticles} />
                 <ArtistSection photos={previewPhotos} />
-                {/* <NowPlaying /> */}
             </main>
         </>
     );

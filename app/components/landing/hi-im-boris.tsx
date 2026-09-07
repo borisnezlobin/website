@@ -67,21 +67,34 @@ const HiImBoris = () => {
     }, []);
 
     return (
-        <div className="h-[100svh] relative top-[-6rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
-            <p className="md:hidden text-base print:z-20 md:text-2xl relative left-4 emph z-10 bg-light-background dark:bg-dark-background rounded-t-lg px-4 py-1 print:!bg-transparent">
-                Hi, I’m
-            </p>
-            <h1 className="md:hidden text-8xl relative right-4 bottom-4 font-bold edo z-10 text-center md:text-7xl bg-transparent dark:bg-transparent print:bg-transparent rounded-lg px-4 pb-3 py-1 vectra">
-                Boris.
-            </h1>
-            <h1 className="hidden md:block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold edo z-10 text-center print:text-5xl print:mt-0 print:mb-1">
-                <span className="text-muted dark:text-muted dark font-normal text-4xl">
-                    I’m
-                </span>
-                <span className="vectra">
+        <div className="h-[100svh] relative top-[2rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
+            <div className="relative flex flex-col items-center">
+                <img
+                    src="/whale-assets/uptotheright.webp"
+                    alt=""
+                    aria-hidden
+                    width={1048}
+                    height={547}
+                    fetchPriority="high"
+                    decoding="async"
+                    data-whale-hero
+                    className="whale-negative pointer-events-none select-none absolute z-0 max-w-none w-[132%] md:w-[min(680px,90vw)] lg:w-[780px] left-1/4 -translate-x-1/2 md:-translate-x-[50%] bottom-[50%] md:bottom-[8%] print:hidden"
+                />
+                <p className="md:hidden text-base relative left-[87px] bottom-[64px] emph z-10 rounded-t-lg px-4 py-1 print:z-20 print:!bg-transparent">
+                    Hi, I&rsquo;m
+                </p>
+                <h1 className="md:hidden text-8xl relative left-[min(1rem,(100vw_-_100%)/2)] bottom-9 font-bold edo z-10 text-center rounded-lg px-4 pb-3 py-1 vectra">
                     Boris.
-                </span>
-            </h1>
+                </h1>
+                <h1 className="hidden md:block text-6xl sm:text-7xl md:text-8xl lg:text-9xl font-bold edo z-10 text-center print:text-5xl print:mt-0 print:mb-1">
+                    <span className="text-muted dark:text-muted dark font-normal text-4xl relative left-10">
+                        I&rsquo;m
+                    </span>
+                    <span className="vectra">
+                        Boris.
+                    </span>
+                </h1>
+            </div>
             <div
                 className={`hidden relative w-96 md:block print:hidden z-10 px-4 py-1 print:text-xl print:mt-0 print:mb-2`}
             >

@@ -6,7 +6,6 @@ import { paramToCategory } from "./categories";
 
 export const metadata: Metadata = getMetadata({
     title: "Writing",
-    info: "Portfolio",
     description: "Read my articles about software engineering, my life, education, and more.",
     subtitle: "I'm a writer, et cetera.",
 });
