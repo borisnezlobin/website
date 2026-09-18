@@ -1,0 +1,99 @@
+{
+ "size": [
+  1732,
+  1484
+ ],
+ "quantise": 4,
+ "underlayOrigin": [
+  147,
+  50
+ ],
+ "behaviors": {
+  "cruise_loop": {
+   "frames": 60,
+   "count": 900,
+   "fps": 15
+  },
+  "turn_left": {
+   "frames": 60,
+   "count": 900,
+   "fps": 15
+  },
+  "turn_right": {
+   "frames": 60,
+   "count": 900,
+   "fps": 15
+  },
+  "rise": {
+   "frames": 60,
+   "count": 900,
+   "fps": 15
+  },
+  "dive": {
+   "frames": 60,
+   "count": 900,
+   "fps": 15
+  },
+  "roll_left": {
+   "frames": 60,
+   "count": 900,
+   "fps": 15
+  },
+  "roll_right": {
+   "frames": 60,
+   "count": 900,
+   "fps": 15
+  },
+  "rise_in": {
+   "frames": 30,
+   "count": 900,
+   "fps": 15
+  },
+  "rise_hold": {
+   "frames": 60,
+   "count": 900,
+   "fps": 15
+  },
+  "rise_out": {
+   "frames": 30,
+   "count": 900,
+   "fps": 15
+  },
+  "dive_in": {
+   "frames": 30,
+   "count": 900,
+   "fps": 15
+  },
+  "dive_hold": {
+   "frames": 60,
+   "count": 900,
+   "fps": 15
+  },
+  "dive_out": {
+   "frames": 30,
+   "count": 900,
+   "fps": 15
+  },
+  "breach": {
+   "frames": 15,
+   "count": 900,
+   "fps": 15
+  }
+ },
+ "body": {
+  "cruise_loop": "body-cruise_loop.pack",
+  "turn_left": "body-turn_left.pack",
+  "turn_right": "body-turn_right.pack",
+  "rise": "body-rise.pack",
+  "dive": "body-dive.pack",
+  "roll_left": "body-roll_left.pack",
+  "roll_right": "body-roll_right.pack",
+  "rise_in": "body-rise_in.pack",
+  "rise_hold": "body-rise_hold.pack",
+  "rise_out": "body-rise_out.pack",
+  "dive_in": "body-dive_in.pack",
+  "dive_hold": "body-dive_hold.pack",
+  "dive_out": "body-dive_out.pack",
+  "breach": "body-breach.pack"
+ }
+}

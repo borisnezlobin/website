@@ -4,8 +4,6 @@ import { useRef } from "react";
 import Link from "next/link";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { useIsVisible } from "@/app/utils/use-is-visible";
-import { SectionLabel } from "./section-label";
-import { Separator } from "../../separator";
 
 type ArticlePreview = {
     title: string;
@@ -22,24 +20,24 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
         <section className="landing-section">
             <div
                 ref={ref}
-                className={`max-w-6xl mx-auto px-8 w-full flex flex-col gap-8 md:gap-12 transition-all duration-700 ${
+                className={`max-w-6xl mx-auto px-8 w-full flex flex-col gap-20 md:gap-28 transition-all duration-700 ${
                     isVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
                 }`}
             >
-                <div className="flex flex-col items-start">
-                    <span className="vectra text-5xl md:text-8xl leading-none text-muted dark:text-muted-dark">
+                <div className="flex flex-col items-start gap-6">
+                    <h2 className="vectra text-5xl md:text-8xl leading-none text-muted dark:text-muted-dark">
                         I write things.
-                    </span>
-                    <p className="mt-4 max-w-4xl">
+                    </h2>
+                    <p className="max-w-4xl">
                         Sometimes I try to change the world—I helped reinstate multivariable calculus at my school with my writing!—and other times I
                         write the random thoughts I’ve got. I’m currently exploring creative writing in my free time :)
                     </p>
                 </div>
 
                 <div className="flex flex-col gap-0">
-                    <p className="text-muted dark:text-muted-dark emph">
+                    <h3 className="text-sm text-muted dark:text-muted-dark font-normal mb-4">
                         Recent articles
-                    </p>
+                    </h3>
                     {articles.slice(0, 3).map((article, i) => (
                         <Link
                             key={article.slug}
@@ -65,18 +63,16 @@ export function WriterSection({ articles }: { articles: ArticlePreview[] }) {
                     ))}
                 </div>
 
-                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+                <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-10">
                     <Link href="/writing" className="text-primary font-semibold hover:underline flex items-center gap-2">
-                        All articles <ArrowRightIcon weight="bold" size={14} />
+                        See all articles <ArrowRightIcon weight="bold" size={14} />
                     </Link>
-                    <Separator className="hidden sm:flex" />
                     <Link href="/write" className="text-muted dark:text-muted-dark hover:text-primary transition-colors duration-200 flex items-center gap-2 text-sm sm:text-base">
                         Wrisk, the free tool I made to help me write faster
                         <ArrowRightIcon weight="bold" size={14} className="flex-shrink-0" />
                     </Link>
                 </div>
             </div>
-            <SectionLabel label="Writer" />
         </section>
     );
 }

@@ -3,7 +3,6 @@
 import { useRef } from "react";
 import { FlagIcon, GameControllerIcon, GithubLogoIcon, UsersThreeIcon, WaveformIcon } from "@phosphor-icons/react/dist/ssr";
 import { useIsVisible } from "@/app/utils/use-is-visible";
-import { SectionLabel } from "./section-label";
 import Link from "next/link";
 import { Separator } from "../../separator";
 
@@ -107,7 +106,6 @@ export function RoboticistSection() {
                     </div>
                 </div>
             </div>
-            <SectionLabel label="Roboticist" />
         </section>
     );
 }

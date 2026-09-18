@@ -26,6 +26,7 @@ const config: Config = {
                     light: "#cc2a26",
                     dark: "#e96457",
                     "light-bg": "#fae5e4",
+                    "dark-bg": "#3b1c19",
                 },
                 muted: {
                     DEFAULT: "#707070",

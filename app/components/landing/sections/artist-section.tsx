@@ -4,7 +4,6 @@ import { useRef, useState, useEffect } from "react";
 import Link from "next/link";
 import { ArrowRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { useIsVisible } from "@/app/utils/use-is-visible";
-import { SectionLabel } from "./section-label";
 import Background from "../background";
 import { PrintCard, getPrintTransform } from "../print-card";
 import type { PrintCardPhoto } from "../print-card";
@@ -33,20 +32,19 @@ export function ArtistSection({ photos }: { photos: PrintCardPhoto[] }) {
                     }`}
                 >
                     <div className="flex flex-col items-center w-full bottom-8 relative">
-                        <span className="vectra text-5xl md:text-8xl leading-none">
+                        <h2 className="vectra text-5xl md:text-8xl leading-none">
                             Photography
-                        </span>
-                        <p className="text-muted dark:text-muted-dark mt-4 max-w-2xl text-center px-8">
+                        </h2>
+                        <p className="text-muted dark:text-muted-dark mt-6 max-w-2xl text-center px-8">
                             Up, down, yellow, blurred, and brown. I like taking pictures of things!
                         </p>
                     </div>
                 </div>
                 <Background words={BACKGROUND_WORDS} className="" />
-                <SectionLabel label="Artist" />
             </section>
 
             {displayPhotos.length > 0 && (
-                <div className="w-full max-w-5xl mx-auto px-8 py-8" style={{ perspective: "1200px" }}>
+                <div className="w-full max-w-5xl mx-auto px-8 py-12 md:py-16" style={{ perspective: "1200px" }}>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-2 md:-gap-4 place-items-center">
                         {displayPhotos.map((photo, i) => {
                             const { rotation, offset } = getPrintTransform(i);
@@ -64,7 +62,7 @@ export function ArtistSection({ photos }: { photos: PrintCardPhoto[] }) {
                 </div>
             )}
 
-            <div className="flex justify-center w-full mt-4 mb-8">
+            <div className="flex justify-center w-full mt-12 mb-20">
                 <Link href="/photography" className="text-primary font-semibold hover:underline flex items-center gap-2">
                     View all photos <ArrowRightIcon weight="bold" size={14} />
                 </Link>

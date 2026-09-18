@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { drawnLengthOf, Illustration, loadIllustration } from "./illustration-geometry";
+
 interface QuoteShaderProps {
     text: string;
     source: string;
@@ -12,14 +14,12 @@ interface QuoteShaderProps {
 
 const BAND_FRAC = 0.01;
 const AMP_FRAC = 0.013;
-// The text/source feel the shader at this fraction of the rectangle's strength.
 const TEXT_EFFECT = 0.2;
 
-// The rectangle fills the BlogList content column: max-w-6xl (1152) minus the
-// pagepad's p-8 (64) = 1088 at its widest. The illustrations hang off the rectangle by
-// a fixed distance — a fraction of THIS full width, not of the live width — so they
-// stay pinned to the corners as the column narrows instead of drifting inward.
 const RECT_MAX_WIDTH = 1088;
+
+const LEFT_BORDER_STROKE = 1.2;
+const LEFT_BORDER_VB_HEIGHT = 149.53333;
 
 const ILLUSTRATIONS = [
     {
@@ -33,12 +33,11 @@ const ILLUSTRATIONS = [
     },
     {
         path: "/drawings/leftborder.svg",
-        strokeWidth: 0.7,
+        strokeWidth: LEFT_BORDER_STROKE,
         place: (w: number, h: number) => {
             const ch = 1.6 * h;
-            const cw = ch * (117.12772 / 149.53333);
-            // Raised by one rendered stroke width so the top edge sits flush.
-            const strokePx = 0.7 * (ch / 149.53333);
+            const cw = ch * (117.12772 / LEFT_BORDER_VB_HEIGHT);
+            const strokePx = LEFT_BORDER_STROKE * (ch / LEFT_BORDER_VB_HEIGHT);
             return { cx: -0.071 * RECT_MAX_WIDTH, cy: -0.135 * h - strokePx, cw, ch };
         },
     },
@@ -150,32 +149,6 @@ function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number
     return lines;
 }
 
-interface PathGeom {
-    path: Path2D;
-    length: number;
-}
-
-async function loadIllustration(url: string): Promise<{ vbW: number; vbH: number; paths: PathGeom[] } | null> {
-    try {
-        const text = await (await fetch(url)).text();
-        const doc = new DOMParser().parseFromString(text, "image/svg+xml");
-        const svg = doc.querySelector("svg");
-        if (!svg) return null;
-        const vb = (svg.getAttribute("viewBox") || "0 0 1 1").split(/\s+/).map(Number);
-        const measure = svg.cloneNode(true) as SVGSVGElement;
-        Object.assign(measure.style, { position: "absolute", visibility: "hidden", pointerEvents: "none" });
-        document.body.appendChild(measure);
-        const paths: PathGeom[] = Array.from(measure.querySelectorAll("path")).map((p) => ({
-            path: new Path2D(p.getAttribute("d") || ""),
-            length: p.getTotalLength(),
-        }));
-        document.body.removeChild(measure);
-        return { vbW: vb[2] || 1, vbH: vb[3] || 1, paths };
-    } catch {
-        return null;
-    }
-}
-
 export function QuoteShader({ text, source, illustrated, active, className = "" }: QuoteShaderProps) {
     const hostRef = useRef<HTMLDivElement>(null);
     const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -239,8 +212,6 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
 
         const DPR = Math.min(window.devicePixelRatio || 1, 2);
 
-        // Each element is its own sliced sprite, so the rectangle fill and illustrations can
-        // tear at full strength while the text barely moves (ampScale/damageScale = TEXT_EFFECT).
         type Sprite = {
             tex: WebGLTexture;
             src: HTMLCanvasElement;
@@ -252,7 +223,7 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
             localMargin: number;
             ampScale: number;
             damageScale: number;
-            optional: boolean; // only drawn when illustrated
+            optional: boolean;
             usesDrawProgress: boolean;
             place: (w: number, h: number) => { cx: number; cy: number; cw: number; ch: number };
             paint: (drawProgress: number) => void;
@@ -286,7 +257,6 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
         gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
         const sprites: Sprite[] = [];
 
-        // Rectangle fill — full effect.
         const rectFill: Sprite = {
             tex: makeTex(), src: document.createElement("canvas"), seed: 7.0,
             cx: 0, cy: 0, cw: 0, ch: 0, localMargin: 0, ampScale: 1, damageScale: 1,
@@ -301,7 +271,6 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
         };
         sprites.push(rectFill);
 
-        // Text + source — barely affected, drawn on top of the fill.
         const textSprite: Sprite = {
             tex: makeTex(), src: document.createElement("canvas"), seed: 23.0,
             cx: 0, cy: 0, cw: 0, ch: 0, localMargin: 0, ampScale: TEXT_EFFECT, damageScale: TEXT_EFFECT,
@@ -331,9 +300,8 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
         };
         sprites.push(textSprite);
 
-        // Border illustrations — full effect at their own (smaller) scale; draw-in animated.
         ILLUSTRATIONS.forEach((ill, i) => {
-            let geom: Awaited<ReturnType<typeof loadIllustration>> | null = null;
+            let geom: Illustration | null = null;
             const s: Sprite = {
                 tex: makeTex(), src: document.createElement("canvas"), seed: 11.0 + i * 5,
                 cx: 0, cy: 0, cw: 0, ch: 0, localMargin: 0, ampScale: 1, damageScale: 1,
@@ -349,10 +317,12 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
                         ctx.lineWidth = ill.strokeWidth;
                         ctx.lineCap = "round";
                         ctx.lineJoin = "round";
-                        for (const pg of geom.paths) {
-                            ctx.setLineDash([pg.length]);
-                            ctx.lineDashOffset = pg.length * (1 - drawProgress);
-                            ctx.stroke(pg.path);
+                        for (const run of geom.runs) {
+                            const drawnLength = drawnLengthOf(run, drawProgress);
+                            if (drawnLength <= 0) continue;
+                            ctx.setLineDash([run.length]);
+                            ctx.lineDashOffset = run.length - drawnLength;
+                            ctx.stroke(run.path);
                         }
                         ctx.restore();
                     }

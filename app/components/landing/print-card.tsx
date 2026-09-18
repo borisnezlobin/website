@@ -39,12 +39,11 @@ export function PrintCard({ photo, rotation, offset, className = "" }: {
 
                 {/* Back — the title */}
                 <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] rounded-sm shadow-xl bg-white dark:bg-neutral-200 p-4 flex flex-col items-center justify-center">
-                    <div className="w-full h-full border border-neutral-300 rounded-sm flex flex-col items-center justify-center gap-3 px-4">
+                    <div className="w-full h-full bg-neutral-100 rounded-sm flex flex-col items-center justify-center gap-3 px-4">
                         <p className="vectra text-lg md:text-xl text-neutral-800 text-center leading-snug">
                             {photo.title}
                         </p>
-                        <div className="w-8 h-px bg-neutral-300" />
-                        <p className="text-xs text-neutral-500 emph">
+                        <p className="text-xs text-neutral-500">
                             Boris Nezlobin
                         </p>
                     </div>
