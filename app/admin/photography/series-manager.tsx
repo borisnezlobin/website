@@ -5,15 +5,16 @@ import type { SeriesSummary } from "@/app/lib/photo-types";
 import SeriesEditor from "./series-editor";
 import SeriesList from "./series-list";
 import type { Photo } from "./types";
+import { useAdminAuth } from "../components/admin-auth";
 
 type EditState = "list" | { mode: "new" } | { mode: "edit"; slug: string };
 
 export default function SeriesManager({
-  password, photos,
+  photos,
 }: {
-  password: string;
   photos: Photo[];
 }) {
+  const { adminFetch } = useAdminAuth();
   const [list, setList] = useState<SeriesSummary[]>([]);
   const [loading, setLoading] = useState(false);
   const [view, setView] = useState<EditState>("list");
@@ -21,15 +22,13 @@ export default function SeriesManager({
   const fetchList = useCallback(async () => {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/series", {
-        headers: { Authorization: `Bearer ${password}` },
-      });
+      const res = await adminFetch("/api/admin/series");
       const data = await res.json();
       setList(data.series ?? []);
     } finally {
       setLoading(false);
     }
-  }, [password]);
+  }, [adminFetch]);
 
   useEffect(() => {
     fetchList();
@@ -39,7 +38,6 @@ export default function SeriesManager({
     return (
       <SeriesEditor
         slug={view.mode === "edit" ? view.slug : null}
-        password={password}
         photos={photos}
         onBack={() => {
           setView("list");

@@ -416,8 +416,11 @@ export function MadWhale({ style, route = "cross", lift, climb, heading, entryDe
         wear("calm");
     };
 
+    // A crossing begins and ends off the side of the page, so the lane clips
+    // sideways: those two positions would otherwise widen the page and let phones
+    // scroll east. Clipping one axis leaves the whale free to swim past its band.
     return (
-        <div ref={lane} className="pointer-events-none absolute inset-0">
+        <div ref={lane} className="pointer-events-none absolute inset-0 overflow-x-clip">
             <canvas
                 ref={wakeSurface}
                 aria-hidden
@@ -426,7 +429,7 @@ export function MadWhale({ style, route = "cross", lift, climb, heading, entryDe
             />
             <div
                 ref={swimmer}
-                className="absolute top-1/2 left-0 w-[46%] max-w-[47.5rem]"
+                className="absolute top-1/2 left-0 w-[clamp(17rem,46%,47.5rem)]"
                 style={{ transformOrigin: "50% 0", top: lift ? `calc(50% - ${lift})` : undefined }}
             >
                 <div

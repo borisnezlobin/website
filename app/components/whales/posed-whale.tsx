@@ -49,7 +49,8 @@ export function PosedWhale({ style, behavior, frame, tilt, facing, className = "
             repaintSoon.current?.();
             return;
         }
-        stage.current = makeInkStage(style, handoverMs());
+        const inkingMs = handoverMs();
+        stage.current = makeInkStage(style, inkingMs, inkingMs);
         stage.current.want(behavior);
         setStaged((count) => count + 1);
     }, [style, behavior]);

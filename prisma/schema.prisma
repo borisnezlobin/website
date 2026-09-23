@@ -136,3 +136,36 @@ model SeriesPhoto {
   @@id([seriesId, photoId])
   @@index([seriesId, position], map: "series_photo_position")
 }
+
+enum ResumeStatus {
+  GENERATED
+  DECLINED
+  FAILED
+}
+
+model ResumeRequest {
+  id              String       @id @default(cuid())
+  createdAt       DateTime     @default(now())
+  query           String
+  normalizedQuery String
+  jobUrl          String?
+  slug            String?      @unique
+  company         String?
+  focus           String?
+  status          ResumeStatus
+  declineReason   String?
+  provider        String?
+  model           String?
+  latencyMs       Int?
+  plan            Json?
+  research        Json?
+  pdfUrl          String?
+  pageSvgUrls     String[]
+  ipHash          String?
+  slugDeletedAt   DateTime?
+  bankVersion     String?
+
+  @@index([createdAt])
+  @@index([normalizedQuery])
+  @@index([ipHash, createdAt])
+}

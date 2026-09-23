@@ -1,0 +1,799 @@
+[
+ {
+  "id": "lm-csv",
+  "entry": "lockheed",
+  "tags": [
+   "systems",
+   "data",
+   "backend"
+  ],
+  "priority": 1,
+  "text": "Built a memory-mapped CSV reader in Python that outperforms Pandas on single-row lookups by 980x, enabling large-scale solar dataset processing.",
+  "keywords": [
+   "Python",
+   "performance",
+   "memory-mapped"
+  ]
+ },
+ {
+  "id": "lm-solar",
+  "entry": "lockheed",
+  "tags": [
+   "math",
+   "data",
+   "ml"
+  ],
+  "priority": 1,
+  "text": "Engineered & benchmarked an empirical polynomial model of solar differential rotation 600x faster than SunPy (industry solar library), outperforming physics-based approach on speed & accuracy. #link(\"https://x.com/b_nezlobin/status/1973213855754092749\")[Twitter thread.]",
+  "keywords": [
+   "modeling",
+   "benchmark",
+   "numerical"
+  ]
+ },
+ {
+  "id": "lm-orchestration",
+  "entry": "lockheed",
+  "tags": [
+   "systems",
+   "devops",
+   "backend"
+  ],
+  "priority": 2,
+  "text": "Wrote a file-lock scheduler that coordinated work across thousands of cores on 7–8 lab servers.",
+  "keywords": [
+   "multithreaded",
+   "distributed"
+  ]
+ },
+ {
+  "id": "fl-sites",
+  "entry": "freelance",
+  "tags": [
+   "full-stack",
+   "frontend",
+   "business",
+   "journalism"
+  ],
+  "priority": 1,
+  "text": "Designed and built brands, sites, and admin dashboards for Palo Alto Stanford Aquatics, G Studio, and Catalyst for Systems Change.",
+  "keywords": [
+   "web",
+   "production"
+  ]
+ },
+ {
+  "id": "fl-costs",
+  "entry": "freelance",
+  "tags": [
+   "business",
+   "devops",
+   "full-stack"
+  ],
+  "priority": 2,
+  "text": "Cut hosting and platform costs by 95%+ versus their prior solutions, while serving >10,000 monthly users.",
+  "keywords": [
+   "cost",
+   "scale"
+  ]
+ },
+ {
+  "id": "fl-brand",
+  "entry": "freelance",
+  "tags": [
+   "design",
+   "business",
+   "writing"
+  ],
+  "priority": 3,
+  "text": "Conducted brand exploration & iteration; designed company voice & brand guidelines; implemented in code.",
+  "keywords": [
+   "brand",
+   "design system"
+  ]
+ },
+ {
+  "id": "heron-pubsub",
+  "entry": "heron",
+  "tags": [
+   "systems",
+   "robotics"
+  ],
+  "priority": 1,
+  "text": "Designed, implemented, and tested pub/sub code architecture used in World Championship semifinals; one of the first successful multithreaded codebases in FIRST robotics.",
+  "keywords": [
+   "pub/sub",
+   "multithreaded",
+   "architecture"
+  ]
+ },
+ {
+  "id": "heron-reverse",
+  "entry": "heron",
+  "tags": [
+   "systems",
+   "robotics",
+   "hardware"
+  ],
+  "priority": 2,
+  "text": "Reverse-engineered the robot's control server to enable wireless real-time driving and live configuration changes.",
+  "keywords": [
+   "reverse engineering",
+   "networking",
+   "real-time"
+  ]
+ },
+ {
+  "id": "heron-mpc",
+  "entry": "heron",
+  "tags": [
+   "robotics",
+   "ml",
+   "math",
+   "hardware"
+  ],
+  "priority": 1,
+  "text": "Developed autonomous routines using camera vision and Model Predictive Control; worldwide Top-10 average.",
+  "keywords": [
+   "camera vision",
+   "Model Predictive Control",
+   "autonomy"
+  ]
+ },
+ {
+  "id": "hack-amelia",
+  "entry": "hackathons",
+  "tags": [
+   "ml",
+   "full-stack",
+   "business"
+  ],
+  "priority": 1,
+  "text": "Built _Amelia_: used voiceprint technology to understand real-world conversations and provide actionable reminders about promises to people you've talked to. First-place grand prize (\\$10,000) at MongoDB Build Fest.",
+  "keywords": [
+   "voice",
+   "AI",
+   "MongoDB"
+  ]
+ },
+ {
+  "id": "hack-arbor",
+  "entry": "hackathons",
+  "tags": [
+   "ml",
+   "math",
+   "business",
+   "backend"
+  ],
+  "priority": 2,
+  "text": "Built _Arbor_: Vickrey sealed-bid auction marketplace for delegating large tasks optimally across specialized AI agents. \\$2,000 at Nozomio.",
+  "keywords": [
+   "agents",
+   "auction",
+   "mechanism design"
+  ]
+ },
+ {
+  "id": "cac-tfidf",
+  "entry": "cac",
+  "tags": [
+   "data",
+   "backend",
+   "systems"
+  ],
+  "priority": 2,
+  "text": "Built a TF-IDF search engine over congressional bills, members, and committees that answers in about 10 ms, faster than the official congress.gov API.",
+  "keywords": [
+   "search",
+   "TF-IDF",
+   "scraping"
+  ]
+ },
+ {
+  "id": "public-users",
+  "entry": "public",
+  "tags": [
+   "full-stack",
+   "writing",
+   "business",
+   "hardware"
+  ],
+  "priority": 2,
+  "text": "5,000 total users across open-source tools, apps, extensions, and games I built. My ENF work, featured by Hack Club, inspired a European patent after #link(\"https://www.borisnezlobin.com/writing/enf-data\")[I wrote about it] on my website.",
+  "keywords": [
+   "open source",
+   "users",
+   "writing"
+  ]
+ },
+ {
+  "id": "public-blog",
+  "entry": "public",
+  "tags": [
+   "journalism",
+   "writing",
+   "business"
+  ],
+  "priority": 2,
+  "text": "My blog has also helped reinstate life-saving suicide prevention programs and math classes in Palo Alto, read by >1,000.",
+  "keywords": [
+   "journalism",
+   "impact"
+  ]
+ },
+ {
+  "id": "spatial-ar-os-1",
+  "entry": "vantage-startup",
+  "tags": [
+   "xr",
+   "systems",
+   "hardware"
+  ],
+  "priority": 1,
+  "text": "Built an XR operating system on Linux that uses an iPhone as its ARKit perception engine, streaming 60 Hz SLAM poses over a custom UDP protocol.",
+  "keywords": [
+   "ARKit",
+   "SLAM",
+   "UDP",
+   "XR",
+   "Linux"
+  ]
+ },
+ {
+  "id": "siyi-app-1",
+  "entry": "siyi-app",
+  "tags": [
+   "full-stack",
+   "frontend"
+  ],
+  "priority": 2,
+  "text": "Built and shipped _Siyi_ (siyi.app), a relationship-context app for web and iOS on Next.js, Expo/React Native, and Supabase.",
+  "keywords": [
+   "React Native",
+   "Expo",
+   "iOS",
+   "offline store",
+   "ICS"
+  ]
+ },
+ {
+  "id": "siyi-app-2",
+  "entry": "siyi-app",
+  "tags": [
+   "ml",
+   "backend"
+  ],
+  "priority": 2,
+  "text": "Built an autonomous SEO agent loop that reads _Google Search Console_ data from scheduled runs and generates entity-foundation content pages.",
+  "keywords": [
+   "SEO agent",
+   "Google Search Console",
+   "content generation",
+   "agentic"
+  ]
+ },
+ {
+  "id": "semse-1",
+  "entry": "semse",
+  "tags": [
+   "ml",
+   "backend",
+   "systems"
+  ],
+  "priority": 1,
+  "text": "Built _Semse_, a private semantic search engine over messages and email across 8+ apps, fusing dense (FAISS) and keyword (SQLite FTS5) retrieval.",
+  "keywords": [
+   "FAISS",
+   "SQLite FTS5",
+   "Reciprocal Rank Fusion",
+   "semantic search",
+   "hybrid retrieval"
+  ]
+ },
+ {
+  "id": "semse-2",
+  "entry": "semse",
+  "tags": [
+   "ml",
+   "systems"
+  ],
+  "priority": 1,
+  "text": "Added on-device CLIP image search over photo attachments.",
+  "keywords": [
+   "CLIP",
+   "sentence-transformers",
+   "on-device inference",
+   "semantic image search"
+  ]
+ },
+ {
+  "id": "vantage-startup-1",
+  "entry": "vantage-startup",
+  "tags": [
+   "xr",
+   "business",
+   "systems"
+  ],
+  "priority": 2,
+  "text": "Co-founded _Vantage_ at UC Berkeley to build a spatial operating system with always-on on-device AI and a text API for AI agents to act through.",
+  "keywords": [
+   "spatial OS",
+   "on-device AI",
+   "AI agents",
+   "co-founder"
+  ]
+ },
+ {
+  "id": "lockheed-martin-1",
+  "entry": "lockheed",
+  "tags": [
+   "systems",
+   "data",
+   "backend"
+  ],
+  "priority": 2,
+  "text": "Built a multithreaded OpenCV pipeline to detect and track solar magnetic active regions across gigabyte-scale instrument data.",
+  "keywords": [
+   "OpenCV",
+   "computer vision",
+   "solar physics",
+   "image processing"
+  ]
+ },
+ {
+  "id": "open-source-1",
+  "entry": "public",
+  "tags": [
+   "backend",
+   "systems"
+  ],
+  "priority": 2,
+  "text": "Made Bellingcat's _ShadowFinder_ geolocation CLI 3× faster with timezone-grid caching, merged upstream.",
+  "keywords": [
+   "Bellingcat",
+   "CLI",
+   "caching",
+   "performance",
+   "open-source"
+  ]
+ },
+ {
+  "id": "kuriosity-robotics-1",
+  "entry": "heron",
+  "tags": [
+   "robotics",
+   "systems"
+  ],
+  "priority": 2,
+  "text": "As Software Lead, built a reliability-first code architecture that delivered 100% reliable autonomous runs at the season's first tournament.",
+  "keywords": [
+   "FTC",
+   "autonomous",
+   "software lead",
+   "robotics",
+   "project ownership"
+  ]
+ },
+ {
+  "id": "kuriosity-robotics-2",
+  "entry": "heron",
+  "tags": [
+   "robotics",
+   "systems"
+  ],
+  "priority": 2,
+  "text": "Designed and taught a robotics programming summer camp curriculum and managed the other counselors.",
+  "keywords": [
+   "robotics",
+   "FTC",
+   "curriculum development",
+   "teaching",
+   "leadership"
+  ]
+ },
+ {
+  "id": "enf-research-1",
+  "entry": "enf-research",
+  "tags": [
+   "data",
+   "systems",
+   "journalism"
+  ],
+  "priority": 2,
+  "text": "Built the first free, continuously updated grid-frequency (ENF) dataset for Europe, used to timestamp audio recordings; featured by _Hack Club_.",
+  "keywords": [
+   "ENF",
+   "Parquet",
+   "dataset",
+   "audio signal processing",
+   "open data"
+  ]
+ },
+ {
+  "id": "enf-research-2",
+  "entry": "enf-research",
+  "tags": [
+   "data",
+   "journalism"
+  ],
+  "priority": 2,
+  "text": "My #link(\"https://www.borisnezlobin.com/writing/enf-data\")[writeup] on collecting the European grid's frequency inspired a European patent.",
+  "keywords": [
+   "ENF",
+   "open source",
+   "electrical network frequency"
+  ]
+ },
+ {
+  "id": "ftc-worlds-achievements-1",
+  "entry": "heron",
+  "tags": [
+   "robotics"
+  ],
+  "priority": 1,
+  "text": "Won 3rd-place Division Inspire Award at the FTC World Championship with Kuriosity Robotics, one of the top 12 teams worldwide; qualifying took a top-4 finish among about 500 NorCal teams.",
+  "keywords": [
+   "FTC",
+   "World Championship",
+   "Inspire Award",
+   "robotics"
+  ]
+ },
+ {
+  "id": "jyv-platform",
+  "entry": "jyv-exp",
+  "tags": [
+   "full-stack",
+   "backend",
+   "journalism"
+  ],
+  "priority": 1,
+  "keywords": [
+   "Next.js",
+   "Cloudflare Workers",
+   "CMS"
+  ],
+  "text": "Built and run thejyv.com's publishing platform on Next.js and Cloudflare Workers for about 70 editors, making publishing 3x+ faster for non-technical staff."
+ },
+ {
+  "id": "jyv-editor",
+  "entry": "jyv-exp",
+  "tags": [
+   "writing",
+   "journalism",
+   "leadership"
+  ],
+  "priority": 2,
+  "keywords": [
+   "editing",
+   "leadership"
+  ],
+  "text": "Chosen as Lead Editorial Editor from about 50 founding members; edited 22 articles and run the twice-monthly editing cycle."
+ },
+ {
+  "id": "fl-pasa",
+  "entry": "freelance",
+  "tags": [
+   "full-stack",
+   "business",
+   "devops"
+  ],
+  "priority": 1,
+  "keywords": [
+   "Next.js",
+   "Cloudflare",
+   "cost"
+  ],
+  "text": "Moved Palo Alto Stanford Aquatics off WordPress to a custom Next.js site and CMS, cutting hosting from about \\$1,200 to \\$10 a year and making it far easier for staff to update."
+ },
+ {
+  "id": "jyv-perf",
+  "entry": "jyv-exp",
+  "tags": [
+   "backend",
+   "devops",
+   "performance"
+  ],
+  "priority": 2,
+  "keywords": [
+   "caching",
+   "Cloudflare",
+   "database"
+  ],
+  "text": "Cut database reads about 100x with a cached article index, keeping the site inside Cloudflare's free tier."
+ },
+ {
+  "id": "jyv-archive",
+  "entry": "jyv-exp",
+  "tags": [
+   "full-stack",
+   "journalism"
+  ],
+  "priority": 3,
+  "keywords": [
+   "migration",
+   "CMS"
+  ],
+  "text": "Migrated 3+ years of the journal's published work onto the new platform."
+ },
+ {
+  "id": "heronscout-usage",
+  "entry": "heronscout",
+  "tags": [
+   "full-stack",
+   "product",
+   "robotics"
+  ],
+  "priority": 1,
+  "keywords": [
+   "Java",
+   "TypeScript",
+   "analytics"
+  ],
+  "text": "Built _HeronScout_, an FTC scouting app used by about 50 teams on 6 continents to record 2,000+ matches (over 10,000 minutes of play)."
+ },
+ {
+  "id": "aar-study",
+  "entry": "aar",
+  "tags": [
+   "ml",
+   "research",
+   "data"
+  ],
+  "priority": 1,
+  "keywords": [
+   "NLP",
+   "NLI",
+   "research"
+  ],
+  "text": "Ran a yearlong IRB-approved computational-linguistics study predicting writing effectiveness; presented findings at Foothill College."
+ },
+ {
+  "id": "aar-nli",
+  "entry": "aar",
+  "tags": [
+   "ml",
+   "research"
+  ],
+  "priority": 2,
+  "keywords": [
+   "NLI",
+   "weak supervision",
+   "Python"
+  ],
+  "text": "Labeled sentences across 7 rhetorical categories with NLI weak supervision, performing about as well as human and frontier-model annotators on most categories."
+ },
+ {
+  "id": "lm-pil",
+  "entry": "lockheed",
+  "tags": [
+   "cv",
+   "research",
+   "data"
+  ],
+  "priority": 2,
+  "keywords": [
+   "OpenCV",
+   "NumPy",
+   "computer vision"
+  ],
+  "text": "Built an OpenCV pipeline that detects polarity inversion lines, where solar flares originate, in magnetograms, and integrated magnetic flux along them."
+ },
+ {
+  "id": "lm-flares",
+  "entry": "lockheed",
+  "tags": [
+   "data",
+   "research"
+  ],
+  "priority": 2,
+  "keywords": [
+   "Python",
+   "SunPy",
+   "data engineering"
+  ],
+  "text": "Merged LMSAL and GOES flare lists into one 39,313-flare catalog (2010–2025) and matched every flare to its active region."
+ },
+ {
+  "id": "lm-mpl-leak",
+  "entry": "lockheed",
+  "tags": [
+   "systems",
+   "performance",
+   "open-source"
+  ],
+  "priority": 3,
+  "keywords": [
+   "Python",
+   "profiling",
+   "matplotlib"
+  ],
+  "text": "Traced a 100 MB-per-frame memory leak in movie rendering to matplotlib and filed it upstream (issue #30400)."
+ },
+ {
+  "id": "heron-kalman",
+  "entry": "heron",
+  "tags": [
+   "robotics",
+   "cv",
+   "estimation"
+  ],
+  "priority": 1,
+  "keywords": [
+   "Kalman filter",
+   "AprilTag",
+   "Java"
+  ],
+  "text": "Built a Kalman filter that fuses AprilTag camera poses with odometry for localization, plus a log-replay tool to tune it."
+ },
+ {
+  "id": "heron-auto-18",
+  "entry": "heron",
+  "tags": [
+   "robotics",
+   "autonomy"
+  ],
+  "priority": 2,
+  "keywords": [
+   "autonomous",
+   "Java"
+  ],
+  "text": "Took our 18-ball autonomous routine from 2 to 15 balls scored in about a week."
+ },
+ {
+  "id": "kurio-astar",
+  "entry": "heron",
+  "tags": [
+   "robotics",
+   "planning"
+  ],
+  "priority": 2,
+  "keywords": [
+   "A*",
+   "path planning",
+   "Java"
+  ],
+  "text": "Wrote the A* field planner that drives the team's MPC path follower for automatic driving and cycling."
+ },
+ {
+  "id": "kurio-prop-cv",
+  "entry": "heron",
+  "tags": [
+   "robotics",
+   "cv"
+  ],
+  "priority": 2,
+  "keywords": [
+   "OpenCV",
+   "computer vision"
+  ],
+  "text": "Built the webcam detector that finds the team's prop and picks the matching autonomous path."
+ },
+ {
+  "id": "yam-lidar",
+  "entry": "robot-arm",
+  "tags": [
+   "cv",
+   "robotics",
+   "3d"
+  ],
+  "priority": 1,
+  "keywords": [
+   "LiDAR",
+   "ICP",
+   "ARKit",
+   "Python"
+  ],
+  "text": "Registered iPhone LiDAR scans into a 6-DoF arm's frame by fitting the arm's own shape (ICP), cutting alignment from about 87 s to 3.9 s at 3.2 mm RMSE."
+ },
+ {
+  "id": "yam-loop",
+  "entry": "robot-arm",
+  "tags": [
+   "robotics",
+   "systems",
+   "performance"
+  ],
+  "priority": 2,
+  "keywords": [
+   "CAN",
+   "Python",
+   "real-time"
+  ],
+  "text": "Found a blocking CAN read and raised the arm's control loop from 19.4 Hz to 91.8 Hz."
+ },
+ {
+  "id": "civic-mvc",
+  "entry": "civic",
+  "tags": [
+   "writing",
+   "advocacy",
+   "policy",
+   "leadership"
+  ],
+  "priority": 1,
+  "keywords": [
+   "organizing",
+   "policy",
+   "public speaking"
+  ],
+  "text": "Co-wrote an open letter that drew 400+ signatures, spoke to the school board, and met members one on one; two changed their votes and multivariable calculus was reinstated, now serving 45+ students a year."
+ },
+ {
+  "id": "civic-rail",
+  "entry": "civic",
+  "tags": [
+   "writing",
+   "journalism",
+   "policy"
+  ],
+  "priority": 1,
+  "keywords": [
+   "investigation",
+   "public health"
+  ],
+  "text": "Investigated seven student rail suicides and argued the volunteer Track Watch program outperformed the district's thermal-camera plan; quoted at a school board meeting and reprinted in the school paper."
+ },
+ {
+  "id": "civic-debate",
+  "entry": "civic",
+  "tags": [
+   "speaking",
+   "teaching"
+  ],
+  "priority": 2,
+  "keywords": [
+   "policy debate",
+   "public speaking"
+  ],
+  "text": "Placed 38th at NPDL Nationals in policy debate and taught persuasive speaking for 80+ volunteer hours."
+ },
+ {
+  "id": "maras-1",
+  "entry": "maras",
+  "tags": [
+   "blockchain",
+   "systems",
+   "economics"
+  ],
+  "priority": 2,
+  "keywords": [
+   "Solidity",
+   "commit-reveal",
+   "Base",
+   "smart contracts"
+  ],
+  "text": "Built _maras_, a trustless on-chain marketplace for mined vanity contract-address salts, using a commit-reveal scheme to sell information that loses its value once revealed; deployed on Base Sepolia."
+ },
+ {
+  "id": "heron-sponsorship",
+  "entry": "heron",
+  "tags": [
+   "business",
+   "leadership"
+  ],
+  "priority": 2,
+  "keywords": [
+   "sponsorship",
+   "budget",
+   "fundraising"
+  ],
+  "text": "Ran the team's budget and sponsorships as captain, landing free filament and hardware discounts and finishing the season at a net profit."
+ },
+ {
+  "id": "deslop-1",
+  "entry": "deslop",
+  "tags": [
+   "ml",
+   "evaluation",
+   "frontend"
+  ],
+  "priority": 2,
+  "keywords": [
+   "LLM detection",
+   "heuristics",
+   "browser extension"
+  ],
+  "text": "Built _Deslop_, a browser extension that scores posts against about 20 heuristics for LLM house style and collapses the ones that read as machine-written, tuned so ordinary human posts stay clear of the threshold."
+ }
+]

@@ -5,6 +5,7 @@ import { ArrowLeft, FloppyDisk, Eye, EyeSlash, CaretRight, Plus } from "@phospho
 import type { ArticleCategory } from "@/prisma/awooga/client";
 import { isViewExcluded, setViewExcluded } from "@/app/lib/view-exclude-client";
 import ViewsChart, { type ViewDay } from "./views-chart";
+import { useAdminAuth } from "../components/admin-auth";
 
 const CATEGORIES: ArticleCategory[] = ["TECHNICAL", "CREATIVE", "PERSONAL"];
 const titleCase = (c: ArticleCategory) => c[0] + c.slice(1).toLowerCase();
@@ -23,8 +24,7 @@ type Post = {
 };
 
 export default function BlogAdminPage() {
-  const [password, setPassword] = useState("");
-  const [isAuthed, setIsAuthed] = useState(false);
+  const { adminFetch } = useAdminAuth();
   const [posts, setPosts] = useState<Post[]>([]);
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [content, setContent] = useState("");
@@ -52,28 +52,14 @@ export default function BlogAdminPage() {
   }
 
   useEffect(() => {
-    const stored = localStorage.getItem("admin_password");
-    if (stored) {
-      setPassword(stored);
-      setIsAuthed(true);
-    }
+    fetchPosts();
   }, []);
-
-  useEffect(() => {
-    if (isAuthed) fetchPosts();
-  }, [isAuthed]);
 
   async function fetchPosts() {
     setLoading(true);
     try {
-      const res = await fetch("/api/admin/blog", {
-        headers: { Authorization: `Bearer ${password}` },
-      });
-      if (res.status === 401) {
-        setIsAuthed(false);
-        localStorage.removeItem("admin_password");
-        return;
-      }
+      const res = await adminFetch("/api/admin/blog");
+      if (res.status === 401) return;
       const data = await res.json();
       setPosts(data.posts || []);
     } catch (e) {
@@ -92,9 +78,7 @@ export default function BlogAdminPage() {
     setViewsByDay([]);
     setLoading(true);
     try {
-      const res = await fetch(`/api/admin/blog?slug=${post.slug}`, {
-        headers: { Authorization: `Bearer ${password}` },
-      });
+      const res = await adminFetch(`/api/admin/blog?slug=${post.slug}`);
       const data = await res.json();
       setContent(data.content || "");
       setViewsByDay(data.viewsByDay || []);
@@ -110,12 +94,9 @@ export default function BlogAdminPage() {
     setSaving(true);
     setMessage(null);
     try {
-      const res = await fetch("/api/admin/blog", {
+      const res = await adminFetch("/api/admin/blog", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${password}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ slug: selectedPost.slug, content, isDraft, category, description }),
       });
       const data = await res.json();
@@ -166,9 +147,9 @@ export default function BlogAdminPage() {
     setSaving(true);
     setMessage(null);
     try {
-      const res = await fetch("/api/admin/blog", {
+      const res = await adminFetch("/api/admin/blog", {
         method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title: title.trim(), slug: cleanSlug, description, content, category, isDraft }),
       });
       const data = await res.json();
@@ -188,36 +169,6 @@ export default function BlogAdminPage() {
     }
   }
 
-  function handleLogin(e: React.FormEvent) {
-    e.preventDefault();
-    localStorage.setItem("admin_password", password);
-    setIsAuthed(true);
-  }
-
-  if (!isAuthed) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-light-background dark:bg-dark-background">
-        <form onSubmit={handleLogin} className="flex flex-col gap-4 p-8 bg-white dark:bg-neutral-900 rounded-lg shadow-lg w-80">
-          <h1 className="text-xl font-semibold text-center">Blog Admin</h1>
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            className="px-4 py-2 border border-neutral-300 dark:border-neutral-700 rounded bg-transparent"
-            autoFocus
-          />
-          <button
-            type="submit"
-            className="px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-black rounded font-medium hover:opacity-90 transition-opacity"
-          >
-            Login
-          </button>
-        </form>
-      </div>
-    );
-  }
-
   if (selectedPost || creating) {
     const editing = !!selectedPost;
     const previewHref = editing
@@ -227,7 +178,7 @@ export default function BlogAdminPage() {
       : "#";
 
     return (
-      <div className="min-h-screen bg-light-background dark:bg-dark-background p-4 md:p-8">
+      <div>
         <div className="max-w-5xl mx-auto">
           <div className="flex items-center gap-4 mb-6">
             <button
@@ -376,10 +327,10 @@ export default function BlogAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-light-background dark:bg-dark-background p-4 md:p-8">
+    <div>
       <div className="max-w-3xl mx-auto">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-semibold">Blog Admin</h1>
+          <h1 className="text-2xl font-semibold">Posts</h1>
           <div className="flex items-center gap-4">
             <button
               onClick={toggleExcluded}
@@ -399,16 +350,6 @@ export default function BlogAdminPage() {
             >
               <Plus size={18} weight="bold" />
               New article
-            </button>
-            <button
-              onClick={() => {
-                localStorage.removeItem("admin_password");
-                setIsAuthed(false);
-                setPassword("");
-              }}
-              className="text-sm text-muted hover:text-black dark:hover:text-white transition-colors"
-            >
-              Logout
             </button>
           </div>
         </div>

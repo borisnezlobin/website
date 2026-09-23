@@ -67,3 +67,6 @@ __pycache__/
 # local one-off scripts; publish-article is the shared one
 /scripts/*
 !/scripts/publish-article.mjs
+
+# local research notes, not for GitHub
+resumeinfo.md

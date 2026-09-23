@@ -3,15 +3,16 @@
 import { useState } from "react";
 import { PlusIcon, StarIcon, TagIcon, TrashIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Category, Photo } from "./types";
+import { useAdminAuth } from "../components/admin-auth";
 
 export default function CategoryManager({
-  categories, photos, password, onChange,
+  categories, photos, onChange,
 }: {
   categories: Category[];
   photos: Photo[];
-  password: string;
   onChange: () => void;
 }) {
+  const { adminFetch } = useAdminAuth();
   const [newLabel, setNewLabel] = useState("");
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -22,9 +23,9 @@ export default function CategoryManager({
     setBusy(true);
     setError(null);
     try {
-      const res = await fetch("/api/admin/categories", {
+      const res = await adminFetch("/api/admin/categories", {
         method: "POST",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ label: newLabel.trim() }),
       });
       const data = await res.json();
@@ -41,9 +42,9 @@ export default function CategoryManager({
   async function setHero(catId: string, heroPhotoId: string | null) {
     setBusy(true);
     try {
-      await fetch("/api/admin/categories", {
+      await adminFetch("/api/admin/categories", {
         method: "PUT",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: catId, heroPhotoId }),
       });
       setEditingHero(null);
@@ -57,9 +58,9 @@ export default function CategoryManager({
     if (!window.confirm(`Delete category "${label}"? Photos will not be deleted, just unassociated.`)) return;
     setBusy(true);
     try {
-      await fetch("/api/admin/categories", {
+      await adminFetch("/api/admin/categories", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: catId }),
       });
       onChange();

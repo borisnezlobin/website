@@ -1,18 +1,19 @@
 import "../styles/globals.css";
+import type { Metadata } from "next";
+import AdminShell from "./components/admin-shell";
 
-export const metadata = {
-  title: 'Edit Blog',
-  description: 'Boris Nezlobin\'s blog editor.',
-}
+export const metadata: Metadata = {
+  title: { default: "Admin", template: "%s | Admin" },
+  description: "Boris Nezlobin's site admin.",
+  robots: { index: false, follow: false },
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <AdminShell>{children}</AdminShell>
+      </body>
     </html>
-  )
+  );
 }
