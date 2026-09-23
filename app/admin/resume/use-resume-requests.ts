@@ -1,7 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
-import type { AdminResumeDetail, AdminResumeRow } from "@/app/lib/resume/types";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import type { AdminResumeDetail, AdminResumeRow, ResumeStatus } from "@/app/lib/resume/types";
 import { useAdminAuth } from "../components/admin-auth";
 import { describeFailedResponse } from "./format";
 
@@ -54,15 +54,15 @@ export function useResumeDetail(id: string) {
   return useAdminJson(`${RESUME_ADMIN_ENDPOINT}?id=${encodeURIComponent(id)}`, pickDetail);
 }
 
-export function useDeleteSlug() {
+type DeleteOutcome = Promise<string | null>;
+
+export function useResumeDeletes() {
   const { adminFetch } = useAdminAuth();
 
-  return useCallback(
-    async (slug: string): Promise<string | null> => {
+  const runDelete = useCallback(
+    async (query: string): DeleteOutcome => {
       try {
-        const res = await adminFetch(`${RESUME_ADMIN_ENDPOINT}?slug=${encodeURIComponent(slug)}`, {
-          method: "DELETE",
-        });
+        const res = await adminFetch(`${RESUME_ADMIN_ENDPOINT}?${query}`, { method: "DELETE" });
         if (!res.ok) return await describeFailedResponse(res);
         const body = await res.json();
         return body?.ok === true ? null : "The server did not confirm the delete.";
@@ -71,6 +71,15 @@ export function useDeleteSlug() {
       }
     },
     [adminFetch],
+  );
+
+  return useMemo(
+    () => ({
+      deleteSlug: (slug: string) => runDelete(`slug=${encodeURIComponent(slug)}`),
+      deleteRequest: (id: string) => runDelete(`id=${encodeURIComponent(id)}`),
+      deleteByStatus: (status: ResumeStatus) => runDelete(`status=${encodeURIComponent(status)}`),
+    }),
+    [runDelete],
   );
 }
 
