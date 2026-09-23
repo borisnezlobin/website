@@ -608,7 +608,7 @@
    "profiling",
    "matplotlib"
   ],
-  "text": "Traced a 100 MB-per-frame memory leak in movie rendering to matplotlib and filed it upstream (issue #30400)."
+  "text": "Traced a 100 MB-per-frame memory leak in movie rendering to matplotlib and filed it upstream (issue \\#30400)."
  },
  {
   "id": "heron-kalman",
@@ -653,7 +653,7 @@
    "path planning",
    "Java"
   ],
-  "text": "Wrote the A* field planner that drives the team's MPC path follower for automatic driving and cycling."
+  "text": "Wrote the A\\* field planner that drives the team's MPC path follower for automatic driving and cycling."
  },
  {
   "id": "kurio-prop-cv",
