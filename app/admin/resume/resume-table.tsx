@@ -51,7 +51,7 @@ function ResumeTableRow({
 }) {
   const open = () => onOpen(row.id);
   return (
-    <tr onClick={open} className="cursor-pointer transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800/50">
+    <tr onClick={open} className="group cursor-pointer transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800/50">
       <td className={CELL}>
         <ResumeStatusBadge status={row.status} />
       </td>
@@ -69,7 +69,7 @@ function ResumeTableRow({
       <td className={`${CELL} whitespace-nowrap text-right tabular-nums text-muted dark:text-muted-dark`}>
         {formatRequestTime(row.createdAt)}
       </td>
-      <td className={`${CELL} pl-0`}>
+      <td className={`${CELL} sticky right-0 bg-white pl-0 shadow-[-8px_0_8px_-8px_rgba(0,0,0,0.12)] group-hover:bg-neutral-50 dark:bg-neutral-900 dark:group-hover:bg-neutral-800/50`}>
         <span className="flex items-start justify-end gap-2">
           <DeleteRequestControl id={row.id} onDeleted={() => onDeleted(row.id)} />
           <CaretRightIcon size={16} className="mt-2 text-muted dark:text-muted-dark" aria-hidden />
@@ -100,7 +100,7 @@ export default function ResumeTable({
             <th scope="col" className={HEADER_CELL}>Model</th>
             <th scope="col" className={`${HEADER_CELL} text-right`}>Latency</th>
             <th scope="col" className={`${HEADER_CELL} text-right`}>Requested</th>
-            <th scope="col" className="w-8">
+            <th scope="col" className="sticky right-0 w-8 bg-neutral-50 dark:bg-neutral-800/60">
               <span className="sr-only">Delete or open</span>
             </th>
           </tr>
