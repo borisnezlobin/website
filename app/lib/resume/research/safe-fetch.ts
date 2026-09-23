@@ -66,7 +66,11 @@ async function readCapped(response: Response): Promise<string> {
 function redirectTarget(response: Response, current: URL): URL | null {
     if (response.status < 300 || response.status >= 400) return null;
     const location = response.headers.get("location");
-    return location ? new URL(location, current) : null;
+    if (!location) return null;
+    const next = new URL(location, current);
+    // Boards often redirect to their own http URL; the request itself still goes out over https.
+    if (next.protocol === "http:") next.protocol = "https:";
+    return next;
 }
 
 export type SafeFetchResult = { url: string; contentType: string; body: string };
