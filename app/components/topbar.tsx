@@ -4,6 +4,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
+const NAV_LINK = "link rounded-sm outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-light-background dark:focus-visible:ring-offset-dark-background";
+
 const TopBar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const pathname = usePathname();
@@ -38,16 +40,16 @@ const TopBar: React.FC = () => {
       style={{ zIndex: 1000 }}
     >
         <div className="flex flex-row justify-around h-full md:justify-start md:pl-6 md:gap-24 w-full md:w-2/3 items-center">
-            <Link href={"/"} className={`link`}>
+            <Link href={"/"} className={NAV_LINK}>
                 Home.
             </Link>
-            <Link href={"/writing"} className={`link`}>
+            <Link href={"/writing"} className={NAV_LINK}>
                 Writing.
             </Link>
-            <Link href={"/projects"} className={`link !hidden md:!block`}>
+            <Link href={"/projects"} className={NAV_LINK}>
                 Projects.
             </Link>
-            <Link href={"/contact"} className={`link`}>
+            <Link href={"/contact"} className={NAV_LINK}>
                 Contact.
             </Link>
         </div>

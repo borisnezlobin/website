@@ -15,14 +15,14 @@ const currentProjects = [
         description: "A website I built & designed end-to-end for The Journal For Youth Voice. Also led migration.",
     }, {
         title: "ENF",
-        url: "/projects",
+        url: "/projects#enf",
         description: "The only free, up-to-date European electrical network frequency data.",
         badge: "Featured by Hack Club!",
     },
 ];
 
 const pastProjects = [
-    { title: "rendr", description: "3D renderer + raytracer in C", url: "/projects" },
+    { title: "rendr", description: "3D renderer + raytracer in C", url: "/projects#rendr" },
     {
         title: "Amelia",
         description: "Version control for human context: who spoke, what they said, and what changed since",

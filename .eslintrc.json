@@ -1,3 +1,28 @@
 {
-  "extends": "next/core-web-vitals"
+  "extends": "next/core-web-vitals",
+  "overrides": [
+    {
+      "files": [
+        "app/lib/resume/**/*.{ts,tsx}",
+        "app/api/resume/**/*.{ts,tsx}",
+        "app/api/admin/resume/**/*.{ts,tsx}",
+        "app/(mywebsite)/resume/**/*.{ts,tsx}",
+        "app/admin/layout.tsx",
+        "app/admin/page.tsx",
+        "app/admin/components/**/*.{ts,tsx}",
+        "app/admin/resume/**/*.{ts,tsx}",
+        "scripts/sync-resume-data.mjs",
+        "app/components/action.tsx",
+        "app/(mywebsite)/projects/**/*.{ts,tsx}",
+        "app/(mywebsite)/contact/**/*.{ts,tsx}",
+        "app/lib/spin-drive/**/*.ts"
+      ],
+      "rules": {
+        "complexity": [
+          "error",
+          15
+        ]
+      }
+    }
+  ]
 }

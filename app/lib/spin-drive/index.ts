@@ -125,7 +125,7 @@ export type SpinColorOptions = {
     primary?: string;
 };
 
-export function watchSpinColors(opts: SpinColorOptions = {}) {
+export function watchSpinColors(opts: SpinColorOptions = {}, onChange?: () => void) {
     const colors: SpinColors = { ink: "#6f6f6f", glow: "#39342e", red: "#c8483c" };
     const read = () => {
         const dark = opts.theme
@@ -138,7 +138,7 @@ export function watchSpinColors(opts: SpinColorOptions = {}) {
         colors.red = opts.primary || getComputedStyle(document.documentElement).getPropertyValue("--primary").trim() || "#c8483c";
     };
     read();
-    const watcher = new MutationObserver(read);
+    const watcher = new MutationObserver(() => { read(); onChange?.(); });
     watcher.observe(document.documentElement, { attributes: true, attributeFilter: ["class"] });
     watcher.observe(document.body, { attributes: true, attributeFilter: ["class"] });
     return { colors, stop: () => watcher.disconnect() };
@@ -151,7 +151,10 @@ export function createSpinDrive(
         cell?: number;
         size?: { w: number; h: number };
         background?: string;
+        beforeFrame?: (w: number, h: number, t: number) => void;
         onFrame?: (ctx: CanvasRenderingContext2D, w: number, h: number, t: number) => void;
+        brightness?: Mask;
+        eager?: () => boolean;
         theme?: "light" | "dark";
         primary?: string;
         intensity?: number;
@@ -164,11 +167,13 @@ export function createSpinDrive(
     const cell = opts.cell ?? 16;
     const intensity = opts.intensity ?? 1;
     const frame = (t: number, lx: number, ly: number) => {
-        drawSpinFacets(ctx, { w, h, t, light: { x: lx, y: ly }, colors, mask, cell, intensity, background: opts.background });
+        opts.beforeFrame?.(w, h, t);
+        drawSpinFacets(ctx, { w, h, t, light: { x: lx, y: ly }, colors, mask, cell, intensity, background: opts.background, brightness: opts.brightness });
         opts.onFrame?.(ctx, w, h, t);
     };
 
-    const { colors, stop: stopColors } = watchSpinColors(opts);
+    const repaintStill = () => { if (still) frame(0, w * light.x, h * light.y); };
+    const { colors, stop: stopColors } = watchSpinColors(opts, () => repaintStill());
 
     let w = 0, h = 0;
     const resize = () => {
@@ -223,7 +228,7 @@ export function createSpinDrive(
         const target = targetLight(t);
         if (lx < 0) { lx = target.x; ly = target.y; }
         lx += (target.x - lx) * 0.25; ly += (target.y - ly) * 0.25;
-        const minGap = mouse.active ? MOVING_GAP_MS : RESTING_GAP_MS;
+        const minGap = mouse.active || opts.eager?.() ? MOVING_GAP_MS : RESTING_GAP_MS;
         if (visible && ts - lastDraw >= minGap) { lastDraw = ts; frame(t, lx, ly); }
     };
     raf = requestAnimationFrame(loop);
