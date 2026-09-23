@@ -1,95 +1,34 @@
-import { Project } from "@/prisma/awooga/client";
-import ProjectListItem from "./project-list-item";
-import Link from "next/link";
 import getMetadata from "../../lib/metadata";
-import { getProjects } from "../../lib/db-caches";
-import Background from "@/app/components/landing/background";
-import { ScrollForMore } from "@/app/components/landing/scroll-for-more";
-import { ReactNode } from "react";
-import { AlarmIcon, ClockCounterClockwiseIcon, GithubLogoIcon, SunIcon, XIcon, XLogoIcon } from "@phosphor-icons/react/dist/ssr";
+import { INDEX_ROWS } from "./content/index-rows";
+import { PLATES } from "./content/plates";
+import { Plate } from "./components/plate";
+import { PlateRail, type RailItem } from "./components/plate-rail";
+import { INDEX_SECTION_ID, ProjectIndex } from "./components/project-index";
 
 export const metadata = getMetadata({
     title: "Projects.",
-    subtitle: ">5k users · Featured by Hack Club",
-    description: "Check out the projects I've worked on.",
-})
+    subtitle: "From solar physics at Lockheed Martin to a spatial computing startup",
+    description: "Things Boris Nezlobin has built, with figures drawn from their real data.",
+});
 
-const SmallProjectListItem = ({ link, linkText, description, icon }: { link: string, linkText: string, description: string, icon: ReactNode }) => {
+const RAIL_ITEMS: RailItem[] = [
+    ...PLATES.map(({ id, title }) => ({ id, title })),
+    { id: INDEX_SECTION_ID, title: "More projects" },
+];
+
+export default function ProjectsPage() {
     return (
-        <Link href={link} target="_blank" rel="noopener noreferrer" className="group">
-            <div className="flex items-center space-x-4 max-w-4xl">
-                <div className="text-3xl text-muted dark:text-muted-dark group-hover:text-light-foreground group-hover:dark:text-dark-foreground transition-colors duration-300">
-                    {icon}
+        <main className="mx-auto w-full max-w-7xl px-4 md:px-8 lg:grid lg:grid-cols-[10rem_1fr] lg:gap-12">
+            <PlateRail items={RAIL_ITEMS} />
+            <div className="min-w-0">
+                <h1 className="mt-8 vectra text-5xl font-normal">Projects.</h1>
+                <div>
+                    {PLATES.map((plate) => (
+                        <Plate key={plate.id} plate={plate} />
+                    ))}
                 </div>
-                <div className="w-full flex flex-col justify-center items-start">
-                    <b className="text-lg transition-colors duration-300 font-semibold text-left text-muted dark:text-muted-dark group-hover:text-light-foreground group-hover:dark:text-dark-foreground hover:underline">
-                        {linkText}
-                    </b>
-                    <p className="text-left mt-1 dark:text-dark-foreground">
-                        {description}
-                    </p>
-                </div>
+                <ProjectIndex rows={INDEX_ROWS} />
             </div>
-        </Link>
-    );
-}
-
-export default async function ProjectsPage() {
-  const projects = await getProjects();
-
-  return (
-        <div>
-            <div className="hidden md:block">
-                <Background
-                    words={['Featured by Hack Club', '5k downloads', 'open source', 'free to use']}
-                    charsBetweenWords={6}
-                />
-            </div>
-            <main className="pagepad !p-3">
-                <div className="md:h-[100svh] relative md:top-[-6rem] items-center w-full flex flex-col justify-center p-4 print:h-auto print:relative print:top-0 print:p-0 print:mb-2">
-                    <h1 className="text-3xl font-bold text-left dark:text-dark vectra">Projects</h1>
-                    <p className="dark:text-dark text-left mt-2">
-                        What happens when you give me a computer and Wi-Fi?
-                    </p>
-                </div>
-
-                <ScrollForMore className="hidden md:block" text="Scroll to find out" />
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-4 mt-8 md:mt-4">
-                    {projects.map((project: Project) => project.slug.indexOf("draft") === -1 ? (
-                        <ProjectListItem key={project.slug} project={project} />
-                    ) : null)}
-                </div>
-
-                <div className="w-full relative mt-8">
-                    <div className="max-w-xl w-4/5 md:w-full mx-auto rounded-full shadow-red-700 dark:shadow-primary shadow-xl h-4" />
-                    <div className="absolute -top-4 w-full max-w-7xl z-10 rounded-sm bg-light-background dark:bg-dark-background h-8 border-b !border-[#ddd] dark:!border-[#444]" />
-                </div>
-
-                <div className="w-full flex justify-start mx-auto flex-col items-start mt-8 gap-y-8 max-w-4xl px-4 md:p-0 mb-24">
-                    <p className="w-full text-center italic text-muted dark:text-muted-dark">
-                        ~ And other Boris Nezlobin productions ~
-                    </p>
-                    <SmallProjectListItem
-                        link="https://x.com/b_nezlobin/status/1973213855754092749"
-                        linkText="600x faster than SunPy: A day's work"
-                        icon={<XLogoIcon />}
-                        description="When the libraries are too slow, make polynomials. Empirically modelling solar differential rotation more accurately and a whole lot faster than SunPy."
-                    />
-                    <SmallProjectListItem
-                        icon={<GithubLogoIcon />}
-                        link="https://github.com/borisnezlobin/pomodoro"
-                        linkText="YAPA — Yet Another Pomodoro App"
-                        description="Free-to-use Electron-based Pomodoro app with a beautiful UI and Discord RPC. So your friends know you're working hard."
-                    />
-                    <SmallProjectListItem
-                        icon={<ClockCounterClockwiseIcon className="rotate-[16deg]" />}
-                        link="https://github.com/borisnezlobin/undodb"
-                        linkText="UndoDB"
-                        description="A small, no-SQL, in-memory, transaction-based database written in Java."
-                    />
-                </div>
-            </main>
-        </div>
+        </main>
     );
 }
