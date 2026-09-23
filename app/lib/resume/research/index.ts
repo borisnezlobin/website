@@ -1,10 +1,10 @@
-import type { JobPosting } from "./ats";
+import type { JobPosting } from "./posting";
 import type { CompanyResearch } from "./company";
 
 export { findUrl, companyDomainFromUrl, readJobPosting } from "./posting";
 export { researchCompany, normalizeDomain } from "./company";
 export { contextWordsFor } from "./context-words";
-export type { JobPosting } from "./ats";
+export type { JobPosting } from "./posting";
 export type { CompanyResearch, ResearchSubject } from "./company";
 
 // About 6k tokens at roughly four characters per token.

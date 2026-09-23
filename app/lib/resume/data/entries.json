@@ -231,6 +231,18 @@
           ],
           "weight": 1,
           "maxBullets": 1
+        },
+        {
+          "id": "inca",
+          "kind": "project",
+          "name": "Inca Trail, measured",
+          "technologies": [
+            "Python",
+            "GPS data"
+          ],
+          "liveUrl": "https://borisnezlobin.com/inca",
+          "weight": 1,
+          "maxBullets": 1
         }
       ]
     },

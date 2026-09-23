@@ -795,5 +795,21 @@
    "browser extension"
   ],
   "text": "Built _Deslop_, a browser extension that scores posts against about 20 heuristics for LLM house style and collapses the ones that read as machine-written, tuned so ordinary human posts stay clear of the threshold."
+ },
+ {
+  "id": "inca-1",
+  "entry": "inca",
+  "tags": [
+   "data",
+   "research",
+   "math"
+  ],
+  "priority": 2,
+  "keywords": [
+   "data analysis",
+   "GPS",
+   "Python"
+  ],
+  "text": "Counted all 9,862 stone steps on the 4-day Inca Trail by hand and rebuilt its profile from about 6,000 GPS points, showing the trail runs about 34 km rather than the 43 km usually quoted."
  }
 ]
