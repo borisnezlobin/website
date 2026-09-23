@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { FileDashedIcon } from "@phosphor-icons/react/dist/ssr";
-import type { AdminResumeRow } from "@/app/lib/resume/types";
+import type { AdminResumeRow, ResumeStatus } from "@/app/lib/resume/types";
+import DeleteStatusControl from "./delete-status-control";
 import LoadProblem from "./load-problem";
 import ResumeDetail from "./resume-detail";
 import ResumeTable from "./resume-table";
@@ -22,25 +23,44 @@ function EmptyState({ filtered }: { filtered: boolean }) {
   );
 }
 
+const BULK_DELETABLE: StatusFilterValue[] = ["FAILED", "DECLINED"];
+
 function RequestList({
   rows,
   filter,
   onFilterChange,
   onOpen,
+  onRowDeleted,
+  onStatusDeleted,
 }: {
   rows: AdminResumeRow[];
   filter: StatusFilterValue;
   onFilterChange: (value: StatusFilterValue) => void;
   onOpen: (id: string) => void;
+  onRowDeleted: (id: string) => void;
+  onStatusDeleted: (status: ResumeStatus) => void;
 }) {
   const visibleRows = filterRows(rows, filter);
+  const bulkStatus = BULK_DELETABLE.includes(filter) && visibleRows.length > 0 ? (filter as ResumeStatus) : null;
+
   return (
     <>
-      {rows.length > 0 && <StatusFilter rows={rows} value={filter} onChange={onFilterChange} />}
+      {rows.length > 0 && (
+        <span className="flex flex-wrap items-start justify-between gap-3">
+          <StatusFilter rows={rows} value={filter} onChange={onFilterChange} />
+          {bulkStatus && (
+            <DeleteStatusControl
+              status={bulkStatus}
+              count={visibleRows.length}
+              onDeleted={() => onStatusDeleted(bulkStatus)}
+            />
+          )}
+        </span>
+      )}
       {visibleRows.length === 0 ? (
         <EmptyState filtered={rows.length > 0} />
       ) : (
-        <ResumeTable rows={visibleRows} onOpen={onOpen} />
+        <ResumeTable rows={visibleRows} onOpen={onOpen} onDeleted={onRowDeleted} />
       )}
     </>
   );
@@ -51,10 +71,21 @@ export default function ResumeAdminPage() {
   const [filter, setFilter] = useState<StatusFilterValue>("ALL");
   const [openId, setOpenId] = useState<string | null>(null);
 
-  function markSlugDeleted(id: string) {
+  function replaceRows(next: (rows: AdminResumeRow[]) => AdminResumeRow[]) {
     if (result.state !== "ready") return;
-    const rows = result.value.map((row) => (row.id === id ? withoutSlug(row) : row));
-    setResult({ state: "ready", value: rows });
+    setResult({ state: "ready", value: next(result.value) });
+  }
+
+  function markSlugDeleted(id: string) {
+    replaceRows((rows) => rows.map((row) => (row.id === id ? withoutSlug(row) : row)));
+  }
+
+  function removeRow(id: string) {
+    replaceRows((rows) => rows.filter((row) => row.id !== id));
+  }
+
+  function removeStatus(status: ResumeStatus) {
+    replaceRows((rows) => rows.filter((row) => row.status !== status));
   }
 
   if (openId) {
@@ -71,7 +102,14 @@ export default function ResumeAdminPage() {
       {result.state === "loading" && <p className="text-sm text-muted dark:text-muted-dark">Loading requests…</p>}
       {result.state === "error" && <LoadProblem message={result.message} onRetry={reload} />}
       {result.state === "ready" && (
-        <RequestList rows={result.value} filter={filter} onFilterChange={setFilter} onOpen={setOpenId} />
+        <RequestList
+          rows={result.value}
+          filter={filter}
+          onFilterChange={setFilter}
+          onOpen={setOpenId}
+          onRowDeleted={removeRow}
+          onStatusDeleted={removeStatus}
+        />
       )}
     </span>
   );

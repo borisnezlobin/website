@@ -8,6 +8,7 @@ import { formatLatency, formatRequestTime } from "./format";
 import JsonBlock from "./json-block";
 import LoadProblem from "./load-problem";
 import PlanView from "./plan-view";
+import { describeRequest, postingTitle } from "./request-summary";
 import { ResumeStatusBadge } from "./resume-status";
 import SlugLink from "./slug-link";
 import { useResumeDetail, withoutSlug } from "./use-resume-requests";
@@ -53,13 +54,33 @@ function RequestFacts({ detail }: { detail: AdminResumeDetail }) {
   );
 }
 
+function RequestHeading({ detail }: { detail: AdminResumeDetail }) {
+  const request = describeRequest(detail.query);
+  if (request.kind === "text") return <h1 className="text-xl font-semibold">{detail.query}</h1>;
+
+  const title = postingTitle(detail.research) ?? request.tail;
+  return (
+    <span className="flex min-w-0 flex-col gap-1">
+      <h1 className="text-xl font-semibold">{title ? `${title} — ${request.host}` : request.host}</h1>
+      <a
+        href={request.href}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="break-all text-sm text-muted underline underline-offset-2 hover:text-primary dark:text-muted-dark"
+      >
+        {request.href}
+      </a>
+    </span>
+  );
+}
+
 function DetailBody({ detail, onSlugDeleted }: { detail: AdminResumeDetail; onSlugDeleted: () => void }) {
   return (
     <article className="flex flex-col gap-8">
       <header className="flex flex-wrap items-start justify-between gap-4">
         <span className="flex min-w-0 flex-col items-start gap-2">
           <ResumeStatusBadge status={detail.status} />
-          <h1 className="text-xl font-semibold">{detail.query}</h1>
+          <RequestHeading detail={detail} />
         </span>
         {detail.slug && <DeleteSlugControl slug={detail.slug} onDeleted={onSlugDeleted} />}
       </header>

@@ -1,6 +1,8 @@
 import { CaretRightIcon } from "@phosphor-icons/react/dist/ssr";
 import type { AdminResumeRow } from "@/app/lib/resume/types";
+import DeleteRequestControl from "./delete-request-control";
 import { formatLatency, formatRequestTime } from "./format";
+import RequestSummary from "./request-summary";
 import { ResumeStatusBadge } from "./resume-status";
 import SlugLink from "./slug-link";
 
@@ -27,18 +29,26 @@ function RequestCell({ row, onOpen }: { row: AdminResumeRow; onOpen: () => void 
       <button
         type="button"
         onClick={onOpen}
-        className="line-clamp-2 text-left font-medium text-light hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:text-dark"
+        className="block w-full min-w-0 text-left font-medium text-light hover:text-primary focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-400 dark:text-dark"
       >
-        {row.query}
+        <RequestSummary query={row.query} />
       </button>
       {row.status === "DECLINED" && row.declineReason && (
-        <span className="line-clamp-2 text-amber-800 dark:text-amber-300">{row.declineReason}</span>
+        <span className="truncate text-amber-800 dark:text-amber-300">{row.declineReason}</span>
       )}
     </span>
   );
 }
 
-function ResumeTableRow({ row, onOpen }: { row: AdminResumeRow; onOpen: (id: string) => void }) {
+function ResumeTableRow({
+  row,
+  onOpen,
+  onDeleted,
+}: {
+  row: AdminResumeRow;
+  onOpen: (id: string) => void;
+  onDeleted: (id: string) => void;
+}) {
   const open = () => onOpen(row.id);
   return (
     <tr onClick={open} className="cursor-pointer transition-colors hover:bg-neutral-50 dark:hover:bg-neutral-800/50">
@@ -59,14 +69,25 @@ function ResumeTableRow({ row, onOpen }: { row: AdminResumeRow; onOpen: (id: str
       <td className={`${CELL} whitespace-nowrap text-right tabular-nums text-muted dark:text-muted-dark`}>
         {formatRequestTime(row.createdAt)}
       </td>
-      <td className={`${CELL} pl-0 text-muted dark:text-muted-dark`}>
-        <CaretRightIcon size={16} aria-hidden />
+      <td className={`${CELL} pl-0`}>
+        <span className="flex items-start justify-end gap-2">
+          <DeleteRequestControl id={row.id} onDeleted={() => onDeleted(row.id)} />
+          <CaretRightIcon size={16} className="mt-2 text-muted dark:text-muted-dark" aria-hidden />
+        </span>
       </td>
     </tr>
   );
 }
 
-export default function ResumeTable({ rows, onOpen }: { rows: AdminResumeRow[]; onOpen: (id: string) => void }) {
+export default function ResumeTable({
+  rows,
+  onOpen,
+  onDeleted,
+}: {
+  rows: AdminResumeRow[];
+  onOpen: (id: string) => void;
+  onDeleted: (id: string) => void;
+}) {
   return (
     <section className="relative overflow-x-auto rounded-lg bg-white shadow-sm ring-1 ring-black/5 dark:bg-neutral-900 dark:ring-white/10">
       <table className="w-full min-w-[56rem] border-collapse">
@@ -80,13 +101,13 @@ export default function ResumeTable({ rows, onOpen }: { rows: AdminResumeRow[]; 
             <th scope="col" className={`${HEADER_CELL} text-right`}>Latency</th>
             <th scope="col" className={`${HEADER_CELL} text-right`}>Requested</th>
             <th scope="col" className="w-8">
-              <span className="sr-only">Open</span>
+              <span className="sr-only">Delete or open</span>
             </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
           {rows.map((row) => (
-            <ResumeTableRow key={row.id} row={row} onOpen={onOpen} />
+            <ResumeTableRow key={row.id} row={row} onOpen={onOpen} onDeleted={onDeleted} />
           ))}
         </tbody>
       </table>

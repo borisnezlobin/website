@@ -1,7 +1,7 @@
 import { del, put } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import db from "@/app/lib/db";
-import type { ResumeRequest } from "@/prisma/awooga/client";
+import type { ResumeRequest, ResumeStatus } from "@/prisma/awooga/client";
 import { composeStandardResume } from "./render";
 import { isRecord, readStringArray } from "./json";
 import { BANK_VERSION } from "./bank-version";
@@ -96,4 +96,38 @@ export async function deleteResumeSlug(slug: string): Promise<boolean> {
     });
     revalidatePath(`/resume/${slug}`);
     return true;
+}
+
+const MAX_BULK_DELETE = 500;
+
+function blobUrlsOf(row: ResumeRequest): (string | null)[] {
+    return [row.pdfUrl, ...row.pageSvgUrls];
+}
+
+/** Deleting a row takes its slug with it, so /resume/<slug> rebuilds on the next visit. */
+async function forgetRow(row: ResumeRequest): Promise<void> {
+    await deleteStoredFiles(blobUrlsOf(row)).catch((error) =>
+        console.error(`Could not delete the files for resume request ${row.id}`, error),
+    );
+    if (row.slug) revalidatePath(`/resume/${row.slug}`);
+}
+
+export async function deleteResumeRow(id: string): Promise<boolean> {
+    const row = await db.resumeRequest.findUnique({ where: { id } });
+    if (!row) return false;
+    await db.resumeRequest.delete({ where: { id } });
+    await forgetRow(row);
+    return true;
+}
+
+export async function deleteResumeRowsByStatus(status: ResumeStatus): Promise<number> {
+    const rows = await db.resumeRequest.findMany({
+        where: { status },
+        orderBy: { createdAt: "asc" },
+        take: MAX_BULK_DELETE,
+    });
+    if (rows.length === 0) return 0;
+    await db.resumeRequest.deleteMany({ where: { id: { in: rows.map((row) => row.id) } } });
+    for (const row of rows) await forgetRow(row);
+    return rows.length;
 }
