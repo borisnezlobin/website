@@ -1,7 +1,19 @@
+const resumeRenderFiles = [
+  "./app/lib/resume/render/resume.typ",
+  "./app/lib/resume/render/fonts/*.ttf",
+  "./node_modules/@myriaddreamin/typst-ts-node-compiler-linux-x64-gnu/**",
+];
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
   pageExtensions: ["js", "jsx", "ts", "tsx",],
+  serverExternalPackages: ["@myriaddreamin/typst-ts-node-compiler"],
+  outputFileTracingIncludes: {
+    "/api/resume": resumeRenderFiles,
+    "/api/resume/**": resumeRenderFiles,
+    "/resume/[slug]": resumeRenderFiles,
+  },
   experimental: {
     optimizeCss: false,
     globalNotFound: true,

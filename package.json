@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.668.0",
+    "@myriaddreamin/typst-ts-node-compiler": "^0.7.0",
     "@phosphor-icons/react": "^2.1.8",
     "@prisma/adapter-neon": "7.3.0",
     "@prisma/adapter-pg": "^7.3.0",
@@ -26,6 +27,7 @@
     "next": "15.5.7",
     "next-themes": "^0.4.6",
     "node-html-parser": "^7.0.1",
+    "openai": "^7.21.0",
     "prismjs": "^1.29.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
@@ -42,8 +44,8 @@
     "autoprefixer": "^10.4.16",
     "eslint": "^8.54.0",
     "eslint-config-next": "14.0.3",
-    "postcss": "^8.4.31",
     "playwright": "^1.62.1",
+    "postcss": "^8.4.31",
     "prisma": "^7.3.0",
     "tailwindcss": "^3.3.5",
     "typescript": "^5.3.2"

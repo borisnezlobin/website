@@ -1,0 +1,306 @@
+{
+  "header": {
+    "name": "Boris Nezlobin",
+    "contacts": [
+      [
+        "mailto:me@borisn.com",
+        "me@borisn.com"
+      ],
+      [
+        "https://github.com/borisnezlobin",
+        "github.com/borisnezlobin"
+      ],
+      [
+        "https://www.linkedin.com/in/borisnezlobin",
+        "linkedin.com/in/borisnezlobin"
+      ],
+      [
+        "https://borisn.com",
+        "borisn.com"
+      ]
+    ]
+  },
+  "sections": [
+    {
+      "title": "Education",
+      "entries": [
+        {
+          "id": "berkeley",
+          "kind": "edu",
+          "degree": "Applied Mathematics; Industrial Engineering & Operations Research",
+          "date": "Aug 2026 - Expected May 2029",
+          "institution": "University of California, Berkeley (B.A., B.S.)",
+          "location": "Berkeley, CA",
+          "always": true
+        },
+        {
+          "id": "foothill",
+          "kind": "edu",
+          "degree": "Dual Enrollment (Community College)",
+          "date": "Dec 2024 - Aug 2026",
+          "institution": "Foothill College",
+          "gpa": "4.00 (Dean's List)",
+          "location": "Los Altos, CA",
+          "always": true,
+          "optional": true
+        },
+        {
+          "id": "coursework",
+          "kind": "text",
+          "text": "Relevant coursework: Abstract Algebra, Discrete Math, Data Science, Linear Algebra, Advanced Algorithms (CS1C).",
+          "tags": [
+            "math",
+            "data",
+            "systems"
+          ],
+          "optional": true
+        },
+        {
+          "id": "clubs",
+          "kind": "text",
+          "optional": true,
+          "tags": [
+            "ai",
+            "blockchain",
+            "community",
+            "leadership"
+          ],
+          "text": "Clubs: Blockchain at Berkeley (2026-); Paly AI Club (2022-2026); Paly Blockchain Club (2023-2024)."
+        }
+      ]
+    },
+    {
+      "title": "Projects",
+      "entries": [
+        {
+          "id": "robot-arm",
+          "kind": "project",
+          "name": "Berkeley Robotics Hackathon — LiDAR-guided robot arm",
+          "technologies": [
+            "Python",
+            "Swift",
+            "ARKit",
+            "SciPy"
+          ],
+          "weight": 2,
+          "maxBullets": 2
+        },
+        {
+          "id": "hackathons",
+          "kind": "project",
+          "name": "3x Hackathon Winner",
+          "technologies": [
+            ">$15k in prizes won"
+          ],
+          "repoUrl": "https://github.com/borisnezlobin",
+          "weight": 2,
+          "maxBullets": 2
+        },
+        {
+          "id": "cac",
+          "kind": "project",
+          "name": "2024 Congressional App Challenge Honorable Mention",
+          "technologies": [
+            "TF-IDF",
+            "Scraping"
+          ],
+          "repoUrl": "https://github.com/borisnezlobin/alignminder",
+          "weight": 1,
+          "maxBullets": 1
+        },
+        {
+          "id": "public",
+          "kind": "project",
+          "name": "Build in public",
+          "technologies": [
+            "Open source",
+            "Writing",
+            "Journalism"
+          ],
+          "weight": 2,
+          "maxBullets": 3
+        },
+        {
+          "id": "siyi-app",
+          "kind": "project",
+          "name": "Siyi.app",
+          "technologies": [
+            "Next.js",
+            "React",
+            "TypeScript",
+            "TailwindCSS"
+          ],
+          "liveUrl": "https://www.siyi.app",
+          "weight": 1,
+          "maxBullets": 2
+        },
+        {
+          "id": "semse",
+          "kind": "project",
+          "name": "Semse – Semantic Message Search",
+          "technologies": [
+            "Python",
+            "FastAPI",
+            "FAISS",
+            "SQLite"
+          ],
+          "weight": 1,
+          "maxBullets": 2
+        },
+        {
+          "id": "vantage-startup",
+          "kind": "project",
+          "name": "Vantage — Spatial OS",
+          "technologies": [
+            "C++",
+            "C",
+            "Swift",
+            "ARKit"
+          ],
+          "weight": 1,
+          "maxBullets": 2,
+          "liveUrl": "https://defect.tech"
+        },
+        {
+          "id": "enf-research",
+          "kind": "project",
+          "name": "ENF (Electrical Network Frequency) European Grid Dataset",
+          "technologies": [
+            "Python",
+            "Parquet",
+            "CSV",
+            "HackClub Nest"
+          ],
+          "repoUrl": "https://github.com/borisnezlobin/enf",
+          "liveUrl": "https://www.borisnezlobin.com/writing/enf-data-on-the-european-grid",
+          "weight": 1,
+          "maxBullets": 2
+        },
+        {
+          "id": "heronscout",
+          "kind": "project",
+          "name": "HeronScout",
+          "technologies": [
+            "Java",
+            "TypeScript"
+          ],
+          "liveUrl": "https://heronscout.me",
+          "weight": 2,
+          "maxBullets": 1
+        },
+        {
+          "id": "aar",
+          "kind": "project",
+          "name": "Predicting Writing Effectiveness (IRB-approved research)",
+          "technologies": [
+            "Python",
+            "NLI",
+            "sentence-transformers"
+          ],
+          "weight": 1,
+          "maxBullets": 2
+        },
+        {
+          "id": "civic",
+          "kind": "project",
+          "name": "Advocacy & public writing",
+          "technologies": [],
+          "weight": 2,
+          "maxBullets": 3
+        },
+        {
+          "id": "maras",
+          "kind": "project",
+          "name": "maras — on-chain marketplace for vanity-address salts",
+          "technologies": [
+            "Solidity",
+            "Base",
+            "commit-reveal"
+          ],
+          "repoUrl": "https://github.com/borisnezlobin/maras",
+          "weight": 1,
+          "maxBullets": 1
+        },
+        {
+          "id": "deslop",
+          "kind": "project",
+          "name": "Deslop — AI-slop filter for X",
+          "technologies": [
+            "TypeScript",
+            "browser extension"
+          ],
+          "weight": 1,
+          "maxBullets": 1
+        }
+      ]
+    },
+    {
+      "title": "Experience",
+      "entries": [
+        {
+          "id": "lockheed",
+          "kind": "exp",
+          "role": "Software Engineering Intern",
+          "organization": "Lockheed Martin",
+          "date": "May 2025 - Sep 2025",
+          "location": "Palo Alto, CA",
+          "weight": 3,
+          "maxBullets": 4,
+          "minBullets": 3
+        },
+        {
+          "id": "jyv-exp",
+          "kind": "exp",
+          "role": "Web Manager & Lead Editorial Editor",
+          "organization": "The Journal For Youth Voice",
+          "date": "May 2024 - Present",
+          "weight": 2,
+          "maxBullets": 3
+        },
+        {
+          "id": "freelance",
+          "kind": "exp",
+          "role": "Freelance Web Development & Brand Design",
+          "organization": "Self-Employed",
+          "date": "Nov 2025 - Present",
+          "weight": 2,
+          "maxBullets": 3
+        },
+        {
+          "id": "heron",
+          "kind": "exp",
+          "role": "Team Captain, Software Lead",
+          "organization": "Heron Robotics & Kuriosity Robotics (FIRST Tech Challenge)",
+          "date": "Sep 2022 - May 2026",
+          "location": "Palo Alto, CA",
+          "weight": 3,
+          "maxBullets": 4
+        }
+      ]
+    },
+    {
+      "title": "Skills",
+      "entries": [
+        {
+          "id": "skills",
+          "kind": "skills",
+          "always": true,
+          "lines": [
+            [
+              "Languages",
+              "Python, Java, C, TypeScript/JavaScript, C#, SQL"
+            ],
+            [
+              "Tools",
+              "Git, Linux, Docker, MongoDB & Supabase, PostgreSQL, Google Analytics & Firebase, Figma, OpenCV, NumPy"
+            ],
+            [
+              "Disciplines",
+              "Robotics, Systems, Agents, Full-stack, Design, Photography"
+            ]
+          ]
+        }
+      ]
+    }
+  ]
+}

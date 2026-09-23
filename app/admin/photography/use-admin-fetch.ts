@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import type { Category, Photo } from "./types";
+import { useAdminAuth } from "../components/admin-auth";
 
 export type AdminFetchState = {
   photos: Photo[];
@@ -10,23 +11,20 @@ export type AdminFetchState = {
   refetch: () => Promise<void>;
 };
 
-export function useAdminFetch(password: string, isAuthed: boolean, onUnauthed: () => void): AdminFetchState {
+export function useAdminFetch(): AdminFetchState {
+  const { adminFetch } = useAdminAuth();
   const [photos, setPhotos] = useState<Photo[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(false);
 
   const refetch = useCallback(async () => {
-    if (!password) return;
     setLoading(true);
     try {
       const [photosRes, catsRes] = await Promise.all([
-        fetch("/api/admin/photography", { headers: { Authorization: `Bearer ${password}` } }),
-        fetch("/api/admin/categories", { headers: { Authorization: `Bearer ${password}` } }),
+        adminFetch("/api/admin/photography"),
+        adminFetch("/api/admin/categories"),
       ]);
-      if (photosRes.status === 401 || catsRes.status === 401) {
-        onUnauthed();
-        return;
-      }
+      if (photosRes.status === 401 || catsRes.status === 401) return;
       const photoData = await photosRes.json();
       const catData = await catsRes.json();
       setPhotos(photoData.photos || []);
@@ -36,11 +34,11 @@ export function useAdminFetch(password: string, isAuthed: boolean, onUnauthed: (
     } finally {
       setLoading(false);
     }
-  }, [password, onUnauthed]);
+  }, [adminFetch]);
 
   useEffect(() => {
-    if (isAuthed) refetch();
-  }, [isAuthed, refetch]);
+    refetch();
+  }, [refetch]);
 
   return { photos, categories, loading, refetch };
 }

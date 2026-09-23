@@ -11,6 +11,7 @@ import {
 } from "@phosphor-icons/react/dist/ssr";
 import { compressImageIfLarge, formatBytes } from "./compress-image";
 import type { Category, Message, Photo } from "./types";
+import { useAdminAuth } from "../components/admin-auth";
 
 function titleToSlug(title: string): string {
   return title
@@ -26,18 +27,17 @@ function fileBaseName(filename: string): string {
 export default function PhotoEditor({
   photo,
   isCreating,
-  password,
   categories,
   onBack,
   onSaved,
 }: {
   photo: Photo | null;
   isCreating: boolean;
-  password: string;
   categories: Category[];
   onBack: () => void;
   onSaved: (p: Photo) => void;
 }) {
+  const { adminFetch } = useAdminAuth();
   const [title, setTitle] = useState(photo?.title ?? "");
   const [description, setDescription] = useState(photo?.description ?? "");
   const [slug, setSlug] = useState(photo?.slug ?? "");
@@ -121,9 +121,8 @@ export default function PhotoEditor({
 
     try {
       setMessage({ type: "success", text: "Uploading…" });
-      const res = await fetch("/api/admin/photography", {
+      const res = await adminFetch("/api/admin/photography", {
         method: isCreating ? "POST" : "PUT",
-        headers: { Authorization: `Bearer ${password}` },
         body: form,
       });
       // The body limit error returns HTML, not JSON, so guard the parse.
@@ -156,12 +155,9 @@ export default function PhotoEditor({
     if (!window.confirm(`Delete "${photo.title}"? This cannot be undone.`)) return;
     setSaving(true);
     try {
-      const res = await fetch("/api/admin/photography", {
+      const res = await adminFetch("/api/admin/photography", {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${password}`,
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: photo.id }),
       });
       const data = await res.json();
@@ -175,7 +171,7 @@ export default function PhotoEditor({
   }
 
   return (
-    <div className="min-h-screen bg-light-background dark:bg-dark-background p-4 md:p-8">
+    <div>
       <div className="max-w-3xl mx-auto">
         <EditorHeader
           title={isCreating ? "New Photo" : `Edit: ${photo!.title}`}

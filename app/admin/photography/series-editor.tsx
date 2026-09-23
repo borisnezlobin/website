@@ -12,6 +12,7 @@ import {
   XIcon,
 } from "@phosphor-icons/react/dist/ssr";
 import type { Message, Photo } from "./types";
+import { useAdminAuth } from "../components/admin-auth";
 
 function titleToSlug(title: string): string {
   return title
@@ -24,15 +25,14 @@ type Form = { title: string; slug: string; description: string };
 
 export default function SeriesEditor({
   slug,
-  password,
   photos,
   onBack,
 }: {
   slug: string | null;
-  password: string;
   photos: Photo[];
   onBack: () => void;
 }) {
+  const { adminFetch } = useAdminAuth();
   const isCreating = slug === null;
   const [form, setForm] = useState<Form>({ title: "", slug: "", description: "" });
   const [slugManuallyEdited, setSlugManuallyEdited] = useState(!isCreating);
@@ -45,9 +45,7 @@ export default function SeriesEditor({
   useEffect(() => {
     if (isCreating) return;
     setLoading(true);
-    fetch(`/api/admin/series?slug=${encodeURIComponent(slug!)}`, {
-      headers: { Authorization: `Bearer ${password}` },
-    })
+    adminFetch(`/api/admin/series?slug=${encodeURIComponent(slug!)}`)
       .then((r) => r.json())
       .then((data) => {
         if (!data.series) {
@@ -64,7 +62,7 @@ export default function SeriesEditor({
       })
       .catch(() => setMessage({ type: "error", text: "Failed to load series" }))
       .finally(() => setLoading(false));
-  }, [slug, isCreating, password]);
+  }, [slug, isCreating, adminFetch]);
 
   const photosById = useMemo(() => {
     const map = new Map<string, Photo>();
@@ -105,9 +103,9 @@ export default function SeriesEditor({
 
     try {
       if (isCreating) {
-        const createRes = await fetch("/api/admin/series", {
+        const createRes = await adminFetch("/api/admin/series", {
           method: "POST",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ title: form.title, slug: form.slug, description: form.description }),
         });
         const createData = await createRes.json();
@@ -117,15 +115,15 @@ export default function SeriesEditor({
           return;
         }
         // Now PUT the photos in order
-        await fetch("/api/admin/series", {
+        await adminFetch("/api/admin/series", {
           method: "PUT",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ id: createData.series.id, photoIds }),
         });
       } else {
-        const res = await fetch("/api/admin/series", {
+        const res = await adminFetch("/api/admin/series", {
           method: "PUT",
-          headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             id: seriesId,
             title: form.title,
@@ -155,9 +153,9 @@ export default function SeriesEditor({
     if (!window.confirm(`Delete series "${form.title}"? Photos themselves are not deleted.`)) return;
     setSaving(true);
     try {
-      await fetch("/api/admin/series", {
+      await adminFetch("/api/admin/series", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json", Authorization: `Bearer ${password}` },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: seriesId }),
       });
       onBack();

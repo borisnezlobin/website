@@ -52,11 +52,14 @@ function makeLayer(style: string): Layer {
     };
 }
 
-export function makeInkStage(style: string, crossfadeMs = CROSSFADE_MS): InkStage {
+export function makeInkStage(style: string, crossfadeMs = CROSSFADE_MS, entranceMs = 0): InkStage {
     let arriving = makeLayer(style);
     let leaving: Layer | null = null;
     let elapsed = 0;
     let lastAt = 0;
+    let entered = entranceMs <= 0;
+    let entranceElapsed = 0;
+    let entranceAt = 0;
     let active = false;
     let wanted = new Set<string>();
     let lastOut: CanvasRenderingContext2D | null = null;
@@ -88,6 +91,7 @@ export function makeInkStage(style: string, crossfadeMs = CROSSFADE_MS): InkStag
         fresh.ink?.setActive(active);
         wanted.forEach((behavior) => fresh.ink?.want(behavior));
         arriving = fresh;
+        entered = true;
         elapsed = 0;
         lastAt = performance.now();
     };
@@ -110,6 +114,28 @@ export function makeInkStage(style: string, crossfadeMs = CROSSFADE_MS): InkStag
         return drawn;
     };
 
+    // The first drawing a whale ever shows is inked on, the way a style change
+    // is, so it arrives instead of appearing between two frames.
+    const enter = (
+        out: CanvasRenderingContext2D,
+        behavior: string,
+        frame: number,
+        state: WhaleVisualState,
+        tick: number,
+        now: number,
+    ) => {
+        entranceElapsed += Math.min(now - (entranceAt || now), LONGEST_STEP_MS);
+        entranceAt = now;
+        const reveal = eased(Math.min(1, entranceElapsed / entranceMs));
+        const drawn = arriving.ink?.paint(out, behavior, frame, state, tick, reveal) ?? -1;
+        if (drawn < 0) {
+            entranceElapsed = 0;
+            return drawn;
+        }
+        if (reveal >= 1) entered = true;
+        return drawn;
+    };
+
     const blend = (out: CanvasRenderingContext2D, fade: number) => {
         const w = out.canvas.width;
         const h = out.canvas.height;
@@ -125,7 +151,7 @@ export function makeInkStage(style: string, crossfadeMs = CROSSFADE_MS): InkStag
 
     return {
         showing: () => arriving.style,
-        crossing: () => leaving !== null,
+        crossing: () => leaving !== null || !entered,
         want(behavior) {
             wanted.add(behavior);
             arriving.ink?.want(behavior);
@@ -157,6 +183,7 @@ export function makeInkStage(style: string, crossfadeMs = CROSSFADE_MS): InkStag
         },
         paint(out, behavior, frame, state, tick, now) {
             lastOut = out;
+            if (!leaving && !entered) return enter(out, behavior, frame, state, tick, now);
             if (!leaving) return arriving.ink?.paint(out, behavior, frame, state, tick) ?? -1;
 
             const w = out.canvas.width;

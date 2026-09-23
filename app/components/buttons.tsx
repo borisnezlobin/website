@@ -2,13 +2,13 @@
 
 import { ArrowRight, ArrowLeft } from "@phosphor-icons/react/dist/ssr";
 import Link from "next/link";
+import { baseButtonClass as baseClass, secondaryButtonClass } from "./button-styles";
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {}
 interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
     direction?: "left" | "right" | "none";
 }
 
-const baseClass = "rounded-lg font-semibold px-8 py-2 transition-transform duration-300 transform focus:ring-2 shadow-lg dark:shadow-primary/10 transition hover:-translate-y-0.5 active:translate-y-0.5";
 
 const PrimaryButton: React.FC<ButtonProps> = ({ children, ...props }) => {
     return (
@@ -21,7 +21,7 @@ const PrimaryButton: React.FC<ButtonProps> = ({ children, ...props }) => {
 
 const SecondaryButton: React.FC<ButtonProps> = ({ children, ...props }) => {
     return (
-        <button {...props} className={`${baseClass} bg-transparent text-light dark:shadow-none dark:text-dark border border-muted dark:border-muted-dark ${props.className}`}>
+        <button {...props} className={`${secondaryButtonClass} ${props.className}`}>
             {children}
         </button>
     );

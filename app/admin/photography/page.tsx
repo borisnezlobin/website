@@ -1,8 +1,7 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useState } from "react";
 import { FilmStripIcon, ImageSquareIcon, TagIcon } from "@phosphor-icons/react/dist/ssr";
-import LoginForm from "./login-form";
 import PhotoList from "./photo-list";
 import PhotoEditor from "./photo-editor";
 import CategoryManager from "./category-manager";
@@ -13,46 +12,17 @@ import type { Photo } from "./types";
 type View = "photos" | "categories" | "series";
 
 export default function PhotographyAdminPage() {
-  const [password, setPassword] = useState("");
-  const [isAuthed, setIsAuthed] = useState(false);
   const [view, setView] = useState<View>("photos");
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
   const [isCreating, setIsCreating] = useState(false);
 
-  useEffect(() => {
-    const stored = localStorage.getItem("admin_password");
-    if (stored) {
-      setPassword(stored);
-      setIsAuthed(true);
-    }
-  }, []);
-
-  const onUnauthed = useCallback(() => {
-    setIsAuthed(false);
-    localStorage.removeItem("admin_password");
-  }, []);
-
-  const { photos, categories, loading, refetch } = useAdminFetch(password, isAuthed, onUnauthed);
-
-  if (!isAuthed) {
-    return (
-      <LoginForm
-        password={password}
-        onPasswordChange={setPassword}
-        onSubmit={() => {
-          localStorage.setItem("admin_password", password);
-          setIsAuthed(true);
-        }}
-      />
-    );
-  }
+  const { photos, categories, loading, refetch } = useAdminFetch();
 
   if (selectedPhoto || isCreating) {
     return (
       <PhotoEditor
         photo={selectedPhoto}
         isCreating={isCreating}
-        password={password}
         categories={categories}
         onBack={() => {
           setSelectedPhoto(null);
@@ -69,20 +39,10 @@ export default function PhotographyAdminPage() {
   }
 
   return (
-    <div className="min-h-screen bg-light-background dark:bg-dark-background p-4 md:p-8">
+    <div>
       <div className="max-w-4xl mx-auto">
         <header className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-semibold">Photography Admin</h1>
-          <button
-            onClick={() => {
-              localStorage.removeItem("admin_password");
-              setIsAuthed(false);
-              setPassword("");
-            }}
-            className="text-sm text-muted hover:text-black dark:hover:text-white transition-colors"
-          >
-            Logout
-          </button>
+          <h1 className="text-2xl font-semibold">Photography</h1>
         </header>
 
         <nav className="flex gap-1 mb-6 border-b border-neutral-200 dark:border-neutral-800">
@@ -110,12 +70,11 @@ export default function PhotographyAdminPage() {
           <CategoryManager
             categories={categories}
             photos={photos}
-            password={password}
             onChange={refetch}
           />
         )}
         {view === "series" && (
-          <SeriesManager password={password} photos={photos} />
+          <SeriesManager photos={photos} />
         )}
       </div>
     </div>
