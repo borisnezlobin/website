@@ -3,11 +3,11 @@
 import { useEffect, useState } from "react";
 
 export const REQUEST_EXAMPLES = [
-    "I’m recruiting a robotics intern at Andera",
+    "I’m hiring a perception engineer for a robotics startup",
     "I need someone who does computer vision",
-    "https://jobs.lever.co/acme/robotics-software-engineer",
-    "I’m hiring for a full-stack role at a startup",
-    "I need someone who writes embedded firmware",
+    "https://jobs.lever.co/example/backend-engineer",
+    "I’m recruiting for a founding engineer role",
+    "I need someone who can ship a full-stack product alone",
 ];
 
 const TYPE_MS = 45;
