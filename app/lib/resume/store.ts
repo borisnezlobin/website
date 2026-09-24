@@ -2,8 +2,9 @@ import { del, put } from "@vercel/blob";
 import { revalidatePath } from "next/cache";
 import db from "@/app/lib/db";
 import type { ResumeRequest, ResumeStatus } from "@/prisma/awooga/client";
-import { composeStandardResume } from "./render";
+import { composeResume, composeStandardResume } from "./render";
 import { isRecord, readStringArray } from "./json";
+import type { BulletRewrite, ResumePlan } from "./types";
 import { BANK_VERSION } from "./bank-version";
 import { findLiveResume, isCurrentBank, isUniqueSlugViolation, replaceGeneratedRow, saveRequestRow } from "./records";
 import { STANDARD_SLUG, type RenderedResume, type ResumeView } from "./types";
@@ -75,12 +76,67 @@ async function buildStandardResume(stale: ResumeRequest | null): Promise<ResumeR
     }
 }
 
+function storedRewrites(plan: Record<string, unknown>): BulletRewrite[] {
+    const rewrites = Array.isArray(plan.rewrites) ? plan.rewrites.filter(isRecord) : [];
+    return rewrites.flatMap((rewrite) => {
+        const { id, text } = rewrite;
+        return typeof id === "string" && typeof text === "string" ? [{ id, text }] : [];
+    });
+}
+
+/** Plans written before rankedBulletIds was stored still carry the bullets that were rendered. */
+function storedPlan(plan: unknown): ResumePlan | null {
+    if (!isRecord(plan)) return null;
+    const ranked = readStringArray(plan, "rankedBulletIds");
+    const rankedBulletIds = ranked.length > 0 ? ranked : readStringArray(plan, "renderedBulletIds");
+    if (rankedBulletIds.length === 0) return null;
+    return { rankedBulletIds, rewrites: storedRewrites(plan) };
+}
+
+/** Re-typesets a stored resume against the current renderer. No model calls and no research. */
+async function reRenderStoredResume(row: ResumeRequest, plan: ResumePlan): Promise<ResumeRequest> {
+    const rendered = await composeResume(plan);
+    const files = await uploadRenderedResume(row.slug ?? STANDARD_SLUG, rendered);
+    const previousFiles = [row.pdfUrl, ...row.pageSvgUrls];
+    const updated = await db.resumeRequest.update({
+        where: { id: row.id },
+        data: {
+            ...files,
+            bankVersion: BANK_VERSION,
+            plan: { ...(isRecord(row.plan) ? row.plan : {}), ...plan, renderedBulletIds: rendered.bulletIds, fill: rendered.fill },
+        },
+    });
+    await deleteStoredFiles(previousFiles).catch(() => undefined);
+    if (row.slug) revalidatePath(`/resume/${row.slug}`);
+    return updated;
+}
+
+async function refreshedView(row: ResumeRequest): Promise<ResumeView | null> {
+    const plan = storedPlan(row.plan);
+    if (!plan) return toView(row);
+    try {
+        return toView(await reRenderStoredResume(row, plan));
+    } catch (error) {
+        console.error(`Could not re-render /resume/${row.slug} for bank ${BANK_VERSION}`, error);
+        return toView(row);
+    }
+}
+
+async function standardView(row: ResumeRequest | null): Promise<ResumeView | null> {
+    try {
+        return toView(await buildStandardResume(row));
+    } catch (error) {
+        console.error("Could not rebuild the standard resume", error);
+        return row ? toView(row) : null;
+    }
+}
+
+/** A resume built by an older bank or renderer is re-typeset on the first view after the change. */
 export async function getResumeView(slug: string): Promise<ResumeView | null> {
     const row = await findLiveResume(slug);
-    if (slug !== STANDARD_SLUG) return row ? toView(row) : null;
-    // The standard resume is Boris's own; it is rebuilt whenever the bullet bank changes.
     if (isCurrentBank(row)) return toView(row);
-    return toView(await buildStandardResume(row));
+    if (slug === STANDARD_SLUG) return standardView(row);
+    return row ? refreshedView(row) : null;
 }
 
 /** Frees the slug so the next visit regenerates it; the request row stays for the admin log. */
