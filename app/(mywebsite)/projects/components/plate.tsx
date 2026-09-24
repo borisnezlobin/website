@@ -1,7 +1,8 @@
+import { isWon } from "../content/highlights";
 import type { PlateContent } from "../content/types";
 import { AwardMark } from "./award-mark";
-import { PlateHighlights, isWon } from "./plate-highlights";
 import { PlateLinks } from "./plate-links";
+import { PlateStory } from "./plate-story";
 import { PlateVisual } from "./plate-visual";
 
 const PLATE_SPACING = "py-24 first:pt-8 md:py-36 md:first:pt-12";
@@ -18,8 +19,12 @@ export function Plate({ plate }: { plate: PlateContent }) {
                     {plate.title}
                     {won && <AwardMark size={24} />}
                 </h2>
-                <PlateHighlights highlights={plate.highlights} />
-                <p className="mt-4 leading-relaxed">{plate.summary}</p>
+                <PlateStory
+                    id={plate.id}
+                    title={plate.title}
+                    summary={plate.summary}
+                    highlights={plate.highlights}
+                />
                 <PlateLinks links={plate.links} />
             </div>
         </section>
