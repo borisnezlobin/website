@@ -1,5 +1,5 @@
 import type { BulletRewrite } from "../types";
-import { catalogSections, EXPERIENCE_ORDER, PROJECT_ORDER, resumeHeader, type CatalogBullet, type CatalogEntry, type CatalogSection } from "./catalog";
+import { catalogSections, EXPERIENCE_ORDER, resumeHeader, type CatalogBullet, type CatalogEntry, type CatalogSection } from "./catalog";
 import { PAGE, type Typography } from "./typesetting";
 import { orderSkillLines } from "./skills";
 
@@ -22,18 +22,13 @@ function sortedByRank(entries: CatalogEntry[], rankOf: (entry: CatalogEntry) => 
 
 const entryOrderBySection: Record<string, EntryOrder> = {
     Experience: (entries) => sortedByRank(entries, (entry) => positionOr(EXPERIENCE_ORDER.indexOf(entry.id))),
-    Projects: (entries, firstRank) => sortedByRank(entries, (entry) => projectRank(entry, firstRank)),
+    Projects: (entries, firstRank) => sortedByRank(entries, (entry) => firstRank.get(entry.id) ?? Number.POSITIVE_INFINITY),
 };
 
 function positionOr(index: number): number {
     return index < 0 ? Number.POSITIVE_INFINITY : index;
 }
 
-function projectRank(entry: CatalogEntry, firstRank: Map<string, number>): number {
-    const preferred = PROJECT_ORDER.indexOf(entry.id);
-    if (preferred >= 0) return preferred;
-    return PROJECT_ORDER.length + (firstRank.get(entry.id) ?? Number.POSITIVE_INFINITY);
-}
 
 function isShown(entry: CatalogEntry, bulletCount: number): boolean {
     if (entry.always || entry.kind === "text") return true;
