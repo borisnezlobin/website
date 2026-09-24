@@ -392,7 +392,7 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
           >
             <div className="font-semibold text-light-foreground dark:text-dark-foreground">
               {metres(hover.elev)}
-              <span className="font-normal text-muted dark:text-muted-dark"> · km {hover.km.toFixed(1)}</span>
+              <span className="font-normal text-muted dark:text-muted-dark"> at km {hover.km.toFixed(1)}</span>
             </div>
             <div className="mt-0.5 text-muted dark:text-muted-dark">
               {hover.per100 >= 1 ? `≈ ${hover.per100} stone steps per 100 m` : "walking grade — no steps"}
@@ -418,8 +418,8 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
         </div>
         <div className="mt-1.5">
           {selectMode
-            ? "drag across the trail to measure a stretch · tap the button again to pan"
-            : "scroll to zoom · drag to pan · shift-drag (or tap the box) to measure a stretch"}
+            ? "Drag across the trail to measure a stretch. Tap the button again to pan."
+            : "Scroll to zoom and drag to pan. Shift-drag, or tap the box, to measure a stretch."}
           {sel && (
             <button
               type="button"

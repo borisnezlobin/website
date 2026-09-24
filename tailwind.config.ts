@@ -45,8 +45,13 @@ const config: Config = {
             },
             animation: {
                 scroll: 'scroll 20s linear infinite',
+                "fade-in": 'fade-in 240ms ease-out',
             },
             keyframes: {
+                "fade-in": {
+                    from: { opacity: '0' },
+                    to: { opacity: '1' },
+                },
                 scroll: {
                     '0%': {
                         // left: '100%'

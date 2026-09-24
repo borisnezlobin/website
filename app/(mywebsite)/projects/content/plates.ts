@@ -38,7 +38,7 @@ export const PLATES: PlateContent[] = [
         visual: { kind: "figure", figure: "amelia" },
         highlights: [{ text: "1st place, MongoDB .local Build Fest", won: true }],
         summary: [
-            "I won the first-place grand prize at MongoDB .local Build Fest for Amelia, which keeps a record of who said what in a group conversation so deaf and hard-of-hearing people can follow fast talk and ask about it later.",
+            "I won the first-place grand prize, about $13.5k in cash and credits, at MongoDB .local Build Fest for Amelia, which keeps a record of who said what in a group conversation so deaf and hard-of-hearing people can follow fast talk and ask about it later.",
             "It recognizes each voice, learns names from context, and answers questions by quoting what was said.",
         ],
         links: [
@@ -64,7 +64,7 @@ export const PLATES: PlateContent[] = [
         highlights: ["Featured by Hack Club"],
         summary: [
             "In 2024 I reverse-engineered a German provider’s live feed to build the only up-to-date public record of the European grid’s frequency, losing fewer than ten seconds of data a day.",
-            "The grid’s frequency leaves a faint hum in recordings, so a second-by-second log of it can tell you when a recording was made.",
+            "The grid’s frequency leaves a faint hum in recordings, so a second-by-second log of it can tell you whether a recording or video is real, and the exact time it was recorded at.",
             "My record ran for about a month, until the provider reached out and asked very nicely for me to stop.",
         ],
         links: [

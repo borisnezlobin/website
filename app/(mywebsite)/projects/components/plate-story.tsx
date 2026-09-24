@@ -7,13 +7,15 @@ import type { PlateContent } from "../content/types";
 import { PlateHighlights } from "./plate-highlights";
 
 const EASE = "ease-[cubic-bezier(0.2,0,0,1)]";
-const PANEL_BASE = `grid transition-[grid-template-rows] duration-300 ${EASE} motion-reduce:transition-none`;
-const PANEL_STATE = { open: "grid-rows-[1fr]", closed: "grid-rows-[0fr]" };
 const TOGGLE = actionClass("subtle", `ms-1 align-baseline transition-colors duration-150 ${EASE}`);
-const CARET = `transition-transform duration-300 ${EASE} motion-reduce:transition-none`;
+const REST = "animate-fade-in motion-reduce:animate-none";
 
 type PlateStoryProps = Pick<PlateContent, "id" | "title" | "summary" | "highlights">;
 
+/**
+ * The continuation joins the lede inside one paragraph, so an opened plate reads as prose rather
+ * than a caption above a second block. That rules out animating height, which needs a block wrapper.
+ */
 export function PlateStory({ id, title, summary, highlights }: PlateStoryProps) {
     const [open, setOpen] = useState(false);
     const detailId = `${id}-detail`;
@@ -24,25 +26,29 @@ export function PlateStory({ id, title, summary, highlights }: PlateStoryProps) 
         <>
             <p className="mt-3 text-lg leading-relaxed">
                 {lede}
+                {open && (
+                    <span id={detailId} className={REST}>
+                        {` ${rest.join(" ")}`}
+                    </span>
+                )}
                 {hasMore && (
                     <button
                         type="button"
                         aria-expanded={open}
-                        aria-controls={detailId}
+                        aria-controls={open ? detailId : undefined}
                         onClick={() => setOpen((wasOpen) => !wasOpen)}
                         className={TOGGLE}
                     >
                         <span className="text-inherit">{open ? "Less" : "More"}</span>
-                        <CaretDownIcon size={16} aria-hidden="true" className={`${CARET} ${open ? "rotate-180" : ""}`} />
+                        <CaretDownIcon
+                            size={16}
+                            aria-hidden="true"
+                            className={`transition-transform duration-300 ${EASE} motion-reduce:transition-none ${open ? "rotate-180" : ""}`}
+                        />
                     </button>
                 )}
             </p>
             <PlateHighlights highlights={highlights} label={`${title} highlights`} />
-            <div id={detailId} inert={!open} className={`${PANEL_BASE} ${open ? PANEL_STATE.open : PANEL_STATE.closed}`}>
-                <div className="overflow-hidden">
-                    <p className="mt-4 text-lg leading-relaxed">{rest.join(" ")}</p>
-                </div>
-            </div>
         </>
     );
 }

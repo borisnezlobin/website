@@ -214,7 +214,7 @@ export function StairWireframe({ mesh, label }: { mesh: StairMesh; label?: strin
         <ArrowsClockwise size={15} weight={autoSpin ? "bold" : "regular"} />
       </button>
       <span className="pointer-events-none absolute bottom-2 left-2.5 text-xs text-muted dark:text-muted-dark">
-        drag to spin · scroll to zoom
+        Drag to spin, scroll to zoom.
       </span>
     </div>
   );
