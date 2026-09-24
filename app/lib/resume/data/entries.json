@@ -75,7 +75,7 @@
         {
           "id": "robot-arm",
           "kind": "project",
-          "name": "Berkeley Robotics Hackathon — LiDAR-guided robot arm",
+          "name": "LiDAR-guided robot arm (Berkeley robotics hackathon)",
           "technologies": [
             "Python",
             "Swift",
@@ -86,27 +86,17 @@
           "maxBullets": 2
         },
         {
-          "id": "hackathons",
-          "kind": "project",
-          "name": "3x Hackathon Winner",
-          "technologies": [
-            ">$15k in prizes won"
-          ],
-          "repoUrl": "https://github.com/borisnezlobin",
-          "weight": 2,
-          "maxBullets": 2
-        },
-        {
           "id": "cac",
           "kind": "project",
-          "name": "2024 Congressional App Challenge Honorable Mention",
+          "name": "AlignMinder — congressional bill search",
           "technologies": [
             "TF-IDF",
             "Scraping"
           ],
           "repoUrl": "https://github.com/borisnezlobin/alignminder",
           "weight": 1,
-          "maxBullets": 1
+          "maxBullets": 1,
+          "award": "Honorable Mention, Congressional App Challenge"
         },
         {
           "id": "public",
@@ -242,6 +232,33 @@
           ],
           "liveUrl": "https://borisnezlobin.com/inca",
           "weight": 1,
+          "maxBullets": 1
+        },
+        {
+          "id": "amelia",
+          "kind": "project",
+          "name": "Amelia — voiceprint conversation memory",
+          "technologies": [
+            "MongoDB",
+            "Python",
+            "audio ML"
+          ],
+          "repoUrl": "https://github.com/borisnezlobin/mongo-hacks",
+          "award": "1st place, MongoDB Build Fest",
+          "weight": 2,
+          "maxBullets": 1
+        },
+        {
+          "id": "arbor",
+          "kind": "project",
+          "name": "Arbor — sealed-bid marketplace for AI agents",
+          "technologies": [
+            "TypeScript",
+            "auctions",
+            "AI agents"
+          ],
+          "award": "Winner, Nozomio Hackathon",
+          "weight": 2,
           "maxBullets": 1
         }
       ]

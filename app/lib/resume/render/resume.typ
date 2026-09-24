@@ -63,9 +63,18 @@
   links.join(" | ")
 }
 
+#let award-mark = box(baseline: 0.14em, image(bytes(sys.inputs.awardMark), format: "svg", height: 0.86em))
+
+#let awarded-name(e) = {
+  let named = [*#e.name*]
+  if "award" not in e { return named }
+  [#named#h(0.3em)#award-mark#h(0.24em)#text(size: 0.92em, e.award)]
+}
+
 #let project(e) = {
   let tech = e.at("technologies", default: ())
-  let title = if tech.len() > 0 [*#e.name* | #tech.map(emph).join(", ")] else [*#e.name*]
+  let named = awarded-name(e)
+  let title = if tech.len() > 0 [#named | #tech.map(emph).join(", ")] else { named }
   pad(top: entry-gap, grid(columns: (1fr, auto), column-gutter: 8pt, title, align(right, project-links(e))))
   bullets(e.bullets)
 }

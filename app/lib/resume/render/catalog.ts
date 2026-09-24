@@ -37,7 +37,10 @@ export const SECTION_ORDER = ["Education", "Experience", "Projects", "Skills"];
 
 export const LEAD_EXPERIENCE_ID = "lockheed";
 
-export const EXPERIENCE_ORDER = [LEAD_EXPERIENCE_ID, "jyv-exp", "freelance", "heron"];
+export const EXPERIENCE_ORDER = [LEAD_EXPERIENCE_ID, "heron", "jyv-exp", "freelance"];
+
+/** Projects the resume leads with when they are on the page; the rest follow by their best-ranked bullet. */
+export const PROJECT_ORDER = ["amelia", "vantage-startup", "enf-research", "arbor"];
 
 export const resumeHeader: ResumeHeader = entriesFile.header;
 

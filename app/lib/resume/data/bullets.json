@@ -142,7 +142,7 @@
  },
  {
   "id": "hack-amelia",
-  "entry": "hackathons",
+  "entry": "amelia",
   "tags": [
    "ml",
    "full-stack",
@@ -158,7 +158,7 @@
  },
  {
   "id": "hack-arbor",
-  "entry": "hackathons",
+  "entry": "arbor",
   "tags": [
    "ml",
    "math",
