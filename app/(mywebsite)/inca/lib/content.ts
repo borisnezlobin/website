@@ -44,7 +44,7 @@ export function buildFaq(trek: TrekData): QA[] {
     },
     {
       q: "What is the highest point of the Inca Trail?",
-      a: `Dead Woman’s Pass (Warmiwañusca), at about ${peak} m by 30-metre topographic data is reached at the midpoint of the trek, at the top of the day-two climb.`,
+      a: `Dead Woman’s Pass (Warmiwañusca), at about ${peak} m by 30-metre topographic data, is reached at the midpoint of the trek, at the top of the day-two climb.`,
     },
     {
       q: "How many stairs is the climb to Dead Woman’s Pass?",

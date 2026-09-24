@@ -48,10 +48,20 @@ export function DayBreakdown({ days }: { days: DayTotals[] }) {
                   <div className={`h-full ${DESCEND}`} style={{ width: `${100 - climbPct}%` }} />
                 </div>
               </div>
-              <div className="mt-1.5 text-sm tabular-nums text-muted dark:text-muted-dark">
-                {intComma(t.upTotal)} climbed · {intComma(t.downTotal)} descended · ±
-                {intComma(t.ambiguousStairs)} maybe
-              </div>
+              <dl className="mt-1.5 flex flex-wrap gap-x-6 gap-y-0.5 text-sm text-muted dark:text-muted-dark">
+                <div className="flex items-baseline gap-1.5">
+                  <dt>Climbed</dt>
+                  <dd className="tabular-nums">{intComma(t.upTotal)}</dd>
+                </div>
+                <div className="flex items-baseline gap-1.5">
+                  <dt>Descended</dt>
+                  <dd className="tabular-nums">{intComma(t.downTotal)}</dd>
+                </div>
+                <div className="flex items-baseline gap-1.5">
+                  <dt>Uncertain</dt>
+                  <dd className="tabular-nums">{intComma(t.ambiguousStairs)}</dd>
+                </div>
+              </dl>
             </div>
           );
         })}

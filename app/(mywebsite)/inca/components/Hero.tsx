@@ -45,7 +45,6 @@ export function Hero({ trek }: { trek: TrekData }) {
           <strong className="font-semibold">
             {intComma(t.expectedLow)} and {intComma(t.expectedHigh)}
           </strong>, depending on their route choices and side trips.
-          .
         </p>
       </div>
 
