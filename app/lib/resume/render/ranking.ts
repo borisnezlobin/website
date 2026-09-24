@@ -1,4 +1,7 @@
-import { bulletsById, catalogBullets, entryCaps, entryMinimums, LEAD_EXPERIENCE_ID, type CatalogBullet } from "./catalog";
+import { bulletsById, catalogBullets, entryCaps, entryMinimums, isProjectEntry, LEAD_EXPERIENCE_ID, type CatalogBullet } from "./catalog";
+
+/** Depth over breadth: a page of one-line projects reads as a list of things touched. */
+const MAX_PROJECT_ENTRIES = 5;
 
 function knownUniqueBullets(ids: string[]): CatalogBullet[] {
     const seen = new Set<string>();
@@ -51,12 +54,22 @@ export function exactBullets(ids: string[]): CatalogBullet[] {
     return knownUniqueBullets(ids);
 }
 
+function withinProjectLimit(entry: string, projects: Set<string>): boolean {
+    if (!isProjectEntry(entry)) return true;
+    if (projects.has(entry)) return true;
+    if (projects.size >= MAX_PROJECT_ENTRIES) return false;
+    projects.add(entry);
+    return true;
+}
+
 export function capPerEntry(bullets: CatalogBullet[]): CatalogBullet[] {
     const caps = entryCaps();
     const used = new Map<string, number>();
+    const projects = new Set<string>();
     return bullets.filter((bullet) => {
         const count = used.get(bullet.entry) ?? 0;
         if (count >= (caps.get(bullet.entry) ?? 0)) return false;
+        if (!withinProjectLimit(bullet.entry, projects)) return false;
         used.set(bullet.entry, count + 1);
         return true;
     });
