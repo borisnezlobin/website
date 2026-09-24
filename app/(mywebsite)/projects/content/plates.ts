@@ -2,6 +2,28 @@ import type { PlateContent } from "./types";
 
 export const PLATES: PlateContent[] = [
     {
+        id: "lockheed",
+        title: "Lockheed Martin",
+        visual: { kind: "figure", figure: "sun" },
+        highlights: ["Solar flare prediction", "980x faster CSV lookups"],
+        summary: "I interned at Lockheed Martin’s Solar & Astrophysics Laboratory in the summer of 2025, building multithreaded computer vision that tracks sunspots and active regions through gigabytes of solar instrument data to help predict flares. I reconstructed magnetic flux from the polarity inversion lines where flares start, joined separately tracked active-region datasets into one, and ran the processing across more than 100 servers. Along the way I wrote a CSV reader that cut lookups in 1.8 GB files from about a minute to 0.07 seconds.",
+        links: [
+            { label: "Side project: solar rotation model", href: "https://github.com/borisnezlobin/fast-solar-rotrate" },
+            { label: "Thread on X", href: "https://x.com/b_nezlobin/status/1973213855754092749" },
+        ],
+    },
+    {
+        id: "robotics",
+        title: "Robotics",
+        visual: { kind: "figure", figure: "heron" },
+        highlights: [{ text: "3x World Championship qualifier", won: true }, "Top 10 autonomous score worldwide", { text: "FIRST Updates Now Top 25", won: true }],
+        summary: "I drove and led software for Kuriosity Robotics. At the 2023 FTC World Championship we were division semifinalists and finished in the top 12 worldwide. I stayed on Kuriosity for two more years after that, helping implement Model Predictive Control, autonomous routines, and computer vision. In my senior year I captained Heron Robotics, and our robot was good enough that World Championship teams copied it. I wrote Heron’s multithreaded robot framework and co-wrote Heron Scout, a scouting app used 2,000 times on six continents.",
+        links: [
+            { label: "Source on GitHub", href: "https://github.com/HeronRobotics/heron" },
+            { label: "Heron Scout", href: "https://heronscout.me" },
+        ],
+    },
+    {
         id: "amelia",
         title: "Amelia",
         visual: { kind: "figure", figure: "amelia" },
@@ -21,33 +43,11 @@ export const PLATES: PlateContent[] = [
         links: [],
     },
     {
-        id: "lockheed",
-        title: "Lockheed Martin",
-        visual: { kind: "figure", figure: "sun" },
-        highlights: ["Solar flare prediction", "980x faster CSV lookups"],
-        summary: "I interned at Lockheed Martin’s Solar & Astrophysics Laboratory in the summer of 2025, building multithreaded computer vision that tracks sunspots and active regions through gigabytes of solar instrument data to help predict flares. I reconstructed magnetic flux from the polarity inversion lines where flares start, joined separately tracked active-region datasets into one, and ran the processing across more than 100 servers. Along the way I wrote a CSV reader that cut lookups in 1.8 GB files from about a minute to 0.07 seconds.",
-        links: [
-            { label: "Side project: solar rotation model", href: "https://github.com/borisnezlobin/fast-solar-rotrate" },
-            { label: "Thread on X", href: "https://x.com/b_nezlobin/status/1973213855754092749" },
-        ],
-    },
-    {
-        id: "robotics",
-        title: "Robotics",
-        visual: { kind: "figure", figure: "heron" },
-        highlights: [{ text: "3x World Championship qualifier", won: true }, "Top 10 autonomous score worldwide", { text: "FIRST Updates Now Top 25", won: true }],
-        summary: "I drove and led software for Kuriosity Robotics, and at the 2023 World Championship we were division semifinalists and won 3rd place for our division’s Inspire Award. I then captained Heron Robotics until we graduated, and our robot was good enough that World Championship teams copied it. I wrote Heron’s multithreaded robot framework and co-wrote Heron Scout, a scouting app used 2,000 times on six continents.",
-        links: [
-            { label: "Source on GitHub", href: "https://github.com/HeronRobotics/heron" },
-            { label: "Heron Scout", href: "https://heronscout.me" },
-        ],
-    },
-    {
         id: "enf",
         title: "Grid frequency data",
         visual: { kind: "figure", figure: "enf" },
         highlights: ["Featured by Hack Club"],
-        summary: "The power grid’s frequency leaves a faint hum in recordings, so a second-by-second log of it can tell you when a recording was made. In 2024 I reverse-engineered a German provider’s live feed and built the only up-to-date public record of the European grid’s frequency, losing fewer than ten seconds of data a day. It ran for about a month, until the provider noticed and blocked it.",
+        summary: "The power grid’s frequency leaves a faint hum in recordings, so a second-by-second log of it can tell you when a recording was made. In 2024 I reverse-engineered a German provider’s live feed and built the only up-to-date public record of the European grid’s frequency, losing fewer than ten seconds of data a day. It ran for about a month, until the provider reached out and asked very nicely for me to stop.",
         links: [
             { label: "Read the writeup", href: "/writing/enf-data" },
             { label: "Source on GitHub", href: "https://github.com/borisnezlobin/enf" },
@@ -66,7 +66,7 @@ export const PLATES: PlateContent[] = [
         title: "Client sites",
         visual: { kind: "clients" },
         highlights: ["10,000+ monthly users"],
-        summary: "I design, build, and run websites for The Journal For Youth Voice, Palo Alto Stanford Aquatics, and G Studio Productions. I cut their hosting and platform bills by more than 95%, and the CMS I wrote for JYV made publishing three times faster.",
+        summary: "I do the branding and design for The Journal For Youth Voice, Palo Alto Stanford Aquatics, and G Studio Productions, and I build and run their websites. I cut their hosting and platform bills by more than 95%, and the CMS I wrote for JYV made publishing three times faster.",
         links: [
             { label: "thejyv.com", href: "https://thejyv.com" },
             { label: "pasa-rinconada.org", href: "https://pasa-rinconada.org" },

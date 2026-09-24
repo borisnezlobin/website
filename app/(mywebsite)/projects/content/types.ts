@@ -22,4 +22,6 @@ export type IndexRow = {
     name: string;
     what: string;
     href?: string;
+    /** Marks a row that won something; it carries the award mark on the page. */
+    won?: true;
 };
