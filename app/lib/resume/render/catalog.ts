@@ -67,3 +67,11 @@ export function entryMinimums(): Map<string, number> {
         ),
     );
 }
+
+const projectEntryIds = new Set(
+    entriesFile.sections.flatMap((section) => section.entries.filter((entry) => entry.kind === "project").map((entry) => entry.id)),
+);
+
+export function isProjectEntry(entryId: string): boolean {
+    return projectEntryIds.has(entryId);
+}
