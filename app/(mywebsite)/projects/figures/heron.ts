@@ -8,7 +8,7 @@ import { LOOP_SECONDS, advanceRobot } from "./heron/timeline";
 import type { FigureSpec } from "./types";
 
 const CELL = 8;
-const STILL_MOMENT = 9.4;
+const STILL_MOMENT = 13.2;
 
 export const heronFigure: FigureSpec = {
     cell: CELL,

@@ -10,18 +10,28 @@ export const ROBOT_INCHES = 18;
 
 const START: Point = [118.62, 127.55];
 const SHOOT: Point = [80, 80];
-const SPIKE_TWO: Point = [118.02, 59.01];
+const SPIKE_TWO_CONTROL: Point = [82.18, 70.44];
+const SPIKE_TWO_CONTROL_1: Point = [105.66, 64.7];
+const SPIKE_TWO: Point = [117.4, 58.7];
+const GATE_CONTROL: Point = [90, 58];
+const GATE_CONTROL_1: Point = [111, 47.3];
 const GATE_INTAKE: Point = [129.7, 57.8];
-const SPIKE_ONE: Point = [105.02, 82.61];
-const LEAVE: Point = [82.61, 106.22];
+const SPIKE_ONE: Point = [107.4, 84.18];
+const LEAVE: Point = [82.18, 105.66];
 
 export const START_HEADING = 225;
+const SHOOT_HEADING = 295;
+const SPIKE_TWO_HEADING = -15;
+const GATE_HEADING = 30;
+const SPIKE_ONE_HEADING = 0;
 
 export const WAYPOINTS: Point[] = [START, SHOOT, SPIKE_TWO, GATE_INTAKE, SPIKE_ONE, LEAVE];
-export const SHOOT_POSE = SHOOT;
+const GATE_CYCLE_COUNT = 4;
 
 export const STEP_NAMES = [
-    "Start", "Shoot preload", "Spike 2", "Shoot", "Gate cycle 1", "Gate cycle 2", "Gate cycle 3", "Spike 1", "Leave",
+    "Start", "Shoot preload", "Spike 2", "Shoot",
+    "Gate cycle 1", "Gate cycle 2", "Gate cycle 3", "Gate cycle 4",
+    "Spike 1", "Leave and shoot",
 ];
 
 const CURVE_SAMPLES = 48;
@@ -41,35 +51,46 @@ const measured = (points: Point[]): RoutePiece => {
     return { points, lengths, total: lengths[lengths.length - 1] };
 };
 
-const line = (a: Point, b: Point) => measured([a, b]);
+const polyline = (...points: Point[]) => measured(points);
 
 const cubic = (a: Point, b: Point, c: Point, d: Point) =>
     measured(Array.from({ length: CURVE_SAMPLES + 1 }, (_, k) => cubicAt(a, b, c, d, k / CURVE_SAMPLES)));
 
+const START_TO_SHOOT = 0;
+const SHOOT_TO_SPIKE_TWO = 1;
+const SPIKE_TWO_TO_SHOOT = 2;
+const SHOOT_TO_GATE = 3;
+const GATE_TO_SHOOT = 4;
+const SHOOT_TO_SPIKE_ONE = 5;
+const SPIKE_ONE_TO_LEAVE = 6;
+
 export const PIECES: RoutePiece[] = [
-    line(START, SHOOT),
-    cubic(SHOOT, [82.61, 70.81], [106.22, 65.01], SPIKE_TWO),
-    line(SPIKE_TWO, SHOOT),
-    cubic(SHOOT, [90, 58], [111, 47.3], GATE_INTAKE),
-    line(GATE_INTAKE, SHOOT),
-    line(SHOOT, SPIKE_ONE),
-    line(SPIKE_ONE, LEAVE),
+    polyline(START, SHOOT),
+    polyline(SHOOT, SPIKE_TWO_CONTROL, SPIKE_TWO_CONTROL_1, SPIKE_TWO),
+    polyline(SPIKE_TWO, SHOOT),
+    cubic(SHOOT, GATE_CONTROL, GATE_CONTROL_1, GATE_INTAKE),
+    polyline(GATE_INTAKE, SHOOT),
+    polyline(SHOOT, SPIKE_ONE),
+    polyline(SPIKE_ONE, LEAVE),
 ];
 
 const gateCycle = (step: number): RouteLeg[] => [
-    { piece: 3, fromHeading: 295, toHeading: 30, step, shootAfter: false },
-    { piece: 4, fromHeading: 30, toHeading: 295, step, shootAfter: true },
+    { piece: SHOOT_TO_GATE, fromHeading: SHOOT_HEADING, toHeading: GATE_HEADING, step, shootAfter: false },
+    { piece: GATE_TO_SHOOT, fromHeading: GATE_HEADING, toHeading: SHOOT_HEADING, step, shootAfter: true },
 ];
 
+const FIRST_GATE_STEP = 4;
+
+const gateCycles = Array.from({ length: GATE_CYCLE_COUNT }, (_, k) => gateCycle(FIRST_GATE_STEP + k)).flat();
+const spikeOneStep = FIRST_GATE_STEP + GATE_CYCLE_COUNT;
+
 export const LEGS: RouteLeg[] = [
-    { piece: 0, fromHeading: START_HEADING, toHeading: 315, step: 1, shootAfter: true },
-    { piece: 1, fromHeading: 315, toHeading: -15, step: 2, shootAfter: false },
-    { piece: 2, fromHeading: -15, toHeading: 295, step: 3, shootAfter: true },
-    ...gateCycle(4),
-    ...gateCycle(5),
-    ...gateCycle(6),
-    { piece: 5, fromHeading: 295, toHeading: 0, step: 7, shootAfter: false },
-    { piece: 6, fromHeading: 0, toHeading: 0, step: 8, shootAfter: false },
+    { piece: START_TO_SHOOT, fromHeading: START_HEADING, toHeading: SHOOT_HEADING, step: 1, shootAfter: true },
+    { piece: SHOOT_TO_SPIKE_TWO, fromHeading: SHOOT_HEADING, toHeading: SPIKE_TWO_HEADING, step: 2, shootAfter: false },
+    { piece: SPIKE_TWO_TO_SHOOT, fromHeading: SPIKE_TWO_HEADING, toHeading: SHOOT_HEADING, step: 3, shootAfter: true },
+    ...gateCycles,
+    { piece: SHOOT_TO_SPIKE_ONE, fromHeading: SHOOT_HEADING, toHeading: SPIKE_ONE_HEADING, step: spikeOneStep, shootAfter: false },
+    { piece: SPIKE_ONE_TO_LEAVE, fromHeading: SPIKE_ONE_HEADING, toHeading: SPIKE_ONE_HEADING, step: spikeOneStep + 1, shootAfter: true },
 ];
 
 export const pointAlong = (piece: RoutePiece, fraction: number): Point => {

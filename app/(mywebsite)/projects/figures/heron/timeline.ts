@@ -5,7 +5,7 @@ type PhaseKind = "hold" | "move" | "shoot" | "rest";
 
 type Phase = { kind: PhaseKind; start: number; duration: number; step: number; leg: number };
 
-export const LOOP_SECONDS = 16;
+export const LOOP_SECONDS = 20;
 const START_HOLD = 0.9;
 const SHOOT_PAUSE = 0.5;
 const REST = 1.7;
