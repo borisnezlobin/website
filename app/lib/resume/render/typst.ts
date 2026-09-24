@@ -4,6 +4,7 @@ import { NodeCompiler, type NodeTypstCompileResult, type NodeTypstDocument } fro
 import { PAGE, usablePageHeight } from "./typesetting";
 import type { ResumeSelection } from "./selection";
 import { splitSvgPages } from "./svg-pages";
+import { awardMarkSvg } from "./award-mark";
 
 export const RENDER_DIR = path.join(process.cwd(), "app", "lib", "resume", "render");
 
@@ -52,7 +53,7 @@ export function compileSelection(selection: ResumeSelection, texture: string): M
     const typst = loadCompiler();
     const result = typst.compile({
         mainFileContent: loadTemplate(),
-        inputs: { selection: JSON.stringify(selection), texture },
+        inputs: { selection: JSON.stringify(selection), texture, awardMark: awardMarkSvg() },
     });
     const document = result.result;
     if (!document) throw new Error(`resume failed to compile: ${describeFailure(typst, result)}`);
