@@ -5,7 +5,7 @@ export const PLATES: PlateContent[] = [
         id: "amelia",
         title: "Amelia",
         visual: { kind: "figure", figure: "amelia" },
-        highlights: ["1st place at MongoDB .local Build Fest"],
+        highlights: [{ text: "1st place at MongoDB .local Build Fest", won: true }],
         summary: "Amelia keeps a record of who said what in a group conversation, so deaf and hard-of-hearing people can follow fast talk and ask about it later. It recognizes each voice, learns names from context, and answers questions by quoting what was said.",
         links: [
             { label: "Source on GitHub", href: "https://github.com/borisnezlobin/mongo-hacks" },
@@ -35,7 +35,7 @@ export const PLATES: PlateContent[] = [
         id: "robotics",
         title: "Robotics",
         visual: { kind: "figure", figure: "heron" },
-        highlights: ["3x World Championship qualifier", "Top 10 autonomous score worldwide", "FIRST Updates Now Top 25"],
+        highlights: [{ text: "3x World Championship qualifier", won: true }, "Top 10 autonomous score worldwide", { text: "FIRST Updates Now Top 25", won: true }],
         summary: "I drove and led software for Kuriosity Robotics, and at the 2023 World Championship we were division semifinalists and won 3rd place for our division’s Inspire Award. I then captained Heron Robotics until we graduated, and our robot was good enough that World Championship teams copied it. I wrote Heron’s multithreaded robot framework and co-wrote Heron Scout, a scouting app used 2,000 times on six continents.",
         links: [
             { label: "Source on GitHub", href: "https://github.com/HeronRobotics/heron" },
@@ -57,7 +57,7 @@ export const PLATES: PlateContent[] = [
         id: "arbor",
         title: "Arbor",
         visual: { kind: "figure", figure: "arbor" },
-        highlights: ["$2,000 at the Nozomio Hackathon"],
+        highlights: [{ text: "$2,000 at the Nozomio Hackathon", won: true }],
         summary: "Arbor splits a large task among specialized AI agents and auctions off each piece, paying the winner the runner-up’s price so no agent gains by padding its bid. In the judges’ demo it did the task better than Claude Opus 4.6 and for less money.",
         links: [{ label: "Try Arbor", href: "https://tryarbor.vercel.app" }],
     },

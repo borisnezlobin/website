@@ -1,39 +1,20 @@
 /**
- * The award ribbon set beside a project that won something: two notched tails under a struck medallion.
- * Drawn once as an SVG so Typst can place it inline at the entry's own type size.
- * The ink outline carries the shape, so the red tails still read when the page is printed in grayscale.
+ * The award mark beside a project that won something: Phosphor's Medal icon, bold weight (MIT licensed),
+ * the same icon the projects page uses, so the page and the PDF carry one mark.
+ * Drawn in ink alone, so it reads the same in grayscale print.
  */
 
 const INK = "#1b1a19";
-const RED = "#cc2a26";
 
-const LEFT_TAIL = "26,38 44,38 30,98 17,78 4,82";
-const RIGHT_TAIL = "58,38 40,38 54,98 67,78 80,82";
-
-const MEDALLION_CENTRE = { x: 42, y: 30 };
-const MEDALLION_RADIUS = 26;
-const CORE_RADIUS = 10;
+const MEDAL_BOLD_PATH =
+    "M220,96A92,92,0,1,0,68,165.69V240a12,12,0,0,0,17.37,10.73L128,229.42l42.64,21.31A12,12,0,0,0,188,240V165.69A91.86,91.86,0,0,0,220,96ZM60,96a68,68,0,1,1,68,68A68.07,68.07,0,0,1,60,96ZM164,220.59l-30.64-15.32a12,12,0,0,0-10.74,0L92,220.58V180.66a92,92,0,0,0,72,0ZM128,148A52,52,0,1,0,76,96,52.06,52.06,0,0,0,128,148Zm0-80a28,28,0,1,1-28,28A28,28,0,0,1,128,68Z";
 
 let cached: string | null = null;
 
-function tail(points: string): string {
-    return `<polygon points="${points}" fill="${RED}" stroke="${INK}" stroke-width="3.5" stroke-linejoin="round"/>`;
-}
-
-function medallion(): string {
-    const { x, y } = MEDALLION_CENTRE;
-    return [
-        `<circle cx="${x}" cy="${y}" r="${MEDALLION_RADIUS}" fill="${INK}"/>`,
-        `<circle cx="${x}" cy="${y}" r="${CORE_RADIUS}" fill="${RED}"/>`,
-    ].join("");
-}
-
 export function awardMarkSvg(): string {
     cached ??= [
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 84 100" width="84" height="100">`,
-        tail(LEFT_TAIL),
-        tail(RIGHT_TAIL),
-        medallion(),
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256">`,
+        `<path d="${MEDAL_BOLD_PATH}" fill="${INK}"/>`,
         `</svg>`,
     ].join("");
     return cached;
