@@ -12,7 +12,8 @@ export type PlateContent = {
     title: string;
     visual: PlateVisualSpec;
     highlights: PlateHighlight[];
-    summary: string;
+    /** One paragraph, split into sentences: the first stays visible, the rest expand. */
+    summary: [lede: string, ...rest: string[]];
     links: PlateLink[];
 };
 
