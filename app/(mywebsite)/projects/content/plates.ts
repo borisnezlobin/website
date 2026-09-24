@@ -17,7 +17,7 @@ export const PLATES: PlateContent[] = [
         title: "Robotics",
         visual: { kind: "figure", figure: "heron" },
         highlights: [{ text: "3x World Championship qualifier", won: true }, "Top 10 autonomous score worldwide", { text: "FIRST Updates Now Top 25", won: true }],
-        summary: "I drove and led software for Kuriosity Robotics. At the 2023 FTC World Championship we were division semifinalists and finished in the top 12 worldwide. I stayed on Kuriosity for two more years after that, helping implement Model Predictive Control, autonomous routines, and computer vision. In my senior year I captained Heron Robotics, and our robot was good enough that World Championship teams copied it. I wrote Heron’s multithreaded robot framework and co-wrote Heron Scout, a scouting app used 2,000 times on six continents.",
+        summary: "I led software for Kuriosity Robotics, top 12 at the 2023 FTC World Championship, where I helped implement Model Predictive Control, autonomous routines, and computer vision. I went on to captain Heron Robotics, where I wrote the multithreaded robot framework and co-wrote Heron Scout, a scouting app used 2,000 times on six continents. Our robot was good enough that World Championship teams copied it.",
         links: [
             { label: "Source on GitHub", href: "https://github.com/HeronRobotics/heron" },
             { label: "Heron Scout", href: "https://heronscout.me" },
