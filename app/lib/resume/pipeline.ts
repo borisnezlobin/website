@@ -89,7 +89,10 @@ async function runStages(context: PipelineContext): Promise<void> {
     const prefilter = prefilterQuery(context.query);
     if (!prefilter.allowed) return recordDecline(context, `prefilter: ${prefilter.reason}`);
 
-    const [reusable, limitMessage] = await Promise.all([findReusableSlug(context), rateLimitMessage(context.ipHash)]);
+    const [reusable, limitMessage] = await Promise.all([
+        findReusableSlug(context),
+        context.unlimited ? Promise.resolve(null) : rateLimitMessage(context.ipHash),
+    ]);
     if (reusable) return recordReuse(context, reusable);
     if (limitMessage) return recordFailure(context, limitMessage, "rate limited");
 
@@ -103,8 +106,9 @@ export async function runResumePipeline(
     input: ResumeRequestInput,
     ip: string,
     emit: (event: ProgressEvent) => void,
+    unlimited = false,
 ): Promise<void> {
-    const context = createContext(input, ip, emit);
+    const context = createContext(input, ip, emit, unlimited);
     try {
         await runStages(context);
     } catch (error) {

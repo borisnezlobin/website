@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { runResumePipeline } from "@/app/lib/resume/pipeline";
 import { clientIpFrom } from "@/app/lib/resume/request-meta";
 import { isRecord } from "@/app/lib/resume/json";
+import { isAdmin } from "@/app/lib/admin-auth";
 import type { ProgressEvent, ResumeRequestInput } from "@/app/lib/resume/types";
 
 export const runtime = "nodejs";
@@ -15,7 +16,7 @@ async function readInput(request: NextRequest): Promise<ResumeRequestInput | nul
     return { query: body.query, slugHint };
 }
 
-function progressStream(input: ResumeRequestInput, ip: string): ReadableStream<Uint8Array> {
+function progressStream(input: ResumeRequestInput, ip: string, unlimited: boolean): ReadableStream<Uint8Array> {
     const encoder = new TextEncoder();
     return new ReadableStream({
         async start(controller) {
@@ -26,7 +27,7 @@ function progressStream(input: ResumeRequestInput, ip: string): ReadableStream<U
                     // The visitor closed the page; keep going so the resume still gets saved.
                 }
             };
-            await runResumePipeline(input, ip, emit);
+            await runResumePipeline(input, ip, emit, unlimited);
             try {
                 controller.close();
             } catch {}
@@ -37,7 +38,7 @@ function progressStream(input: ResumeRequestInput, ip: string): ReadableStream<U
 export async function POST(request: NextRequest) {
     const input = await readInput(request);
     if (!input) return NextResponse.json({ error: "Send JSON with a query string." }, { status: 400 });
-    return new Response(progressStream(input, clientIpFrom(request.headers)), {
+    return new Response(progressStream(input, clientIpFrom(request.headers), isAdmin(request)), {
         headers: {
             "Content-Type": "application/x-ndjson; charset=utf-8",
             "Cache-Control": "no-store",

@@ -14,6 +14,8 @@ export type LlmCallLog = Omit<JsonCompletion<unknown>, "value"> & { purpose: str
 
 export type PipelineContext = {
     input: ResumeRequestInput;
+    /** Set when the request carries the admin password: the owner regenerating a slug is not rate limited. */
+    unlimited: boolean;
     query: string;
     normalizedQuery: string;
     jobUrl: string | null;
@@ -26,11 +28,12 @@ export type PipelineContext = {
     llmCalls: LlmCallLog[];
 };
 
-export function createContext(input: ResumeRequestInput, ip: string, emit: PipelineContext["emit"]): PipelineContext {
+export function createContext(input: ResumeRequestInput, ip: string, emit: PipelineContext["emit"], unlimited = false): PipelineContext {
     const query = typeof input.query === "string" ? input.query.trim() : "";
     const startedAt = Date.now();
     return {
         input,
+        unlimited,
         query,
         normalizedQuery: normalizeQuery(query),
         jobUrl: findUrl(query),
