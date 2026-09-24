@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRightIcon, ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
 import { FOCUS_RING } from "@/app/components/action";
 import type { IndexRow } from "../content/types";
+import { AwardMark } from "./award-mark";
 import { isInternalHref } from "./project-link";
 
 export const INDEX_SECTION_ID = "more-projects";
@@ -23,6 +24,15 @@ function groupByYear(rows: IndexRow[]): YearGroup[] {
     return groups;
 }
 
+function RowName({ row, className = "" }: { row: IndexRow; className?: string }) {
+    return (
+        <span className={`${NAME} ${className}`}>
+            {row.name}
+            {row.won && <AwardMark size={14} />}
+        </span>
+    );
+}
+
 function RowLink({ row, href }: { row: IndexRow; href: string }) {
     const external = !isInternalHref(href);
     const Arrow = external ? ArrowUpRightIcon : ArrowRightIcon;
@@ -32,7 +42,7 @@ function RowLink({ row, href }: { row: IndexRow; href: string }) {
             className={`group ${ROW_SHAPE} ${FOCUS_RING} transition-colors duration-150 hover:bg-black/5 dark:hover:bg-white/5`}
             {...(external ? NEW_TAB_PROPS : {})}
         >
-            <span className={`${NAME} transition-colors duration-150 group-hover:text-primary`}>{row.name}</span>
+            <RowName row={row} className="transition-colors duration-150 group-hover:text-primary" />
             <span className={WHAT}>{row.what}</span>
             <Arrow aria-hidden="true" size={16} className="hidden self-center text-primary opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 sm:block" />
             {external && <span className="sr-only"> (opens in a new tab)</span>}
@@ -44,7 +54,7 @@ function Row({ row }: { row: IndexRow }) {
     if (row.href) return <RowLink row={row} href={row.href} />;
     return (
         <p className={ROW_SHAPE}>
-            <span className={NAME}>{row.name}</span>
+            <RowName row={row} />
             <span className={WHAT}>{row.what}</span>
         </p>
     );
