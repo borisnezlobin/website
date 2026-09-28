@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { ArticleIcon, CameraIcon, FileTextIcon, SignOutIcon } from "@phosphor-icons/react/dist/ssr";
+import { ArticleIcon, CameraIcon, FileTextIcon, ImageSquareIcon, SignOutIcon } from "@phosphor-icons/react/dist/ssr";
 import type { Icon } from "@phosphor-icons/react";
 import { useAdminAuth } from "./admin-auth";
 import { Button } from "./button";
@@ -13,6 +13,7 @@ const ADMIN_SECTIONS: AdminSection[] = [
   { href: "/admin/blog", label: "Blog", icon: ArticleIcon },
   { href: "/admin/photography", label: "Photography", icon: CameraIcon },
   { href: "/admin/resume", label: "Resume", icon: FileTextIcon },
+  { href: "/admin/post-studio", label: "Post studio", icon: ImageSquareIcon },
 ];
 
 function isCurrentSection(pathname: string, href: string) {
