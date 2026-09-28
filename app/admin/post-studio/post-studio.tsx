@@ -211,9 +211,9 @@ export function PostStudio({ articles }: { articles: StudioArticle[] }) {
     };
 
     return (
-        <div className="pagepad">
+        <div>
             <div className="mb-6">
-                <h1 className="text-3xl">Post studio</h1>
+                <h1 className="text-2xl font-semibold">Post studio</h1>
                 <p className="text-muted dark:text-muted-dark mt-1">
                     Wrap an article in the spin-drive texture for Instagram. Move your cursor over the canvas to steer the light.
                 </p>
