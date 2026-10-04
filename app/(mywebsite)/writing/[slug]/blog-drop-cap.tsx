@@ -118,6 +118,18 @@ function srOnlyLetter(letter: string): HTMLSpanElement {
     return el;
 }
 
+function wrapLedeWord(node: Text, before: string, rest: string) {
+    const parent = node.parentNode as Node;
+    const sp = rest.search(/\s/);
+    const word = document.createElement("span");
+    word.className = "blog-lede-word";
+    word.textContent = sp === -1 ? rest : rest.slice(0, sp);
+    const afterNode = document.createTextNode(sp === -1 ? "" : rest.slice(sp));
+    node.textContent = before;
+    parent.insertBefore(afterNode, node.nextSibling);
+    parent.insertBefore(word, afterNode);
+}
+
 function enhance(p: HTMLElement, fullLede: boolean) {
     if (p.dataset.leded === "1") return;
     const info = findFirstLetter(p);
@@ -128,21 +140,12 @@ function enhance(p: HTMLElement, fullLede: boolean) {
     p.dataset.leded = "1";
 
     const node = info.node;
-    const parent = node.parentNode as Node;
     const text = node.textContent ?? "";
     const before = text.slice(0, info.index);
     const rest = text.slice(info.index + 1);
 
     if (fullLede) {
-        const sp = rest.search(/\s/);
-        const restOfWord = sp === -1 ? rest : rest.slice(0, sp);
-        const word = document.createElement("span");
-        word.className = "blog-lede-word";
-        word.textContent = restOfWord;
-        const afterNode = document.createTextNode(sp === -1 ? "" : rest.slice(sp));
-        node.textContent = before;
-        parent.insertBefore(afterNode, node.nextSibling);
-        parent.insertBefore(word, afterNode);
+        wrapLedeWord(node, before, rest);
         p.classList.add("blog-lede");
     } else {
         node.textContent = before + rest;
@@ -152,6 +155,29 @@ function enhance(p: HTMLElement, fullLede: boolean) {
     p.insertBefore(cap, p.firstChild);
 }
 
+// Obsidian exports wrap paragraphs in .el-p and sections in .heading-children; Gasp exports bare siblings in <article>.
+const OPENER_SELECTOR = ".el-p:first-of-type > p, article > p:first-of-type";
+
+function obsidianSectionOpeners(root: Element): HTMLElement[] {
+    return Array.from(root.querySelectorAll(".heading-children"))
+        .filter((hc) => /^H[12]$/.test(hc.previousElementSibling?.tagName ?? ""))
+        .map((hc) => hc.querySelector<HTMLElement>(".el-p:first-of-type > p"))
+        .filter((p): p is HTMLElement => p !== null);
+}
+
+function gaspSectionOpeners(root: Element): HTMLElement[] {
+    return Array.from(root.querySelectorAll<HTMLElement>("article > :is(h1, h2) + p"));
+}
+
+function enhanceArticle(root: Element) {
+    const opener = root.querySelector<HTMLElement>(OPENER_SELECTOR);
+    if (opener) enhance(opener, true);
+
+    [...obsidianSectionOpeners(root), ...gaspSectionOpeners(root)]
+        .filter((p) => p !== opener)
+        .forEach((p) => enhance(p, false));
+}
+
 export function BlogDropCap() {
     useEffect(() => {
         let cancelled = false;
@@ -159,18 +185,7 @@ export function BlogDropCap() {
             try { await document.fonts.load("48px vectra", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"); } catch { /* ignore */ }
             if (cancelled) return;
             const root = document.querySelector(".blog-article");
-            if (!root) return;
-
-            const first = root.querySelector<HTMLElement>(".el-p:first-of-type > p");
-            if (first) enhance(first, true);
-
-            root.querySelectorAll(".heading-children").forEach((hc) => {
-                const prev = hc.previousElementSibling;
-                if (prev && (prev.tagName === "H1" || prev.tagName === "H2")) {
-                    const sp = hc.querySelector<HTMLElement>(".el-p:first-of-type > p");
-                    if (sp && sp !== first) enhance(sp, false);
-                }
-            });
+            if (root) enhanceArticle(root);
         })();
         return () => { cancelled = true; };
     }, []);
