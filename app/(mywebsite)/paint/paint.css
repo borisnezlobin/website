@@ -1,0 +1,144 @@
+.paint-studio {
+  --paint-surface: 245 245 245;
+  --paint-panel: 235 235 234;
+  --paint-raised: 223 223 221;
+  --paint-hover: 212 212 210;
+  --paint-line: 201 201 198;
+  --paint-ink: 60 60 60;
+  --paint-ink-muted: 95 95 95;
+  --paint-ink-faint: 106 106 106;
+  --paint-canvas: 228 228 228;
+  --paint-accent: 204 42 38;
+  --paint-accent-strong: 168 33 30;
+  --color-surface: rgb(var(--paint-surface));
+  --color-panel: rgb(var(--paint-panel));
+  --color-raised: rgb(var(--paint-raised));
+  --color-hover: rgb(var(--paint-hover));
+  --color-line: rgb(var(--paint-line));
+  --color-ink: rgb(var(--paint-ink));
+  --color-ink-muted: rgb(var(--paint-ink-muted));
+  --color-ink-faint: rgb(var(--paint-ink-faint));
+  --color-canvas: rgb(var(--paint-canvas));
+  --color-accent: rgb(var(--paint-accent));
+  --color-accent-strong: rgb(var(--paint-accent-strong));
+  --color-wet: var(--color-accent);
+  --color-danger: var(--color-accent);
+  --paint-shadow-raised: 0 1px 2px rgb(0 0 0 / 0.08), 0 8px 24px -12px rgb(0 0 0 / 0.18);
+  --paint-shadow-stage: 0 30px 80px -30px rgb(0 0 0 / 0.35);
+  --shadow-ring: 0 0 0 2px var(--color-accent);
+  --ease-out-soft: cubic-bezier(0.2, 0, 0, 1);
+  --radius-control: 0.625rem;
+  --radius-panel: 1.125rem;
+  --radius-stage: 1.375rem;
+  color: var(--color-ink);
+}
+
+.dark .paint-studio {
+  --paint-surface: 26 23 20;
+  --paint-panel: 33 29 25;
+  --paint-raised: 44 39 34;
+  --paint-hover: 55 49 43;
+  --paint-line: 67 60 53;
+  --paint-ink: 208 208 208;
+  --paint-ink-muted: 171 171 171;
+  --paint-ink-faint: 153 153 153;
+  --paint-canvas: 222 222 222;
+  --paint-accent: 233 100 87;
+  --paint-accent-strong: 240 123 111;
+  --color-surface: rgb(var(--paint-surface));
+  --color-panel: rgb(var(--paint-panel));
+  --color-raised: rgb(var(--paint-raised));
+  --color-hover: rgb(var(--paint-hover));
+  --color-line: rgb(var(--paint-line));
+  --color-ink: rgb(var(--paint-ink));
+  --color-ink-muted: rgb(var(--paint-ink-muted));
+  --color-ink-faint: rgb(var(--paint-ink-faint));
+  --color-canvas: rgb(var(--paint-canvas));
+  --color-accent: rgb(var(--paint-accent));
+  --color-accent-strong: rgb(var(--paint-accent-strong));
+  --paint-shadow-raised: 0 1px 0 rgb(255 255 255 / 0.04) inset, 0 1px 2px rgb(0 0 0 / 0.4), 0 8px 24px -12px rgb(0 0 0 / 0.6);
+  --paint-shadow-stage: 0 1px 0 rgb(255 255 255 / 0.05) inset, 0 30px 80px -30px rgb(0 0 0 / 0.8);
+}
+
+.paint-studio :focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.paint-studio .text-label {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  font-weight: 500;
+  color: var(--color-ink-muted);
+}
+
+.paint-studio .text-value {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: var(--color-ink);
+  font-variant-numeric: tabular-nums;
+}
+
+.paint-studio .text-caption {
+  font-size: 0.875rem;
+  line-height: 1.375;
+  color: var(--color-ink-faint);
+}
+
+.paint-studio .text-section {
+  font-size: 1rem;
+  line-height: 1.5rem;
+  font-weight: 600;
+  color: var(--color-ink);
+}
+
+.paint-studio .range {
+  appearance: none;
+  background: transparent;
+  width: 100%;
+  height: 1.75rem;
+  cursor: pointer;
+  --fill: 50%;
+}
+.paint-studio .range::-webkit-slider-runnable-track {
+  height: 0.375rem;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-ink-muted) var(--fill), var(--color-raised) var(--fill));
+}
+.paint-studio .range::-moz-range-track {
+  height: 0.375rem;
+  border-radius: 999px;
+  background: linear-gradient(to right, var(--color-ink-muted) var(--fill), var(--color-raised) var(--fill));
+}
+.paint-studio .range::-webkit-slider-thumb {
+  appearance: none;
+  width: 1.125rem;
+  height: 1.125rem;
+  margin-top: -0.375rem;
+  border-radius: 999px;
+  background: var(--color-ink);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+  transition-property: scale;
+  transition-duration: 150ms;
+  transition-timing-function: var(--ease-out-soft);
+}
+.paint-studio .range::-moz-range-thumb {
+  width: 1.125rem;
+  height: 1.125rem;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-ink);
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.35);
+}
+.paint-studio .range:active::-webkit-slider-thumb {
+  scale: 1.15;
+}
+.paint-studio .range:focus-visible {
+  outline: none;
+}
+.paint-studio .range:focus-visible::-webkit-slider-thumb {
+  box-shadow: 0 0 0 3px var(--color-accent);
+}
+.paint-studio .range:focus-visible::-moz-range-thumb {
+  box-shadow: 0 0 0 3px var(--color-accent);
+}

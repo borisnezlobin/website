@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.668.0",
+    "@imgly/background-removal": "1.7.0",
+    "@mediapipe/tasks-vision": "0.10.21",
     "@myriaddreamin/typst-ts-node-compiler": "^0.7.0",
     "@phosphor-icons/react": "^2.1.8",
     "@prisma/adapter-neon": "7.3.0",
@@ -22,6 +24,7 @@
     "@vercel/og": "^0.5.20",
     "@vercel/speed-insights": "^1.0.1",
     "exifr": "^7.1.3",
+    "heic-to": "1.6.5",
     "image-pixels": "^2.2.2",
     "isbot": "^5.1.40",
     "next": "15.5.7",
