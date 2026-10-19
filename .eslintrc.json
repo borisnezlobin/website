@@ -15,7 +15,9 @@
         "app/components/action.tsx",
         "app/(mywebsite)/projects/**/*.{ts,tsx}",
         "app/(mywebsite)/contact/**/*.{ts,tsx}",
-        "app/lib/spin-drive/**/*.ts"
+        "app/lib/spin-drive/**/*.ts",
+        "app/lib/sliced-shader/**/*.ts",
+        "app/(mywebsite)/scene-lab/**/*.{ts,tsx}"
       ],
       "rules": {
         "complexity": [

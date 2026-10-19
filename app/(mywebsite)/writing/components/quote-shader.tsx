@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { plateColors, stepSlice } from "@/app/lib/sliced-shader/plate";
+import { createSlicedProgram, type SlicedProgram } from "@/app/lib/sliced-shader/program";
 import { drawnLengthOf, Illustration, loadIllustration } from "./illustration-geometry";
 
 interface QuoteShaderProps {
@@ -42,95 +44,6 @@ const ILLUSTRATIONS = [
         },
     },
 ];
-
-const VERT = `
-attribute vec2 aUnit;
-uniform vec4 uQuad;   // x, y, w, h in canvas pixels
-uniform vec2 uCanvas; // canvas size in pixels
-varying vec2 vUv;
-void main() {
-    vec2 p = uQuad.xy + aUnit * uQuad.zw;
-    gl_Position = vec4(p.x / uCanvas.x * 2.0 - 1.0, 1.0 - p.y / uCanvas.y * 2.0, 0.0, 1.0);
-    vUv = aUnit;
-}
-`;
-
-const FRAG = `
-precision highp float;
-varying vec2 vUv;
-uniform sampler2D uTex;
-uniform vec2 uRes;
-uniform float uProgress;
-uniform float uBandPx;
-uniform float uAmp;
-uniform float uDamage;
-uniform float uSeed;
-
-float hash(float n) { return fract(sin(n) * 43758.5453123); }
-float hash2(vec2 p) { return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453); }
-float vnoise(float x) {
-    float i = floor(x), f = fract(x);
-    return mix(hash(i), hash(i + 1.0), f * f * (3.0 - 2.0 * f));
-}
-vec4 samp(vec2 uv) {
-    return (uv.x < 0.0 || uv.x > 1.0 || uv.y < 0.0 || uv.y > 1.0) ? vec4(0.0) : texture2D(uTex, uv);
-}
-
-void main() {
-    vec2 px = vUv * uRes;
-    vec2 dir = normalize(vec2(1.0, -1.0));
-    vec2 nrm = vec2(-dir.y, dir.x);
-
-    // Band index in band-width units; small values keep the hash unbiased (no net drift).
-    float t = dot(px, nrm) / uBandPx;
-    // Bounded monotonic warp -> variable band widths (thin and thick) with no overlap.
-    t += 0.45 * vnoise(t * 0.4 + uSeed) + 0.22 * vnoise(t * 1.1 + uSeed * 2.0);
-    float band = floor(t);
-
-    // Symmetric, zero-mean per-band shift so content doesn't drift; ~12% spike hard.
-    float r = hash(band + uSeed * 17.0) - 0.5;
-    float spike = step(0.88, hash(band + uSeed * 31.0 + 0.5));
-    float disp = r * 2.0 * uAmp * (0.4 + 1.0 * spike) * uProgress;
-
-    vec2 uv = (px + dir * disp) / uRes;
-    vec4 col = samp(uv);
-
-    // Damage the slice ends: grain-erode + fade where content meets its torn edge.
-    vec2 texel = 1.0 / uRes;
-    float aF = samp(uv + dir * texel * 2.5).a;
-    float aB = samp(uv - dir * texel * 2.5).a;
-    float edge = max(abs(col.a - aF), abs(col.a - aB));
-    float tornness = clamp(abs(disp) / max(uAmp, 0.001), 0.0, 1.0);
-    float fray = edge * (0.35 + 0.9 * tornness);
-    float grain = hash2(floor(px / 1.6) + uSeed);
-    float fine = hash2(floor(px) * 1.7 + uSeed * 2.0);
-    col.a *= 1.0 - step(0.5, grain) * fray * 1.4 * uProgress * uDamage;
-    col.a *= 1.0 - fine * edge * 0.4 * uProgress * uDamage;
-    col.a = clamp(col.a, 0.0, 1.0);
-
-    gl_FragColor = col;
-}
-`;
-
-function compile(gl: WebGLRenderingContext, type: number, src: string) {
-    const sh = gl.createShader(type)!;
-    gl.shaderSource(sh, src);
-    gl.compileShader(sh);
-    if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
-        throw new Error(gl.getShaderInfoLog(sh) || "shader compile failed");
-    }
-    return sh;
-}
-
-function themeColors() {
-    const isDark = document.documentElement.classList.contains("dark");
-    return {
-        bg: isDark ? "#f5f5f5" : "#1a1714",
-        text: isDark ? "#3c3c3c" : "#d0d0d0",
-        source: isDark ? "#707070" : "#949494",
-        line: isDark ? "#d0d0d0" : "#3c3c3c",
-    };
-}
 
 function wrapLines(ctx: CanvasRenderingContext2D, text: string, maxWidth: number) {
     const words = text.split(" ");
@@ -173,42 +86,14 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
             return;
         }
 
-        let program: WebGLProgram;
+        let program: SlicedProgram;
         try {
-            program = gl.createProgram()!;
-            gl.attachShader(program, compile(gl, gl.VERTEX_SHADER, VERT));
-            gl.attachShader(program, compile(gl, gl.FRAGMENT_SHADER, FRAG));
-            gl.linkProgram(program);
-            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
-                throw new Error(gl.getProgramInfoLog(program) || "link failed");
-            }
+            program = createSlicedProgram(gl);
         } catch (e) {
             console.error("QuoteShader:", e);
             setFailed(true);
             return;
         }
-
-        gl.useProgram(program);
-        gl.enable(gl.BLEND);
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
-        const buffer = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0, 0, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1]), gl.STATIC_DRAW);
-        const aUnit = gl.getAttribLocation(program, "aUnit");
-        gl.enableVertexAttribArray(aUnit);
-        gl.vertexAttribPointer(aUnit, 2, gl.FLOAT, false, 0, 0);
-
-        const u = {
-            quad: gl.getUniformLocation(program, "uQuad"),
-            canvas: gl.getUniformLocation(program, "uCanvas"),
-            res: gl.getUniformLocation(program, "uRes"),
-            progress: gl.getUniformLocation(program, "uProgress"),
-            bandPx: gl.getUniformLocation(program, "uBandPx"),
-            amp: gl.getUniformLocation(program, "uAmp"),
-            damage: gl.getUniformLocation(program, "uDamage"),
-            seed: gl.getUniformLocation(program, "uSeed"),
-        };
 
         const DPR = Math.min(window.devicePixelRatio || 1, 2);
 
@@ -229,15 +114,7 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
             paint: (drawProgress: number) => void;
         };
 
-        const makeTex = () => {
-            const tex = gl.createTexture()!;
-            gl.bindTexture(gl.TEXTURE_2D, tex);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
-            gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
-            return tex;
-        };
+        const makeTex = () => program.makeTexture();
         const beginPaint = (s: Sprite) => {
             const w = s.cw + 2 * s.localMargin;
             const h = s.ch + 2 * s.localMargin;
@@ -248,13 +125,9 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
             ctx.clearRect(0, 0, w, h);
             return ctx;
         };
-        const endPaint = (s: Sprite) => {
-            gl.bindTexture(gl.TEXTURE_2D, s.tex);
-            gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, s.src);
-        };
+        const endPaint = (s: Sprite) => program.upload(s.tex, s.src);
         const fontPxNow = () => Math.max(8, Math.min(24, window.innerWidth * 0.03));
 
-        gl.pixelStorei(gl.UNPACK_PREMULTIPLY_ALPHA_WEBGL, false);
         const sprites: Sprite[] = [];
 
         const rectFill: Sprite = {
@@ -264,7 +137,7 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
             place: (w, h) => ({ cx: 0, cy: 0, cw: w, ch: h }),
             paint: () => {
                 const ctx = beginPaint(rectFill);
-                ctx.fillStyle = themeColors().bg;
+                ctx.fillStyle = plateColors().bg;
                 ctx.fillRect(rectFill.localMargin, rectFill.localMargin, rectFill.cw, rectFill.ch);
                 endPaint(rectFill);
             },
@@ -278,7 +151,7 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
             place: (w, h) => ({ cx: 0, cy: 0, cw: w, ch: h }),
             paint: () => {
                 const ctx = beginPaint(textSprite);
-                const c = themeColors();
+                const c = plateColors();
                 const lm = textSprite.localMargin;
                 const fontPx = fontPxNow();
                 const lineHeight = fontPx * 1.2;
@@ -313,7 +186,7 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
                         ctx.save();
                         ctx.translate(s.localMargin, s.localMargin);
                         ctx.scale(s.cw / geom.vbW, s.ch / geom.vbH);
-                        ctx.strokeStyle = themeColors().line;
+                        ctx.strokeStyle = plateColors().line;
                         ctx.lineWidth = ill.strokeWidth;
                         ctx.lineCap = "round";
                         ctx.lineJoin = "round";
@@ -366,7 +239,6 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
             canvas.style.height = `${regionH}px`;
             canvas.width = Math.max(1, Math.round(regionW * DPR));
             canvas.height = Math.max(1, Math.round(regionH * DPR));
-            gl.viewport(0, 0, canvas.width, canvas.height);
         };
 
         let fontsReady = false;
@@ -375,8 +247,7 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
             dirtyRef.current = true;
         });
 
-        let slice = 0;
-        let sliceVel = 0;
+        let slice = { value: 0, velocity: 0 };
         let drawn = 0;
         let lastTime = performance.now();
         let lastW = 0, lastH = 0, lastTheme = "", lastIllustrated = false, lastDrawn = -1;
@@ -393,12 +264,7 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
             const theme = document.documentElement.classList.contains("dark") ? "d" : "l";
 
             const sliceTarget = activeRef.current ? 1 : 0;
-            sliceVel += (110 * (sliceTarget - slice) - 10 * sliceVel) * dt;
-            slice += sliceVel * dt;
-            if (Math.abs(sliceTarget - slice) < 0.0005 && Math.abs(sliceVel) < 0.0005) {
-                slice = sliceTarget;
-                sliceVel = 0;
-            }
+            slice = stepSlice(slice, sliceTarget, dt);
             const drawTarget = illustratedRef.current ? 1 : 0;
             drawn += (drawTarget - drawn) * Math.min(1, dt * 6);
             if (Math.abs(drawTarget - drawn) < 0.001) drawn = drawTarget;
@@ -423,26 +289,23 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
                 lastDrawn = drawn;
             }
 
-            gl.clearColor(0, 0, 0, 0);
-            gl.clear(gl.COLOR_BUFFER_BIT);
-            gl.uniform2f(u.canvas, canvas.width, canvas.height);
-
+            program.clear();
             for (const s of sprites) {
                 if (s.optional && drawn < 0.001) continue;
-                const qx = (s.cx - s.localMargin - regionX) * DPR;
-                const qy = (s.cy - s.localMargin - regionY) * DPR;
-                const qw = (s.cw + 2 * s.localMargin) * DPR;
-                const qh = (s.ch + 2 * s.localMargin) * DPR;
-                gl.activeTexture(gl.TEXTURE0);
-                gl.bindTexture(gl.TEXTURE_2D, s.tex);
-                gl.uniform4f(u.quad, qx, qy, qw, qh);
-                gl.uniform2f(u.res, qw, qh);
-                gl.uniform1f(u.progress, Math.max(0, slice));
-                gl.uniform1f(u.bandPx, Math.max(2, s.cw * BAND_FRAC) * DPR);
-                gl.uniform1f(u.amp, s.cw * AMP_FRAC * s.ampScale * DPR);
-                gl.uniform1f(u.damage, s.damageScale);
-                gl.uniform1f(u.seed, s.seed);
-                gl.drawArrays(gl.TRIANGLES, 0, 6);
+                program.draw({
+                    tex: s.tex,
+                    quad: {
+                        x: (s.cx - s.localMargin - regionX) * DPR,
+                        y: (s.cy - s.localMargin - regionY) * DPR,
+                        w: (s.cw + 2 * s.localMargin) * DPR,
+                        h: (s.ch + 2 * s.localMargin) * DPR,
+                    },
+                    progress: slice.value,
+                    bandPx: Math.max(2, s.cw * BAND_FRAC) * DPR,
+                    amp: s.cw * AMP_FRAC * s.ampScale * DPR,
+                    damage: s.damageScale,
+                    seed: s.seed,
+                });
             }
 
             raf = requestAnimationFrame(render);
@@ -451,9 +314,7 @@ export function QuoteShader({ text, source, illustrated, active, className = "" 
 
         return () => {
             cancelAnimationFrame(raf);
-            for (const s of sprites) gl.deleteTexture(s.tex);
-            gl.deleteBuffer(buffer);
-            gl.deleteProgram(program);
+            program.dispose();
         };
     }, []);
 
