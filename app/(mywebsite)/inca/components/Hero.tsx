@@ -22,29 +22,30 @@ export function Hero({ trek }: { trek: TrekData }) {
           How many steps are on the Inca Trail?
         </h1>
         <p className="mt-2 text-muted italic dark:text-muted-dark">
-          I counted the stairs on the four-day and {trek.totalKm.toFixed(0)}-km Classic Inca Trail to Machu Picchu.
+          I counted the stairs on the four-day, {trek.totalKm.toFixed(0)}-km Classic Inca Trail to Machu Picchu.
         </p>
       </div>
 
       <div className="mx-auto mt-8 max-w-2xl space-y-4 text-light-foreground dark:text-dark-foreground">
         <p>
           Every guidebook and tour operator quotes a different number for the Inca Trail&rsquo;s
-          steps. The reason for that is simple: nobody has ever actually counted them. So I did.
+          steps, because nobody had ever counted them. So I did!
         </p>
         <p>
-          I counted&mdash;by hand!&mdash;every single stair, step, and staircase on the four-day Inca
-          Trail from Km 82 to Machu Picchu, tracking which steps were ambiguous and which were
-          optional. Where the trail forked, I walked and counted both sides.
+          I counted every stone step on the four-day Inca Trail from Km 82 to Machu Picchu by hand. I
+          also noted which steps were ambiguous and which ones you could walk around. Where the trail
+          forked, I walked and counted both sides.
         </p>
         <p>
           So here is the real answer: there are{" "}
           <strong className="font-semibold">{intComma(t.totalStairs)} stone steps</strong> on the
           four-day Inca Trail. You must climb{" "}
-          <strong className="font-semibold">at least {intComma(t.minStairs)}</strong> of those. This is not an estimate! Realistically, most
-          hikers take somewhere between{" "}
+          <strong className="font-semibold">at least {intComma(t.minStairs)}</strong> of those. This is
+          not an estimate! How many of the rest you take depends on which side of each fork you walk and which ruins you detour
+          to. Most hikers take between{" "}
           <strong className="font-semibold">
             {intComma(t.expectedLow)} and {intComma(t.expectedHigh)}
-          </strong>, depending on their route choices and side trips.
+          </strong>.
         </p>
       </div>
 
@@ -52,7 +53,7 @@ export function Hero({ trek }: { trek: TrekData }) {
         <Stat value={intComma(t.totalStairs)} label="Total steps" />
         <Stat
           value={`${intComma(t.expectedLow)}–${intComma(t.expectedHigh)}`}
-          label="Likely taken"
+          label="Most hikers take"
         />
         <Stat value={intComma(t.minStairs)} label="Minimum required" />
       </div>

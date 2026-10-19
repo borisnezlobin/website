@@ -413,7 +413,7 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
           <span className="ml-auto font-medium tabular-nums text-light-foreground dark:text-dark-foreground">
             {sel && selSteps != null
               ? `${intComma(selSteps)} steps over ${(sel.b - sel.a).toFixed(1)} km`
-              : `${intComma(viewSteps)} steps ${zoomed ? "in view" : "in total"}`}
+              : `${intComma(viewSteps)} steps ${zoomed ? "in view" : "on the shortest route"}`}
           </span>
         </div>
         <div className="mt-1.5">

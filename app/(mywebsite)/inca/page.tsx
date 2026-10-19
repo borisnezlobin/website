@@ -150,11 +150,12 @@ export default function IncaPage() {
         <SectionHeading title="Where all the steps are" />
         <p className="mx-auto mb-5 max-w-2xl ">
           The Inca Trail isn&rsquo;t one long staircase. It&rsquo;s a {trek.totalKm.toFixed(0)}-kilometre
-          walk over a {intComma(trek.maxElev)}-metre pass and a long stone descent to Machu Picchu,
-          with the steps bunched on the steepest pitches — gentle along the river, relentless on the
-          drop through Phuyupatamarca. The chart below is the real trail: true elevation from a GPS
-          track and topographic data, grey where you walk on dirt and red where the Incas laid stone.
-          Drag to move along it, and zoom in until the red breaks into the individual steps.
+          walk over a {intComma(trek.maxElev)}-metre pass, followed by a long stone descent to Machu
+          Picchu. Because the Incas built steps only where the ground got too steep to walk, there are
+          few along the river and long flights of them on the drop through Phuyupatamarca. The chart
+          below plots the trail&rsquo;s real elevation from a GPS track and topographic data. It&rsquo;s
+          grey where you walk on dirt and red where the Incas laid stone steps. Drag to move along it.
+          If you zoom in far enough, the red breaks apart into individual steps.
         </p>
         <TrekProfile trek={trek} />
       </section>
@@ -162,13 +163,14 @@ export default function IncaPage() {
       <section className="mt-16">
         <SectionHeading title="Where the steps fall, day by day" />
         <p className="mx-auto mb-6 max-w-2xl ">
-          The four days are nothing alike. The first is a gentle warm-up along the river; the second
-          is the brutal climb to Dead Woman&rsquo;s Pass &mdash; about{" "}
-          <strong className="font-semibold">{intComma(dwpClimb)} stairs up</strong> from the day-one
-          camp to the {intComma(trek.maxElev)}-metre pass, the biggest single climb of the trek. The
-          third is the longest, a knee-punishing{" "}
+          The four days are nothing alike. Day one is an easy warm-up along the river. Day two is the
+          biggest climb of the trek: from the day-one camp to Dead Woman&rsquo;s Pass at{" "}
+          {intComma(trek.maxElev)} metres, you climb about{" "}
+          <strong className="font-semibold">{intComma(dwpClimb)} stairs</strong>. Day three is the
+          longest, with a{" "}
           <strong className="font-semibold">{intComma(dayThreeDescent)}-stair descent</strong> through
-          the cloud forest; the fourth is a short pre-dawn push to the Sun Gate. Here is how the count
+          the cloud forest that your knees will remember the next morning. On day four, you walk up
+          to the Sun Gate before dawn for your first view of Machu Picchu. Here&rsquo;s how the count
           splits across them.
         </p>
         <DayBreakdown days={trek.perDay} />
@@ -194,17 +196,17 @@ export default function IncaPage() {
           className="h-auto w-full rounded-xl"
         />
         <figcaption className="mt-3 text-sm text-muted dark:text-muted-dark">
-          A picture of my notebook, taken at Intipata. The handwriting has
-          been redrawn by Gemini for privacy, so it&rsquo;s slightly inaccurate in places.
+          I took this picture of my notebook at Intipata. Gemini redrew the handwriting for privacy,
+          which made it slightly inaccurate in places.
         </figcaption>
       </figure>
 
       <p className="mx-auto mt-16 max-w-2xl text-sm text-muted dark:text-muted-dark">
-        These are my own counts, and I stand behind them to about 2%. To be precise about what I counted: only the intentional, elevation-changing stone steps the Incas built.<br /><br />
+        I stand behind these counts to within about 2%. I only counted the stone steps the Incas built on purpose to change elevation.<br /><br />
 
-        That means on the third day&rsquo;s steep cobbled ramps I left out a lot of what a casual hiker might call a &ldquo;step.&rdquo; All told, I&rsquo;d reckon there are around 1.5x more stepping motions than built steps on the trail.<br /><br />
+        On the third day&rsquo;s steep cobbled ramps, that meant leaving out a lot of what a casual hiker might call a &ldquo;step.&rdquo; I&rsquo;d guess you make about 1.5 times as many stepping motions as there are built steps on the trail.<br /><br />
 
-        If you&rsquo;d like the raw data, please reach out to me at <Link href="/contact" className="link">www.borisnezlobin.com/contact</Link>.
+        If you&rsquo;d like the raw data, get in touch at <Link href="/contact" className="link">www.borisnezlobin.com/contact</Link>.
       </p>
     </main>
   );

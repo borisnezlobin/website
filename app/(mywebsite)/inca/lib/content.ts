@@ -28,15 +28,15 @@ export function buildFaq(trek: TrekData): QA[] {
   return [
     {
       q: "How many steps are on the Inca Trail?",
-      a: `There are ${total} stone steps on the 4-day Classic Inca Trail, from Km 82 to Machu Picchu. That is not an estimate or a round number someone made up! It is a hand count, taken one step at a time over four days on the trail. You climb at least ${min} of them on the most direct route, and the rest sit on optional detours and side-paths. Of the steps you actually take, ${up} lead up and ${down} lead down.`,
+      a: `There are ${total} stone steps on the 4-day Classic Inca Trail from Km 82 to Machu Picchu. That isn’t an estimate or a round number someone made up! I counted them by hand, one step at a time, over four days on the trail. You climb at least ${min} of them on the most direct route. The rest sit on the other side of forks in the trail or are steps you can walk around. Of the steps you actually take, ${up} lead up and ${down} lead down.`,
     },
     {
       q: "How many stairs do you actually have to climb?",
-      a: `At minimum, ${min}—that skips every avoidable step, ignores the ambiguous ones, and takes the shorter side wherever the trail forks. Realistically, this is near impossible to actually achieve, as in many cases it’s easier to take the step rather than avoid it. The full count of stairs that physically exist, both sides of every fork included, is about ${total}. The average hiker will climb somewhere in between, depending on how many side-paths they take (and if they take detours to various ruins or campsites).`,
+      a: `You have to climb at least ${min}. That number skips every step you can walk around, leaves out the ambiguous ones and takes the shorter side wherever the trail forks. Nobody manages it in practice, because walking around most of those steps is more work than climbing them. Counting both sides of every fork, ${total} stairs physically exist. Most hikers climb a number in between that depends on which side paths they take and which ruins or campsites they detour to.`,
     },
     {
       q: "Why is this count more accurate than other figures?",
-      a: `Because no guidebook actually counted. Tour operators and travel blogs throw out round numbers and no two of them agree because every one of those figures is a guess. I walked the entire trail with a notebook and tallied every stone step by hand, both sides of every fork, and marked which steps were optional and which were ambiguous. I put the count within about 2%—which is, give or take, infinitely more precise than a number nobody bothered to count.`,
+      a: `No guidebook has ever counted the steps. Tour operators and travel blogs quote round numbers that never agree with each other, because each one is a guess. I walked the whole trail with a notebook and tallied every stone step by hand, on both sides of every fork. I also marked which steps were optional and which were ambiguous. I trust my count to within about 2%, which is infinitely more precise than a number nobody counted.`,
     },
     {
       q: "What is the elevation profile of the Inca Trail?",
@@ -44,25 +44,25 @@ export function buildFaq(trek: TrekData): QA[] {
     },
     {
       q: "What is the highest point of the Inca Trail?",
-      a: `Dead Woman’s Pass (Warmiwañusca), at about ${peak} m by 30-metre topographic data, is reached at the midpoint of the trek, at the top of the day-two climb.`,
+      a: `The highest point is Dead Woman’s Pass (Warmiwañusca), at about ${peak} m according to 30-metre topographic data. You reach it halfway through the trek, at the top of the day-two climb.`,
     },
     {
       q: "How many stairs is the climb to Dead Woman’s Pass?",
-      a: `From the day-one camp up to Dead Woman’s Pass (Warmiwañusca) you climb ${dwpUp} stone stairs, almost all of it unbroken uphill. It is the single biggest staircase of the four days: a relentless flight of Inca steps up to the ${peak} m pass, after which the trail tips over and begins its long descent toward Machu Picchu.`,
+      a: `From the day-one camp up to Dead Woman’s Pass (Warmiwañusca), you climb ${dwpUp} stone stairs with almost no flat ground in between. It’s the biggest climb of the four days. After the ${peak} m pass, the trail starts its long descent toward Machu Picchu.`,
     },
     {
       q: "How many stairs are on the day-three descent of the Inca Trail?",
-      a: `Day three is the longest day and the hardest on the knees: an almost continuous stone descent of ${dayThreeDown} stairs through the cloud forest past Sayacmarca and Phuyupatamarca. It holds more downhill stairs than any other day of the trek—more than half of all the descending steps on the whole route.`,
+      a: `Day three is the longest day and the hardest on your knees. It’s an almost continuous stone descent of ${dayThreeDown} stairs through the cloud forest, past Sayacmarca and Phuyupatamarca. That’s more than half of all the downhill steps on the route.`,
     },
     {
       q: "How long is the Inca Trail and how many days does it take?",
-      a: `By GPS the Classic Inca Trail measures about ${dist} km from Km 82 to Machu Picchu (it is often cited as 43 km, but a firsthand GPS recording and the Ministry of Culture’s own map both put it near ${dist} km). It is almost always walked over 4 days and 3 nights, though some marathon runners have completed it in under three and a half hours.`,
+      a: `My GPS recording puts the Classic Inca Trail at about ${dist} km from Km 82 to Machu Picchu. Most sources say 43 km, but the Peruvian Ministry of Culture’s own map also puts it near ${dist} km. Almost everyone walks it over 4 days and 3 nights, though some runners have finished it in under three and a half hours.`,
     },
     {
       q: "How were the steps counted?",
-      a: `By hand! I walked the Inca Trail with a notebook and wrote down every time I climbed a staircase. Doubtful steps (about ${intComma(
+      a: `I counted them by hand! I walked the Inca Trail with a notebook and wrote down every staircase as I climbed or descended it. I set aside the doubtful steps (about ${intComma(
         t.ambiguousStairs,
-      )} of them) are held aside as “maybe”, and steps you can step around, or that sit on a fork in the trail, are tracked separately, so the count can give both a true total and a realistic minimum. And yes: this means that when there were forks in the path, I went down both sides.`,
+      )} of them) as “maybe”. I tracked the steps you can walk around, and the ones on forks in the trail, separately. That way the count gives both a true total and a realistic minimum. And yes, that means I walked down both sides of every fork.`,
     },
   ];
 }
