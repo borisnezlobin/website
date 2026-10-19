@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { SPOTLIGHT_MEDIA } from "./app/(mywebsite)/projects/spotlight-media";
 
 const config: Config = {
     content: [
@@ -46,11 +47,17 @@ const config: Config = {
             animation: {
                 scroll: 'scroll 20s linear infinite',
                 "fade-in": 'fade-in 240ms ease-out',
+                // One segment of the Projects spotlight's progress; the panel sets the duration per item.
+                "segment-fill": 'segment-fill linear forwards',
             },
             keyframes: {
                 "fade-in": {
                     from: { opacity: '0' },
                     to: { opacity: '1' },
+                },
+                "segment-fill": {
+                    from: { transform: 'scaleX(0)' },
+                    to: { transform: 'scaleX(1)' },
                 },
                 scroll: {
                     '0%': {
@@ -63,8 +70,13 @@ const config: Config = {
                     },
                 },
             },
+            transitionTimingFunction: {
+                // Slow out of rest, slow into place: an opening row on the Projects page.
+                settle: 'cubic-bezier(0.65, 0, 0.35, 1)',
+            },
             screens: {
-                screen: { raw: 'screen' }
+                screen: { raw: 'screen' },
+                spotlight: { raw: SPOTLIGHT_MEDIA },
             }
         },
     },

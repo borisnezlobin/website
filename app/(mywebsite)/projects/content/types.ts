@@ -1,28 +1,25 @@
-import type { FigureId } from "../figures/registry";
+export type ProjectLinkSpec = { label: string; href: string };
 
-export type PlateLink = { label: string; href: string };
-
-/** A highlight that names something won; it carries a medal on the page. */
-export type PlateHighlight = string | { text: string; won: true };
-
-export type PlateVisualSpec = { kind: "figure"; figure: FigureId } | { kind: "clients" };
-
-export type PlateContent = {
+export type ProjectEntry = {
+    /** Doubles as the page anchor, so /projects#enf keeps working from the landing page. */
     id: string;
-    title: string;
-    visual: PlateVisualSpec;
-    highlights: PlateHighlight[];
-    /** One paragraph, split into sentences: the first stays visible, the rest expand. */
-    summary: [lede: string, ...rest: string[]];
-    links: PlateLink[];
+    name: string;
+    /** One line, leading with the impact. It is the row's main line, with the name under it. */
+    tagline: string;
+    /** The project's own page. It is listed first under the paragraph. */
+    href?: string;
+    /** One paragraph, shown when the row is opened, and in the spotlight when the entry has no media. */
+    body: string;
+    /** Secondary links, listed after `href`. */
+    links?: ProjectLinkSpec[];
+    /** Marks an entry that won something; it carries the award mark. */
+    won?: true;
 };
 
-export type IndexRow = {
+/** A first-person statement from the hero, and the heading over its group of projects. */
+export type ProjectClaim = {
     id: string;
-    year: number;
-    name: string;
-    what: string;
-    href?: string;
-    /** Marks a row that won something; it carries the award mark on the page. */
-    won?: true;
+    verb: string;
+    noun: string;
+    entries: ProjectEntry[];
 };

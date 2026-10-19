@@ -1,84 +1,97 @@
-import Link from "next/link";
-import { ArrowRightIcon, ArrowUpRightIcon } from "@phosphor-icons/react/dist/ssr";
-import { FOCUS_RING } from "@/app/components/action";
-import type { IndexRow } from "../content/types";
-import { AwardMark } from "./award-mark";
-import { isInternalHref } from "./project-link";
+"use client";
 
-export const INDEX_SECTION_ID = "more-projects";
+import { useMemo, useRef, useState, type KeyboardEvent } from "react";
+import { PROJECT_MEDIA } from "../content/media";
+import type { ProjectClaim } from "../content/types";
+import { bridgeTab } from "../lib/carousel-focus";
+import { useAimGuard } from "../lib/use-aim-guard";
+import { useMediaQuery } from "../lib/use-media-query";
+import { useOpenEntry } from "../lib/use-open-entry";
+import { usePointedEntry } from "../lib/use-pointed-entry";
+import { useReducedMotion } from "../lib/use-reduced-motion";
+import { SPOTLIGHT_MEDIA } from "../spotlight-media";
+import { IndexRow, type RowHandlers } from "./index-row";
+import { IndexSection } from "./index-section";
+import { SpotlightPanel, type PanelHold } from "./spotlight-panel";
 
-const ROW_SHAPE = "-mx-3 flex flex-col gap-0.5 rounded-lg px-3 py-3 sm:flex-row sm:items-baseline sm:gap-6";
-const NAME = "font-semibold sm:w-60 sm:shrink-0";
-const WHAT = "flex-1 text-muted dark:text-muted-dark";
-const NEW_TAB_PROPS = { target: "_blank", rel: "noopener noreferrer" } as const;
+type Pointed = ReturnType<typeof usePointedEntry>;
 
-type YearGroup = { year: number; rows: IndexRow[] };
-
-function groupByYear(rows: IndexRow[]): YearGroup[] {
-    const groups: YearGroup[] = [];
-    for (const row of rows) {
-        const last = groups[groups.length - 1];
-        if (last?.year === row.year) last.rows.push(row);
-        else groups.push({ year: row.year, rows: [row] });
-    }
-    return groups;
+/**
+ * The row the spotlight is on. With the panel, it follows the pointer, stays on the last row pointed at
+ * (ahead of the open one, so a closed row's gallery can be explored), and holds while the reader is inside
+ * the panel; without it, it is the open row.
+ */
+function markedEntryId(spotlight: boolean, pointed: Pointed, openId: string | null) {
+    if (!spotlight) return pointed.focusId ?? openId;
+    return pointed.heldId ?? pointed.hoverId ?? pointed.focusId ?? pointed.lastId ?? openId;
 }
 
-function RowName({ row, className = "" }: { row: IndexRow; className?: string }) {
-    return (
-        <span className={`${NAME} ${className}`}>
-            {row.name}
-            {row.won && <AwardMark size={14} />}
-        </span>
+/** Every project, grouped under the hero's claims, with the spotlight beside the list where there is a pointer and room. */
+export function ProjectIndex({ claims }: { claims: ProjectClaim[] }) {
+    const entries = useMemo(() => claims.flatMap((claim) => claim.entries), [claims]);
+    const [ids] = useState(() => entries.map((entry) => entry.id));
+    const { openId, toggle } = useOpenEntry(ids);
+    const pointed = usePointedEntry();
+    const spotlight = useMediaQuery(SPOTLIGHT_MEDIA);
+    const still = useReducedMotion();
+    const panelRef = useRef<HTMLElement>(null);
+    const aim = useAimGuard(panelRef, pointed.handlers.point, spotlight);
+    const handlers = useMemo<RowHandlers>(
+        () => ({
+            ...pointed.handlers,
+            point: aim.enterRow,
+            leave: () => {
+                aim.cancel();
+                pointed.handlers.leave();
+            },
+            toggle,
+        }),
+        [aim, pointed.handlers, toggle],
     );
-}
 
-function RowLink({ row, href }: { row: IndexRow; href: string }) {
-    const external = !isInternalHref(href);
-    const Arrow = external ? ArrowUpRightIcon : ArrowRightIcon;
-    return (
-        <Link
-            href={href}
-            className={`group ${ROW_SHAPE} ${FOCUS_RING} transition-colors duration-150 hover:bg-black/5 dark:hover:bg-white/5`}
-            {...(external ? NEW_TAB_PROPS : {})}
-        >
-            <RowName row={row} className="transition-colors duration-150 group-hover:text-primary" />
-            <span className={WHAT}>{row.what}</span>
-            <Arrow aria-hidden="true" size={16} className="hidden self-center text-primary opacity-0 transition-opacity duration-150 group-hover:opacity-100 group-focus-visible:opacity-100 sm:block" />
-            {external && <span className="sr-only"> (opens in a new tab)</span>}
-        </Link>
-    );
-}
+    const markedId = markedEntryId(spotlight, pointed, openId);
+    const spotlit = entries.find((entry) => entry.id === markedId) ?? entries[0];
+    const panelHold: PanelHold = {
+        hold: () => {
+            aim.cancel();
+            pointed.handlers.hold(spotlit.id);
+        },
+        release: pointed.handlers.release,
+    };
+    const bridged = spotlight && openId !== null && (PROJECT_MEDIA[openId]?.length ?? 0) > 0;
+    const showOpenEntry = () => {
+        if (!openId || spotlit.id === openId) return false;
+        pointed.handlers.hold(openId);
+        return true;
+    };
+    const onKeyDown = (event: KeyboardEvent) => {
+        if (bridged) bridgeTab(event, document.getElementById(openId), panelRef.current, showOpenEntry);
+    };
 
-function Row({ row }: { row: IndexRow }) {
-    if (row.href) return <RowLink row={row} href={row.href} />;
     return (
-        <p className={ROW_SHAPE}>
-            <RowName row={row} />
-            <span className={WHAT}>{row.what}</span>
-        </p>
-    );
-}
-
-export function ProjectIndex({ rows }: { rows: IndexRow[] }) {
-    const titleId = `${INDEX_SECTION_ID}-title`;
-    return (
-        <section id={INDEX_SECTION_ID} aria-labelledby={titleId} className="scroll-mt-20 pb-24">
-            <h2 id={titleId} className="text-3xl font-bold">More projects</h2>
-            <ul className="mt-8">
-                {groupByYear(rows).map(({ year, rows: yearRows }) => (
-                    <li key={year} className="grid border-t border-black/10 py-4 dark:border-white/10 md:grid-cols-[6rem_1fr]">
-                        <h3 className="pb-1 pt-3 text-sm tabular-nums text-muted dark:text-muted-dark md:text-base">{year}</h3>
-                        <ul className="list-none">
-                            {yearRows.map((row) => (
-                                <li key={row.id} id={row.id} className="scroll-mt-20">
-                                    <Row row={row} />
-                                </li>
+        <div className="px-4 pb-32 pt-12 md:px-8 md:pt-20">
+            <div onKeyDown={onKeyDown} className="max-w-7xl spotlight:grid spotlight:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] spotlight:gap-x-16">
+                <div onPointerMove={aim.track} onPointerLeave={handlers.leave}>
+                    {claims.map((claim) => (
+                        <IndexSection key={claim.id} claim={claim}>
+                            {claim.entries.map((entry) => (
+                                <IndexRow key={entry.id} entry={entry} open={entry.id === openId} marked={entry.id === markedId} spotlight={spotlight} still={still} handlers={handlers} />
                             ))}
-                        </ul>
-                    </li>
-                ))}
-            </ul>
-        </section>
+                        </IndexSection>
+                    ))}
+                </div>
+                {spotlight && (
+                    <SpotlightPanel
+                        panelRef={panelRef}
+                        entry={spotlit}
+                        openId={openId}
+                        rowPointed={pointed.hoverId !== null || pointed.focusId !== null}
+                        held={pointed.heldId !== null}
+                        still={still}
+                        onHold={panelHold}
+                    />
+                )}
+            </div>
+        </div>
     );
 }
