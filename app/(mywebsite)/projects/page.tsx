@@ -7,6 +7,7 @@ export const metadata = getMetadata({
     title: "Projects.",
     subtitle: "I’ve predicted solar flares at Lockheed Martin and co-founded a spatial computing startup.",
     description: "Boris Nezlobin has predicted solar flares at Lockheed Martin and won hackathons with the apps on this page.",
+    video: { path: "/link-preview/projects.mp4", poster: "/link-preview/projects.jpg", width: 1200, height: 630 },
 });
 
 export default function ProjectsPage() {

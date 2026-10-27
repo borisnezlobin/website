@@ -1,5 +1,8 @@
 import type { Bird } from "./types";
 
+/** What it takes to draw a bird, so a scripted flight can draw the same bird without the flock's state. */
+export type BirdPose = Pick<Bird, "x" | "y" | "heading" | "stretch">;
+
 /** The home page's boid: tip 7px ahead, base 7px behind and 7px wide. */
 export const BOID_SIZE = 7;
 
@@ -9,7 +12,7 @@ export const BIRD_COLORS = { light: "#CC2A26", dark: "#E96457" } as const;
 export const BIRD_EDGES = { light: "#f5f5f5", dark: "#1a1714" } as const;
 const EDGE_WIDTH = 1.5;
 
-export function traceBird(ctx: CanvasRenderingContext2D, bird: Bird) {
+export function traceBird(ctx: CanvasRenderingContext2D, bird: BirdPose) {
     const forwardX = Math.cos(bird.heading);
     const forwardY = Math.sin(bird.heading);
     const reach = BOID_SIZE * bird.stretch;
@@ -22,7 +25,7 @@ export function traceBird(ctx: CanvasRenderingContext2D, bird: Bird) {
     ctx.closePath();
 }
 
-export function drawBirds(ctx: CanvasRenderingContext2D, birds: Bird[], color: string, edge: string) {
+export function drawBirds(ctx: CanvasRenderingContext2D, birds: BirdPose[], color: string, edge: string) {
     ctx.beginPath();
     for (const bird of birds) traceBird(ctx, bird);
     ctx.strokeStyle = edge;

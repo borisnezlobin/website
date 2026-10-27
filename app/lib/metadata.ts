@@ -1,18 +1,28 @@
 import { Metadata } from "next";
 import CONFIG from "./config";
 
+/** A looping preview video for og:video, and the frame of it that stands in where video can't play. */
+export type LinkPreviewVideo = { path: string; poster: string; width: number; height: number };
+
+/** Next resolves og:image against metadataBase but leaves og:video as written, and Messages needs it absolute. */
+const previewVideo = (video: LinkPreviewVideo) => [
+  { url: new URL(video.path, CONFIG.API_URL).toString(), width: video.width, height: video.height, type: "video/mp4" },
+];
+
 const getMetadata = ({
   title = "",
   description,
   subtitle,
   img,
+  video,
 }: {
   title?: string;
   description?: string;
   img?: string;
   subtitle?: string;
+  video?: LinkPreviewVideo;
 }) => {
-  const ogUrl = img || (() => {
+  const ogUrl = img || video?.poster || (() => {
     const url = new URL("/og", CONFIG.API_URL);
     url.searchParams.set("title", title || "Ideas, projects, and photographs.");
     url.searchParams.set("subtitle", subtitle || "");
@@ -41,6 +51,7 @@ const getMetadata = ({
           height: 630,
         },
       ],
+      ...(video && { videos: previewVideo(video) }),
       locale: "en-US",
       type: "website",
     },

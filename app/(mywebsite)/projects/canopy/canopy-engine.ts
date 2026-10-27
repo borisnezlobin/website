@@ -52,7 +52,7 @@ const PAPER_FADE = { from: 0.5, to: 0.78 } as const;
 
 const sameSize = (a: SceneSize, b: SceneSize) => a.width === b.width && a.height === b.height && a.dpr === b.dpr;
 
-function paintStaticLayer(layout: CanopyLayout, paint: PaintContext) {
+export function paintStaticLayer(layout: CanopyLayout, paint: PaintContext) {
     const layer = makeCanvas(paint.size.width / CELL, paint.size.height / CELL);
     const ctx = layer.getContext("2d")!;
     ctx.scale(1 / CELL, 1 / CELL);
@@ -60,7 +60,7 @@ function paintStaticLayer(layout: CanopyLayout, paint: PaintContext) {
     return layer;
 }
 
-function paintPaperLayer(size: SceneSize, dark: boolean) {
+export function paintPaperLayer(size: SceneSize, dark: boolean) {
     const paper = makeCanvas(size.width * size.dpr, size.height * size.dpr);
     const ctx = paper.getContext("2d")!;
     ctx.scale(size.dpr, size.dpr);

@@ -8,7 +8,7 @@ import { createPetals } from "../petals";
 import { seededRandom } from "../random";
 import { DEFAULT_WIND } from "../wind";
 import type { SceneSize } from "../scene-loop";
-import { petalOrigin, placeBlossoms, stampBlossoms } from "./blossoms";
+import { petalOrigin, placeBlossoms, stampBlossoms, type BlossomSet } from "./blossoms";
 import { cherryGrowth, cherryHanging, cherrySeeds, isNarrow } from "./composition";
 
 const TREE_SEED = 1903;
@@ -40,7 +40,10 @@ function cherryReach(size: SceneSize, floor: number | undefined) {
     return { wood: Math.min(size.height, whips), whips, petalFade };
 }
 
-function buildCherry(size: SceneSize, floor?: number): CanopyLayout {
+export type CherryTree = { layout: CanopyLayout; blossoms: BlossomSet };
+
+/** `fallingPetals: false` leaves out the drifting petals, for scenes that release their own on a schedule. */
+export function growWeepingCherry(size: SceneSize, floor?: number, { fallingPetals = true } = {}): CherryTree {
     const { width } = size;
     const { wood: reach, whips, petalFade } = cherryReach(size, floor);
     const random = seededRandom(TREE_SEED);
@@ -50,10 +53,10 @@ function buildCherry(size: SceneSize, floor?: number): CanopyLayout {
     const paintWhips = createStrandPainter(random, curtain, strands, WHIP_INK);
     const paintSwayingWood = createSwayingWoodPainter(arbor);
     const blossoms = placeBlossoms(random, arbor, curtain, reach * 0.32, whips / reach);
-    const petals = createPetals(seededRandom(8), petalFade);
+    const petals = fallingPetals ? createPetals(seededRandom(8), petalFade) : null;
     const petalRandom = seededRandom(13);
-    petals.scatter(Math.round(width / 160), width, reach * 0.12, reach * 0.5);
-    return {
+    petals?.scatter(Math.round(width / 160), width, reach * 0.12, reach * 0.5);
+    const layout: CanopyLayout = {
         arbor,
         curtain,
         reach,
@@ -64,15 +67,16 @@ function buildCherry(size: SceneSize, floor?: number): CanopyLayout {
         paintMoving(ctx, paint) {
             paintWhips(ctx);
             paintSwayingWood(ctx, paint.locate);
-            petals.paint(ctx);
+            petals?.paint(ctx);
         },
         stamp(pixels, paint) {
             stampBlossoms(pixels, blossoms, curtain, paint.locate);
         },
         step(dt, wind) {
-            petals.update(dt, wind, (out) => petalOrigin(petalRandom, blossoms, curtain, out));
+            petals?.update(dt, wind, (out) => petalOrigin(petalRandom, blossoms, curtain, out));
         },
     };
+    return { layout, blossoms };
 }
 
 /** A dithered shidare-zakura: ink limbs, whips strung with red and blush flowers, and drifting petals. */
@@ -82,7 +86,7 @@ export const WEEPING_CHERRY: CanopyLook = {
         light: { ink: [38, 33, 30], blush: [232, 162, 164], bloom: [204, 42, 38] },
         dark: { ink: [150, 141, 131], blush: [156, 90, 94], bloom: [233, 100, 87] },
     },
-    build: buildCherry,
+    build: (size, floor) => growWeepingCherry(size, floor).layout,
     flockSize: (size) => Math.round(Math.min(30, Math.max(10, size.width / (isNarrow(size.width) ? 32 : 46)))),
     flightFloor: 0.42,
 };
