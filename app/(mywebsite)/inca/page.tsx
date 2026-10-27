@@ -155,7 +155,6 @@ export default function IncaPage() {
           few along the river and long flights of them on the drop through Phuyupatamarca. The chart
           below plots the trail&rsquo;s real elevation from a GPS track and topographic data. It&rsquo;s
           grey where you walk on dirt and red where the Incas laid stone steps. Drag to move along it.
-          If you zoom in far enough, the red breaks apart into individual steps.
         </p>
         <TrekProfile trek={trek} />
       </section>

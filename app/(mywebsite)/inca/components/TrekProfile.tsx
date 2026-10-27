@@ -1,26 +1,20 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
-import {
-  ArrowsOutSimple,
-  MagnifyingGlassMinus,
-  MagnifyingGlassPlus,
-  Selection,
-} from "@phosphor-icons/react/dist/ssr";
+import { useEffect, useMemo, useRef, useState } from "react";
 import type { TrekData, TrekLandmark } from "../lib/trek";
 import { intComma, metres, niceTicks } from "../lib/chart";
+import { HoverCard, ProfileCaption, ProfileControls } from "./TrekProfileChrome";
 
 // The real trail, explorable. x is true distance (km), y is true elevation (m,
 // 30 m topo along a firsthand GPS track). The line is grey where you walk on
-// dirt and reddens where Boris counted stone steps — brightest on the steep
-// staircases — and zoom in far enough and it resolves into the steps themselves.
-// Wheel or buttons to zoom, drag to pan.
+// dirt and reddens where Boris counted stone steps, brightest on the steep
+// staircases. Wheel, pinch or buttons to zoom, drag to pan.
 
 const W = 1000;
 const PAD = { left: 46, right: 14, top: 24, bottom: 22 };
 const MAIN_H = 300;
 const MINI_H = 40;
-const MINI_GAP = 10;
+const MINI_GAP = 24;
 const H = PAD.top + MAIN_H + MINI_GAP + MINI_H + PAD.bottom;
 const TOP = PAD.top;
 const BOTTOM = PAD.top + MAIN_H;
@@ -62,7 +56,7 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
     };
   }, [trek]);
 
-  // view-independent: y-bounds, and per-segment step density + direction.
+  // view-independent: y-bounds, and per-segment step density.
   const base = useMemo(() => {
     const eMin = Math.floor((trek.minElev - 40) / 100) * 100;
     const eMax = Math.ceil((trek.maxElev + 80) / 100) * 100;
@@ -70,7 +64,7 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
     const segs = trek.profile.slice(0, -1).map((p, i) => {
       const q = trek.profile[i + 1];
       const dkm = q.km - p.km || 1;
-      return { density: p.steps / dkm, up: q.elev >= p.elev, steps: p.steps };
+      return { density: p.steps / dkm, steps: p.steps };
     });
     return { eMin, eMax, denom, segs };
   }, [trek]);
@@ -140,28 +134,10 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
         op: Math.max(0.16, Math.min(1, base.segs[i].density / base.denom)),
       }));
 
-    // individual steps once they're far enough apart to see
-    const stepsShown = visIdx.reduce((n, i) => n + base.segs[i].steps, 0);
-    const showTicks = PW / Math.max(1, stepsShown) >= 2.0;
-    const ticks: { x: number; y: number; up: boolean }[] = [];
-    if (showTicks) {
-      for (const i of visIdx) {
-        const n = Math.round(base.segs[i].steps);
-        for (let j = 0; j < n; j++) {
-          const km = p[i].km + ((j + 0.5) / n) * (p[i + 1].km - p[i].km);
-          if (km < view.a || km > view.b) continue;
-          ticks.push({ x: sx(km), y: sy(elevAtKm(km)), up: base.segs[i].up });
-        }
-      }
-    }
-
     const yTicks = niceTicks(yr.min, yr.max, 4).map((v) => ({ v, y: sy(v) }));
-    const xStep = niceStepKm(span);
-    const xTicks: { v: number; x: number }[] = [];
-    for (let v = Math.ceil(view.a / xStep) * xStep; v <= view.b + 1e-6; v += xStep)
-      xTicks.push({ v: Math.round(v * 10) / 10, x: sx(v) });
+    const xTicks = distanceTicks(view).map((t) => ({ ...t, x: sx(t.km) }));
 
-    return { line, area, reds, ticks, showTicks, yTicks, xTicks, lms: placeLandmarks(trek.landmarks, view, sx, sy) };
+    return { line, area, reds, yTicks, xTicks, lms: placeLandmarks(trek.landmarks, view, sx, sy) };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [trek, view, base]);
 
@@ -170,16 +146,12 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
     setView((v) => {
       const s = Math.max(MIN_SPAN, Math.min(trek.totalKm, (v.b - v.a) * factor));
       const t = (km - v.a) / (v.b - v.a);
-      let a = km - t * s;
-      let b = a + s;
-      if (a < 0) (a = 0), (b = s);
-      if (b > trek.totalKm) (b = trek.totalKm), (a = b - s);
-      return { a, b };
+      return clampView(km - t * s, s, trek.totalKm);
     });
-  const onWheel = (e: React.WheelEvent) => {
+  useNonPassiveWheel(svgRef, (e) => {
     e.preventDefault();
-    zoomAround(kmAtClientX(e.clientX), e.deltaY > 0 ? 1.18 : 1 / 1.18);
-  };
+    zoomAround(kmAtClientX(e.clientX), wheelZoomFactor(e));
+  });
   const onPointerDown = (e: React.PointerEvent) => {
     (e.target as Element).setPointerCapture?.(e.pointerId);
     if (e.shiftKey || selectMode) {
@@ -200,11 +172,7 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
     } else if (drag.current) {
       const rect = svgRef.current!.getBoundingClientRect();
       const dkm = ((e.clientX - drag.current.x) / rect.width) * W * (span / PW);
-      let a = drag.current.a - dkm;
-      let b = drag.current.b - dkm;
-      if (a < 0) (a = 0), (b = span);
-      if (b > trek.totalKm) (b = trek.totalKm), (a = b - span);
-      setView({ a, b });
+      setView(clampView(drag.current.a - dkm, span, trek.totalKm));
     } else setHoverKm(kmAtClientX(e.clientX));
   };
   const endDrag = () => {
@@ -230,6 +198,10 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
   }, [hoverKm, view, trek, base]);
 
   const zoomed = span < trek.totalKm - 0.01;
+  const resetView = () => {
+    setView({ a: 0, b: trek.totalKm });
+    setSel(null);
+  };
   const viewSteps = useMemo(() => stepsBetween(view.a, view.b), [stepsBetween, view]);
   const selSteps = sel ? stepsBetween(sel.a, sel.b) : null;
 
@@ -241,7 +213,6 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
           viewBox={`0 0 ${W} ${H}`}
           className="block h-auto w-full touch-none"
           style={{ minWidth: 600 }}
-          onWheel={onWheel}
           onPointerDown={onPointerDown}
           onPointerMove={onPointerMove}
           onPointerUp={endDrag}
@@ -273,24 +244,17 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
           <text x={L - 7} y={TOP - 10} textAnchor="end" className="fill-muted dark:fill-muted-dark" fontSize={11}>m</text>
 
           {geom.xTicks.map((t) => (
-            <text key={t.v} x={t.x} y={BOTTOM + 15} textAnchor="middle" className="fill-muted dark:fill-muted-dark tabular-nums" fontSize={11}>
-              {t.v === geom.xTicks[geom.xTicks.length - 1]?.v ? `${t.v} km` : t.v}
+            <text key={t.index} x={t.x} y={BOTTOM + 15} textAnchor="middle" className="fill-muted dark:fill-muted-dark tabular-nums" fontSize={11}>
+              {t.index === geom.xTicks[geom.xTicks.length - 1].index ? `${t.label} km` : t.label}
             </text>
           ))}
 
           <g clipPath="url(#plot)">
             <path d={geom.area} className="fill-neutral-200/60 dark:fill-neutral-800/60" />
             <path d={geom.line} fill="none" className="stroke-neutral-400 dark:stroke-neutral-500" strokeWidth={1.5} strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-            {/* zoomed out: the line reddens with step density */}
-            {!geom.showTicks &&
-              geom.reds.map((s, i) => (
-                <line key={i} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} style={{ stroke: "var(--primary)" }} strokeOpacity={s.op} strokeWidth={2.6} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-              ))}
-            {/* zoomed in: each counted step as its own mark */}
-            {geom.showTicks &&
-              geom.ticks.map((t, i) => (
-                <line key={i} x1={t.x} x2={t.x} y1={t.up ? t.y + 1 : t.y - 1} y2={t.up ? t.y - 6 : t.y + 6} style={{ stroke: "var(--primary)" }} strokeWidth={1.3} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
-              ))}
+            {geom.reds.map((s, i) => (
+              <line key={i} x1={s.x1} y1={s.y1} x2={s.x2} y2={s.y2} style={{ stroke: "var(--primary)" }} strokeOpacity={s.op} strokeWidth={2.6} strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+            ))}
 
             {geom.lms.map((l) => (
               <g key={l.name}>
@@ -353,115 +317,51 @@ export function TrekProfile({ trek }: { trek: TrekData }) {
           />
         </svg>
 
-        <div className="absolute right-2.5 top-2.5 flex gap-1">
-          <CtrlBtn
-            label={selectMode ? "Measuring — tap to pan again" : "Measure a stretch"}
-            active={selectMode}
-            onClick={() => setSelectMode((m) => !m)}
-          >
-            <Selection size={16} />
-          </CtrlBtn>
-          <CtrlBtn label="Zoom in" onClick={() => zoomAround((view.a + view.b) / 2, 1 / 1.6)}>
-            <MagnifyingGlassPlus size={16} />
-          </CtrlBtn>
-          <CtrlBtn label="Zoom out" onClick={() => zoomAround((view.a + view.b) / 2, 1.6)}>
-            <MagnifyingGlassMinus size={16} />
-          </CtrlBtn>
-          {(zoomed || sel) && (
-            <CtrlBtn
-              label="Reset"
-              onClick={() => {
-                setView({ a: 0, b: trek.totalKm });
-                setSel(null);
-              }}
-            >
-              <ArrowsOutSimple size={16} />
-            </CtrlBtn>
-          )}
-        </div>
+        <ProfileControls
+          selectMode={selectMode}
+          onToggleSelect={() => setSelectMode((m) => !m)}
+          onZoom={(factor) => zoomAround((view.a + view.b) / 2, factor)}
+          onReset={zoomed || sel ? resetView : null}
+        />
 
-        {hover && (
-          <div
-            className="pointer-events-none absolute z-10 w-max max-w-[230px] rounded-md border border-neutral-200 bg-light-background/95 px-3 py-2 text-sm shadow-lg dark:border-neutral-700 dark:bg-dark-background/95"
-            style={{
-              left: `${(hover.x / W) * 100}%`,
-              top: 8,
-              // anchor to the side away from the edge so it never gets clipped
-              transform: `translateX(${hover.x > W * 0.62 ? "calc(-100% - 10px)" : "10px"})`,
-            }}
-          >
-            <div className="font-semibold text-light-foreground dark:text-dark-foreground">
-              {metres(hover.elev)}
-              <span className="font-normal text-muted dark:text-muted-dark"> at km {hover.km.toFixed(1)}</span>
-            </div>
-            <div className="mt-0.5 text-muted dark:text-muted-dark">
-              {hover.per100 >= 1 ? `≈ ${hover.per100} stone steps per 100 m` : "walking grade — no steps"}
-            </div>
-            {hover.near && <div className="mt-0.5 text-muted dark:text-muted-dark">near {hover.near.name}</div>}
-          </div>
-        )}
+        {hover && <HoverCard hover={hover} chartWidth={W} />}
       </div>
 
-      <figcaption className="mt-3 text-sm text-muted dark:text-muted-dark">
-        <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5">
-          <span className="inline-flex items-center gap-1.5">
-            <span className="inline-block h-0.5 w-4" style={{ background: "var(--primary)" }} /> stone steps
-          </span>
-          <span className="inline-flex items-center gap-1.5">
-            <span className="inline-block h-0.5 w-4 bg-neutral-400 dark:bg-neutral-500" /> walking grade
-          </span>
-          <span className="ml-auto font-medium tabular-nums text-light-foreground dark:text-dark-foreground">
-            {sel && selSteps != null
-              ? `${intComma(selSteps)} steps over ${(sel.b - sel.a).toFixed(1)} km`
-              : `${intComma(viewSteps)} steps ${zoomed ? "in view" : "on the shortest route"}`}
-          </span>
-        </div>
-        <div className="mt-1.5">
-          {selectMode
-            ? "Drag across the trail to measure a stretch. Tap the button again to pan."
-            : "Scroll to zoom and drag to pan. Shift-drag, or tap the box, to measure a stretch."}
-          {sel && (
-            <button
-              type="button"
-              onClick={() => setSel(null)}
-              className="ml-2 underline hover:text-light-foreground dark:hover:text-dark-foreground"
-            >
-              clear
-            </button>
-          )}
-        </div>
-      </figcaption>
+      <ProfileCaption
+        measured={sel && selSteps != null ? { steps: selSteps, km: sel.b - sel.a } : null}
+        viewSteps={viewSteps}
+        zoomed={zoomed}
+        selectMode={selectMode}
+        onClear={() => setSel(null)}
+      />
     </figure>
   );
 }
 
-function CtrlBtn({
-  label,
-  onClick,
-  active,
-  children,
-}: {
-  label: string;
-  onClick: () => void;
-  active?: boolean;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      onClick={onClick}
-      aria-label={label}
-      aria-pressed={active}
-      title={label}
-      className={`grid h-7 w-7 place-items-center rounded-md border backdrop-blur ${
-        active
-          ? "border-transparent text-white"
-          : "border-neutral-200 bg-light-background/80 text-muted hover:text-light-foreground dark:border-neutral-700 dark:bg-dark-background/80 dark:text-muted-dark dark:hover:text-dark-foreground"
-      }`}
-      style={active ? { background: "var(--primary)" } : undefined}
-    >
-      {children}
-    </button>
-  );
+function clampView(a: number, span: number, totalKm: number): View {
+  const start = Math.min(Math.max(0, a), totalKm - span);
+  return { a: start, b: start + span };
+}
+
+// Proportional to the wheel delta, so a trackpad's stream of small deltas
+// zooms smoothly while one mouse-wheel notch still zooms ~16%.
+function wheelZoomFactor(e: WheelEvent): number {
+  const px = e.deltaMode === WheelEvent.DOM_DELTA_LINE ? e.deltaY * 16 : e.deltaY;
+  return Math.exp(Math.max(-50, Math.min(50, px)) * 0.003);
+}
+
+// React registers wheel listeners as passive, so preventDefault() there can't
+// stop the page from scrolling; attach a native non-passive one instead.
+function useNonPassiveWheel(ref: React.RefObject<Element | null>, onWheel: (e: WheelEvent) => void) {
+  const handler = useRef(onWheel);
+  handler.current = onWheel;
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const listener = (e: Event) => handler.current(e as WheelEvent);
+    el.addEventListener("wheel", listener, { passive: false });
+    return () => el.removeEventListener("wheel", listener);
+  }, [ref]);
 }
 
 function niceStepKm(span: number): number {
@@ -469,6 +369,17 @@ function niceStepKm(span: number): number {
   const mag = Math.pow(10, Math.floor(Math.log10(raw)));
   const n = raw / mag;
   return (n >= 5 ? 5 : n >= 2 ? 2 : n >= 1 ? 1 : 0.5) * mag;
+}
+
+// Ticks are generated by integer multiple of the step and labelled with as many
+// decimals as the step needs, so 0.05 km steps don't round into duplicates.
+function distanceTicks(view: View): { index: number; km: number; label: string }[] {
+  const step = niceStepKm(view.b - view.a);
+  const decimals = Math.max(0, Math.ceil(-Math.log10(step) - 1e-9));
+  const ticks: { index: number; km: number; label: string }[] = [];
+  for (let k = Math.ceil(view.a / step - 1e-9); k * step <= view.b + 1e-9; k++)
+    ticks.push({ index: k, km: k * step, label: (k * step).toFixed(decimals) });
+  return ticks;
 }
 
 function miniPath(trek: TrekData, base: { eMin: number; eMax: number }) {
