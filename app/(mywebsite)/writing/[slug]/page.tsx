@@ -20,6 +20,7 @@ import { Metadata } from "next";
 import { ViewCounter } from "./view-counter";
 import { redirect } from "next/navigation";
 import { WritingBackLink } from "./writing-back-link";
+import { articleJsonLd, articleMetadata } from "./article-seo";
 
 type BlogPageParams = {
     slug: string;
@@ -126,11 +127,7 @@ export async function generateMetadata({ params }: { params: Promise<BlogPagePar
         });
     }
 
-    return getMetadata({
-        title: post.title,
-        subtitle: new Date(post.createdAt).toLocaleDateString(),
-        description: `${new Date(post.createdAt).toLocaleDateString()} — ${post.description}`,
-    });
+    return articleMetadata(post);
 }
 
 //  { post, similarPosts }: InferGetStaticPropsType<typeof getStaticProps>
@@ -147,6 +144,10 @@ export default async function SingleBlogPage(
     
     return (
         <>
+            <script
+                type="application/ld+json"
+                dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd(post)) }}
+            />
             {post.isDraft && <DraftBadge />}
             <div className={`pagepad`}>
                 {post.image && <ArticleImageBg imageUrl={post.image} />}
