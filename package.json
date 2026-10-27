@@ -11,8 +11,8 @@
     "seed": "node -r dotenv/config ./scripts/seed.js"
   },
   "dependencies": {
-    "@aws-sdk/client-s3": "^3.668.0",
-    "@aws-sdk/s3-request-presigner": "^3.1037.0",
+    "@aws-sdk/client-s3": "^3.1157.0",
+    "@aws-sdk/s3-request-presigner": "^3.1157.0",
     "@myriaddreamin/typst-ts-node-compiler": "^0.7.0",
     "@phosphor-icons/react": "^2.1.8",
     "@prisma/adapter-neon": "7.3.0",
