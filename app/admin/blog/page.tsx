@@ -1,58 +1,22 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ArrowLeft, FloppyDisk, Eye, EyeSlash, CaretRight, Plus } from "@phosphor-icons/react/dist/ssr";
-import type { ArticleCategory } from "@/prisma/awooga/client";
-import { isViewExcluded, setViewExcluded } from "@/app/lib/view-exclude-client";
-import ViewsChart, { type ViewDay } from "./views-chart";
 import { useAdminAuth } from "../components/admin-auth";
+import { ArticleEditor } from "./article-editor";
+import { PostList } from "./post-list";
+import type { Post } from "./lib/types";
 
-const CATEGORIES: ArticleCategory[] = ["TECHNICAL", "CREATIVE", "PERSONAL"];
-const titleCase = (c: ArticleCategory) => c[0] + c.slice(1).toLowerCase();
-
-type Post = {
-  id: string;
-  title: string;
-  slug: string;
-  description: string;
-  remoteURL: string | null;
-  createdAt: string;
-  views: number;
-  isDraft: boolean;
-  category: ArticleCategory;
-  draftUid: string | null;
-};
+type EditorTarget = { post: Post | null } | null;
 
 export default function BlogAdminPage() {
   const { adminFetch } = useAdminAuth();
   const [posts, setPosts] = useState<Post[]>([]);
-  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
-  const [content, setContent] = useState("");
-  const [viewsByDay, setViewsByDay] = useState<ViewDay[]>([]);
-  const [description, setDescription] = useState("");
-  const [isDraft, setIsDraft] = useState(false);
-  const [category, setCategory] = useState<ArticleCategory>("TECHNICAL");
-  const [creating, setCreating] = useState(false);
-  const [title, setTitle] = useState("");
-  const [slug, setSlug] = useState("");
-  const [slugEdited, setSlugEdited] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [saving, setSaving] = useState(false);
-  const [message, setMessage] = useState<{ type: "success" | "error"; text: string } | null>(null);
-  const [excluded, setExcluded] = useState(false);
-
-  useEffect(() => {
-    setExcluded(isViewExcluded());
-  }, []);
-
-  function toggleExcluded() {
-    const next = !excluded;
-    setViewExcluded(next);
-    setExcluded(next);
-  }
+  const [editorTarget, setEditorTarget] = useState<EditorTarget>(null);
 
   useEffect(() => {
     fetchPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function fetchPosts() {
@@ -69,319 +33,26 @@ export default function BlogAdminPage() {
     }
   }
 
-  async function selectPost(post: Post) {
-    setSelectedPost(post);
-    setIsDraft(post.isDraft);
-    setCategory(post.category);
-    setDescription(post.description ?? "");
-    setContent("");
-    setViewsByDay([]);
-    setLoading(true);
-    try {
-      const res = await adminFetch(`/api/admin/blog?slug=${post.slug}`);
-      const data = await res.json();
-      setContent(data.content || "");
-      setViewsByDay(data.viewsByDay || []);
-    } catch (e) {
-      console.error(e);
-    } finally {
-      setLoading(false);
-    }
+  function recordSavedPost(post: Post, isNew: boolean) {
+    setPosts((prev) => (isNew ? [post, ...prev] : prev.map((p) => (p.slug === post.slug ? post : p))));
   }
 
-  async function saveContent() {
-    if (!selectedPost) return;
-    setSaving(true);
-    setMessage(null);
-    try {
-      const res = await adminFetch("/api/admin/blog", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slug: selectedPost.slug, content, isDraft, category, description }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        const updatedPost: Post = {
-          ...selectedPost,
-          isDraft: data.isDraft,
-          category: data.category,
-          description: data.description ?? description,
-          draftUid: data.draftUid,
-        };
-        setSelectedPost(updatedPost);
-        setPosts(prev => prev.map(p => p.slug === updatedPost.slug ? updatedPost : p));
-        setMessage({ type: "success", text: `Saved to ${data.blobUrl}` });
-      } else {
-        setMessage({ type: "error", text: data.error || "Failed to save" });
-      }
-    } catch (e) {
-      setMessage({ type: "error", text: "Failed to save" });
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  const slugify = (s: string) =>
-    s.toLowerCase().trim().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
-
-  function startNew() {
-    setSelectedPost(null);
-    setCreating(true);
-    setTitle("");
-    setSlug("");
-    setSlugEdited(false);
-    setDescription("");
-    setContent("");
-    setViewsByDay([]);
-    setIsDraft(false);
-    setCategory("TECHNICAL");
-    setMessage(null);
-  }
-
-  async function createArticle() {
-    const cleanSlug = slug.trim();
-    if (!title.trim() || !cleanSlug) {
-      setMessage({ type: "error", text: "Title and slug are required" });
-      return;
-    }
-    setSaving(true);
-    setMessage(null);
-    try {
-      const res = await adminFetch("/api/admin/blog", {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: title.trim(), slug: cleanSlug, description, content, category, isDraft }),
-      });
-      const data = await res.json();
-      if (data.success) {
-        const post: Post = data.post;
-        setPosts(prev => [post, ...prev]);
-        setSelectedPost(post);
-        setCreating(false);
-        setMessage({ type: "success", text: data.blobUrl ? `Created · ${data.blobUrl}` : "Created" });
-      } else {
-        setMessage({ type: "error", text: data.error || "Failed to create" });
-      }
-    } catch (e) {
-      setMessage({ type: "error", text: "Failed to create" });
-    } finally {
-      setSaving(false);
-    }
-  }
-
-  if (selectedPost || creating) {
-    const editing = !!selectedPost;
-    const previewHref = editing
-      ? selectedPost!.isDraft && selectedPost!.draftUid
-        ? `/blog/${selectedPost!.slug}-${selectedPost!.draftUid}`
-        : `/blog/${selectedPost!.slug}`
-      : "#";
-
+  if (editorTarget) {
     return (
-      <div>
-        <div className="max-w-5xl mx-auto">
-          <div className="flex items-center gap-4 mb-6">
-            <button
-              onClick={() => { setSelectedPost(null); setCreating(false); }}
-              className="flex items-center gap-2 text-muted hover:text-black dark:hover:text-white transition-colors"
-            >
-              <ArrowLeft size={20} />
-              Back
-            </button>
-            <h1 className="text-xl font-semibold flex-1">{editing ? selectedPost!.title : "New article"}</h1>
-            {editing && (
-              <a
-                href={previewHref}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 px-3 py-1.5 text-sm text-muted hover:text-black dark:hover:text-white transition-colors"
-              >
-                <Eye size={18} />
-                Preview
-              </a>
-            )}
-            <button
-              onClick={editing ? saveContent : createArticle}
-              disabled={saving}
-              className="flex items-center gap-2 px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-black rounded font-medium hover:opacity-90 transition-opacity disabled:opacity-50"
-            >
-              <FloppyDisk size={18} />
-              {saving ? (editing ? "Saving..." : "Creating...") : (editing ? "Save" : "Create")}
-            </button>
-          </div>
-
-          {message && (
-            <div className={`mb-4 p-3 rounded text-sm ${message.type === "success" ? "bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200" : "bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200"}`}>
-              {message.text}
-            </div>
-          )}
-
-          {creating && (
-            <div className="flex flex-col sm:flex-row gap-4 mb-4">
-              <div className="flex flex-col gap-1 flex-1">
-                <label className="text-sm text-muted dark:text-muted-dark">Title</label>
-                <input
-                  value={title}
-                  onChange={(e) => {
-                    setTitle(e.target.value);
-                    if (!slugEdited) setSlug(slugify(e.target.value));
-                  }}
-                  className="w-full px-4 py-2 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded focus:outline-none focus:ring-2 focus:ring-neutral-400 text-sm"
-                  placeholder="Article title"
-                  autoFocus
-                />
-              </div>
-              <div className="flex flex-col gap-1 flex-1">
-                <label className="text-sm text-muted dark:text-muted-dark">Slug</label>
-                <input
-                  value={slug}
-                  onChange={(e) => { setSlug(e.target.value); setSlugEdited(true); }}
-                  className="w-full px-4 py-2 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded font-mono text-sm focus:outline-none focus:ring-2 focus:ring-neutral-400"
-                  placeholder="article-slug"
-                />
-                <span className="text-xs text-muted">/writing/{slug || "…"}</span>
-              </div>
-            </div>
-          )}
-
-          {editing && (
-            <ViewsChart viewsByDay={viewsByDay} totalViews={selectedPost!.views} />
-          )}
-
-          <div className="flex flex-col gap-1 mb-4">
-            <label className="text-sm text-muted dark:text-muted-dark">Description</label>
-            <textarea
-              value={description}
-              onChange={(e) => setDescription(e.target.value)}
-              rows={2}
-              className="w-full px-4 py-2 bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded resize-none focus:outline-none focus:ring-2 focus:ring-neutral-400 text-sm"
-              placeholder="One-line summary shown on the blog index and in social previews."
-            />
-          </div>
-
-          <div className="flex items-center gap-6 mb-4">
-            <div className="flex items-center gap-1 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
-              <button
-                type="button"
-                onClick={() => setIsDraft(false)}
-                className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                  !isDraft
-                    ? "bg-neutral-900 dark:bg-white text-white dark:text-black"
-                    : "text-muted hover:text-black dark:hover:text-white"
-                }`}
-              >
-                Published
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsDraft(true)}
-                className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                  isDraft
-                    ? "bg-amber-600 dark:bg-amber-500 text-white dark:text-black"
-                    : "text-muted hover:text-black dark:hover:text-white"
-                }`}
-              >
-                Draft
-              </button>
-            </div>
-            <div className="flex items-center gap-1 bg-neutral-100 dark:bg-neutral-800 rounded-lg p-1">
-              {CATEGORIES.map((c) => (
-                <button
-                  key={c}
-                  type="button"
-                  onClick={() => setCategory(c)}
-                  className={`px-3 py-1 rounded-md text-sm font-medium transition-colors ${
-                    category === c
-                      ? "bg-neutral-900 dark:bg-white text-white dark:text-black"
-                      : "text-muted hover:text-black dark:hover:text-white"
-                  }`}
-                >
-                  {titleCase(c)}
-                </button>
-              ))}
-            </div>
-            {editing && selectedPost!.isDraft && selectedPost!.draftUid && (
-              <span className="text-xs text-muted font-mono">
-                draft URL: /blog/{selectedPost!.slug}-{selectedPost!.draftUid}
-              </span>
-            )}
-            {editing && selectedPost!.isDraft && !selectedPost!.draftUid && (
-              <span className="text-xs text-muted italic">UID generated on first save</span>
-            )}
-          </div>
-
-          {loading ? (
-            <div className="text-muted">Loading content...</div>
-          ) : (
-            <textarea
-              value={content}
-              onChange={(e) => setContent(e.target.value)}
-              className="w-full h-[calc(100vh-320px)] p-4 font-mono text-sm bg-white dark:bg-neutral-900 border border-neutral-300 dark:border-neutral-700 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-neutral-400"
-              placeholder="Enter HTML content..."
-              spellCheck={false}
-            />
-          )}
-        </div>
-      </div>
+      <ArticleEditor
+        initialPost={editorTarget.post}
+        onBack={() => setEditorTarget(null)}
+        onPostSaved={recordSavedPost}
+      />
     );
   }
 
   return (
-    <div>
-      <div className="max-w-3xl mx-auto">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-semibold">Posts</h1>
-          <div className="flex items-center gap-4">
-            <button
-              onClick={toggleExcluded}
-              title={excluded ? "Your views on this device are not counted" : "Count your views on this device"}
-              className={`flex items-center gap-2 px-3 py-2 rounded text-sm font-medium transition-colors ${
-                excluded
-                  ? "bg-neutral-100 dark:bg-neutral-800 text-neutral-800 dark:text-neutral-200"
-                  : "text-muted hover:text-black dark:hover:text-white"
-              }`}
-            >
-              {excluded ? <EyeSlash size={18} /> : <Eye size={18} />}
-              {excluded ? "Not counting you" : "Counting you"}
-            </button>
-            <button
-              onClick={startNew}
-              className="flex items-center gap-2 px-4 py-2 bg-neutral-900 dark:bg-white text-white dark:text-black rounded font-medium hover:opacity-90 transition-opacity"
-            >
-              <Plus size={18} weight="bold" />
-              New article
-            </button>
-          </div>
-        </div>
-
-        {loading ? (
-          <div className="text-muted">Loading posts...</div>
-        ) : (
-          <div className="flex flex-col gap-2">
-            {posts.map((post) => (
-              <button
-                key={post.id}
-                onClick={() => selectPost(post)}
-                className="flex items-center gap-4 p-4 bg-white dark:bg-neutral-900 rounded-lg border border-neutral-200 dark:border-neutral-800 hover:border-neutral-400 dark:hover:border-neutral-600 transition-colors text-left"
-              >
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2">
-                    <span className="font-medium truncate">{post.title}</span>
-                    {post.isDraft && <span className="text-xs px-1.5 py-0.5 rounded bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 flex-shrink-0">Draft</span>}
-                    {post.category === "CREATIVE" && <span className="text-xs px-1.5 py-0.5 rounded bg-purple-100 dark:bg-purple-900/40 text-purple-700 dark:text-purple-300 flex-shrink-0">Creative</span>}
-                    {post.category === "PERSONAL" && <span className="text-xs px-1.5 py-0.5 rounded bg-sky-100 dark:bg-sky-900/40 text-sky-700 dark:text-sky-300 flex-shrink-0">Personal</span>}
-                  </div>
-                  <div className="text-sm text-muted truncate">{post.description}</div>
-                  <div className="text-xs text-muted mt-1">
-                    {new Date(post.createdAt).toLocaleDateString()} · {post.views} view{post.views !== 1 && "s"}
-                  </div>
-                </div>
-                <CaretRight size={20} className="text-muted flex-shrink-0" />
-              </button>
-            ))}
-          </div>
-        )}
-      </div>
-    </div>
+    <PostList
+      posts={posts}
+      loading={loading}
+      onSelect={(post) => setEditorTarget({ post })}
+      onNew={() => setEditorTarget({ post: null })}
+    />
   );
 }

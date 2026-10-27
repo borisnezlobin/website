@@ -1,4 +1,5 @@
-import { S3Client, PutObjectCommand, DeleteObjectCommand } from "@aws-sdk/client-s3";
+import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand, HeadObjectCommand } from "@aws-sdk/client-s3";
+import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 
 let client: S3Client | null = null;
 
@@ -40,6 +41,37 @@ export async function uploadToR2(key: string, body: Buffer, contentType: string)
     CacheControl: "public, max-age=31536000, immutable",
   }));
   return `${publicBase()}/${key}`;
+}
+
+export async function presignR2Upload(
+  key: string,
+  contentType: string,
+  cacheControl: string,
+): Promise<{ uploadUrl: string; publicUrl: string }> {
+  const command = new PutObjectCommand({
+    Bucket: bucketName(),
+    Key: key,
+    ContentType: contentType,
+    CacheControl: cacheControl,
+  });
+  const uploadUrl = await getSignedUrl(getClient(), command, { expiresIn: 600 });
+  return { uploadUrl, publicUrl: `${publicBase()}/${key}` };
+}
+
+export async function existsInR2(key: string): Promise<boolean> {
+  try {
+    await getClient().send(new HeadObjectCommand({ Bucket: bucketName(), Key: key }));
+    return true;
+  } catch (e) {
+    if ((e as { name?: string }).name === "NotFound") return false;
+    throw e;
+  }
+}
+
+export async function downloadFromR2(key: string): Promise<Buffer> {
+  const object = await getClient().send(new GetObjectCommand({ Bucket: bucketName(), Key: key }));
+  if (!object.Body) throw new Error(`R2 object ${key} has no body`);
+  return Buffer.from(await object.Body.transformToByteArray());
 }
 
 export async function deleteFromR2(key: string): Promise<void> {
