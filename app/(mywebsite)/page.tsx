@@ -13,7 +13,9 @@ import { getBlogs, getPhotographs } from "@/app/lib/db-caches";
 import getMetadata from "@/app/lib/metadata";
 import Link from "next/link";
 
-export const metadata = getMetadata({});
+export const metadata = getMetadata({
+    video: { path: "/link-preview/home.mp4", poster: "/link-preview/home.jpg", width: 1200, height: 630 },
+});
 
 const ENTRY_DELAY_SECONDS = { opening: 0, climb: 4, closing: 8 };
 

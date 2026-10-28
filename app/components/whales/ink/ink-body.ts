@@ -130,6 +130,16 @@ function decodeFrame(behavior: string, pack: Pack, index: number): Promise<BodyF
     return job;
 }
 
+/** Every body frame of a behavior, decoded up front, for renderers that need any frame on demand. */
+export async function loadBodyFrames(behavior: string): Promise<BodyFrame[]> {
+    const pack = await fetchPack(behavior);
+    const decoded = await Promise.all(pack.frames.map(async (source) => {
+        const bitmap = await createImageBitmap(source.blob);
+        return { bitmap, x: source.x, y: source.y, width: source.width, height: source.height };
+    }));
+    return decoded;
+}
+
 export function openBody(behavior: string): BodyReel {
     let pack: Pack | null = null;
     let count = 0;
