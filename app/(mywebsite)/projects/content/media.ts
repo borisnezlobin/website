@@ -96,6 +96,50 @@ export const PROJECT_MEDIA: Record<string, ProjectMedia[]> = {
         ),
         image("typehero/profanity-settings-bio", "TypeHero settings with a swear word in the bio and a link to hell.com, each rejected with \"Don't use profanity.\"", 1600, 1320),
     ],
+    "standard-response": [
+        video(
+            "standard-response/calls-light-up",
+            "West Altadena’s warning zone lighting up home by home as the calls go out, then sorted by answer: 651 need help, 351 can help, 4,606 left and 792 not reached yet",
+            1280,
+            720,
+        ),
+        video(
+            "standard-response/routes-drawn",
+            "Pickup routes drawing across west Altadena beside the fire, with neighbors’ cars in orange and emergency vehicles in white heading for the red dots of people who need a ride",
+            1280,
+            720,
+        ),
+        image(
+            "standard-response/eaton-replay-out-in-time",
+            "Two grids of 662 households on a simulated Eaton Fire night: 6% got out in time when residents called 911 themselves, against 97% with Standard Response",
+            1600,
+            1066,
+        ),
+        image(
+            "standard-response/dispatcher-rescue-map",
+            "The dispatcher’s rescue map of west Altadena, with the fire’s forecast spreading, idle vans and medic units on the streets, and fire crews’ list of doors still to knock",
+            1600,
+            1066,
+        ),
+        image(
+            "standard-response/call-becomes-ride-request",
+            "A test call beside the record it filled in for 521 West Harriet Street: can’t leave, no car, one person, power wheelchair, no oxygen",
+            1600,
+            1066,
+        ),
+        image(
+            "standard-response/resident-text-and-driver-phone",
+            "A resident’s evacuation text asking for a reply of 1, 2 or 3, next to Van 12’s driver phone waiting for its next pickup",
+            1600,
+            1066,
+        ),
+        image(
+            "standard-response/palo-alto-fire-stations",
+            "The team with firefighters in front of Engine 63 at Palo Alto Fire Station 1, and in a selfie inside Station 6",
+            1600,
+            1066,
+        ),
+    ],
     amelia: [
         image("amelia/amelia-hackathon-demo", "Showing Amelia to another hacker, with the app transcribing the conversation on screen", 1600, 901),
         image("amelia/team-mongodb-wall", "The team in front of MongoDB's \"Build anything. Change everything.\" wall", 1600, 1200),

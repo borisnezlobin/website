@@ -132,6 +132,20 @@ const COMPETITIONS: ProjectClaim = {
     noun: "competitions",
     entries: [
         {
+            id: "standard-response",
+            name: "Standard Response",
+            tagline: "The most awarded team in Cal Hacks history",
+            href: "/writing/calhacks-record",
+            won: true,
+            body: "At Cal Hacks 13 we built Standard Response to get people out of a wildfire warning zone when they can’t leave on their own. Its voice agents phone every home in the zone and ask who needs a ride. A route solver then sends accessible vans, EMTs and evacuating neighbors to pick those people up. Anthony Mitchell died in the 2025 Eaton Fire after a 911 dispatcher told him “They’re on their way.” Nobody came. Our agent never says help is coming until a driver has accepted the pickup. On a simulated replay of that night on the real map of west Altadena, 641 of 662 households got out in time. Only 39 did when residents called 911 themselves. We drove the idea to two Palo Alto fire stations and changed the design on firefighters’ advice. Cal Hacks gave it the overall award for Best People-First Social Impact Hack. Microsoft, Moss, Apify, Anthropic and Convex each gave it a prize too.",
+            links: [
+                { label: "Post on LinkedIn", href: "https://www.linkedin.com/feed/update/urn:li:activity:7520301871572365312/" },
+                { label: "Demo video", href: "https://www.youtube.com/watch?v=eNsAGHFnFJY" },
+                { label: "Devpost", href: "https://devpost.com/software/standard-response" },
+                { label: "Source", href: "https://github.com/Imhaohao/calhacks" },
+            ],
+        },
+        {
             id: "amelia",
             name: "Amelia",
             tagline: "Helping deaf people keep up with fast-paced conversations.",
