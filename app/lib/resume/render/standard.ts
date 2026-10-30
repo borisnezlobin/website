@@ -1,4 +1,4 @@
-/** Boris's hand-picked resume, with JYV promoted to experience, and HeronScout, PASA, and ShadowFinder added. */
+/** Boris's hand-picked resume, with JYV promoted to experience, and Standard Response, HeronScout, PASA, and ShadowFinder added. */
 export const STANDARD_BULLET_IDS = [
     "lm-csv",
     "lm-solar",
@@ -9,10 +9,11 @@ export const STANDARD_BULLET_IDS = [
     "fl-sites",
     "heron-pubsub",
     "heron-mpc",
-    "heronscout-usage",
+    "sr-build",
     "hack-amelia",
-    "cac-tfidf",
+    "heronscout-usage",
     "open-source-1",
     "public-users",
+    "cac-tfidf",
     "public-blog",
 ];

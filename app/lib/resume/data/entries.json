@@ -73,6 +73,52 @@
       "title": "Projects",
       "entries": [
         {
+          "id": "standard-response",
+          "kind": "project",
+          "name": "Standard Response",
+          "technologies": [
+            "TypeScript",
+            "Python",
+            "voice agents"
+          ],
+          "liveUrl": "https://standardresponse.us",
+          "repoUrl": "https://github.com/Imhaohao/calhacks",
+          "award": "6 prizes, a Cal Hacks record",
+          "weight": 3,
+          "maxBullets": 3
+        },
+        {
+          "id": "standard-physics",
+          "kind": "project",
+          "name": "Standard Physics",
+          "technologies": [
+            "Swift",
+            "LiDAR",
+            "Python",
+            "AI agents"
+          ],
+          "liveUrl": "https://standardphysics.app",
+          "award": "Most Production-Ready, CoreWeave hackathon",
+          "weight": 2,
+          "maxBullets": 2
+        },
+        {
+          "id": "thepayments",
+          "kind": "project",
+          "name": "The Payments — stablecoin checkout for AI agents",
+          "technologies": [
+            "TypeScript",
+            "x402",
+            "Base",
+            "MCP"
+          ],
+          "liveUrl": "https://thepayments.vercel.app",
+          "repoUrl": "https://github.com/borisnezlobin/thepayments",
+          "award": "Best Use of Context.dev",
+          "weight": 1,
+          "maxBullets": 1
+        },
+        {
           "id": "robot-arm",
           "kind": "project",
           "name": "LiDAR-guided robot arm (Berkeley robotics hackathon)",
@@ -136,20 +182,6 @@
           ],
           "weight": 1,
           "maxBullets": 2
-        },
-        {
-          "id": "vantage-startup",
-          "kind": "project",
-          "name": "Vantage — Spatial OS",
-          "technologies": [
-            "C++",
-            "C",
-            "Swift",
-            "ARKit"
-          ],
-          "weight": 1,
-          "maxBullets": 2,
-          "liveUrl": "https://defect.tech"
         },
         {
           "id": "enf-research",
@@ -266,6 +298,16 @@
     {
       "title": "Experience",
       "entries": [
+        {
+          "id": "vals",
+          "kind": "exp",
+          "role": "Platform Engineer Intern",
+          "organization": "Vals AI",
+          "date": "Starting Nov 2026",
+          "always": true,
+          "weight": 3,
+          "maxBullets": 0
+        },
         {
           "id": "lockheed",
           "kind": "exp",

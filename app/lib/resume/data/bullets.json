@@ -222,24 +222,6 @@
   ]
  },
  {
-  "id": "spatial-ar-os-1",
-  "entry": "vantage-startup",
-  "tags": [
-   "xr",
-   "systems",
-   "hardware"
-  ],
-  "priority": 1,
-  "text": "Built an XR operating system on Linux that uses an iPhone as its ARKit perception engine, streaming 60 Hz SLAM poses over a custom UDP protocol.",
-  "keywords": [
-   "ARKit",
-   "SLAM",
-   "UDP",
-   "XR",
-   "Linux"
-  ]
- },
- {
   "id": "siyi-app-1",
   "entry": "siyi-app",
   "tags": [
@@ -304,23 +286,6 @@
    "sentence-transformers",
    "on-device inference",
    "semantic image search"
-  ]
- },
- {
-  "id": "vantage-startup-1",
-  "entry": "vantage-startup",
-  "tags": [
-   "xr",
-   "business",
-   "systems"
-  ],
-  "priority": 2,
-  "text": "Co-founded _Vantage_ at UC Berkeley to build a spatial operating system with always-on on-device AI and a text API for AI agents to act through.",
-  "keywords": [
-   "spatial OS",
-   "on-device AI",
-   "AI agents",
-   "co-founder"
   ]
  },
  {
@@ -811,5 +776,97 @@
    "Python"
   ],
   "text": "Counted all 9,862 stone steps on the 4-day Inca Trail by hand and rebuilt its profile from about 6,000 GPS points, showing the trail runs about 34 km rather than the 43 km usually quoted."
+ },
+ {
+  "id": "sr-build",
+  "entry": "standard-response",
+  "tags": [
+   "ml",
+   "agents",
+   "full-stack",
+   "systems",
+   "impact",
+   "data"
+  ],
+  "priority": 1,
+  "text": "Built _Standard Response_, which calls every home in a wildfire zone with AI voice agents and dispatches rides to people who can't leave; in a replay of the 2025 Eaton Fire, 641 of 662 households got out in time, against 39 through 911.",
+  "keywords": [
+   "voice agents",
+   "route optimization",
+   "emergency response",
+   "AI agents",
+   "simulation"
+  ]
+ },
+ {
+  "id": "sr-firefighters",
+  "entry": "standard-response",
+  "tags": [
+   "business",
+   "product",
+   "leadership"
+  ],
+  "priority": 3,
+  "text": "Interviewed firefighters at two Palo Alto stations mid-hackathon and changed the design on their advice.",
+  "keywords": [
+   "user research",
+   "customer discovery",
+   "product"
+  ]
+ },
+ {
+  "id": "sp-build",
+  "entry": "standard-physics",
+  "tags": [
+   "cv",
+   "3d",
+   "ml",
+   "full-stack",
+   "business"
+  ],
+  "priority": 1,
+  "text": "Built _Standard Physics_, which turns an iPhone LiDAR scan of a shop into a 3D model and checks it against the 2010 ADA Standards; it has scanned 40,000+ square feet of restaurants, campus buildings and homes.",
+  "keywords": [
+   "LiDAR",
+   "3D",
+   "ADA compliance",
+   "iOS"
+  ]
+ },
+ {
+  "id": "sp-agent",
+  "entry": "standard-physics",
+  "tags": [
+   "ml",
+   "agents",
+   "systems"
+  ],
+  "priority": 2,
+  "text": "Built an agent loop that rearranges an owner's own furniture to fix violations, keeping a move only if re-measuring shows nothing new failing and something improving.",
+  "keywords": [
+   "agent loop",
+   "AI agents",
+   "verification",
+   "search"
+  ]
+ },
+ {
+  "id": "tp-build",
+  "entry": "thepayments",
+  "tags": [
+   "blockchain",
+   "agents",
+   "business",
+   "full-stack"
+  ],
+  "priority": 2,
+  "text": "Built _The Payments_, which lets small shops sell to AI agents and get paid in stablecoin over x402; an agent's \\$5.50 cortado costs the buyer \\$5.23 and still leaves the shop more than Stripe would.",
+  "keywords": [
+   "x402",
+   "stablecoin",
+   "payments",
+   "AI agents",
+   "MCP"
+  ]
  }
 ]
