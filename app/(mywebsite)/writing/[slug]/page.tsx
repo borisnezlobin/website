@@ -12,6 +12,7 @@ import { DraftBadge } from "@/app/components/draft-badge";
 import { Wrapper } from "@/app/(mywebsite)/notes/[slug]/[section]/skibidiwrapper";
 import { BlogDropCap } from "./blog-drop-cap";
 import { BlogDividers } from "./blog-dividers";
+import { BlogSidenotes } from "./blog-sidenotes";
 import { BlogHeroTexture } from "./blog-hero-texture";
 import { getBlogHTMLPath } from "@/app/utils/get-note-mdx-path";
 import { existsSync, readFileSync } from "fs";
@@ -190,6 +191,7 @@ export default async function SingleBlogPage(
                         <Wrapper content={post.body} />
                         <BlogDropCap />
                         <BlogDividers />
+                        <BlogSidenotes />
                     </div>
                 </div>
                 {post && (

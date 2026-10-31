@@ -17,7 +17,10 @@
         "app/(mywebsite)/contact/**/*.{ts,tsx}",
         "app/lib/spin-drive/**/*.ts",
         "app/lib/sliced-shader/**/*.ts",
-        "app/(mywebsite)/scene-lab/**/*.{ts,tsx}"
+        "app/(mywebsite)/scene-lab/**/*.{ts,tsx}",
+        "app/(mywebsite)/writing/*/blog-sidenotes.tsx",
+        "app/(mywebsite)/writing/*/sidenote.tsx",
+        "app/(mywebsite)/writing/*/footnote-dom.ts"
       ],
       "rules": {
         "complexity": [
