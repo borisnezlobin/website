@@ -1,5 +1,6 @@
 "use client";
 
+import { BIRD_COLORS } from "@/app/(mywebsite)/projects/canopy/boids/draw";
 import useWindowSize from "@/app/utils/use-window-size";
 import { useTheme } from "next-themes";
 import { useEffect, useRef } from "react";
@@ -52,7 +53,7 @@ const BoidCanvas = () => {
     const canvasRef = useRef<HTMLCanvasElement>(null);
     const boidGrid = useRef<BoidGridType>({});
     const boids = useRef<Boid[]>([]);
-    const theme = useTheme();
+    const { resolvedTheme } = useTheme();
     const windowSize = useWindowSize();
 
     const whale = useRef<Obstacle | null>(null);
@@ -77,9 +78,37 @@ const BoidCanvas = () => {
         boids.current.forEach(boid => boid.update(boidGrid.current!, width, height, 0));
     };
 
+    const shouldAnimate = () => isInViewRef.current && isPageVisibleRef.current && hasFocusRef.current;
+
+    const refreshWhalePosition = (canvas: HTMLCanvasElement) => {
+        framesSinceWhaleCheck.current += 1;
+        if (framesSinceWhaleCheck.current < WHALE_RECHECK_FRAMES) return;
+        framesSinceWhaleCheck.current = 0;
+        whale.current = locateWhale(canvas, whaleField.current);
+    };
+
+    const drawFrame = (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D, dt: number) => {
+        const width = canvas.width;
+        const height = canvas.height;
+
+        if (!boids.current.length) {
+            initBoids(width, height);
+        }
+
+        ctx.clearRect(0, 0, width, height);
+        ctx.fillStyle = resolvedTheme === 'dark' ? BIRD_COLORS.dark : BIRD_COLORS.light;
+
+        refreshWhalePosition(canvas);
+
+        boids.current.forEach(boid => {
+            boid.update(boidGrid.current!, width, height, dt, whale.current);
+            boid.draw(ctx);
+        });
+    };
+
     const animate = (timestamp: number) => {
         // If we shouldn't run, stop scheduling frames
-        if (!isInViewRef.current || !isPageVisibleRef.current || !hasFocusRef.current) {
+        if (!shouldAnimate()) {
             animationFrameId.current = undefined;
             return;
         }
@@ -95,30 +124,11 @@ const BoidCanvas = () => {
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        const width = canvas.width;
-        const height = canvas.height;
-
-        if (!boids.current.length) {
-            initBoids(width, height);
-        }
-
         const deltaMs = lastTimestamp.current ? sinceLastFrame : TARGET_FRAME_MS;
         const dt = Math.min(deltaMs, 100) / 1000; // seconds, clamped
         lastTimestamp.current = timestamp;
 
-        ctx.clearRect(0, 0, width, height);
-        ctx.fillStyle = theme.theme === 'dark' ? '#E96457' : '#CC2A26';
-
-        framesSinceWhaleCheck.current += 1;
-        if (framesSinceWhaleCheck.current >= WHALE_RECHECK_FRAMES) {
-            framesSinceWhaleCheck.current = 0;
-            whale.current = locateWhale(canvas, whaleField.current);
-        }
-
-        boids.current.forEach(boid => {
-            boid.update(boidGrid.current!, width, height, dt, whale.current);
-            boid.draw(ctx);
-        });
+        drawFrame(canvas, ctx, dt);
 
         animationFrameId.current = requestAnimationFrame(animate);
     };
@@ -139,8 +149,7 @@ const BoidCanvas = () => {
         }
 
         const maybeStart = () => {
-            const shouldRun = isInViewRef.current && isPageVisibleRef.current && hasFocusRef.current;
-            if (shouldRun && animationFrameId.current == null) {
+            if (shouldAnimate() && animationFrameId.current == null) {
                 lastTimestamp.current = 0; // reset dt to avoid large jump
                 animationFrameId.current = requestAnimationFrame(animate);
             }
@@ -206,7 +215,7 @@ const BoidCanvas = () => {
         };
 
         // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [windowSize.width, windowSize.height, theme.theme]);
+    }, [windowSize.width, windowSize.height, resolvedTheme]);
 
     return (
         <canvas
@@ -256,6 +265,29 @@ function wallScale(val: number) {
     return val * val;
 }
 
+function wallPush(position: number, extent: number, margin: number) {
+    let push = 0;
+    if (position < margin) {
+        push += wallScale(Math.min(1, (margin - position) / margin));
+    }
+    if (position > extent - margin) {
+        push -= wallScale(Math.min(1, (position - (extent - margin)) / margin));
+    }
+    return push;
+}
+
+type FlockSteering = {
+    alignX: number;
+    alignY: number;
+    cohesionX: number;
+    cohesionY: number;
+    separationX: number;
+    separationY: number;
+    neighborCount: number;
+};
+
+type Heading = { velocitySquared: number; inverseSpeed: number };
+
 class Boid {
     x: number;
     y: number
@@ -286,103 +318,91 @@ class Boid {
     }
 
     update(boidGrid: BoidGridType, gridWidth: number, gridHeight: number, dt: number, whale: Obstacle | null = null) {
-        let steeringAlignX = 0;
-        let steeringAlignY = 0;
-        let steeringCohesionX = 0;
-        let steeringCohesionY = 0;
-        let steeringSeparationX = 0;
-        let steeringSeparationY = 0;
-        let totalCount = 0;
+        const whalePush = this.avoidWhale(whale);
+        const wallPushX = wallPush(this.x, gridWidth, WALL_MARGIN);
+        const wallPushY = wallPush(this.y, gridHeight, VERTICAL_WALL_MARGIN);
+        const flock = this.readFlock(boidGrid);
 
-        const gridX = this.gridX;
-        const gridY = this.gridY;
-        const velocitySquared = this.vx * this.vx + this.vy * this.vy;
-        const currentSpeed = Math.sqrt(velocitySquared);
-        const inverseSpeed = currentSpeed > 0 ? 1 / currentSpeed : 0;
+        this.vx += flock.separationX * AVOIDANCE_WEIGHT * dt;
+        this.vy += flock.separationY * AVOIDANCE_WEIGHT * dt;
+        const alignFactor = Math.min(1, 5 / (flock.neighborCount + 0.1));
+        this.vx += flock.alignX * ALIGNMENT_WEIGHT * alignFactor * dt;
+        this.vy += flock.alignY * ALIGNMENT_WEIGHT * alignFactor * dt;
 
-        let steeringWallsX = 0;
-        let steeringWallsY = 0;
-        const steeringWhale = this.avoidWhale(whale);
+        this.vx += flock.cohesionX * COHESION_WEIGHT * dt;
+        this.vy += flock.cohesionY * COHESION_WEIGHT * dt;
 
-        if (this.x < WALL_MARGIN) {
-            steeringWallsX += wallScale(Math.min(1, (WALL_MARGIN - this.x) / WALL_MARGIN));
-        }
-        if (this.x > gridWidth - WALL_MARGIN) {
-            steeringWallsX -= wallScale(Math.min(1, (this.x - (gridWidth - WALL_MARGIN)) / WALL_MARGIN));
-        }
-        if (this.y < VERTICAL_WALL_MARGIN) {
-            steeringWallsY += wallScale(Math.min(1, (VERTICAL_WALL_MARGIN - this.y) / VERTICAL_WALL_MARGIN));
-        }
-        if (this.y > gridHeight - VERTICAL_WALL_MARGIN) {
-            steeringWallsY -= wallScale(Math.min(1, (this.y - (gridHeight - VERTICAL_WALL_MARGIN)) / VERTICAL_WALL_MARGIN));
-        }
+        this.vx += wallPushX * WALL_FORCE * dt;
+        this.vy += wallPushY * WALL_FORCE * dt;
 
-        for (let i = -1; i <= 1; i++) {
-            for (let j = -1; j <= 1; j++) {
-                const neighborCellX = gridX + i;
-                const neighborCellY = gridY + j;
-                if (boidGrid[neighborCellX] && boidGrid[neighborCellX][neighborCellY]) {
-                    for (const other of boidGrid[neighborCellX][neighborCellY]) {
-                        if (other === this) continue;
-                        const toOtherX = other.x - this.x;
-                        const toOtherY = other.y - this.y;
-                        const distanceSquared = toOtherX * toOtherX + toOtherY * toOtherY;
-                        if (distanceSquared < PERCEPTION_RADIUS * PERCEPTION_RADIUS) {
-                            const facingDot = this.vx * toOtherX + this.vy * toOtherY;
-                            if (facingDot < 0
-                                && facingDot * facingDot > velocitySquared * distanceSquared * 0.5) {
-                                continue;
-                            }
-                            steeringAlignX += other.vx;
-                            steeringAlignY += other.vy;
-
-                            const forwardness = toOtherX * this.vx * inverseSpeed
-                                + toOtherY * this.vy * inverseSpeed;
-                            if (forwardness > 0) {
-                                steeringCohesionX += toOtherX * 0.5;
-                                steeringCohesionY += toOtherY * 0.5;
-                            }
-
-                            if (distanceSquared > 0
-                                && distanceSquared < AVOIDANCE_RADIUS * AVOIDANCE_RADIUS) {
-                                const d = Math.sqrt(distanceSquared);
-                                const strength = (AVOIDANCE_RADIUS - d) / AVOIDANCE_RADIUS;
-                                steeringSeparationX -= toOtherX * strength;
-                                steeringSeparationY -= toOtherY * strength;
-                            }
-
-                            totalCount++;
-                        }
-                    }
-                }
-            }
-        }
-
-        if (totalCount > 0) {
-            steeringAlignX = steeringAlignX / totalCount - this.vx;
-            steeringAlignY = steeringAlignY / totalCount - this.vy;
-            steeringCohesionX = steeringCohesionX / totalCount - this.x;
-            steeringCohesionY = steeringCohesionY / totalCount - this.y;
-        }
-
-        this.vx += steeringSeparationX * AVOIDANCE_WEIGHT * dt;
-        this.vy += steeringSeparationY * AVOIDANCE_WEIGHT * dt;
-        const alignFactor = Math.min(1, 5 / (totalCount + 0.1));
-        this.vx += steeringAlignX * ALIGNMENT_WEIGHT * alignFactor * dt;
-        this.vy += steeringAlignY * ALIGNMENT_WEIGHT * alignFactor * dt;
-
-        this.vx += steeringCohesionX * COHESION_WEIGHT * dt;
-        this.vy += steeringCohesionY * COHESION_WEIGHT * dt;
-
-        this.vx += steeringWallsX * WALL_FORCE * dt;
-        this.vy += steeringWallsY * WALL_FORCE * dt;
-
-        this.vx += steeringWhale.x * WHALE_FORCE * dt;
-        this.vy += steeringWhale.y * WHALE_FORCE * dt;
+        this.vx += whalePush.x * WHALE_FORCE * dt;
+        this.vy += whalePush.y * WHALE_FORCE * dt;
 
         this.vx += (Math.random() - 0.5) * NOISE * dt;
         this.vy += (Math.random() - 0.5) * NOISE * dt;
 
+        this.regulateSpeed();
+
+        this.x += this.vx * dt;
+        this.y += this.vy * dt;
+
+        this.moveToCurrentCell(boidGrid);
+    }
+
+    readFlock(boidGrid: BoidGridType): FlockSteering {
+        const flock: FlockSteering = {
+            alignX: 0, alignY: 0, cohesionX: 0, cohesionY: 0, separationX: 0, separationY: 0, neighborCount: 0,
+        };
+        const velocitySquared = this.vx * this.vx + this.vy * this.vy;
+        const currentSpeed = Math.sqrt(velocitySquared);
+        const heading: Heading = { velocitySquared, inverseSpeed: currentSpeed > 0 ? 1 / currentSpeed : 0 };
+
+        for (let i = -1; i <= 1; i++) {
+            for (let j = -1; j <= 1; j++) {
+                for (const other of boidGrid[this.gridX + i]?.[this.gridY + j] ?? []) {
+                    if (other !== this) this.senseNeighbor(other, heading, flock);
+                }
+            }
+        }
+
+        if (flock.neighborCount > 0) {
+            flock.alignX = flock.alignX / flock.neighborCount - this.vx;
+            flock.alignY = flock.alignY / flock.neighborCount - this.vy;
+            flock.cohesionX = flock.cohesionX / flock.neighborCount - this.x;
+            flock.cohesionY = flock.cohesionY / flock.neighborCount - this.y;
+        }
+        return flock;
+    }
+
+    senseNeighbor(other: Boid, heading: Heading, flock: FlockSteering) {
+        const toOtherX = other.x - this.x;
+        const toOtherY = other.y - this.y;
+        const distanceSquared = toOtherX * toOtherX + toOtherY * toOtherY;
+        if (distanceSquared >= PERCEPTION_RADIUS * PERCEPTION_RADIUS) return;
+
+        const facingDot = this.vx * toOtherX + this.vy * toOtherY;
+        if (facingDot < 0 && facingDot * facingDot > heading.velocitySquared * distanceSquared * 0.5) return;
+
+        flock.alignX += other.vx;
+        flock.alignY += other.vy;
+
+        const forwardness = toOtherX * this.vx * heading.inverseSpeed
+            + toOtherY * this.vy * heading.inverseSpeed;
+        if (forwardness > 0) {
+            flock.cohesionX += toOtherX * 0.5;
+            flock.cohesionY += toOtherY * 0.5;
+        }
+
+        if (distanceSquared > 0 && distanceSquared < AVOIDANCE_RADIUS * AVOIDANCE_RADIUS) {
+            const strength = (AVOIDANCE_RADIUS - Math.sqrt(distanceSquared)) / AVOIDANCE_RADIUS;
+            flock.separationX -= toOtherX * strength;
+            flock.separationY -= toOtherY * strength;
+        }
+
+        flock.neighborCount++;
+    }
+
+    regulateSpeed() {
         const speed = Math.hypot(this.vx, this.vy);
 
         const speedError = this.preferredSpeed - speed;
@@ -393,10 +413,9 @@ class Boid {
             this.vx = (this.vx / speed) * MAX_SPEED;
             this.vy = (this.vy / speed) * MAX_SPEED;
         }
+    }
 
-        this.x += this.vx * dt;
-        this.y += this.vy * dt;
-
+    moveToCurrentCell(boidGrid: BoidGridType) {
         const oldCell = boidGrid[this.gridX]?.[this.gridY];
         if (oldCell) {
             const oldIndex = oldCell.indexOf(this);
