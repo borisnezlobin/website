@@ -7,6 +7,7 @@ export type BankBullet = {
     tags: string[];
     priority: number;
     text: string;
+    specialist?: string;
     keywords: string[];
 };
 

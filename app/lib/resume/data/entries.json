@@ -119,19 +119,6 @@
           "maxBullets": 1
         },
         {
-          "id": "robot-arm",
-          "kind": "project",
-          "name": "LiDAR-guided robot arm (Berkeley robotics hackathon)",
-          "technologies": [
-            "Python",
-            "Swift",
-            "ARKit",
-            "SciPy"
-          ],
-          "weight": 2,
-          "maxBullets": 2
-        },
-        {
           "id": "cac",
           "kind": "project",
           "name": "AlignMinder — congressional bill search",
@@ -303,10 +290,10 @@
           "kind": "exp",
           "role": "Platform Engineer Intern",
           "organization": "Vals AI",
-          "date": "Starting Nov 2026",
+          "date": "Nov 2026 - Present",
           "always": true,
           "weight": 3,
-          "maxBullets": 0
+          "maxBullets": 2
         },
         {
           "id": "lockheed",

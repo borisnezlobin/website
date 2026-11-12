@@ -116,10 +116,25 @@ function screenRewrites(rewrites: BulletRewrite[]) {
     return { accepted, rejected };
 }
 
+function specialistWordings(specialistBulletIds: string[]): BulletRewrite[] {
+    return uniqueKnownIds(specialistBulletIds).flatMap((id) => {
+        const specialist = findBullet(id)?.specialist;
+        return specialist ? [{ id, text: specialist }] : [];
+    });
+}
+
 export type ValidatedPlan = { plan: ResumePlan; rejectedRewrites: RewriteRejection[] };
 
-/** Keeps only known, unique bullets and rewrites that add no facts; rejected rewrites fall back to the original text. */
-export function validatePlan(rankedBulletIds: string[], rewrites: BulletRewrite[]): ValidatedPlan {
-    const { accepted, rejected } = screenRewrites(rewrites);
-    return { plan: { rankedBulletIds: uniqueKnownIds(rankedBulletIds), rewrites: accepted }, rejectedRewrites: rejected };
+/**
+ * Keeps only known, unique bullets and rewrites that add no facts; rejected rewrites fall back to the original text.
+ * A bullet shown in its curated specialist wording takes that wording instead of any model rewrite.
+ */
+export function validatePlan(rankedBulletIds: string[], rewrites: BulletRewrite[], specialistBulletIds: string[]): ValidatedPlan {
+    const specialist = specialistWordings(specialistBulletIds);
+    const specialistIds = new Set(specialist.map((wording) => wording.id));
+    const { accepted, rejected } = screenRewrites(rewrites.filter((rewrite) => !specialistIds.has(rewrite.id)));
+    return {
+        plan: { rankedBulletIds: uniqueKnownIds(rankedBulletIds), rewrites: [...accepted, ...specialist] },
+        rejectedRewrites: rejected,
+    };
 }

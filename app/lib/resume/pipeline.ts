@@ -61,7 +61,7 @@ async function tailor(context: PipelineContext, { research, target, slug, stale 
     );
     context.emit({ stage: "typesetting" });
     const focus = modelPlan.focus ?? target.focus;
-    await typesetAndSave(context, slug, validatePlan(modelPlan.rankedBulletIds, modelPlan.rewrites), focus, stale);
+    await typesetAndSave(context, slug, validatePlan(modelPlan.rankedBulletIds, modelPlan.rewrites, modelPlan.specialistBulletIds), focus, stale);
     context.emit({ stage: "done", slug });
 }
 

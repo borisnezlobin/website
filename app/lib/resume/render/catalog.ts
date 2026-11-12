@@ -24,6 +24,7 @@ export type CatalogBullet = {
     tags: string[];
     priority: number;
     text: string;
+    specialist?: string;
     keywords: string[];
 };
 

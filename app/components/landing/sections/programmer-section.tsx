@@ -44,11 +44,24 @@ const contributions = [
     { title: "ShadowFinder", description: "CLI Caching", url: "https://github.com/bellingcat/ShadowFinder" },
 ];
 
-const lockheedWork = [
-    { label: "Solar data analysis" },
-    { label: "OpenCV" },
-    { label: "Data science" },
-    { label: "980x faster CSV reads", highlight: true },
+const experience = [
+    {
+        organization: "Vals AI",
+        work: [
+            { label: "Stripe payments" },
+            { label: "Large-scale data engineering" },
+            { label: "Started Nov 2026", highlight: true },
+        ],
+    },
+    {
+        organization: "Lockheed Martin",
+        work: [
+            { label: "Solar data analysis" },
+            { label: "OpenCV" },
+            { label: "Data science" },
+            { label: "980x faster CSV reads", highlight: true },
+        ],
+    },
 ];
 
 const freelanceClients = [
@@ -128,16 +141,18 @@ export function ProgrammerSection() {
                     <h3 className="text-sm text-muted dark:text-muted-dark font-normal">
                         Experience
                     </h3>
-                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                        <span className="font-bold text-lg sm:mr-4">Lockheed Martin</span>
-                        <div className="flex flex-wrap gap-2">
-                            {lockheedWork.map((work) => (
-                                <Chip key={work.label} highlight={work.highlight}>
-                                    {work.label}
-                                </Chip>
-                            ))}
+                    {experience.map((job) => (
+                        <div key={job.organization} className="flex flex-col sm:flex-row items-start sm:items-center gap-3">
+                            <span className="font-bold text-lg sm:mr-4">{job.organization}</span>
+                            <div className="flex flex-wrap gap-2">
+                                {job.work.map((work) => (
+                                    <Chip key={work.label} highlight={work.highlight}>
+                                        {work.label}
+                                    </Chip>
+                                ))}
+                            </div>
                         </div>
-                    </div>
+                    ))}
                     <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mt-6">
                         <span className="text-muted dark:text-muted-dark">Nowadays, I freelance as a photographer and web developer:</span>
                         <div className="flex flex-wrap gap-2">

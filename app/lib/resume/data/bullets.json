@@ -1,5 +1,37 @@
 [
  {
+  "id": "vals-payments",
+  "entry": "vals",
+  "tags": [
+   "backend",
+   "full-stack",
+   "business"
+  ],
+  "priority": 1,
+  "text": "Building passthrough payments with Stripe so customers can pay for the evals they run on Vals.",
+  "keywords": [
+   "Stripe",
+   "payments"
+  ]
+ },
+ {
+  "id": "vals-analytics",
+  "entry": "vals",
+  "tags": [
+   "data",
+   "systems",
+   "backend",
+   "performance"
+  ],
+  "priority": 1,
+  "text": "Doing large-scale data engineering on the database behind Vals' customer dashboards, which doubles in size every month.",
+  "keywords": [
+   "data engineering",
+   "Redshift",
+   "ClickHouse"
+  ]
+ },
+ {
   "id": "lm-csv",
   "entry": "lockheed",
   "tags": [
@@ -24,12 +56,13 @@
    "ml"
   ],
   "priority": 1,
-  "text": "Engineered & benchmarked an empirical polynomial model of solar differential rotation 600x faster than SunPy (industry solar library), outperforming physics-based approach on speed & accuracy. #link(\"https://x.com/b_nezlobin/status/1973213855754092749\")[Twitter thread.]",
+  "text": "Built a model of how fast each latitude of the Sun rotates that runs 600x faster than SunPy (the standard solar library) and beats the physics-based approach on speed & accuracy. #link(\"https://x.com/b_nezlobin/status/1973213855754092749\")[Twitter thread.]",
   "keywords": [
    "modeling",
    "benchmark",
    "numerical"
-  ]
+  ],
+  "specialist": "Engineered & benchmarked an empirical polynomial model of solar differential rotation 600x faster than SunPy (industry solar library), outperforming physics-based approach on speed & accuracy. #link(\"https://x.com/b_nezlobin/status/1973213855754092749\")[Twitter thread.]"
  },
  {
   "id": "lm-orchestration",
@@ -56,7 +89,7 @@
    "journalism"
   ],
   "priority": 1,
-  "text": "Designed and built brands, sites, and admin dashboards for Palo Alto Stanford Aquatics, G Studio, and Catalyst for Systems Change.",
+  "text": "Designed and built brands, sites, and admin dashboards for Palo Alto Stanford Aquatics, G Studio, and Catalyst for Systems Change, each supporting >100k visitors per year.",
   "keywords": [
    "web",
    "production"
@@ -166,12 +199,13 @@
    "backend"
   ],
   "priority": 2,
-  "text": "Built _Arbor_: Vickrey sealed-bid auction marketplace for delegating large tasks optimally across specialized AI agents. \\$2,000 at Nozomio.",
+  "text": "Built _Arbor_, a marketplace that hands each part of a large task to the specialized AI agent that wins a sealed-bid auction for it. \\$2,000 at Nozomio.",
   "keywords": [
    "agents",
    "auction",
    "mechanism design"
-  ]
+  ],
+  "specialist": "Built _Arbor_: Vickrey sealed-bid auction marketplace for delegating large tasks optimally across specialized AI agents. \\$2,000 at Nozomio."
  },
  {
   "id": "cac-tfidf",
@@ -297,13 +331,14 @@
    "backend"
   ],
   "priority": 2,
-  "text": "Built a multithreaded OpenCV pipeline to detect and track solar magnetic active regions across gigabyte-scale instrument data.",
+  "text": "Built a multithreaded OpenCV pipeline that tracks magnetically active regions of the Sun across gigabytes of instrument data.",
   "keywords": [
    "OpenCV",
    "computer vision",
    "solar physics",
    "image processing"
-  ]
+  ],
+  "specialist": "Built a multithreaded OpenCV pipeline to detect and track solar magnetic active regions across gigabyte-scale instrument data."
  },
  {
   "id": "open-source-1",
@@ -526,7 +561,8 @@
    "weak supervision",
    "Python"
   ],
-  "text": "Labeled sentences across 7 rhetorical categories with NLI weak supervision, performing about as well as human and frontier-model annotators on most categories."
+  "text": "Automatically labeled sentences across 7 rhetorical categories about as well as human and frontier-model annotators on most categories.",
+  "specialist": "Labeled sentences across 7 rhetorical categories with NLI weak supervision, performing about as well as human and frontier-model annotators on most categories."
  },
  {
   "id": "lm-pil",
@@ -542,7 +578,8 @@
    "NumPy",
    "computer vision"
   ],
-  "text": "Built an OpenCV pipeline that detects polarity inversion lines, where solar flares originate, in magnetograms, and integrated magnetic flux along them."
+  "text": "Built computer vision that finds where solar flares start on maps of the Sun's magnetic field and measures the field there to help predict them.",
+  "specialist": "Built an OpenCV pipeline that detects polarity inversion lines, where solar flares originate, in magnetograms, and integrated magnetic flux along them."
  },
  {
   "id": "lm-flares",
@@ -557,7 +594,8 @@
    "SunPy",
    "data engineering"
   ],
-  "text": "Merged LMSAL and GOES flare lists into one 39,313-flare catalog (2010–2025) and matched every flare to its active region."
+  "text": "Built the first single-source-of-truth solar flare catalog, combining two separate agency lists into 39,313 flares from 2010–2025.",
+  "specialist": "Merged LMSAL and GOES flare lists into one 39,313-flare catalog (2010–2025) and matched every flare to its active region."
  },
  {
   "id": "lm-mpl-leak",
@@ -589,7 +627,8 @@
    "AprilTag",
    "Java"
   ],
-  "text": "Built a Kalman filter that fuses AprilTag camera poses with odometry for localization, plus a log-replay tool to tune it."
+  "text": "Built a Kalman filter that combines camera and wheel readings to track where the robot is, plus a log-replay tool to tune it.",
+  "specialist": "Built a Kalman filter that fuses AprilTag camera poses with odometry for localization, plus a log-replay tool to tune it."
  },
  {
   "id": "heron-auto-18",
@@ -618,7 +657,8 @@
    "path planning",
    "Java"
   ],
-  "text": "Wrote the A\\* field planner that drives the team's MPC path follower for automatic driving and cycling."
+  "text": "Wrote the A\\* path planner that lets the robot drive the field and score on its own.",
+  "specialist": "Wrote the A\\* field planner that drives the team's MPC path follower for automatic driving and cycling."
  },
  {
   "id": "kurio-prop-cv",
@@ -633,39 +673,6 @@
    "computer vision"
   ],
   "text": "Built the webcam detector that finds the team's prop and picks the matching autonomous path."
- },
- {
-  "id": "yam-lidar",
-  "entry": "robot-arm",
-  "tags": [
-   "cv",
-   "robotics",
-   "3d"
-  ],
-  "priority": 1,
-  "keywords": [
-   "LiDAR",
-   "ICP",
-   "ARKit",
-   "Python"
-  ],
-  "text": "Registered iPhone LiDAR scans into a 6-DoF arm's frame by fitting the arm's own shape (ICP), cutting alignment from about 87 s to 3.9 s at 3.2 mm RMSE."
- },
- {
-  "id": "yam-loop",
-  "entry": "robot-arm",
-  "tags": [
-   "robotics",
-   "systems",
-   "performance"
-  ],
-  "priority": 2,
-  "keywords": [
-   "CAN",
-   "Python",
-   "real-time"
-  ],
-  "text": "Found a blocking CAN read and raised the arm's control loop from 19.4 Hz to 91.8 Hz."
  },
  {
   "id": "civic-mvc",
@@ -789,7 +796,7 @@
    "data"
   ],
   "priority": 1,
-  "text": "Built _Standard Response_, which calls every home in a wildfire zone with AI voice agents and dispatches rides to people who can't leave; in a replay of the 2025 Eaton Fire, 641 of 662 households got out in time, against 39 through 911.",
+  "text": "Built _Standard Response_, which calls every home in a wildfire zone with AI voice agents and dispatches rides to people who can't leave; in a replay of the 2025 Eaton Fire, 97% of households got out in time, against 6% through 911.",
   "keywords": [
    "voice agents",
    "route optimization",
@@ -860,13 +867,14 @@
    "full-stack"
   ],
   "priority": 2,
-  "text": "Built _The Payments_, which lets small shops sell to AI agents and get paid in stablecoin over x402; an agent's \\$5.50 cortado costs the buyer \\$5.23 and still leaves the shop more than Stripe would.",
+  "text": "Built _The Payments_, which lets small shops sell to AI agents and get paid in stablecoin; an agent's \\$5.50 cortado costs the buyer \\$5.23 and still leaves the shop more than Stripe would.",
   "keywords": [
    "x402",
    "stablecoin",
    "payments",
    "AI agents",
    "MCP"
-  ]
+  ],
+  "specialist": "Built _The Payments_, which lets small shops sell to AI agents and get paid in stablecoin over x402; an agent's \\$5.50 cortado costs the buyer \\$5.23 and still leaves the shop more than Stripe would."
  }
 ]
