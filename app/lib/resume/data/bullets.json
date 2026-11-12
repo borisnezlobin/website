@@ -73,7 +73,7 @@
    "backend"
   ],
   "priority": 2,
-  "text": "Wrote a file-lock scheduler that coordinated work across thousands of cores on 7–8 lab servers.",
+  "text": "Wrote a file-lock scheduler that coordinated work across thousands of cores.",
   "keywords": [
    "multithreaded",
    "distributed"
@@ -841,20 +841,19 @@
   ]
  },
  {
-  "id": "sp-agent",
+  "id": "sp-sharetea",
   "entry": "standard-physics",
   "tags": [
-   "ml",
-   "agents",
-   "systems"
+   "product",
+   "business",
+   "3d"
   ],
   "priority": 2,
-  "text": "Built an agent loop that rearranges an owner's own furniture to fix violations, keeping a move only if re-measuring shows nothing new failing and something improving.",
+  "text": "Deployed Standard Physics at Sharetea in Berkeley, where a scan found both ordering counters too high to reach from a wheelchair: 42 and 41.5 inches against the 36-inch limit.",
   "keywords": [
-   "agent loop",
-   "AI agents",
-   "verification",
-   "search"
+   "production",
+   "LiDAR",
+   "ADA"
   ]
  },
  {

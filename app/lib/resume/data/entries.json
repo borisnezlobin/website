@@ -81,7 +81,7 @@
             "Python",
             "voice agents"
           ],
-          "liveUrl": "https://standardresponse.us",
+          "writeupUrl": "https://www.borisnezlobin.com/writing/calhacks-record",
           "repoUrl": "https://github.com/Imhaohao/calhacks",
           "award": "6 prizes, a Cal Hacks record",
           "weight": 3,
@@ -97,6 +97,7 @@
             "Python",
             "AI agents"
           ],
+          "projectsUrl": "https://www.borisnezlobin.com/projects#standard-physics",
           "liveUrl": "https://standardphysics.app",
           "award": "Most Production-Ready, CoreWeave hackathon",
           "weight": 2,
@@ -126,6 +127,7 @@
             "TF-IDF",
             "Scraping"
           ],
+          "projectsUrl": "https://www.borisnezlobin.com/projects#alignminder",
           "repoUrl": "https://github.com/borisnezlobin/alignminder",
           "weight": 1,
           "maxBullets": 1,
@@ -167,6 +169,7 @@
             "FAISS",
             "SQLite"
           ],
+          "projectsUrl": "https://www.borisnezlobin.com/projects#semse",
           "weight": 1,
           "maxBullets": 2
         },
@@ -180,8 +183,8 @@
             "CSV",
             "HackClub Nest"
           ],
+          "writeupUrl": "https://www.borisnezlobin.com/writing/enf-data-on-the-european-grid",
           "repoUrl": "https://github.com/borisnezlobin/enf",
-          "liveUrl": "https://www.borisnezlobin.com/writing/enf-data-on-the-european-grid",
           "weight": 1,
           "maxBullets": 2
         },
@@ -226,6 +229,7 @@
             "Base",
             "commit-reveal"
           ],
+          "projectsUrl": "https://www.borisnezlobin.com/projects#maras",
           "repoUrl": "https://github.com/borisnezlobin/maras",
           "weight": 1,
           "maxBullets": 1
@@ -262,6 +266,7 @@
             "Python",
             "audio ML"
           ],
+          "projectsUrl": "https://www.borisnezlobin.com/projects#amelia",
           "repoUrl": "https://github.com/borisnezlobin/mongo-hacks",
           "award": "1st place, MongoDB Build Fest",
           "weight": 2,
@@ -276,6 +281,7 @@
             "auctions",
             "AI agents"
           ],
+          "projectsUrl": "https://www.borisnezlobin.com/projects#arbor",
           "award": "Winner, Nozomio Hackathon",
           "weight": 2,
           "maxBullets": 1

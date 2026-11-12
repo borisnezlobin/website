@@ -58,6 +58,8 @@
 
 #let project-links(e) = {
   let links = ()
+  if "writeupUrl" in e { links.push(link(e.writeupUrl, strong[Writeup])) }
+  if "projectsUrl" in e { links.push(link(e.projectsUrl, strong[Details])) }
   if "liveUrl" in e { links.push(link(e.liveUrl, strong[Live])) }
   if "repoUrl" in e { links.push(link(e.repoUrl, strong[GitHub])) }
   links.join(" | ")
